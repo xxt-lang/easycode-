@@ -1,0 +1,118 @@
+////页面所使用的json数据格式
+//{
+//  page:{
+//    type:'page', // 文件类型
+//    label:'学生管理页面', // 页面名称
+//    id:"123456789",// 页面id编号
+//    masterCanvasData:[
+//      {
+//        component: "scButton",// 组件名称
+//        label: '按钮', // 左侧组件列表中显示的名字
+//        icon: 'el-icon-edit', // 左侧组件列表中显示的名字
+//        animations: [], // 动画列表
+//        events: {}, // 事件列表
+//        attribute: {
+//          type: "primary",
+//          name: "button1"
+//        },// 组件所需要的属性字段
+//        style: {
+//          width: 80,
+//          height: 33
+//        } // 组件样式 用于调整组件大小旋转角度等
+//      },
+//      {
+//        component: "scButton",
+//        label: '按钮', // 左侧组件列表中显示的名字
+//        icon: 'el-icon-edit', // 左侧组件列表中显示的名字
+//        animations: [], // 动画列表
+//        events: {}, // 事件列表
+//        attribute: {
+//          type: "primary",
+//          name: "button1"
+//        },
+//        style: {
+//          width: 80,
+//          height: 33
+//        }
+//      },
+//      {
+//        component: "row",
+//        label: '布局', // 左侧组件列表中显示的名字
+//        icon: 'el-icon-edit', // 左侧组件列表中显示的名字
+//        animations: [], // 动画列表
+//        events: {}, // 事件列表
+//        attribute: {
+//          type: "primary",
+//          name: "button1"
+//        },
+//        style: {
+//          width: 80,
+//          height: 33
+//        },
+//        child:[
+//
+//        ]  // 组件包含的子组件
+//      }
+//    ], //页面主要组件数据
+//    "fictitiousVueObject": {
+//
+//    },// 用于模拟vue对象 用于生成界面时使用
+//    childCanvas:[
+//      {
+//        type:'page', // 文件类型
+//        label:'新增弹窗', // 页面名称
+//        id:"123456789",// 页面id编号
+//        masterCanvasData:[
+//          {
+//            component: "scButton",// 组件名称
+//            label: '按钮', // 左侧组件列表中显示的名字
+//            icon: 'el-icon-edit', // 左侧组件列表中显示的名字
+//            animations: [], // 动画列表
+//            events: {}, // 事件列表
+//            attribute: {
+//              type: "primary",
+//              name: "button1"
+//            },// 组件所需要的属性字段
+//            style: {
+//              width: 80,
+//              height: 33
+//            } // 组件样式 用于调整组件大小旋转角度等
+//          },
+//          {
+//            component: "scButton",
+//            label: '按钮', // 左侧组件列表中显示的名字
+//            icon: 'el-icon-edit', // 左侧组件列表中显示的名字
+//            animations: [], // 动画列表
+//            events: {}, // 事件列表
+//            attribute: {
+//              type: "primary",
+//              name: "button1"
+//            },
+//            style: {
+//              width: 80,
+//              height: 33
+//            }
+//          },
+//          {
+//            component: "row",
+//            label: '布局', // 左侧组件列表中显示的名字
+//            icon: 'el-icon-edit', // 左侧组件列表中显示的名字
+//            animations: [], // 动画列表
+//            events: {}, // 事件列表
+//            attribute: {
+//              type: "primary",
+//              name: "button1"
+//            },
+//            style: {
+//              width: 80,
+//              height: 33
+//            },
+//            child:[
+//
+//            ]  // 组件包含的子组件
+//          }
+//        ] //页面主要组件数据
+//      }
+//    ] // 子页面数据 用于弹窗抽屉等功能的页面
+//  }
+//}
