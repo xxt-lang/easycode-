@@ -1,5 +1,5 @@
 {
-  "name": "vue3-template-admin",
+  "name": "EasyCode-font",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -8,8 +8,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "element-plus": "^2.3.2",
+    "axios": "^1.4.0",
+    "element-plus": "^2.3.5",
+    "mitt": "^3.0.0",
     "pinia": "^2.0.32",
+    "saas": "^1.0.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
