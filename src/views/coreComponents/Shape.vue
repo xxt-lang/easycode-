@@ -29,12 +29,6 @@
         default: () => {
         },
       },
-      defaultStyle: {
-        required: true,
-        type: Object,
-        default: () => {
-        },
-      },
       index: {
         required: true,
         type: Number,

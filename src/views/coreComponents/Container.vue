@@ -1,18 +1,18 @@
 <template>
-  <div class="editor" @drop="handleDrop" @dragover="handleDragOver" id="editor"
-       @contextmenu="contextmenu($event)"
-       data-containerId = "editor"
-  >
-    <Shape v-for="(item, index) in pageComponentsStore.pageComponents "
+  <div class="container" id="container"
+       :data-index = "containerIndex"
+       :data-containerId = "container.id"
+       :data-featherId = "container.featherId">
+    <Shape v-for="(item, index) in container.children "
            :key="index"
            :status="item.status"
            :element="item"
            :index="index"
            class="editorShape"
 
-           data-featherIndex = "-1"
+           :data-featherIndex = "containerIndex"
            :data-elementId = "item.id"
-            data-featherId = "editor"
+           :data-featherid = "container.id"
 
            @mousedown="handleMouseDown(item,$event,index)"
            @contextmenu="contextmenu($event)"
@@ -27,29 +27,16 @@
           :index = "index"
       />
     </Shape>
-    <!--    右键菜单-->
-    <Contextmenu
-        :showContextmenu="editorStatusStore.contextmenuData.showContextmenu"
-        @update:showContextmenu="editorStatusStore.contextmenuData.showContextmenu = $event"
-        :contextmenuList="editorStatusStore.contextmenuData.contextmenuList"
-        :contextmenuStyle="editorStatusStore.contextmenuData.style"
-        key="editor"
-    ></Contextmenu>
-    <!--    拖拽时的提示信息-->
-    <div :style="dragTip" class="dragTip">
-      拖拽组件
-    </div>
   </div>
 </template>
+
 <script>
-import {deepClone, uuid} from "@/utils/tool.js"
-import eventBus from '@/utils/eventBus.js'
+import Shape from "./Shape.vue";
 import {
-  handleDragOver,
   rightClickContextmenu,
   searchComponent,
   clickSelectComponent,
-  moveComponent,
+  moveComponent
 } from '@/utils/core'
 import {
   SimpleStore,
@@ -60,26 +47,10 @@ import {
   EditorStatusStore,
   CommonStatusStore
 } from '@/stores/counter'
-import Shape from "./Shape.vue";
-import Contextmenu from "./Contextmenu.vue";
-import ToolBar from "../toolBar/TopBar.vue";
-import PageTag from "./PageTag.vue";
-
 export default {
-  name: 'EditorMap',
-  components: {Shape, Contextmenu, ToolBar, PageTag},
-  props: {},
-  data() {
-    return {
-      dragTip: {
-        display: "none",
-      },
-      drawer: false,
-      canvasData: [],
-      nowIndex: 0,
-      curComponent: null,
-      copyComponent: null,
-    }
+  name: "Container",
+  components:{
+    Shape
   },
   setup() {
     const simpleStore = SimpleStore()
@@ -100,20 +71,25 @@ export default {
       commonStatusStore
     }
   },
-  mounted() {
-    let that = this
-    // 动态修改拖拽标签
-    eventBus.on(`move-dragTip`, (param) => {
-      that.dragTip = {
-        'top': param.top + 'px',
-        'left': param.left + 'px',
-        display: param.display
-      }
-    })
-  },
-  methods: {
-    handleDragOver,
+  props:{
+    container:{
+      type:Object,
+      default:()=>{return {}}
+    },
+    containerIndex:{
+      type:Number,
+    }
 
+  },
+  methods:{
+    // 选择画布中的组件
+    handleMouseDown(item, event, index) {
+      // 关闭右键菜单
+      this.editorStatusStore.contextmenuData.showContextmenu = false
+      clickSelectComponent(event, item, index)
+      //非激活状态或者容器状态时才能进行拖动
+      moveComponent(event, index)
+    },
     // 右键菜单
     contextmenu(e) {
       e.preventDefault()
@@ -193,36 +169,6 @@ export default {
       })
     },
 
-    // 拖拽到画布前配置组件相关数据
-    handleDrop(e) {
-      e.preventDefault()
-      e.stopPropagation()
-      // 当isContainer为false时可以将组件放置于画布中
-      if (e.target.id == "editor") {
-        let component = deepClone(this.componentListStore.componentList[e.dataTransfer.getData('index')])
-        component.featherId = "editor"
-        component.id = uuid()
-        this.pageComponentsStore.pageComponents.push(component)
-
-      }else if(e.target.id == "container"){
-        let component = deepClone(this.componentListStore.componentList[e.dataTransfer.getData('index')])
-        component.featherIndex = Number(e.target.dataset.index)
-        component.featherId = e.target.dataset.containerid
-        component.id = uuid()
-        searchComponent(this.pageComponentsStore.pageComponents,component.featherId).children.push(component)
-
-      }
-    },
-
-    // 选择画布中的组件
-    handleMouseDown(item, event, index) {
-      // 关闭右键菜单
-      this.editorStatusStore.contextmenuData.showContextmenu = false
-      clickSelectComponent(event, item, index)
-      //非激活状态或者容器状态时才能进行拖动
-      moveComponent(event, index)
-    },
-
     // 双击事件
     dbClick(item, event) {
       event.preventDefault()
@@ -236,20 +182,15 @@ export default {
   }
 }
 </script>
-<style scoped>
-.dragTip {
-  position: absolute;
-  background-color: yellow;
-  pointer-events: none;
-}
 
-.editor {
+<style scoped>
+.container{
+  min-height: 100px;
+  min-width: 200px;
   background-color: white;
-  min-height: calc(20vh);
   padding: 5px;
   overflow: auto;
 }
-
 .editorShape {
   display: inline-block;
 }

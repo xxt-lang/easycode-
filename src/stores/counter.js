@@ -19,7 +19,7 @@ export const MouseEventStore = defineStore('mouseEventMain', {
 export const ComponentListStore = defineStore('ComponentListMain', {
   state: () =>{
     const baseAttribute = {
-      isContainer:false, //是否为容器组件
+      featherIndex:-1,
       status:{
         active:false,
         activeContainer:false,
@@ -66,8 +66,8 @@ export const ComponentListStore = defineStore('ComponentListMain', {
         },
       },
       {
-        component: "ScRate",
-        label: '评分',
+        component: "ScCard",
+        label: '卡片',
         event: {},
         attribute: {
           value:5,
@@ -77,9 +77,28 @@ export const ComponentListStore = defineStore('ComponentListMain', {
           width: 192,
           height: 33
         },
-      }]
+        isContainer:true,
+      },
+      {
+        component: "ScButton",
+        label: '成功按钮',
+        event: {},
+        attribute: {
+          type: "success",
+          name: "button1"
+        },
+        style: {
+          width: 80,
+          height: 33
+        },
+      },]
     componentList.forEach(item=>{
       Object.keys(baseAttribute).forEach(aItem=>{
+        if(item.isContainer){
+          item["children"] = []
+        }else{
+          item["isContainer"] = false //是否为容器组件
+        }
         item[aItem] = baseAttribute[aItem]
       })
     })

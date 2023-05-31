@@ -41,7 +41,11 @@ export function moveComponent(e,index) {
     const startX = e.clientX
     // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
     eventBus.emit(`move-dragTip`,{top:startY,left:startX})
+    // node当前鼠标悬浮的元素
     let nodeIndex = index
+    let nodeFeatherId = ""
+    // eId 当前托拽元素的id
+    let eFeatherId = e.target.dataset.featherid
     let direction = ""
     const move = (moveEvent) => {
         const curX = moveEvent.clientX
@@ -49,6 +53,7 @@ export function moveComponent(e,index) {
         //访问数组中的元素
         eventBus.emit(`move-dragTip`,{top:curY,left:curX,display:''})
         nodeIndex = Number(moveEvent.target.dataset.index)
+        nodeFeatherId = moveEvent.target.dataset.featherid
         let mX = moveEvent.clientX - moveEvent.target.offsetLeft//鼠标X轴坐标
         let mY = moveEvent.clientY - moveEvent.target.offsetTop//鼠标Y轴坐标
         let scY =  moveEvent.target.offsetHeight / 2
@@ -71,16 +76,41 @@ export function moveComponent(e,index) {
     }
     upMouse(move, () => {
         const pageComponents = PageComponentsStore().pageComponents
-        if( nodeIndex != NaN && index != undefined){
+        let components = []
+        let rootId = "editor"
+        if( nodeIndex != NaN && index != undefined && nodeFeatherId && eFeatherId){
             let insertIndex = direction === 'right' || direction === 'bottom' ?nodeIndex + 1 : nodeIndex
             let deleteIndex = index>nodeIndex ? index+1 : index
-            pageComponents.splice(insertIndex,0,pageComponents[index])
-            pageComponents.splice(deleteIndex,1)
+            if(nodeFeatherId === rootId && eFeatherId=== rootId){
+                pageComponents.splice(insertIndex,0,pageComponents[index])
+                pageComponents.splice(deleteIndex,1)
+            }else{
+                if(nodeFeatherId === eFeatherId){
+                    components = deepSelectComponent(pageComponents,eFeatherId).children
+                    components.splice(insertIndex,0,components[index])
+                    components.splice(deleteIndex,1)
+                }else{
+                    if(nodeFeatherId === rootId ){
+                        components = deepSelectComponent(pageComponents,eFeatherId).children
+                        pageComponents.splice(insertIndex,0,components[index])
+                        components.splice(deleteIndex,1)
+                    }
+                    if(eFeatherId === rootId ){
+                        deepSelectComponent(pageComponents,nodeFeatherId).children.splice(insertIndex,0,pageComponents[index])
+                        pageComponents.splice(deleteIndex,1)
+                    }
+                }
+
+
+            }
+            // 当容器位置改变时修改容器中子元素的下标位置
+
+            // 拖动元素时什么情况下可以往容器中添加内容，其他情况下容器只作为普通元素
+
         }
         eventBus.emit(`move-dragTip`,{top:0,left:0,display:'none'})
     })
 }
-
 
 // 搜索组件
 export function searchComponent(ComponentList, targetId) {
@@ -235,6 +265,7 @@ function findIndex(id){
 //导出格式化数据
 export function exportComponent(){
     const pageComponentsStore = PageComponentsStore()
+    console.log(pageComponentsStore.pageComponents)
 }
 
 
