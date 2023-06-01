@@ -50,6 +50,7 @@ export function moveComponent(e, index) {
     // eId 当前托拽元素的id
     let dragFeatherId = e.target.dataset.featherid
     let dragIndex = index
+    let dragId = e.target.dataset.elementid
     let direction = ""
     const move = (moveEvent) => {
         const curX = moveEvent.clientX
@@ -87,73 +88,42 @@ export function moveComponent(e, index) {
         const pageComponents = PageComponentsStore().pageComponents
         let components = []
         let rootId = "editor"
+        let dragComponents = pageComponents
+        let targetComponents = pageComponents
+        debugger
         if (tragetType === rootId) {
             components = deepSelectComponent(pageComponents, dragFeatherId).children
             components[dragIndex].featherId = "editor"
             pageComponents.push(components[dragIndex])
             components.splice(dragIndex, 1)
-        } else if (tragetIndex != NaN && index != undefined && tragetFeatherId && dragFeatherId) {
+        } else if (tragetIndex != NaN && index != undefined && tragetFeatherId && dragFeatherId && dragId !== tragetId) {
             let insertIndex = direction === 'right' || direction === 'bottom' ? tragetIndex + 1 : tragetIndex
             // 统一个容器下目标下表要是大于当前下标则当前下表+1
             let deleteIndex = index > tragetIndex && tragetFeatherId === dragFeatherId ? index + 1 : index
             // 目标组件类型为容器，拖拽组件则插入到容器的children中
             if (tragetType === "container") {
                 deleteIndex = dragIndex
-                // 容器与推拽组件都在页面上时调用
-                if (tragetFeatherId === rootId && dragFeatherId === rootId) {
-                    pageComponents[dragIndex].featherId = tragetId
-                    pageComponents[tragetIndex].children.push(pageComponents[dragIndex])
-                    pageComponents.splice(deleteIndex, 1)
-                } else if (tragetFeatherId === rootId) {
-                    // 目标组件在页面上，拖拽组件不在
-                    components = deepSelectComponent(pageComponents, dragFeatherId).children
-                    components[dragIndex].featherId = tragetId
-                    pageComponents[tragetIndex].children.push(components[dragIndex])
-                    components.splice(deleteIndex, 1)
-
-                } else if (dragFeatherId === rootId) {
-                    // 拖拽组件在页面上，目标组件不在
-                    components = deepSelectComponent(pageComponents, tragetId).children //获得目标组件的children
-                    pageComponents[dragIndex].featherId = tragetId
-                    components.push(pageComponents[dragIndex])
-                    pageComponents.splice(deleteIndex, 1)
-                } else {
-                    // 都不在页面上
-                    components = deepSelectComponent(pageComponents, dragFeatherId).children
-                    components[dragIndex].featherId = tragetId
-                    deepSelectComponent(pageComponents, tragetId).children.push(components[dragIndex])
-                    components.splice(deleteIndex, 1)
+                if(dragFeatherId !== rootId){
+                    dragComponents = deepSelectComponent(pageComponents, dragFeatherId).children
                 }
+                targetComponents = deepSelectComponent(pageComponents, tragetId).children
+                dragComponents[dragIndex].featherId = tragetId
+                targetComponents.push(dragComponents[dragIndex])
+                dragComponents.splice(deleteIndex, 1)
             } else {
-                // 两个common组件都在页面上 直接操作pageComponents
-                if (tragetFeatherId === rootId && dragFeatherId === rootId) {
-                    pageComponents.splice(insertIndex, 0, pageComponents[index])
-                    pageComponents.splice(deleteIndex, 1)
-                } else {
-                    // 两个common组件所在容器相同
-                    if (tragetFeatherId === dragFeatherId) {
-                        components = deepSelectComponent(pageComponents, dragFeatherId).children
-                        components.splice(insertIndex, 0, components[index])
-                        components.splice(deleteIndex, 1)
-                    } else {
-                        // 目标组件在容器上则直接在pageComponents上插入组件，通过拖拽组件的父组件id找到对应的components 并删除拖拽组件
-                        if (tragetFeatherId === rootId) {
-                            components = deepSelectComponent(pageComponents, dragFeatherId).children
-                            pageComponents.splice(insertIndex, 0, components[index])
-                            components.splice(deleteIndex, 1)
-                        }else if (dragFeatherId === rootId) {
-                            // 拖拽组件在容器上则直接在pageComponents上插入组件，通过目标组件的父组件id找到对应的components 并删除目标组件
-                            deepSelectComponent(pageComponents, tragetFeatherId).children.splice(insertIndex, 0, pageComponents[index])
-                            pageComponents.splice(deleteIndex, 1)
-                        }else{
-                            deleteIndex = dragIndex
-                            // 两个common组件在两个不同的容器上
-                            components = deepSelectComponent(pageComponents, dragFeatherId).children
-                            deepSelectComponent(pageComponents, tragetFeatherId).children.splice(insertIndex, 0, components[dragIndex])
-                            components.splice(deleteIndex, 1)
-                        }
+                if(dragFeatherId !== rootId){
+                    dragComponents = deepSelectComponent(pageComponents, dragFeatherId).children
+                }
+                if(tragetFeatherId !== rootId){
+                    if(dragFeatherId === tragetFeatherId){
+                        targetComponents = dragComponents
+                    }else{
+                        targetComponents = deepSelectComponent(pageComponents, tragetFeatherId).children
                     }
                 }
+                dragComponents[dragIndex].featherId = tragetFeatherId
+                targetComponents.splice(insertIndex, 0, dragComponents[dragIndex])
+                dragComponents.splice(deleteIndex, 1)
             }
         }
         eventBus.emit(`move-dragTip`, {top: 0, left: 0, display: 'none'})
