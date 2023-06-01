@@ -9,8 +9,6 @@
 
 </template>
 <script>
-  import {EditorContainerStore} from '@/stores/counter'
-  import eventBus from '@/utils/eventBus.js'
   export default {
     name: 'Shape',
     props: {
@@ -18,8 +16,7 @@
         type: Object,
         default: ()=>{
           return {
-            active:false,
-            isContainer:false
+            active:false
           }
         },
       },
@@ -44,10 +41,7 @@
       }
     },
     setup() {
-      const editorContainerStore = EditorContainerStore()
       return {
-        // 您可以返回整个 store 实例以在模板中使用它
-        editorContainerStore
       }
     },
     created(){

@@ -2,6 +2,7 @@
   <div class="editor" @drop="handleDrop" @dragover="handleDragOver" id="editor"
        @contextmenu="contextmenu($event)"
        data-containerId = "editor"
+       data-elementType = "editor"
   >
     <Shape v-for="(item, index) in pageComponentsStore.pageComponents "
            :key="index"
@@ -10,16 +11,16 @@
            :index="index"
            class="editorShape"
 
-           data-featherIndex = "-1"
            :data-elementId = "item.id"
             data-featherId = "editor"
+            :data-elementType = "item.type"
 
            @mousedown="handleMouseDown(item,$event,index)"
            @contextmenu="contextmenu($event)"
            @dblclick="dbClick(item,$event)"
     >
       <component
-          :style="{'pointer-events':item.isContainer? '':'none'}"
+          :style="{'pointer-events':item.type === 'common' ? 'none':''}"
           class="item"
           :is="item.component"
           :key="index"
@@ -204,10 +205,10 @@ export default {
         component.id = uuid()
         this.pageComponentsStore.pageComponents.push(component)
 
-      }else if(e.target.id == "container"){
+      }else if(e.target.dataset.elementtype == "container"){
+        // 向容器中添加元素
         let component = deepClone(this.componentListStore.componentList[e.dataTransfer.getData('index')])
-        component.featherIndex = Number(e.target.dataset.index)
-        component.featherId = e.target.dataset.containerid
+        component.featherId = e.target.dataset.elementid
         component.id = uuid()
         searchComponent(this.pageComponentsStore.pageComponents,component.featherId).children.push(component)
 
@@ -228,9 +229,9 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       // 当所选元素为容器组件时才进行isContainer的复制
-      if (event.target.id.split("-")[0] == "container" && item.id == event.target.id.substr(10, event.target.id.length)) {
+      if (event.target.dataset.elementtype === "container") {
         event.preventDefault()
-        item.status.isContainer = !item.status.isContainer
+        item.status.activeContainer = !item.status.activeContainer
       }
     }
   }

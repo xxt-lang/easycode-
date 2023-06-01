@@ -29,4 +29,7 @@ export default {
 </script>
 
 <style scoped>
+::v-deep(.el-card) {
+  padding: 0;
+}
 </style>

@@ -19,7 +19,6 @@ export const MouseEventStore = defineStore('mouseEventMain', {
 export const ComponentListStore = defineStore('ComponentListMain', {
   state: () =>{
     const baseAttribute = {
-      featherIndex:-1,
       status:{
         active:false,
         activeContainer:false,
@@ -77,7 +76,7 @@ export const ComponentListStore = defineStore('ComponentListMain', {
           width: 192,
           height: 33
         },
-        isContainer:true,
+        type:"container"
       },
       {
         component: "ScButton",
@@ -94,12 +93,14 @@ export const ComponentListStore = defineStore('ComponentListMain', {
       },]
     componentList.forEach(item=>{
       Object.keys(baseAttribute).forEach(aItem=>{
-        if(item.isContainer){
+        item[aItem] = baseAttribute[aItem]
+        if(item.type && item.type === "container"){
           item["children"] = []
         }else{
-          item["isContainer"] = false //是否为容器组件
+          item.status.activeContainer = false
+          item["type"] = "common" //是否为容器组件
         }
-        item[aItem] = baseAttribute[aItem]
+
       })
     })
     return {componentList: componentList}
@@ -133,12 +134,6 @@ export const PageTagStore = defineStore('PageTagStoreMain', {
 })
 
 
-export const EditorContainerStore = defineStore('EditorContainerStoreMain', {
-  state: () => ({
-    isContainer:false
-  })
-})
-
 // 页面组件列表
 export const PageComponentsStore = defineStore('PageComponentsStoreMain', {
   state: () => ({
@@ -149,5 +144,6 @@ export const PageComponentsStore = defineStore('PageComponentsStoreMain', {
 // 公共状态，开启辅助线
 export const CommonStatusStore = defineStore('CommonStatusStoreMain',{
   state: () => ({
+    containerLock:false // false 不锁容器 true 锁住容器
   })
 })

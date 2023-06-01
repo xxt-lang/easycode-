@@ -1,7 +1,8 @@
 import eventBus from '@/utils/eventBus.js'
 import {
     SimpleStore,
-    PageComponentsStore
+    PageComponentsStore,
+    CommonStatusStore
 } from '@/stores/counter'
 
 // 启动拖拽事件
@@ -31,84 +32,131 @@ export function rightClickContextmenu(ref, p, contextmenuData, event) {
 }
 
 // 组件拖拽功能
-export function moveComponent(e,index) {
+export function moveComponent(e, index) {
     // 只有按住左键时才进行拖拽
-    if(e.buttons != 1) return
+    if (e.buttons != 1) return
     e.preventDefault()
     e.stopPropagation()
     // 是否可以进行推拽
     const startY = e.clientY
     const startX = e.clientX
     // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
-    eventBus.emit(`move-dragTip`,{top:startY,left:startX})
+    eventBus.emit(`move-dragTip`, {top: startY, left: startX})
     // node当前鼠标悬浮的元素
-    let nodeIndex = index
-    let nodeFeatherId = ""
+    let tragetIndex = index
+    let tragetFeatherId = ""
+    let tragetType = "common"
+    let tragetId = ""
     // eId 当前托拽元素的id
-    let eFeatherId = e.target.dataset.featherid
+    let dragFeatherId = e.target.dataset.featherid
+    let dragIndex = index
     let direction = ""
     const move = (moveEvent) => {
         const curX = moveEvent.clientX
         const curY = moveEvent.clientY
         //访问数组中的元素
-        eventBus.emit(`move-dragTip`,{top:curY,left:curX,display:''})
-        nodeIndex = Number(moveEvent.target.dataset.index)
-        nodeFeatherId = moveEvent.target.dataset.featherid
+        eventBus.emit(`move-dragTip`, {top: curY, left: curX, display: ''})
+
+        tragetIndex = Number(moveEvent.target.dataset.index)
+        tragetFeatherId = moveEvent.target.dataset.featherid
+        tragetType = moveEvent.target.dataset.elementtype
+        tragetId = moveEvent.target.dataset.elementid
+
         let mX = moveEvent.clientX - moveEvent.target.offsetLeft//鼠标X轴坐标
         let mY = moveEvent.clientY - moveEvent.target.offsetTop//鼠标Y轴坐标
-        let scY =  moveEvent.target.offsetHeight / 2
-        let scX =  moveEvent.target.offsetWidth / 4
-        if(mX<=scX){
+        let scY = moveEvent.target.offsetHeight / 2
+        let scX = moveEvent.target.offsetWidth / 4
+        if (mX <= scX) {
             direction = "left"
             //right 前插
-        }else if(mX>scX && mX<3 * scX){
-            if(mY<=scY){
+        } else if (mX > scX && mX < 3 * scX) {
+            if (mY <= scY) {
                 direction = "top"
                 // top 前插
-            }else if(mY>scY){
+            } else if (mY > scY) {
                 direction = "bottom"
                 // bottom 后插
             }
-        }else if(mX>=3 * scX){
+        } else if (mX >= 3 * scX) {
             direction = "right"
             // right 后插
         }
     }
+
     upMouse(move, () => {
         const pageComponents = PageComponentsStore().pageComponents
         let components = []
         let rootId = "editor"
-        if( nodeIndex != NaN && index != undefined && nodeFeatherId && eFeatherId){
-            let insertIndex = direction === 'right' || direction === 'bottom' ?nodeIndex + 1 : nodeIndex
-            let deleteIndex = index>nodeIndex ? index+1 : index
-            if(nodeFeatherId === rootId && eFeatherId=== rootId){
-                pageComponents.splice(insertIndex,0,pageComponents[index])
-                pageComponents.splice(deleteIndex,1)
-            }else{
-                if(nodeFeatherId === eFeatherId){
-                    components = deepSelectComponent(pageComponents,eFeatherId).children
-                    components.splice(insertIndex,0,components[index])
-                    components.splice(deleteIndex,1)
-                }else{
-                    if(nodeFeatherId === rootId ){
-                        components = deepSelectComponent(pageComponents,eFeatherId).children
-                        pageComponents.splice(insertIndex,0,components[index])
-                        components.splice(deleteIndex,1)
-                    }
-                    if(eFeatherId === rootId ){
-                        deepSelectComponent(pageComponents,nodeFeatherId).children.splice(insertIndex,0,pageComponents[index])
-                        pageComponents.splice(deleteIndex,1)
+        if (tragetType === rootId) {
+            components = deepSelectComponent(pageComponents, dragFeatherId).children
+            components[dragIndex].featherId = "editor"
+            pageComponents.push(components[dragIndex])
+            components.splice(dragIndex, 1)
+        } else if (tragetIndex != NaN && index != undefined && tragetFeatherId && dragFeatherId) {
+            let insertIndex = direction === 'right' || direction === 'bottom' ? tragetIndex + 1 : tragetIndex
+            // 统一个容器下目标下表要是大于当前下标则当前下表+1
+            let deleteIndex = index > tragetIndex && tragetFeatherId === dragFeatherId ? index + 1 : index
+            // 目标组件类型为容器，拖拽组件则插入到容器的children中
+            if (tragetType === "container") {
+                deleteIndex = dragIndex
+                // 容器与推拽组件都在页面上时调用
+                if (tragetFeatherId === rootId && dragFeatherId === rootId) {
+                    pageComponents[dragIndex].featherId = tragetId
+                    pageComponents[tragetIndex].children.push(pageComponents[dragIndex])
+                    pageComponents.splice(deleteIndex, 1)
+                } else if (tragetFeatherId === rootId) {
+                    // 目标组件在页面上，拖拽组件不在
+                    components = deepSelectComponent(pageComponents, dragFeatherId).children
+                    components[dragIndex].featherId = tragetId
+                    pageComponents[tragetIndex].children.push(components[dragIndex])
+                    components.splice(deleteIndex, 1)
+
+                } else if (dragFeatherId === rootId) {
+                    // 拖拽组件在页面上，目标组件不在
+                    components = deepSelectComponent(pageComponents, tragetId).children //获得目标组件的children
+                    pageComponents[dragIndex].featherId = tragetId
+                    components.push(pageComponents[dragIndex])
+                    pageComponents.splice(deleteIndex, 1)
+                } else {
+                    // 都不在页面上
+                    components = deepSelectComponent(pageComponents, dragFeatherId).children
+                    components[dragIndex].featherId = tragetId
+                    deepSelectComponent(pageComponents, tragetId).children.push(components[dragIndex])
+                    components.splice(deleteIndex, 1)
+                }
+            } else {
+                // 两个common组件都在页面上 直接操作pageComponents
+                if (tragetFeatherId === rootId && dragFeatherId === rootId) {
+                    pageComponents.splice(insertIndex, 0, pageComponents[index])
+                    pageComponents.splice(deleteIndex, 1)
+                } else {
+                    // 两个common组件所在容器相同
+                    if (tragetFeatherId === dragFeatherId) {
+                        components = deepSelectComponent(pageComponents, dragFeatherId).children
+                        components.splice(insertIndex, 0, components[index])
+                        components.splice(deleteIndex, 1)
+                    } else {
+                        // 目标组件在容器上则直接在pageComponents上插入组件，通过拖拽组件的父组件id找到对应的components 并删除拖拽组件
+                        if (tragetFeatherId === rootId) {
+                            components = deepSelectComponent(pageComponents, dragFeatherId).children
+                            pageComponents.splice(insertIndex, 0, components[index])
+                            components.splice(deleteIndex, 1)
+                        }else if (dragFeatherId === rootId) {
+                            // 拖拽组件在容器上则直接在pageComponents上插入组件，通过目标组件的父组件id找到对应的components 并删除目标组件
+                            deepSelectComponent(pageComponents, tragetFeatherId).children.splice(insertIndex, 0, pageComponents[index])
+                            pageComponents.splice(deleteIndex, 1)
+                        }else{
+                            deleteIndex = dragIndex
+                            // 两个common组件在两个不同的容器上
+                            components = deepSelectComponent(pageComponents, dragFeatherId).children
+                            deepSelectComponent(pageComponents, tragetFeatherId).children.splice(insertIndex, 0, components[dragIndex])
+                            components.splice(deleteIndex, 1)
+                        }
                     }
                 }
-
-
             }
-            // 当容器位置改变时修改容器中子元素的下标位置
-
-            // 拖动元素时什么情况下可以往容器中添加内容，其他情况下容器只作为普通元素
-
         }
-        eventBus.emit(`move-dragTip`,{top:0,left:0,display:'none'})
+        eventBus.emit(`move-dragTip`, {top: 0, left: 0, display: 'none'})
     })
 }
 
@@ -130,8 +178,8 @@ export function clickSelectComponent(e, component, index) {
             // 获取被选中的元素并删除
             const length = simpleStore.selectPlate.length
             for (let i = 0; i < length; i++) {
-                if(simpleStore.selectPlate[i].index == index){
-                    simpleStore.selectPlate.splice(i,1)
+                if (simpleStore.selectPlate[i].index == index) {
+                    simpleStore.selectPlate.splice(i, 1)
                     break
                 }
             }
@@ -247,23 +295,23 @@ function deepSelectComponent(ComponentList, targetComponentID) {
 }
 
 //向前或者向后找插入的位置
-function findInsertIndex(direction,top,left){
+function findInsertIndex(direction, top, left) {
     let pageComponentsStore = PageComponentsStore()
     // pageComponentsStore
 }
 
 // 查询组件对应的坐标
-function findIndex(id){
+function findIndex(id) {
     let pageComponentsStore = PageComponentsStore()
     let length = pageComponentsStore.pageComponents.length
     for (let j = 0; j < length; j++) {
-        if(pageComponentsStore.pageComponents[j].id == id) return j
+        if (pageComponentsStore.pageComponents[j].id == id) return j
     }
 }
 
 
 //导出格式化数据
-export function exportComponent(){
+export function exportComponent() {
     const pageComponentsStore = PageComponentsStore()
     console.log(pageComponentsStore.pageComponents)
 }

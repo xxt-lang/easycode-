@@ -1,8 +1,10 @@
 <template>
   <div class="container" id="container"
+       :data-elementType = container.type
+       :data-elementId = "container.id"
+       :data-featherId = "container.featherId"
        :data-index = "containerIndex"
-       :data-containerId = "container.id"
-       :data-featherId = "container.featherId">
+  >
     <Shape v-for="(item, index) in container.children "
            :key="index"
            :status="item.status"
@@ -10,16 +12,16 @@
            :index="index"
            class="editorShape"
 
-           :data-featherIndex = "containerIndex"
            :data-elementId = "item.id"
            :data-featherid = "container.id"
+           :data-elementType = "item.type"
 
            @mousedown="handleMouseDown(item,$event,index)"
            @contextmenu="contextmenu($event)"
            @dblclick="dbClick(item,$event)"
     >
       <component
-          :style="{'pointer-events':item.isContainer? '':'none'}"
+          :style="{'pointer-events':item.type === 'common' ? 'none':''}"
           class="item"
           :is="item.component"
           :key="index"
@@ -174,9 +176,9 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       // 当所选元素为容器组件时才进行isContainer的复制
-      if (event.target.id.split("-")[0] == "container" && item.id == event.target.id.substr(10, event.target.id.length)) {
+      if (event.target.dataset.elementtype === "container") {
         event.preventDefault()
-        item.status.isContainer = !item.status.isContainer
+        item.status.activeContainer = !item.status.activeContainer
       }
     }
   }

@@ -15,6 +15,13 @@ const keyDowns = {
       CommonStatusStore().auxiliaryLine = !CommonStatusStore().auxiliaryLine
     }
   },
+  "alt c": {
+    label: '容器状态',
+    global:true,
+    func: function () {
+      CommonStatusStore().containerLock = !CommonStatusStore().containerLock
+    }
+  },
   "ctrl e": {
     label: '编辑元素',
     global:true,
