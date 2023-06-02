@@ -43,10 +43,10 @@ export function moveComponent(e, index) {
     // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
     eventBus.emit(`move-dragTip`, {top: startY, left: startX})
     // node当前鼠标悬浮的元素
-    let tragetIndex = index
-    let tragetFeatherId = ""
-    let tragetType = "common"
-    let tragetId = ""
+    let targetIndex = index
+    let targetFeatherId = ""
+    let targetType = "common"
+    let targetId = ""
     // eId 当前托拽元素的id
     let dragFeatherId = e.target.dataset.featherid
     let dragIndex = index
@@ -58,10 +58,10 @@ export function moveComponent(e, index) {
         //访问数组中的元素
         eventBus.emit(`move-dragTip`, {top: curY, left: curX, display: ''})
 
-        tragetIndex = Number(moveEvent.target.dataset.index)
-        tragetFeatherId = moveEvent.target.dataset.featherid
-        tragetType = moveEvent.target.dataset.elementtype
-        tragetId = moveEvent.target.dataset.elementid
+        targetIndex = Number(moveEvent.target.dataset.index)
+        targetFeatherId = moveEvent.target.dataset.featherid
+        targetType = moveEvent.target.dataset.elementtype
+        targetId = moveEvent.target.dataset.elementid
 
         let mX = moveEvent.clientX - moveEvent.target.offsetLeft//鼠标X轴坐标
         let mY = moveEvent.clientY - moveEvent.target.offsetTop//鼠标Y轴坐标
@@ -90,38 +90,37 @@ export function moveComponent(e, index) {
         let rootId = "editor"
         let dragComponents = pageComponents
         let targetComponents = pageComponents
-        debugger
-        if (tragetType === rootId) {
+        if (targetType === rootId) {
             components = deepSelectComponent(pageComponents, dragFeatherId).children
             components[dragIndex].featherId = "editor"
             pageComponents.push(components[dragIndex])
             components.splice(dragIndex, 1)
-        } else if (tragetIndex != NaN && index != undefined && tragetFeatherId && dragFeatherId && dragId !== tragetId) {
-            let insertIndex = direction === 'right' || direction === 'bottom' ? tragetIndex + 1 : tragetIndex
+        } else if (targetIndex != NaN && index != undefined && targetFeatherId && dragFeatherId && dragId !== targetId) {
+            let insertIndex = direction === 'right' || direction === 'bottom' ? targetIndex + 1 : targetIndex
             // 统一个容器下目标下表要是大于当前下标则当前下表+1
-            let deleteIndex = index > tragetIndex && tragetFeatherId === dragFeatherId ? index + 1 : index
+            let deleteIndex = index > targetIndex && targetFeatherId === dragFeatherId ? index + 1 : index
             // 目标组件类型为容器，拖拽组件则插入到容器的children中
-            if (tragetType === "container") {
+            if (targetType === "container") {
                 deleteIndex = dragIndex
                 if(dragFeatherId !== rootId){
                     dragComponents = deepSelectComponent(pageComponents, dragFeatherId).children
                 }
-                targetComponents = deepSelectComponent(pageComponents, tragetId).children
-                dragComponents[dragIndex].featherId = tragetId
+                targetComponents = deepSelectComponent(pageComponents, targetId).children
+                dragComponents[dragIndex].featherId = targetId
                 targetComponents.push(dragComponents[dragIndex])
                 dragComponents.splice(deleteIndex, 1)
             } else {
                 if(dragFeatherId !== rootId){
                     dragComponents = deepSelectComponent(pageComponents, dragFeatherId).children
                 }
-                if(tragetFeatherId !== rootId){
-                    if(dragFeatherId === tragetFeatherId){
+                if(targetFeatherId !== rootId){
+                    if(dragFeatherId === targetFeatherId){
                         targetComponents = dragComponents
                     }else{
-                        targetComponents = deepSelectComponent(pageComponents, tragetFeatherId).children
+                        targetComponents = deepSelectComponent(pageComponents, targetFeatherId).children
                     }
                 }
-                dragComponents[dragIndex].featherId = tragetFeatherId
+                dragComponents[dragIndex].featherId = targetFeatherId
                 targetComponents.splice(insertIndex, 0, dragComponents[dragIndex])
                 dragComponents.splice(deleteIndex, 1)
             }
