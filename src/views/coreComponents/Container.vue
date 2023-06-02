@@ -110,21 +110,6 @@ export default {
         {
           label: "删除",
           func: function (event) {
-            let index = that.simpleStore.selectPlate.length - 1
-            if (index >= 0) {
-              if (that.simpleStore.selectPlate[0].info.fatherId != "editor") {
-                const containerComponent = searchComponent(that.pageComponentsStore.pageComponents, that.simpleStore.selectPlate[0].info.fatherId)
-                for (let i = index; i >= 0; i--) {
-                  containerComponent.children.splice(that.simpleStore.selectPlate[i].index, 1)
-                }
-              } else {
-                for (let i = index; i >= 0; i--) {
-                  that.pageComponentsStore.pageComponents.splice(that.simpleStore.selectPlate[i].index, 1)
-                }
-              }
-              // 清空选项版
-              that.simpleStore.selectPlate = []
-            }
           }
         },
         {
@@ -138,27 +123,6 @@ export default {
         {
           label: "粘贴",
           func: function (event) {
-            if (that.simpleStore.shearPlate.length == 1 && that.simpleStore.shearPlate[0].info != null) {
-              let nowcomponent = deepClone(that.simpleStore.shearPlate[0].info)
-              nowcomponent.style.top = event.layerY
-              nowcomponent.style.left = event.layerX
-              nowcomponent.id = uuid()
-              nowcomponent.status.active = false
-              if (nowcomponent.children && nowcomponent.children.length > 0) {
-                nowcomponent.children.forEach(item => {
-                  item.id = uuid()
-                  item.fatherId = nowcomponent.id
-                  item.status.active = false
-                })
-              }
-              if (event.target.id == "editor") {
-                nowcomponent.fatherId = "editor"
-                that.pageComponentsStore.pageComponents.push(nowcomponent)
-              } else {
-                nowcomponent.fatherId = event.target.id.substr(10, event.target.id.length)
-                searchComponent(that.pageComponentsStore.pageComponents, nowcomponent.fatherId).children.push(nowcomponent)
-              }
-            }
           }
         },
       ]
@@ -175,11 +139,6 @@ export default {
     dbClick(item, event) {
       event.preventDefault()
       event.stopPropagation()
-      // 当所选元素为容器组件时才进行isContainer的复制
-      if (event.target.dataset.elementtype === "container") {
-        event.preventDefault()
-        item.status.activeContainer = !item.status.activeContainer
-      }
     }
   }
 }

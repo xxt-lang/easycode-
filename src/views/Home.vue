@@ -13,45 +13,72 @@
       <div class="main-right">
         <EditorMap key="editorMain"></EditorMap>
       </div>
+
+      <!--    设置器-->
+      <div class="main-right-right">
+        <Setter :setter = "componentSetters.setter" :data="componentData"></Setter>
+      </div>
     </main>
   </div>
 </template>
 <script>
-import {EditorStore, EditorStatusStore} from '@/stores/counter'
+import {EditorStore, EditorStatusStore,ComponentListStore} from '@/stores/counter'
 import ToolBar from "./toolBar/TopBar.vue";
 import PageTag from "./coreComponents/PageTag.vue";
 import EditorMap from "./coreComponents/EditorMap.vue";
-
 import LeftBar from "./toolBar/LeftBar.vue";
+import Setter from "./coreComponents/setter/Setter.vue";
 import {initShortKeyDown} from "../utils/shortcutKeys";
+import {loadComponentConfiguration} from "../utils/componentConfigurator";
 
+import eventBus from "../utils/eventBus";
 export default {
-  components: {ToolBar, PageTag, EditorMap, LeftBar,},
+  components: {ToolBar, PageTag, EditorMap, LeftBar,Setter},
   name: "Home",
   props: [],
   data() {
     return {
-
+      componentData:{},
+      componentSetters:[]
     }
   },
   setup() {
     const editorStore = EditorStore()
     const editorStatusStore = EditorStatusStore()
+    const componentListStore = ComponentListStore()
     return {
       editorStore,
-      editorStatusStore
+      editorStatusStore,
+      componentListStore,
     }
   },
-  mounted() {
+  created() {
+    let that = this
     // 快捷键
     initShortKeyDown()
-    // 关闭浏览器的右键时间
+    //加载编辑的组件
+    loadComponentConfiguration()
+    //
+    eventBus.on("dbComponent",(param)=>{
+      that.componentData = param
+      that.componentListStore.componentSetters.forEach(item=>{
+        if(item.component === param.component){
+          that.componentSetters = item
+          return
+        }
+      })
+
+    })
+  },
+  mounted() {
+    // 关闭浏览器的右键事件
     this.editorStore.editor = document.querySelector('#editor').getBoundingClientRect()
     document.oncontextmenu = function (e) {
       return false;
     }
   },
   methods: {
+
     clickBar(param) {
       this.leftToolBarActive = param.status
     },
@@ -76,6 +103,16 @@ main {
 
 .main-right {
   flex: 4;
+  height: calc(100vh - 55px);
+  margin: 5px;
+  background-color: #f0f0f0;
+  overflow: auto;
+  box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+  0 0 0 2px rgba(0, 0, 0, 0.3),
+  0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+.main-right-right{
+  flex: 1;
   height: calc(100vh - 55px);
   margin: 5px;
   background-color: #f0f0f0;

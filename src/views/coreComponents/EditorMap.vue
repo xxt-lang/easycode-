@@ -10,11 +10,9 @@
            :element="item"
            :index="index"
            class="editorShape"
-
            :data-elementId = "item.id"
             data-featherId = "editor"
             :data-elementType = "item.type"
-
            @mousedown="handleMouseDown(item,$event,index)"
            @contextmenu="contextmenu($event)"
            @dblclick="dbClick(item,$event)"
@@ -37,9 +35,7 @@
         key="editor"
     ></Contextmenu>
     <!--    拖拽时的提示信息-->
-    <div :style="dragTip" class="dragTip">
-      拖拽组件
-    </div>
+    <div :style="dragTip" class="dragTip">拖拽组件</div>
   </div>
 </template>
 <script>
@@ -133,27 +129,13 @@ export default {
         {
           label: "删除",
           func: function (event) {
-            let index = that.simpleStore.selectPlate.length - 1
-            if (index >= 0) {
-              if (that.simpleStore.selectPlate[0].info.fatherId != "editor") {
-                const containerComponent = searchComponent(that.pageComponentsStore.pageComponents, that.simpleStore.selectPlate[0].info.fatherId)
-                for (let i = index; i >= 0; i--) {
-                  containerComponent.children.splice(that.simpleStore.selectPlate[i].index, 1)
-                }
-              } else {
-                for (let i = index; i >= 0; i--) {
-                  that.pageComponentsStore.pageComponents.splice(that.simpleStore.selectPlate[i].index, 1)
-                }
-              }
-              // 清空选项版
-              that.simpleStore.selectPlate = []
-            }
           }
         },
         {
           label: "编辑",
           func: function (event) {
-            that.commonStatusStore.editElement = !that.commonStatusStore.editElement
+            console.log(event)
+            // eventBus.emit("openEdit",)
           }
         }
       ]
@@ -161,30 +143,10 @@ export default {
         {
           label: "粘贴",
           func: function (event) {
-            if (that.simpleStore.shearPlate.length == 1 && that.simpleStore.shearPlate[0].info != null) {
-              let nowcomponent = deepClone(that.simpleStore.shearPlate[0].info)
-              nowcomponent.style.top = event.layerY
-              nowcomponent.style.left = event.layerX
-              nowcomponent.id = uuid()
-              nowcomponent.status.active = false
-              if (nowcomponent.children && nowcomponent.children.length > 0) {
-                nowcomponent.children.forEach(item => {
-                  item.id = uuid()
-                  item.fatherId = nowcomponent.id
-                  item.status.active = false
-                })
-              }
-              if (event.target.id == "editor") {
-                nowcomponent.fatherId = "editor"
-                that.pageComponentsStore.pageComponents.push(nowcomponent)
-              } else {
-                nowcomponent.fatherId = event.target.id.substr(10, event.target.id.length)
-                searchComponent(that.pageComponentsStore.pageComponents, nowcomponent.fatherId).children.push(nowcomponent)
-              }
-            }
           }
         },
       ]
+
       rightClickContextmenu("editor", e, this.editorStatusStore.contextmenuData, (e, contextmenuData) => {
         if (e.target.id === "editor" || e.target.dataset.editor == "true") {
           contextmenuData.contextmenuList = contextmenuList2
@@ -210,7 +172,7 @@ export default {
         let component = deepClone(this.componentListStore.componentList[e.dataTransfer.getData('index')])
         component.featherId = e.target.dataset.elementid
         component.id = uuid()
-        searchComponent(this.pageComponentsStore.pageComponents,component.featherId).children.push(component)
+        searchComponent(component.featherId).children.push(component)
 
       }
     },
@@ -229,10 +191,7 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       // 当所选元素为容器组件时才进行isContainer的复制
-      if (event.target.dataset.elementtype === "container") {
-        event.preventDefault()
-        item.status.activeContainer = !item.status.activeContainer
-      }
+      eventBus.emit("dbComponent",searchComponent(event.target.dataset.elementid))
     }
   }
 }

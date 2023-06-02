@@ -130,8 +130,8 @@ export function moveComponent(e, index) {
 }
 
 // 搜索组件
-export function searchComponent(ComponentList, targetId) {
-    return deepSelectComponent(ComponentList, targetId)
+export function searchComponent(targetId) {
+    return deepSelectComponent(PageComponentsStore().pageComponents, targetId)
 }
 
 //左右键选择组件事件
@@ -283,6 +283,11 @@ function findIndex(id) {
 export function exportComponent() {
     const pageComponentsStore = PageComponentsStore()
     console.log(pageComponentsStore.pageComponents)
+}
+
+// 加载
+export function loadSelectChange(){
+
 }
 
 

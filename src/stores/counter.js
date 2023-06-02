@@ -17,94 +17,10 @@ export const MouseEventStore = defineStore('mouseEventMain', {
 
 // 注册的组件列表
 export const ComponentListStore = defineStore('ComponentListMain', {
-  state: () =>{
-    const baseAttribute = {
-      status:{
-        active:false,
-        activeContainer:false,
-        isHidden:false,
-      },// 组件状态 r
-    }
-    const componentList = [
-      {
-        component: "scButton",
-        label: '默认按钮', // 左侧组件列表中显示的名字
-        icon: 'el-icon-edit', // 左侧组件列表中显示的名字
-        animations: [], // 动画列表
-        events: {}, // 事件列表
-        attribute: {
-          type: "primary",
-          name: "button1"
-        },
-        style: {
-          width: 80,
-          height: 33
-        },
-      },
-      {
-        component: "ScButton",
-        label: '成功按钮',
-        event: {},
-        attribute: {
-          type: "success",
-          name: "button1"
-        },
-        style: {
-          width: 80,
-          height: 33
-        },
-      },
-      {
-        component: "ScInput",
-        label: '输入框',
-        event: {},
-        attribute: {},
-        style: {
-          width: 192,
-          height: 33
-        },
-      },
-      {
-        component: "ScCard",
-        label: '卡片',
-        event: {},
-        attribute: {
-          value:5,
-          colors:['#99A9BF', '#F7BA2A', '#FF9900']
-        },
-        style: {
-          width: 192,
-          height: 33
-        },
-        type:"container"
-      },
-      {
-        component: "ScButton",
-        label: '成功按钮',
-        event: {},
-        attribute: {
-          type: "success",
-          name: "button1"
-        },
-        style: {
-          width: 80,
-          height: 33
-        },
-      },]
-    componentList.forEach(item=>{
-      Object.keys(baseAttribute).forEach(aItem=>{
-        item[aItem] = baseAttribute[aItem]
-        if(item.type && item.type === "container"){
-          item["children"] = []
-        }else{
-          item.status.activeContainer = false
-          item["type"] = "common" //是否为容器组件
-        }
-
-      })
-    })
-    return {componentList: componentList}
-  }
+  state: () =>({
+    componentList:[],
+    componentSetters:[]
+  })
 })
 
 // 编辑器内容
@@ -141,9 +57,17 @@ export const PageComponentsStore = defineStore('PageComponentsStoreMain', {
   })
 })
 
-// 公共状态，开启辅助线
+// 公共状态，
 export const CommonStatusStore = defineStore('CommonStatusStoreMain',{
   state: () => ({
     containerLock:false // false 不锁容器 true 锁住容器
   })
 })
+
+export const InformationStore = defineStore('InformationStoreMain',{
+  state: () => ({
+    Id:""
+  })
+})
+
+
