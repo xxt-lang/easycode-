@@ -267,11 +267,6 @@ function deepSelectComponent(ComponentList, targetComponentID) {
     return null
 }
 
-//向前或者向后找插入的位置
-function findInsertIndex(direction, top, left) {
-    let pageComponentsStore = PageComponentsStore()
-    // pageComponentsStore
-}
 
 // 查询组件对应的坐标
 function findIndex(id) {

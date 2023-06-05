@@ -45,7 +45,7 @@ const componentList = [
 ]
 /*component:"ScButton", //组件名 与组件列表中的组件一致
     setter:{
-     attribute:[
+     attributes:[
     {
         attributeName:"",//组件配置中属性字段名 必写
         label:"",// 字段标签
