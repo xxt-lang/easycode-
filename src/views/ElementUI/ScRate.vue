@@ -1,5 +1,5 @@
 <template>
-  <el-rate v-model="propValue.attribute.value" :colors="propValue.attribute.colors"/>
+  <el-rate v-model="propValue.attributes.value" :colors="propValue.attributes.colors"/>
 </template>
 
 <script>

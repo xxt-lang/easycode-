@@ -1,11 +1,12 @@
 <template>
   <el-button
-      :type="propValue.attribute.type"
-      :size="propValue.attribute.size"
-      :plain="propValue.attribute.plain"
-      :round="propValue.attribute.round"
-      :disabled="propValue.attribute.disabled"
-      @click="submit">{{ propValue.attribute.label }}
+      :style="propValue.styles"
+      :type="propValue.attributes.type"
+      :size="propValue.attributes.size"
+      :plain="propValue.attributes.plain"
+      :round="propValue.attributes.round"
+      :disabled="propValue.attributes.disabled"
+      @click="submit">{{ propValue.attributes.label }}
   </el-button>
 </template>
 <script>

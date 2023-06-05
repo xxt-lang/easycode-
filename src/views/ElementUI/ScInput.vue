@@ -1,5 +1,9 @@
 <template>
-  <el-input v-model="input" placeholder="Please input" :type="propValue.attribute.type"/>
+  <el-input
+            :style="propValue.styles"
+            v-model="input"
+            :placeholder="propValue.attributes.placeholder"
+            :type="propValue.attributes.type"/>
 </template>
 <script>
 import {ElInput} from 'element-plus'

@@ -51,6 +51,8 @@ export function moveComponent(e, index) {
     let dragFeatherId = e.target.dataset.featherid
     let dragIndex = index
     let dragId = e.target.dataset.elementid
+    console.log(e.target.dataset)
+
     let direction = ""
     const move = (moveEvent) => {
         const curX = moveEvent.clientX
@@ -86,15 +88,16 @@ export function moveComponent(e, index) {
 
     upMouse(move, () => {
         const pageComponents = PageComponentsStore().pageComponents
-        let components = []
         let rootId = "editor"
-        let dragComponents = pageComponents
-        let targetComponents = pageComponents
+        let dragComponents = pageComponents,targetComponents = pageComponents
+        // 当将组件拖拽到画布上时调用
         if (targetType === rootId) {
-            components = deepSelectComponent(pageComponents, dragFeatherId).children
-            components[dragIndex].featherId = "editor"
-            pageComponents.push(components[dragIndex])
-            components.splice(dragIndex, 1)
+            if(dragFeatherId!==rootId){
+                targetComponents = deepSelectComponent(pageComponents, dragFeatherId).children
+            }
+            targetComponents[dragIndex].featherId = "editor"
+            dragComponents.push(targetComponents[dragIndex])
+            targetComponents.splice(dragIndex, 1)
         } else if (targetIndex != NaN && index != undefined && targetFeatherId && dragFeatherId && dragId !== targetId) {
             let insertIndex = direction === 'right' || direction === 'bottom' ? targetIndex + 1 : targetIndex
             // 统一个容器下目标下表要是大于当前下标则当前下表+1
@@ -125,6 +128,7 @@ export function moveComponent(e, index) {
                 dragComponents.splice(deleteIndex, 1)
             }
         }
+        // 用于拖拽时的提示定位
         eventBus.emit(`move-dragTip`, {top: 0, left: 0, display: 'none'})
     })
 }
