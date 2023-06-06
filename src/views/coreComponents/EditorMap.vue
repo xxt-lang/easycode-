@@ -190,7 +190,6 @@ export default {
     dbClick(item, event) {
       event.preventDefault()
       event.stopPropagation()
-      // 当所选元素为容器组件时才进行isContainer的复制
       eventBus.emit("dbComponent",searchComponent(event.target.dataset.elementid))
     }
   }

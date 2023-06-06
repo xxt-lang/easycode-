@@ -10,7 +10,7 @@ const keyDowns = {
   },
   "d": {
     label: '开启辅助线',
-    global:true,
+    global:false,
     func: function () {
       CommonStatusStore().auxiliaryLine = !CommonStatusStore().auxiliaryLine
     }

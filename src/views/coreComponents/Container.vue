@@ -4,6 +4,7 @@
        :data-elementId = "container.id"
        :data-featherId = "container.featherId"
        :data-index = "containerIndex"
+       :style = "containerStyles"
   >
     <Shape v-for="(item, index) in container.children "
            :key="index"
@@ -35,19 +36,12 @@
 <script>
 import Shape from "./Shape.vue";
 import {
-  rightClickContextmenu,
   searchComponent,
   clickSelectComponent,
   moveComponent
 } from '@/utils/core'
 import {
-  SimpleStore,
-  MouseEventStore,
-  ComponentListStore,
-  EditorStore,
-  PageComponentsStore,
   EditorStatusStore,
-  CommonStatusStore
 } from '@/stores/counter'
 import eventBus from "../../utils/eventBus";
 export default {
@@ -56,22 +50,9 @@ export default {
     Shape
   },
   setup() {
-    const simpleStore = SimpleStore()
-    const mouseEventStore = MouseEventStore()
-    const componentListStore = ComponentListStore()
-    const editorStore = EditorStore()
-    const pageComponentsStore = PageComponentsStore()
     const editorStatusStore = EditorStatusStore()
-    const commonStatusStore = CommonStatusStore()
     return {
-      // 您可以返回整个 store 实例以在模板中使用它
-      simpleStore,
-      mouseEventStore,
-      componentListStore,
-      editorStore,
-      pageComponentsStore,
       editorStatusStore,
-      commonStatusStore
     }
   },
   props:{
@@ -81,6 +62,10 @@ export default {
     },
     containerIndex:{
       type:Number,
+    },
+    containerStyles:{
+      type:Object,
+      default:()=>{return {}}
     }
 
   },
@@ -95,45 +80,7 @@ export default {
     },
     // 右键菜单
     contextmenu(e) {
-      e.preventDefault()
-      e.stopPropagation()
-      let that = this
-      this.mouseEventStore.mouseEvent = e
-      // 获取当前右键选择的组件id
-      let contextmenuList1 = [
-        {
-          label: "复制",
-          func: function (event) {
-            //selectPlate 选中的数据  shearPlate 复制的数据
-            that.simpleStore.shearPlate = deepClone(that.simpleStore.selectPlate)
-          }
-        },
-        {
-          label: "删除",
-          func: function (event) {
-          }
-        },
-        {
-          label: "编辑",
-          func: function (event) {
-            that.commonStatusStore.editElement = !that.commonStatusStore.editElement
-          }
-        }
-      ]
-      let contextmenuList2 = [
-        {
-          label: "粘贴",
-          func: function (event) {
-          }
-        },
-      ]
-      rightClickContextmenu("editor", e, this.editorStatusStore.contextmenuData, (e, contextmenuData) => {
-        if (e.target.id === "editor" || e.target.dataset.editor == "true") {
-          contextmenuData.contextmenuList = contextmenuList2
-        } else {
-          contextmenuData.contextmenuList = contextmenuList1
-        }
-      })
+
     },
 
     // 双击事件

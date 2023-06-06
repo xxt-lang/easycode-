@@ -1,11 +1,11 @@
 <template>
 <div>
   设置器
-  <div>--------------------</div>
+  <div>--------属性------------</div>
 <!--  根据类型配置组件-->
-  <setter-attribute :data="data" :setterAttributes="setter.attributes" ></setter-attribute>
-  <div>--------------------</div>
-  <setter-style :data="data" :setterStyles="setter.styles"></setter-style>
+  <setter-attribute v-show="setter.attributes" :data="data" :setterAttributes="setter.attributes" ></setter-attribute>
+  <div>--------样式------------</div>
+  <setter-style v-show="setter.styles" :data="data" :setterStyles="setter.styles"></setter-style>
   <slot></slot>
 </div>
 </template>

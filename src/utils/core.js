@@ -2,8 +2,14 @@ import eventBus from '@/utils/eventBus.js'
 import {
     SimpleStore,
     PageComponentsStore,
-    CommonStatusStore
 } from '@/stores/counter'
+
+function getStore(name){
+    if(name === "PageComponentsStore")
+        return PageComponentsStore()
+}
+
+
 
 // 启动拖拽事件
 export function draggableStart(e) {
@@ -51,7 +57,6 @@ export function moveComponent(e, index) {
     let dragFeatherId = e.target.dataset.featherid
     let dragIndex = index
     let dragId = e.target.dataset.elementid
-    console.log(e.target.dataset)
 
     let direction = ""
     const move = (moveEvent) => {
@@ -87,7 +92,12 @@ export function moveComponent(e, index) {
     }
 
     upMouse(move, () => {
-        const pageComponents = PageComponentsStore().pageComponents
+        // 用于拖拽时的提示定位
+        eventBus.emit(`move-dragTip`, {top: 0, left: 0, display: 'none'})
+        // 父组件不能拖动到子组件上
+        if(targetFeatherId === dragId || isFeatherComponent(dragId,targetId)) return
+
+        const pageComponents = getStore("PageComponentsStore").pageComponents
         let rootId = "editor"
         let dragComponents = pageComponents,targetComponents = pageComponents
         // 当将组件拖拽到画布上时调用
@@ -128,14 +138,12 @@ export function moveComponent(e, index) {
                 dragComponents.splice(deleteIndex, 1)
             }
         }
-        // 用于拖拽时的提示定位
-        eventBus.emit(`move-dragTip`, {top: 0, left: 0, display: 'none'})
     })
 }
 
 // 搜索组件
 export function searchComponent(targetId) {
-    return deepSelectComponent(PageComponentsStore().pageComponents, targetId)
+    return deepSelectComponent(getStore("PageComponentsStore").pageComponents, targetId)
 }
 
 //左右键选择组件事件
@@ -287,6 +295,17 @@ export function exportComponent() {
 // 加载
 export function loadSelectChange(){
 
+}
+// 清空画布
+export function clearMap(){
+    getStore("PageComponentsStore").pageComponents = []
+}
+// 判断拖拽组件是否在目标组件上层
+function isFeatherComponent(dragId,targetId){
+    const dragComponent = searchComponent(dragId)
+    if(!dragComponent.children) return false
+    const targetComponent = deepSelectComponent(dragComponent.children,targetId)
+    return targetComponent?true:false
 }
 
 

@@ -13,10 +13,9 @@
       <div class="main-right">
         <EditorMap key="editorMain"></EditorMap>
       </div>
-
       <!--    设置器-->
       <div class="main-right-right">
-        <Setter :setter = "componentSetters.setter" :data="componentData"></Setter>
+        <Setter :setter = "componentSetters" :data="componentData"></Setter>
       </div>
     </main>
   </div>
@@ -39,7 +38,7 @@ export default {
   data() {
     return {
       componentData:{},
-      componentSetters:[]
+      componentSetters: {}
     }
   },
   setup() {
@@ -61,9 +60,10 @@ export default {
     //
     eventBus.on("dbComponent",(param)=>{
       that.componentData = param
+      that.componentSetters = {}
       that.componentListStore.componentSetters.forEach(item=>{
         if(item.component === param.component){
-          that.componentSetters = item
+          that.componentSetters = item.setter
           return
         }
       })
