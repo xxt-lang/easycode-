@@ -10,13 +10,17 @@
 
 ​	拖拽
 
-​	容器组件
+​	容器组件-自定义组件中可以预定义多个容器
 
 ​	组件的属性配置
 
 ​    快捷键
 
 ​	双击打开对应组件设置器
+
+   组件样式配置输入css格式的内容将其解析为object并改变组件样式
+
+  
 
 ### 目标：
 
@@ -112,4 +116,87 @@
     },
     type:"container" // 默认不写为common类型 container类型会自动增加children属性
 },
+```
+
+### 容器使用
+
+1.需要在组件配置列表中加入   type:"container"  若不写children时会自动添加children字段
+
+在自定义的组件中如Card组件，若卡片中只需要添加一个容器模块则如下 propValue 为card组件相关配置属性
+
+componentId 为自定义组件的id
+
+```
+<Container
+    key="editorContainer"
+    :container="{
+      id:propValue.id,
+      featherId:propValue.featherId
+      ,children:propValue.children,
+      componentId:propValue.id, 
+      index:index}"
+    :containerStyles = "containerStyles"
+></Container>
+```
+
+2.当添加   type:"container"时并且children为自定义内容此时则不触发默认添加children
+
+children中的container配置如下
+
+```
+children:[
+    {
+        component:"container",
+        id:"",
+        event: {},
+        attributes: {},
+        styles: {
+            width: 192,
+            height: 33
+        },
+        children:[],
+        featherId:"",
+        type:"container"},
+    {
+        component:"container",
+        id:"",
+        event: {},
+        attributes: {},
+        styles: {
+            width: 192,
+            height: 33
+        },
+        children:[],
+        featherId:"",
+        type:"container"}
+],
+```
+
+在自定义组件中配置如下
+
+```
+<el-row>
+  <el-col :span="12"> <Container
+      key="editorContainer"
+      :container="{
+            id:propValue.children[0].id,
+            featherId:propValue.featherId,
+            children:propValue.children[0].children,
+            componentId:propValue.id,
+            index:index}"
+      :containerStyles = "containerStyles"
+  ></Container></el-col>
+  <el-col :span="12">
+    <Container
+        key="editorContainer"
+        :container="{
+            id:propValue.children[1].id,
+            featherId:propValue.featherId,
+            children:propValue.children[1].children,
+            componentId:propValue.id,
+            index:index}"
+        :containerStyles = "containerStyles"
+    ></Container>
+  </el-col>
+</el-row>
 ```
