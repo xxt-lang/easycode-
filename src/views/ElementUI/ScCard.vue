@@ -2,8 +2,12 @@
   <el-card :style="propValue.styles" :header="propValue.attributes['header']" :shadow="propValue.attributes['shadow']">
     <Container
         key="editorContainer"
-        :container="{type:propValue.type,id:propValue.id,featherId:propValue.featherId,children:propValue.children}"
-        :containerIndex = "index"
+        :container="{
+          id:propValue.id,
+          featherId:propValue.featherId
+          ,children:propValue.children,
+          componentId:propValue.id,
+          index:index}"
         :containerStyles = "containerStyles"
     ></Container>
   </el-card>
@@ -11,6 +15,7 @@
 
 <script>
 import Container from "../coreComponents/Container.vue";
+import {uuid} from "../../utils/tool";
 // 样式分为容器上的样式与当前组件的样式
 export default {
   name: "ScCard",
@@ -37,7 +42,10 @@ export default {
 </script>
 
 <style scoped>
-::v-deep(.el-card) {
+::v-deep(.el-card__body) {
+  padding: 0;
+}
+::v-deep(.el-card__header) {
   padding: 0;
 }
 </style>

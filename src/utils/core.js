@@ -1,12 +1,16 @@
 import eventBus from '@/utils/eventBus.js'
+import {deepClone,uuid} from "./tool";
 import {
     SimpleStore,
     PageComponentsStore,
+    ComponentListStore
 } from '@/stores/counter'
 
-function getStore(name){
+export function getStore(name){
     if(name === "PageComponentsStore")
         return PageComponentsStore()
+    if(name === "ComponentListStore")
+        return ComponentListStore()
 }
 
 
@@ -49,15 +53,21 @@ export function moveComponent(e, index) {
     // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
     eventBus.emit(`move-dragTip`, {top: startY, left: startX})
     // node当前鼠标悬浮的元素
+
     let targetIndex = index
     let targetFeatherId = ""
     let targetType = "common"
     let targetId = ""
+    let targetComponentId = ""
+
     // eId 当前托拽元素的id
     let dragFeatherId = e.target.dataset.featherid
     let dragIndex = index
     let dragId = e.target.dataset.elementid
+    let dragType = e.target.dataset.elementtype
+    let dragComponentId = e.target.dataset.componentid
 
+    // 鼠标在元素的方位
     let direction = ""
     const move = (moveEvent) => {
         const curX = moveEvent.clientX
@@ -65,29 +75,28 @@ export function moveComponent(e, index) {
         //访问数组中的元素
         eventBus.emit(`move-dragTip`, {top: curY, left: curX, display: ''})
 
+        //拖拽时鼠标悬停所指元素
         targetIndex = Number(moveEvent.target.dataset.index)
         targetFeatherId = moveEvent.target.dataset.featherid
         targetType = moveEvent.target.dataset.elementtype
         targetId = moveEvent.target.dataset.elementid
+        targetComponentId = moveEvent.target.dataset.componentid
 
         let mX = moveEvent.clientX - moveEvent.target.offsetLeft//鼠标X轴坐标
         let mY = moveEvent.clientY - moveEvent.target.offsetTop//鼠标Y轴坐标
         let scY = moveEvent.target.offsetHeight / 2
         let scX = moveEvent.target.offsetWidth / 4
+        //right 前插  top 前插  bottom 后插  right 后插
         if (mX <= scX) {
             direction = "left"
-            //right 前插
         } else if (mX > scX && mX < 3 * scX) {
             if (mY <= scY) {
                 direction = "top"
-                // top 前插
             } else if (mY > scY) {
                 direction = "bottom"
-                // bottom 后插
             }
         } else if (mX >= 3 * scX) {
             direction = "right"
-            // right 后插
         }
     }
 
@@ -96,6 +105,9 @@ export function moveComponent(e, index) {
         eventBus.emit(`move-dragTip`, {top: 0, left: 0, display: 'none'})
         // 父组件不能拖动到子组件上
         if(targetFeatherId === dragId || isFeatherComponent(dragId,targetId)) return
+        if(targetType === "container" && dragType === "container"){
+        if(targetComponentId === dragComponentId){return}
+        if(isLayer(dragComponentId,targetId)){return}}
 
         const pageComponents = getStore("PageComponentsStore").pageComponents
         let rootId = "editor"
@@ -139,6 +151,39 @@ export function moveComponent(e, index) {
             }
         }
     })
+}
+
+
+//拖拽到画布前配置组件相关数据
+export function handleDrop(e){
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.target.id == "editor") {
+        let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
+        component.featherId = "editor"
+        component.id = uuid()
+        //若容器是组件并且其中包含预定义的容器则向其中容器添加id 与父亲id
+
+        if(component.type === "container" && component.children.length>0){
+            component.children.forEach(item=>{
+                item.id = uuid()
+                item.featherId = component.id
+            })
+        }
+        getStore("PageComponentsStore").pageComponents.push(component)
+    }else if(e.target.dataset.elementtype == "container"){
+        // 向容器中添加元素
+        let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
+        component.featherId = e.target.dataset.elementid
+        component.id = uuid()
+        if(component.type === "container" && component.children.length>0){
+            component.children.forEach(item=>{
+                item.id = uuid()
+                item.featherId = component.id
+            })
+        }
+        searchComponent(component.featherId).children.push(component)
+    }
 }
 
 // 搜索组件
@@ -275,31 +320,17 @@ function deepSelectComponent(ComponentList, targetComponentID) {
     return null
 }
 
-
-// 查询组件对应的坐标
-function findIndex(id) {
-    let pageComponentsStore = PageComponentsStore()
-    let length = pageComponentsStore.pageComponents.length
-    for (let j = 0; j < length; j++) {
-        if (pageComponentsStore.pageComponents[j].id == id) return j
-    }
-}
-
-
 //导出格式化数据
 export function exportComponent() {
     const pageComponentsStore = PageComponentsStore()
     console.log(pageComponentsStore.pageComponents)
 }
 
-// 加载
-export function loadSelectChange(){
-
-}
 // 清空画布
 export function clearMap(){
     getStore("PageComponentsStore").pageComponents = []
 }
+
 // 判断拖拽组件是否在目标组件上层
 function isFeatherComponent(dragId,targetId){
     const dragComponent = searchComponent(dragId)
@@ -307,5 +338,13 @@ function isFeatherComponent(dragId,targetId){
     const targetComponent = deepSelectComponent(dragComponent.children,targetId)
     return targetComponent?true:false
 }
+
+// 判断两个容器组件是否有上下关系
+function isLayer(dragFeatherId,targetId){
+    let components = deepSelectComponent(searchComponent(dragFeatherId).children,targetId)
+    return components!==null
+}
+
+
 
 

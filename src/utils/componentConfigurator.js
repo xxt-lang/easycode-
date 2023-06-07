@@ -1,4 +1,5 @@
 import {ComponentListStore} from "../stores/counter"
+import {uuid} from "./tool";
 // 组件的基础属性
 const baseAttribute = {
     status:{
@@ -36,6 +37,43 @@ const componentList = [
         label: '卡片',
         event: {},
         attributes: {},
+        styles: {
+            width: 192,
+            height: 33
+        },
+        type:"container"
+    },
+    {
+        component: "ScRow",
+        label: '行',
+        event: {},
+        attributes: {},
+        children:[
+            {
+                component:"container",
+                id:"",
+                event: {},
+                attributes: {},
+                styles: {
+                    width: 192,
+                    height: 33
+                },
+                children:[],
+                featherId:"",
+                type:"container"},
+            {
+                component:"container",
+                id:"",
+                event: {},
+                attributes: {},
+                styles: {
+                    width: 192,
+                    height: 33
+                },
+                children:[],
+                featherId:"",
+                type:"container"}
+        ],
         styles: {
             width: 192,
             height: 33
@@ -144,10 +182,9 @@ const componentSetters = [
                         verifyRule:"",// 属性值校验规则 可填入正则表达式
                         typeArray:[] //类型选择数组
                     },
-                ]
+                ],
+            styles:{}
         },
-        styles:{}
-
     },
     {
         component: "ScInput",
@@ -189,16 +226,16 @@ const componentSetters = [
                     attributeName:"header",//组件配置中属性字段名 必写
                     label:"类型",// 字段标签
                     type:"input",//编辑自段的类型input select number switch 必写
-                    value:"卡片标题",//属性值 必写
-                    defaultValue:"卡片标题",//默认属性值 必写
+                    value:"",//属性值 必写
+                    defaultValue:"",//默认属性值 必写
                     valueType:String,// 属性值类型 必写
                 },
                 {
                     attributeName:"shadow",//组件配置中属性字段名 必写
                     label:"输入提示",// 字段标签
                     type:"select",//编辑自段的类型input select number switch 必写
-                    value:"请输入",//属性值 必写
-                    defaultValue:"请输入",//默认属性值 必写
+                    value:"always",//属性值 必写
+                    defaultValue:"always",//默认属性值 必写
                     valueType:String,// 属性值类型 必写
                     typeArray:[
                         {value: 'always',label: 'always'},
@@ -209,7 +246,6 @@ const componentSetters = [
             styles:{}
         }
     },
-
 ]
 
 // 加载组件配置
@@ -220,7 +256,7 @@ export function loadComponentConfiguration(){
         Object.keys(baseAttribute).forEach(aItem=>{
             item[aItem] = baseAttribute[aItem]
             if(item.type && item.type === "container"){
-                item["children"] = []
+                item["children"] = item["children"]?item["children"]:[]
             }else{
                 item.status.activeContainer = false
                 item["type"] = "common" //是否为容器组件

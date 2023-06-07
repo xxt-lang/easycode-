@@ -1,9 +1,10 @@
 <template>
   <div class="container" id="container"
-       :data-elementType = container.type
+       data-elementType = "container"
        :data-elementId = "container.id"
        :data-featherId = "container.featherId"
-       :data-index = "containerIndex"
+       :data-componentId = "container.componentId"
+       :data-index = "container.index"
        :style = "containerStyles"
   >
     <Shape v-for="(item, index) in container.children "
@@ -18,7 +19,6 @@
            :data-elementType = "item.type"
 
            @mousedown="handleMouseDown(item,$event,index)"
-           @contextmenu="contextmenu($event)"
            @dblclick="dbClick(item,$event)"
     >
       <component
@@ -40,9 +40,6 @@ import {
   clickSelectComponent,
   moveComponent
 } from '@/utils/core'
-import {
-  EditorStatusStore,
-} from '@/stores/counter'
 import eventBus from "../../utils/eventBus";
 export default {
   name: "Container",
@@ -50,9 +47,7 @@ export default {
     Shape
   },
   setup() {
-    const editorStatusStore = EditorStatusStore()
     return {
-      editorStatusStore,
     }
   },
   props:{
@@ -72,15 +67,9 @@ export default {
   methods:{
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
-      // 关闭右键菜单
-      this.editorStatusStore.contextmenuData.showContextmenu = false
       clickSelectComponent(event, item, index)
       //非激活状态或者容器状态时才能进行拖动
       moveComponent(event, index)
-    },
-    // 右键菜单
-    contextmenu(e) {
-
     },
 
     // 双击事件
@@ -98,7 +87,7 @@ export default {
 .container{
   min-height: 100px;
   min-width: 200px;
-  background-color: white;
+  background-color: #909399;
   padding: 5px;
   overflow: auto;
 }
