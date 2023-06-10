@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row :style="getComponentStyle(propValue.styles)">
     <el-col :span="12"> <Container
         key="editorContainer"
         :container="{
@@ -27,6 +27,7 @@
 
 <script>
 import Container from "../coreComponents/Container.vue";
+import {getComponentStyle} from "../../utils/core";
 export default {
   name: "ScRow",
   components:{
@@ -48,6 +49,9 @@ export default {
       containerStyles:{}
     }
   },
+  methods:{
+    getComponentStyle
+  }
 }
 </script>
 

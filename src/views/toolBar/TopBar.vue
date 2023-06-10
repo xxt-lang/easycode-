@@ -14,6 +14,7 @@ export default {
     name: 'TopBar',
     props: {},
     data() {
+      let that = this
         return {
           tools:[
             {
@@ -36,6 +37,7 @@ export default {
               label:"预览",
               icon:'',
               func:()=>{
+                that.click()
               }
             },
             {
@@ -53,7 +55,11 @@ export default {
       return {
       }
     },
-    methods: {}
+    methods: {
+      click(){
+        this.$router.push('/preview')
+      }
+    }
 }
 </script>
 <style scoped>

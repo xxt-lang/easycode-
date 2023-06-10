@@ -3,13 +3,16 @@
       class="shape"
       :class="{ active: status.active }"
       :data-index = "index"
+      :style="getShapeStyle(element.styles)"
   >
     <slot ></slot>
   </div>
 
 </template>
 <script>
-  export default {
+import {getShapeStyle} from "../../utils/core";
+
+export default {
     name: 'Shape',
     props: {
       status: {
@@ -49,6 +52,7 @@
     mounted() {
       },
     methods: {
+      getShapeStyle
     }
   }
 </script>

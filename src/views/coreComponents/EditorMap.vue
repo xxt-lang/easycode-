@@ -11,10 +11,9 @@
            :status="item.status"
            :element="item"
            :index="index"
-           class="editorShape"
            :data-elementId = "item.id"
-            data-featherId = "editor"
-            :data-elementType = "item.type"
+           data-featherId = "editor"
+           :data-elementType = "item.type"
            @mousedown="handleMouseDown(item,$event,index)"
            @dblclick="dbClick(item,$event)"
     >

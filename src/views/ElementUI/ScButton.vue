@@ -1,16 +1,16 @@
 <template>
   <el-button
-      :style="propValue.styles"
+      :style="getComponentStyle(propValue.styles)"
       :type="propValue.attributes.type"
       :size="propValue.attributes.size"
       :plain="propValue.attributes.plain"
       :round="propValue.attributes.round"
       :disabled="propValue.attributes.disabled"
-      @click="submit">{{ propValue.attributes.label }}
+      @click="propValue.events['click'](18,'hello')">{{ propValue.attributes.label }}
   </el-button>
 </template>
 <script>
-
+import {getComponentStyle} from "../../utils/core";
 export default {
   name: "ScButton",
   props: {
@@ -24,8 +24,7 @@ export default {
     return {}
   },
   methods: {
-    submit() {
-    }
+    getComponentStyle
   }
 }
 </script>

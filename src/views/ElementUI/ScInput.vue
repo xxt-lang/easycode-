@@ -1,13 +1,13 @@
 <template>
   <el-input
-            :style="propValue.styles"
+            :style="getComponentStyle(propValue.styles)"
             v-model="input"
             :placeholder="propValue.attributes.placeholder"
             :type="propValue.attributes.type"/>
 </template>
 <script>
 import {ElInput} from 'element-plus'
-
+import {getComponentStyle} from "../../utils/core";
 export default {
   name: 'ScInput',
   components: {ElInput},
@@ -23,7 +23,9 @@ export default {
       input: ''
     }
   },
-  methods: {}
+  methods: {
+    getComponentStyle
+  }
 }
 </script>
 <style scoped>

@@ -345,6 +345,54 @@ function isLayer(dragFeatherId,targetId){
     return components!==null
 }
 
+// 解析css样式
+export function analysisCssText(styles,cssText){
+    let cssObject = {}
+    // 清除\n
+    let str = cssText.replaceAll(/(?:\r:|\t|\n|\s{1,})/g,'')
+    let s1 = str.replaceAll(/:{1,}/g,':')
+    let s2 = s1.replaceAll(/;{1,}/g,';')
+    let attrAndValues = s2.split(/[:*;]/)
+    let length = attrAndValues.length
+    if(attrAndValues[length-1] === ''){
+        length--
+    }
+    for (let i = 0; i < length; i+=2) {
+        styles[`${attrAndValues[i]}`] = attrAndValues[i+1]
+    }
+}
+
+// 解析styles 取得shape应该跟着改变的样式
+export function getShapeStyle(styles){
+    const shapeStyle = [
+        {attribute:'display',defaultValue:'block'},
+        {attribute:'margin',defaultValue:'0px'},
+        {attribute:'margin-left',defaultValue:'0px'},
+        {attribute:'margin-top',defaultValue:'0px'},
+        {attribute:'margin-right',defaultValue:'0px'},
+        {attribute:'margin-bottom',defaultValue:'0px'},
+    ]
+    const result = {}
+    shapeStyle.forEach(item=>{
+        result[item.attribute] = styles[item.attribute]?styles[item.attribute]:item.defaultValue
+    })
+    return result
+}
+
+// 返回组件应该有的shape
+export function getComponentStyle(styles){
+      //component 不接受的样式
+    const noStyle = ['margin','margin-left','margin-top','margin-right','margin-bottom','display']
+    const result = {}
+    for (let key in styles) {
+            if(noStyle.indexOf(key) === -1){
+                result[key] = styles[key]
+            }
+    }
+    return result
+
+}
+
 
 
 

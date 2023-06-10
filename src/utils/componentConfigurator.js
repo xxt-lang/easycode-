@@ -15,7 +15,11 @@ const componentList = [
         label: '按钮', // 左侧组件列表中显示的名字
         icon: 'el-icon-edit', // 左侧组件列表中显示的名字
         animations: [], // 动画列表
-        events: {}, // 事件列表
+        events: {
+            click:function(age,name){
+                console.log(age)
+            }
+        }, // 事件列表
         attributes: {},
         styles: {
             width: 80,
@@ -25,7 +29,7 @@ const componentList = [
     {
         component: "ScInput",
         label: '输入框',
-        event: {},
+        events: {},
         attributes: {},
         styles: {
             width: 192,
@@ -35,7 +39,7 @@ const componentList = [
     {
         component: "ScCard",
         label: '卡片',
-        event: {},
+        events: {},
         attributes: {},
         styles: {
             width: 192,
@@ -183,7 +187,14 @@ const componentSetters = [
                         typeArray:[] //类型选择数组
                     },
                 ],
-            styles:{}
+            styles:{},
+            events:[
+                {
+                    event:"click", // 事件名称
+                    annotation:"",
+                    eventContent:{}
+                }
+            ]
         },
     },
     {

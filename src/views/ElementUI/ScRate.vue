@@ -1,10 +1,10 @@
 <template>
-  <el-rate v-model="propValue.attributes.value" :colors="propValue.attributes.colors"/>
+  <el-rate v-model="propValue.attributes.value" :colors="propValue.attributes.colors" :style="getComponentStyle(propValue.styles)"/>
 </template>
 
 <script>
 import {ElRate} from 'element-plus'
-
+import {getComponentStyle} from "../../utils/core";
 export default {
   name: "ScRate",
   components: {ElRate},
@@ -18,7 +18,9 @@ export default {
   data() {
     return {}
   },
-  methods: {}
+  methods: {
+    getComponentStyle
+  }
 }
 </script>
 

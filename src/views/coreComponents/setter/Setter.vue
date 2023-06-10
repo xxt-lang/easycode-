@@ -6,6 +6,8 @@
   <setter-attribute v-show="setter.attributes" :data="data" :setterAttributes="setter.attributes" ></setter-attribute>
   <div>--------样式------------</div>
   <setter-style v-show="setter.styles" :data="data" :setterStyles="setter.styles"></setter-style>
+  <div>--------事件------------</div>
+  <setter-event v-show="setter.events" :data="data" :setterEvents="setter.events"></setter-event>
   <slot></slot>
 </div>
 </template>
@@ -13,9 +15,10 @@
 <script>
 import SetterAttribute from "./SetterAttribute.vue";
 import SetterStyle from "./SetterStyle.vue";
+import SetterEvent from "./SetterEvent.vue";
 export default {
   name: "Setter",
-  components: {SetterAttribute,SetterStyle},
+  components: {SetterAttribute,SetterStyle,SetterEvent},
   setup() {
     return {
     }

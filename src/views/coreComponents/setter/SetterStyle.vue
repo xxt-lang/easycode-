@@ -1,6 +1,5 @@
 <template>
 <div>
-<!-- -->
   <el-input
       type="textarea"
       @blur="printCss"
@@ -9,8 +8,9 @@
       :minRows="6">{}</el-input>
 </div>
 </template>
-
 <script>
+import {analysisCssText} from "../../../utils/core";
+
 export default {
   name: "SetterStyle",
   props:{
@@ -34,19 +34,7 @@ export default {
   },
   methods:{
     printCss(){
-      // 清除\n
-      let str = this.css.replaceAll(/(?:\r:|\t|\n|\s{1,})/g,'')
-      let s1 = str.replaceAll(/:{1,}/g,':')
-      let s2 = s1.replaceAll(/;{1,}/g,';')
-      let attrAndValues = s2.split(/[:*;]/)
-      let length = attrAndValues.length
-      if(attrAndValues[length-1] === ''){
-        length--
-      }
-      for (let i = 0; i < length; i+=2) {
-        this.data.styles[`${attrAndValues[i]}`] = attrAndValues[i+1]
-      }
-      console.log(this.data.styles)
+       analysisCssText(this.data.styles,this.css)
     }
   }
 }
