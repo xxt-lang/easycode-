@@ -3,6 +3,7 @@
   <component
       v-for="(item,index) in getStore('PageComponentsStore').pageComponents"
       :is="item.component"
+      :style = "item.styles"
       :key="index"
       :propValue="item"
       :index = "index"
