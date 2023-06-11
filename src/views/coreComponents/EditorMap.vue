@@ -91,7 +91,9 @@ export default {
     dbClick(item, event) {
       event.preventDefault()
       event.stopPropagation()
-      eventBus.emit("dbComponent",searchComponent(event.target.dataset.elementid))
+      let component = searchComponent(event.target.dataset.elementid)
+      eventBus.emit("dbComponent",component)
+      eventBus.emit("dbComponentStyles",component.styles)
     }
   }
 }

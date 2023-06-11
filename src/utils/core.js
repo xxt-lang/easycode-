@@ -346,10 +346,13 @@ function isLayer(dragFeatherId,targetId){
 }
 
 // 解析css样式
-export function analysisCssText(styles,cssText){
-    let cssObject = {}
+export function analysisCssText(cssText){
+    let css = {}
+    // console.log()
+    //
+    // console.log(JSON.parse(`{"${cssText.replaceAll(';','",').replaceAll(':','":"')}}`.replace(",}","}")))
     // 清除\n
-    let str = cssText.replaceAll(/(?:\r:|\t|\n|\s{1,})/g,'')
+    let str = cssText.replaceAll(/(?:\r:|\t|\n)/g,'')
     let s1 = str.replaceAll(/:{1,}/g,':')
     let s2 = s1.replaceAll(/;{1,}/g,';')
     let attrAndValues = s2.split(/[:*;]/)
@@ -357,25 +360,27 @@ export function analysisCssText(styles,cssText){
     if(attrAndValues[length-1] === ''){
         length--
     }
+
     for (let i = 0; i < length; i+=2) {
-        styles[`${attrAndValues[i]}`] = attrAndValues[i+1]
+        css[`${attrAndValues[i].replaceAll(/\s{1,}/g,'')}`] = attrAndValues[i+1]
     }
+    return css
+}
+
+export function objectToCss(styles){
+    return  JSON.stringify(styles).replaceAll(/[{]|[}]|["]/g,'')
+            .replaceAll(',',';\n')
 }
 
 // 解析styles 取得shape应该跟着改变的样式
 export function getShapeStyle(styles){
-    const shapeStyle = [
-        {attribute:'display',defaultValue:'block'},
-        {attribute:'margin',defaultValue:'0px'},
-        {attribute:'margin-left',defaultValue:'0px'},
-        {attribute:'margin-top',defaultValue:'0px'},
-        {attribute:'margin-right',defaultValue:'0px'},
-        {attribute:'margin-bottom',defaultValue:'0px'},
-    ]
-    const result = {}
-    shapeStyle.forEach(item=>{
-        result[item.attribute] = styles[item.attribute]?styles[item.attribute]:item.defaultValue
-    })
+    const yesStyle = ['margin','margin-left','margin-top','margin-right','margin-bottom','display']
+    let result = {}
+    for(let key in yesStyle) {
+        if(styles[yesStyle[key]]){
+            result[yesStyle[key]] = styles[yesStyle[key]]
+        }
+    }
     return result
 }
 
@@ -393,6 +398,9 @@ export function getComponentStyle(styles){
 
 }
 
+function throttle(){
+
+}
 
 
 

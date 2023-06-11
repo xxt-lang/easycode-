@@ -15,7 +15,7 @@
       </div>
       <!--    设置器-->
       <div class="main-right-right">
-        <Setter :setter = "componentSetters" :data="componentData"></Setter>
+        <Setter :setter = "componentSetters" :setterData="componentData"></Setter>
       </div>
     </main>
   </div>

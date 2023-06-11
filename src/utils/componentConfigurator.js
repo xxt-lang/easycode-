@@ -22,8 +22,6 @@ const componentList = [
         }, // 事件列表
         attributes: {},
         styles: {
-            width: 80,
-            height: 33
         },
     },
     {
@@ -32,8 +30,6 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {
-            width: 192,
-            height: 33
         },
     },
     {
@@ -42,8 +38,6 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {
-            width: 192,
-            height: 33
         },
         type:"container"
     },
@@ -59,8 +53,6 @@ const componentList = [
                 event: {},
                 attributes: {},
                 styles: {
-                    width: 192,
-                    height: 33
                 },
                 children:[],
                 featherId:"",
@@ -71,16 +63,12 @@ const componentList = [
                 event: {},
                 attributes: {},
                 styles: {
-                    width: 192,
-                    height: 33
                 },
                 children:[],
                 featherId:"",
                 type:"container"}
         ],
         styles: {
-            width: 192,
-            height: 33
         },
         type:"container"
     },
@@ -271,6 +259,7 @@ export function loadComponentConfiguration(){
             }else{
                 item.status.activeContainer = false
                 item["type"] = "common" //是否为容器组件
+                item.styles['display'] = 'inline-block'
             }
 
         })

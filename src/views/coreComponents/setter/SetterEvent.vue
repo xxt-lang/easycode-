@@ -14,7 +14,7 @@
 export default {
   name: "SetterEvent",
   props:{
-    data:{
+    setterData:{
       type:Object,
       default:()=>{
         return {}

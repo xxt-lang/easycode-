@@ -1,7 +1,7 @@
 <template>
   <div v-for = "(item,index) in setterAttributes" :key="item.attributeName">
     <span>{{item.label}}</span>
-    <el-select v-if="item.type === 'select'" v-model="data.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
+    <el-select v-if="item.type === 'select'" v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
       <el-option
           v-for="tItem in item.typeArray"
           :key="tItem.value"
@@ -9,8 +9,8 @@
           :value="tItem.value"
       />
     </el-select>
-    <el-input v-if="item.type === 'input'" v-model="data.attributes[item.attributeName]" placeholder="Please input" />
-    <el-switch v-if="item.type === 'switch'" v-model="data.attributes[item.attributeName]" />
+    <el-input v-if="item.type === 'input'" v-model="setterData.attributes[item.attributeName]" placeholder="Please input" />
+    <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
         return null
       }
     },
-    data:{
+    setterData:{
       type:Object,
       default:()=>{
         return {}

@@ -12,7 +12,6 @@
            :status="item.status"
            :element="item"
            :index="index"
-           class="editorShape"
 
            :data-elementId = "item.id"
            :data-featherid = "container.id"
@@ -77,7 +76,9 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       // 当所选元素为容器组件时才进行isContainer的复制
-      eventBus.emit("dbComponent",searchComponent(event.target.dataset.elementid))
+      let component = searchComponent(event.target.dataset.elementid)
+      eventBus.emit("dbComponent",component)
+      eventBus.emit("dbComponentStyles",component.styles)
     }
   }
 }
@@ -90,8 +91,5 @@ export default {
   background-color: #909399;
   padding: 5px;
   overflow: auto;
-}
-.editorShape {
-  display: inline-block;
 }
 </style>

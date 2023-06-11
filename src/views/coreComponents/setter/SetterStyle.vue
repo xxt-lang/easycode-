@@ -2,15 +2,14 @@
 <div>
   <el-input
       type="textarea"
-      @blur="printCss"
+      @input="printCss"
       v-model="css"
-      autosize
-      :minRows="6">{}</el-input>
+></el-input>
 </div>
 </template>
 <script>
-import {analysisCssText} from "../../../utils/core";
-
+import {analysisCssText,objectToCss} from "../../../utils/core";
+import eventBus from "../../../utils/eventBus";
 export default {
   name: "SetterStyle",
   props:{
@@ -20,21 +19,29 @@ export default {
         return null
       }
     },
-    data:{
+    setterData:{
       type:Object,
       default:()=>{
+        console.log(this.css)
         return {}
       }
-    }
+    },
   },
   data(){
     return{
-      css:""
+      css:''
     }
   },
+  mounted() {
+    let that = this
+    eventBus.on("dbComponentStyles",(param)=>{
+      that.css = objectToCss(param)
+    })
+  },
   methods:{
+    objectToCss,
     printCss(){
-       analysisCssText(this.data.styles,this.css)
+      this.setterData.styles = analysisCssText(this.css)
     }
   }
 }
