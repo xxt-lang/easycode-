@@ -67,7 +67,12 @@ export default {
           return
         }
       })
-
+    })
+    eventBus.on("clearSetter",(param)=>{
+      if(param.indexOf(that.componentData.id) !== -1){
+        that.componentData = {}
+        that.componentSetters = {}
+      }
     })
   },
   mounted() {
@@ -78,7 +83,6 @@ export default {
     }
   },
   methods: {
-
     clickBar(param) {
       this.leftToolBarActive = param.status
     },

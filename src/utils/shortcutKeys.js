@@ -1,4 +1,5 @@
 import {CommonStatusStore} from '@/stores/counter'
+import {deleteComponent} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {
   "ctrl h": {
@@ -35,18 +36,24 @@ const keyDowns = {
     func: function () {
       CommonStatusStore().editMargin = !CommonStatusStore().editMargin
     }
-  }
+  },
+  "ctrl d":{
+    label: '删除',
+    global:true,
+    func: function () {
+      deleteComponent()
+    }
+  },
 }
 
 export function initShortKeyDown() {
   if (keyDowns) {
     window.onkeydown = (e)=>{
-      const nowKey = analysisKey(e)
-      if(keyDowns.hasOwnProperty(nowKey)){
-        if(!keyDowns[nowKey].global) return
-        e.preventDefault()
-        keyDowns[nowKey].func()
-      }
+        const nowKey = analysisKey(e)
+        if(keyDowns.hasOwnProperty(nowKey)){
+          e.preventDefault()
+          keyDowns[nowKey].func()
+        }
     }
   } else {
     throw new Error('无快捷键')

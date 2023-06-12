@@ -110,6 +110,7 @@ export default {
   min-height: calc(20vh);
   padding: 5px;
   overflow: auto;
+  padding-bottom: 20px;
 }
 
 .editorShape {

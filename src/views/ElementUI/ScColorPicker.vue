@@ -1,11 +1,12 @@
 <template>
-  <el-rate v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :style="getComponentStyle(propValue.styles)"></el-rate>
+  <el-color-picker v-model = "value" :style="getComponentStyle(propValue.styles)"></el-color-picker>
 </template>
 
 <script>
 import {getComponentStyle} from "../../utils/core";
+
 export default {
-  name: "ScRate",
+  name: "ScColorPicker",
   props: {
     propValue: {
       type: Object, String,
@@ -15,7 +16,7 @@ export default {
   },
   data() {
     return {
-      value:5
+      value:''
     }
   },
   methods: {

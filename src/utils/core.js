@@ -11,6 +11,8 @@ export function getStore(name){
         return PageComponentsStore()
     if(name === "ComponentListStore")
         return ComponentListStore()
+    if(name === "SimpleStore")
+        return SimpleStore()
 }
 
 
@@ -195,23 +197,23 @@ export function searchComponent(targetId) {
 export function clickSelectComponent(e, component, index) {
     e.preventDefault()
     e.stopPropagation()
-    const simpleStore = SimpleStore()
+    const selectPlate = getStore("SimpleStore").selectPlate
     // 按住ctrl进行多选时触发
     if (e.ctrlKey) {
         // 若选中则改为未被选中状态，未选中则选中
         if (component.status.active) {
             component.status.active = false
             // 获取被选中的元素并删除
-            const length = simpleStore.selectPlate.length
+            const length = selectPlate.length
             for (let i = 0; i < length; i++) {
-                if (simpleStore.selectPlate[i].index == index) {
-                    simpleStore.selectPlate.splice(i, 1)
+                if (selectPlate[i].index == index) {
+                    selectPlate.splice(i, 1)
                     break
                 }
             }
         } else {
             component.status.active = true
-            simpleStore.selectPlate.push({
+            selectPlate.push({
                 info: component,
                 index: index
             })
@@ -220,20 +222,21 @@ export function clickSelectComponent(e, component, index) {
         // 左键单击时触发 1，右键单击时触发 2，
         if (e.buttons == 1) {
             // 将其他选中的元素全部置为未被选中状态
-            simpleStore.selectPlate.forEach(item => {
+            selectPlate.forEach(item => {
                 item.info.status.active = false
             })
             // 将单击元素设为选中状态
             component.status.active = true
-            simpleStore.selectPlate = [{
+            selectPlate.splice(0)
+            selectPlate.push({
                 info: component,
                 index: index
-            }]
+            })
         } else if (e.buttons == 2) {
             // 只有当未被选中时才会进行选中触发
             if (!component.status.active) {
                 component.status.active = true
-                simpleStore.selectPlate.push({
+                selectPlate.push({
                     info: component,
                     index: index
                 })
@@ -348,9 +351,6 @@ function isLayer(dragFeatherId,targetId){
 // 解析css样式
 export function analysisCssText(cssText){
     let css = {}
-    // console.log()
-    //
-    // console.log(JSON.parse(`{"${cssText.replaceAll(';','",').replaceAll(':','":"')}}`.replace(",}","}")))
     // 清除\n
     let str = cssText.replaceAll(/(?:\r:|\t|\n)/g,'')
     let s1 = str.replaceAll(/:{1,}/g,':')
@@ -398,9 +398,28 @@ export function getComponentStyle(styles){
 
 }
 
-function throttle(){
-
+// 删除组件
+export function deleteComponent(){
+    const selectPlate = getStore("SimpleStore").selectPlate
+    let featherId = ''
+    let children = []
+    let root = "editor"
+    let deleteId = []
+    selectPlate.forEach(item=>{
+        item.info.status.active = false
+        if(featherId !== item.info.featherId){
+            if(item.info.featherId === root){
+                children = getStore("PageComponentsStore").pageComponents
+            }else{
+                children = searchComponent(item.info.featherId).children
+            }
+        }
+        deleteId.push(item.info.id)
+        children.splice(item.index,1)
+        featherId = item.info.featherId
+    })
+    selectPlate.splice(0)
+    eventBus.emit("clearSetter",deleteId)
 }
-
 
 

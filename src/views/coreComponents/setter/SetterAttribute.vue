@@ -11,6 +11,7 @@
     </el-select>
     <el-input v-if="item.type === 'input'" v-model="setterData.attributes[item.attributeName]" placeholder="Please input" />
     <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
+    <el-input-number v-if="item.type === 'inputNumber'" v-model="setterData.attributes[item.attributeName]" />
   </div>
 </template>
 
