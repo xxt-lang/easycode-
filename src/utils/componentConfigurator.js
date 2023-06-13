@@ -414,7 +414,6 @@ export function loadComponentConfiguration(){
                     item.styles['display'] = 'inline-block'
                 }
             }
-
         })
     })
     setAttribute()
@@ -428,6 +427,8 @@ function setAttribute(){
     componentList.forEach(item=>{
         for (let i = 0; i < settersLength; i++) {
             if(item.component == componentSetters[i].component){
+                // 组件中设置设置器下标
+                item['setterIndex'] = i
                 componentSetters[i].setter.attributes.forEach(setterItem=>{
                     item.attributes[setterItem.attributeName] = setterItem.defaultValue
                 })

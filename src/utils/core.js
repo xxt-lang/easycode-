@@ -422,4 +422,11 @@ export function deleteComponent(){
     eventBus.emit("clearSetter",deleteId)
 }
 
+// 返回选中组件设置器配置
+export function getComponentSetter(){
+    if(getStore("SimpleStore").selectPlate[0]!==undefined){
+        return getStore("ComponentListStore").componentSetters[getStore("SimpleStore").selectPlate[0].info['setterIndex']]['setter']
+    }
+    return null
+}
 

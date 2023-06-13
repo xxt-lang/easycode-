@@ -18,7 +18,7 @@
            :data-elementType = "item.type"
 
            @mousedown="handleMouseDown(item,$event,index)"
-           @dblclick="dbClick(item,$event)"
+           @dblclick="dbClick(item,$event,index)"
     >
       <component
           :style="{'pointer-events':item.type === 'common' ? 'none':''}"
@@ -72,13 +72,12 @@ export default {
     },
 
     // 双击事件
-    dbClick(item, event) {
+    dbClick(item, event,index) {
       event.preventDefault()
       event.stopPropagation()
       // 当所选元素为容器组件时才进行isContainer的复制
-      let component = searchComponent(event.target.dataset.elementid)
-      eventBus.emit("dbComponent",component)
-      eventBus.emit("dbComponentStyles",component.styles)
+      clickSelectComponent(event, item, index)
+      eventBus.emit("dbComponent")
     }
   }
 }

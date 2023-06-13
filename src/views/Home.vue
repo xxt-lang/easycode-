@@ -15,7 +15,7 @@
       </div>
       <!--    设置器-->
       <div class="main-right-right">
-        <Setter :setter = "componentSetters" :setterData="componentData"></Setter>
+        <Setter></Setter>
       </div>
     </main>
   </div>
@@ -31,14 +31,13 @@ import {initShortKeyDown} from "../utils/shortcutKeys";
 import {loadComponentConfiguration} from "../utils/componentConfigurator";
 
 import eventBus from "../utils/eventBus";
+import {getComponentSetter} from "../utils/core";
 export default {
   components: {ToolBar, PageTag, EditorMap, LeftBar,Setter},
   name: "Home",
   props: [],
   data() {
     return {
-      componentData:{},
-      componentSetters: {}
     }
   },
   setup() {
@@ -57,23 +56,6 @@ export default {
     initShortKeyDown()
     //加载编辑的组件
     loadComponentConfiguration()
-    //
-    eventBus.on("dbComponent",(param)=>{
-      that.componentData = param
-      that.componentSetters = {}
-      that.componentListStore.componentSetters.forEach(item=>{
-        if(item.component === param.component){
-          that.componentSetters = item.setter
-          return
-        }
-      })
-    })
-    eventBus.on("clearSetter",(param)=>{
-      if(param.indexOf(that.componentData.id) !== -1){
-        that.componentData = {}
-        that.componentSetters = {}
-      }
-    })
   },
   mounted() {
     // 关闭浏览器的右键事件
