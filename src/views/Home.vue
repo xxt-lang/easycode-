@@ -84,10 +84,14 @@ main {
   height: calc(100vh - 45px);
   background-color: white;
   border-style: solid;
-  margin: 2px;
 }
 
 .main-right {
+  position: absolute;
+  right:215px;
+  width: calc(100vw - 310px);
+  left:85px;
+  right: 200px;
   flex: 4;
   height: calc(100vh - 55px);
   margin: 5px;
@@ -98,6 +102,10 @@ main {
   0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 }
 .main-right-right{
+  position: absolute;
+  width: 200px;
+  right:0px;
+  left:calc(100vw - 215px);
   flex: 1;
   height: calc(100vh - 55px);
   margin: 5px;

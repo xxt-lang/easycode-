@@ -9,13 +9,6 @@ const keyDowns = {
       console.log("查看历史")
     }
   },
-  "d": {
-    label: '开启辅助线',
-    global:false,
-    func: function () {
-      CommonStatusStore().auxiliaryLine = !CommonStatusStore().auxiliaryLine
-    }
-  },
   "alt c": {
     label: '容器状态',
     global:true,

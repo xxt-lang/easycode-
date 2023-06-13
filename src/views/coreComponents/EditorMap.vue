@@ -88,12 +88,11 @@ export default {
     },
 
     // 双击事件
-    dbClick(item, event) {
+    dbClick(item, event,index) {
       event.preventDefault()
       event.stopPropagation()
-      let component = searchComponent(event.target.dataset.elementid)
-      eventBus.emit("dbComponent",component)
-      eventBus.emit("dbComponentStyles",component.styles)
+      clickSelectComponent(event, item, index)
+      eventBus.emit("dbComponent")
     }
   }
 }

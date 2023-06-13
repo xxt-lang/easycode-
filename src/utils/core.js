@@ -332,6 +332,7 @@ export function exportComponent() {
 // 清空画布
 export function clearMap(){
     getStore("PageComponentsStore").pageComponents = []
+    eventBus.emit("clearSetter",{type:"clearMap",params:null})
 }
 
 // 判断拖拽组件是否在目标组件上层
@@ -419,7 +420,7 @@ export function deleteComponent(){
         featherId = item.info.featherId
     })
     selectPlate.splice(0)
-    eventBus.emit("clearSetter",deleteId)
+    eventBus.emit("clearSetter",{type:"id",params:deleteId})
 }
 
 // 返回选中组件设置器配置

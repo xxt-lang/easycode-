@@ -1,7 +1,7 @@
 <template>
 <div>
   设置器
-  <div>--------属性------------</div>
+  <div>--------属性-----------------</div>
 <!--  根据类型配置组件-->
   <setter-attribute v-show="setter.attributes" :setterData="setterData" :setterAttributes="setter.attributes" ></setter-attribute>
   <div>--------样式------------</div>
@@ -58,9 +58,13 @@ export default {
     })
     // 当删除时触发清除setter事件
     eventBus.on("clearSetter",(param)=>{
-      if(param.indexOf(that.setterData.id) !== -1){
-        that.componentData = {}
-        that.componentSetters = {}
+      if(param.type==="clearMap"){
+        that.setter = {}
+        that.setterData = {}
+      }
+      if( param.type === "id" && param.params!==null && param.params.indexOf(that.setterData.id) !== -1){
+        that.setter = {}
+        that.setterData = {}
       }
     })
     },

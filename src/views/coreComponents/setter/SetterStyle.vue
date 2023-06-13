@@ -8,7 +8,7 @@
 </div>
 </template>
 <script>
-import {analysisCssText,objectToCss} from "../../../utils/core";
+import {analysisCssText, getComponentSetter, getStore, objectToCss} from "../../../utils/core";
 import eventBus from "../../../utils/eventBus";
 export default {
   name: "SetterStyle",
@@ -34,8 +34,8 @@ export default {
   },
   mounted() {
     let that = this
-    eventBus.on("dbComponentStyles",(param)=>{
-      that.css = objectToCss(param)
+    eventBus.on("dbComponent",()=>{
+      that.css = objectToCss(getStore("SimpleStore").selectPlate[0].info.styles)
     })
   },
   methods:{
