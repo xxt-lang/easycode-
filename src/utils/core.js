@@ -375,7 +375,17 @@ export function objectToCss(styles){
 
 // 解析styles 取得shape应该跟着改变的样式
 export function getShapeStyle(styles){
-    const yesStyle = ['margin','margin-left','margin-top','margin-right','margin-bottom','display']
+    const yesStyle = ['margin',
+        'margin-left',
+        'margin-top',
+        'margin-right',
+        'margin-bottom',
+        'display',
+        'position',
+        'left',
+        'right',
+        'bottom',
+        'top']
     let result = {}
     for(let key in yesStyle) {
         if(styles[yesStyle[key]]){
@@ -388,7 +398,17 @@ export function getShapeStyle(styles){
 // 返回组件应该有的shape
 export function getComponentStyle(styles){
       //component 不接受的样式
-    const noStyle = ['margin','margin-left','margin-top','margin-right','margin-bottom','display']
+    const noStyle = ['margin',
+        'margin-left',
+        'margin-top',
+        'margin-right',
+        'margin-bottom',
+        'display',
+        'position',
+        'left',
+        'right',
+        'bottom',
+        'top']
     const result = {}
     for (let key in styles) {
             if(noStyle.indexOf(key) === -1){

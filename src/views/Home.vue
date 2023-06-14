@@ -29,9 +29,6 @@ import LeftBar from "./toolBar/LeftBar.vue";
 import Setter from "./coreComponents/setter/Setter.vue";
 import {initShortKeyDown} from "../utils/shortcutKeys";
 import {loadComponentConfiguration} from "../utils/componentConfigurator";
-
-import eventBus from "../utils/eventBus";
-import {getComponentSetter} from "../utils/core";
 export default {
   components: {ToolBar, PageTag, EditorMap, LeftBar,Setter},
   name: "Home",
@@ -83,7 +80,7 @@ main {
   width: 80px;
   height: calc(100vh - 45px);
   background-color: white;
-  border-style: solid;
+  border-style: ridge;
 }
 
 .main-right {
@@ -97,9 +94,7 @@ main {
   margin: 5px;
   background-color: #f0f0f0;
   overflow: auto;
-  box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-  0 0 0 2px rgba(0, 0, 0, 0.3),
-  0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  border-style: ridge;
 }
 .main-right-right{
   position: absolute;
@@ -111,9 +106,7 @@ main {
   margin: 5px;
   background-color: #f0f0f0;
   overflow: auto;
-  box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-  0 0 0 2px rgba(0, 0, 0, 0.3),
-  0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  border-style: ridge;
 }
 
 .head {

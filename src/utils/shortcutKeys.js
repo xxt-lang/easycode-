@@ -37,11 +37,19 @@ const keyDowns = {
       deleteComponent()
     }
   },
+  "Backspace":{
+    label: '删除',
+    global:true,
+    func: function () {
+      deleteComponent()
+    }
+  },
 }
 
 export function initShortKeyDown() {
   if (keyDowns) {
     window.onkeydown = (e)=>{
+      if(e.target.id !== "") return
         const nowKey = analysisKey(e)
         if(keyDowns.hasOwnProperty(nowKey)){
           e.preventDefault()

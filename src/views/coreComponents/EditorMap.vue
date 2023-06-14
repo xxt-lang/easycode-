@@ -34,7 +34,6 @@
 import eventBus from '@/utils/eventBus.js'
 import {
   handleDragOver,
-  searchComponent,
   clickSelectComponent,
   moveComponent,
   handleDrop,
@@ -110,9 +109,5 @@ export default {
   padding: 5px;
   overflow: auto;
   padding-bottom: 20px;
-}
-
-.editorShape {
-  display: inline-block;
 }
 </style>
