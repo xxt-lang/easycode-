@@ -3,7 +3,8 @@ import {deepClone,uuid} from "./tool";
 import {
     SimpleStore,
     PageComponentsStore,
-    ComponentListStore
+    ComponentListStore,
+    CommonStatusStore
 } from '@/stores/counter'
 
 export function getStore(name){
@@ -13,6 +14,8 @@ export function getStore(name){
         return ComponentListStore()
     if(name === "SimpleStore")
         return SimpleStore()
+    if(name === "CommonStatusStore")
+        return CommonStatusStore()
 }
 
 
@@ -43,6 +46,18 @@ export function rightClickContextmenu(ref, p, contextmenuData, event) {
     event(p, contextmenuData)
 }
 
+
+
+/*
+client [x,y] 相对于浏览器左上角计算
+offset [x,y] 相对于当前元素的左上角
+layer  [x,y] 设置定位的元素左上角，否则为body
+page   [x,y] 当前页面
+screen [x,y] 当前屏幕
+
+ */
+
+
 // 组件拖拽功能
 export function moveComponent(e, index) {
     // 只有按住左键时才进行拖拽
@@ -50,10 +65,9 @@ export function moveComponent(e, index) {
     e.preventDefault()
     e.stopPropagation()
     // 是否可以进行推拽
-    const startY = e.clientY
-    const startX = e.clientX
-    // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
-    eventBus.emit(`move-dragTip`, {top: startY, left: startX})
+    const startY = e.layerY
+    const startX = e.layerX
+
     // node当前鼠标悬浮的元素
 
     let targetIndex = index
@@ -71,88 +85,125 @@ export function moveComponent(e, index) {
 
     // 鼠标在元素的方位
     let direction = ""
-    const move = (moveEvent) => {
-        const curX = moveEvent.clientX
-        const curY = moveEvent.clientY
-        //访问数组中的元素
-        eventBus.emit(`move-dragTip`, {top: curY, left: curX, display: ''})
 
-        //拖拽时鼠标悬停所指元素
-        targetIndex = Number(moveEvent.target.dataset.index)
-        targetFeatherId = moveEvent.target.dataset.featherid
-        targetType = moveEvent.target.dataset.elementtype
-        targetId = moveEvent.target.dataset.elementid
-        targetComponentId = moveEvent.target.dataset.componentid
-
-        let mX = moveEvent.clientX - moveEvent.target.offsetLeft//鼠标X轴坐标
-        let mY = moveEvent.clientY - moveEvent.target.offsetTop//鼠标Y轴坐标
-        let scY = moveEvent.target.offsetHeight / 2
-        let scX = moveEvent.target.offsetWidth / 4
-        //right 前插  top 前插  bottom 后插  right 后插
-        if (mX <= scX) {
-            direction = "left"
-        } else if (mX > scX && mX < 3 * scX) {
-            if (mY <= scY) {
-                direction = "top"
-            } else if (mY > scY) {
-                direction = "bottom"
+    // 获取元素的初始内边距
+    let oldX = 0;
+    let oldY = 0;
+    let componentStyle = {}
+    if(getStore("CommonStatusStore").editMargin){
+        componentStyle = searchComponent(dragId).styles
+        if(componentStyle['margin-left']!==undefined){
+            if(componentStyle['margin-left'].indexOf('px')!=-1){
+                oldX = Number(componentStyle['margin-left'])
             }
-        } else if (mX >= 3 * scX) {
-            direction = "right"
+        }
+        if(componentStyle['margin-top']!==undefined){
+            if(componentStyle['margin-top'].indexOf('px')!=-1){
+                oldY = Number(componentStyle['margin-top'])
+            }
+        }
+    }else{
+        // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
+        eventBus.emit(`move-dragTip`, {top: startY, left: startX})
+    }
+    const move = (moveEvent) => {
+        const curX = moveEvent.layerX
+        const curY = moveEvent.layerY
+        if(getStore("CommonStatusStore").editMargin){
+            // 如果有margit-left  margin-top
+            changeMargin(componentStyle,(curX-startX),(curY-startY),oldX,oldY)
+        }else{
+            //访问数组中的元素
+            eventBus.emit(`move-dragTip`, {top: curY, left: curX, display: ''})
+
+            //拖拽时鼠标悬停所指元素
+            targetIndex = Number(moveEvent.target.dataset.index)
+            targetFeatherId = moveEvent.target.dataset.featherid
+            targetType = moveEvent.target.dataset.elementtype
+            targetId = moveEvent.target.dataset.elementid
+            targetComponentId = moveEvent.target.dataset.componentid
+
+            let mX = moveEvent.layerX - moveEvent.target.offsetLeft//鼠标X轴坐标
+            let mY = moveEvent.layerY - moveEvent.target.offsetTop//鼠标Y轴坐标
+            let scY = moveEvent.target.offsetHeight / 2
+            let scX = moveEvent.target.offsetWidth / 4
+            //right 前插  top 前插  bottom 后插  right 后插
+            if (mX <= scX) {
+                direction = "left"
+            } else if (mX > scX && mX < 3 * scX) {
+                if (mY <= scY) {
+                    direction = "top"
+                } else if (mY > scY) {
+                    direction = "bottom"
+                }
+            } else if (mX >= 3 * scX) {
+                direction = "right"
+            }
         }
     }
 
     upMouse(move, () => {
-        // 用于拖拽时的提示定位
-        eventBus.emit(`move-dragTip`, {top: 0, left: 0, display: 'none'})
-        // 父组件不能拖动到子组件上
-        if(targetFeatherId === dragId || isFeatherComponent(dragId,targetId)) return
-        if(targetType === "container" && dragType === "container"){
-        if(targetComponentId === dragComponentId){return}
-        if(isLayer(dragComponentId,targetId)){return}}
+        if(getStore("CommonStatusStore").editMargin){
+        }else{
+            // 用于拖拽时的提示定位
+            eventBus.emit(`move-dragTip`, {top: 0, left: 0, display: 'none'})
+            // 父组件不能拖动到子组件上
+            if(targetFeatherId === dragId || isFeatherComponent(dragId,targetId)) return
+            if(targetType === "container" && dragType === "container"){
+                if(targetComponentId === dragComponentId){return}
+                if(isLayer(dragComponentId,targetId)){return}}
 
-        const pageComponents = getStore("PageComponentsStore").pageComponents
-        let rootId = "editor"
-        let dragComponents = pageComponents,targetComponents = pageComponents
-        // 当将组件拖拽到画布上时调用
-        if (targetType === rootId) {
-            if(dragFeatherId!==rootId){
-                targetComponents = deepSelectComponent(pageComponents, dragFeatherId).children
-            }
-            targetComponents[dragIndex].featherId = "editor"
-            dragComponents.push(targetComponents[dragIndex])
-            targetComponents.splice(dragIndex, 1)
-        } else if (targetIndex != NaN && index != undefined && targetFeatherId && dragFeatherId && dragId !== targetId) {
-            let insertIndex = direction === 'right' || direction === 'bottom' ? targetIndex + 1 : targetIndex
-            // 统一个容器下目标下表要是大于当前下标则当前下表+1
-            let deleteIndex = index > targetIndex && targetFeatherId === dragFeatherId ? index + 1 : index
-            // 目标组件类型为容器，拖拽组件则插入到容器的children中
-            if (targetType === "container") {
-                deleteIndex = dragIndex
-                if(dragFeatherId !== rootId){
-                    dragComponents = deepSelectComponent(pageComponents, dragFeatherId).children
+            const pageComponents = getStore("PageComponentsStore").pageComponents
+            let rootId = "editor"
+            let dragComponents = pageComponents,targetComponents = pageComponents
+            // 当将组件拖拽到画布上时调用
+            if (targetType === rootId) {
+                if(dragFeatherId!==rootId){
+                    targetComponents = deepSelectComponent(pageComponents, dragFeatherId).children
                 }
-                targetComponents = deepSelectComponent(pageComponents, targetId).children
-                dragComponents[dragIndex].featherId = targetId
-                targetComponents.push(dragComponents[dragIndex])
-                dragComponents.splice(deleteIndex, 1)
-            } else {
-                if(dragFeatherId !== rootId){
-                    dragComponents = deepSelectComponent(pageComponents, dragFeatherId).children
-                }
-                if(targetFeatherId !== rootId){
-                    if(dragFeatherId === targetFeatherId){
-                        targetComponents = dragComponents
-                    }else{
-                        targetComponents = deepSelectComponent(pageComponents, targetFeatherId).children
+                targetComponents[dragIndex].featherId = "editor"
+                dragComponents.push(targetComponents[dragIndex])
+                targetComponents.splice(dragIndex, 1)
+            } else if (targetIndex != NaN && index != undefined && targetFeatherId && dragFeatherId && dragId !== targetId) {
+                let insertIndex = direction === 'right' || direction === 'bottom' ? targetIndex + 1 : targetIndex
+                // 统一个容器下目标下表要是大于当前下标则当前下表+1
+                let deleteIndex = index > targetIndex && targetFeatherId === dragFeatherId ? index + 1 : index
+                // 目标组件类型为容器，拖拽组件则插入到容器的children中
+                if (targetType === "container") {
+                    deleteIndex = dragIndex
+                    if(dragFeatherId !== rootId){
+                        dragComponents = deepSelectComponent(pageComponents, dragFeatherId).children
                     }
+                    targetComponents = deepSelectComponent(pageComponents, targetId).children
+                    dragComponents[dragIndex].featherId = targetId
+                    targetComponents.push(dragComponents[dragIndex])
+                    dragComponents.splice(deleteIndex, 1)
+                } else {
+                    if(dragFeatherId !== rootId){
+                        dragComponents = deepSelectComponent(pageComponents, dragFeatherId).children
+                    }
+                    if(targetFeatherId !== rootId){
+                        if(dragFeatherId === targetFeatherId){
+                            targetComponents = dragComponents
+                        }else{
+                            targetComponents = deepSelectComponent(pageComponents, targetFeatherId).children
+                        }
+                    }
+                    dragComponents[dragIndex].featherId = targetFeatherId
+                    targetComponents.splice(insertIndex, 0, dragComponents[dragIndex])
+                    dragComponents.splice(deleteIndex, 1)
                 }
-                dragComponents[dragIndex].featherId = targetFeatherId
-                targetComponents.splice(insertIndex, 0, dragComponents[dragIndex])
-                dragComponents.splice(deleteIndex, 1)
             }
         }
     })
+
+}
+
+// 改变组件的外边距
+function changeMargin(style,X,Y,oldX,oldY){
+    // 没有margin时的操作
+    style['margin-left'] = `${oldX + X }px`
+    style['margin-top'] = `${oldY + Y }px`
 }
 
 
@@ -385,7 +436,10 @@ export function getShapeStyle(styles){
         'left',
         'right',
         'bottom',
-        'top']
+        'top',
+        'width',
+        'height'
+    ]
     let result = {}
     for(let key in yesStyle) {
         if(styles[yesStyle[key]]){
