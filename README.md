@@ -1,6 +1,6 @@
 # vue3 EasyCode 
 
-## 实现与目标
+## 1.实现与目标
 
 在于提高开发效率，减少前端开发中代码量的编写。更容易直观的看到编写的页面样式，可以进行二次开发，基于核心组件如容器等组件，可以在一定规则下进行设置器的自定义配置。可以根据自身需求编写对应的组件、设置器等相配置文件中进行组件的扩展。
 
@@ -40,7 +40,7 @@
 
 ​	
 
-## 目录介绍
+## 2.目录介绍
 
 1.**api**与后端交互接口存放位置
 
@@ -60,7 +60,7 @@
 
 ​	**toolBar** 工具栏组件
 
-## 配置文件
+## 3.配置文件
 
 ### utils-shortcutKey.js(用于快捷键的配置)
 
@@ -76,6 +76,18 @@
     }
   },
 ```
+
+    #### 当前已有的快捷键
+
+| 快捷键    | 作用     |
+| --------- | -------- |
+| ctrl h    | 查看历史 |
+| ctrl d    | 删除     |
+| Backspace | 删除     |
+|           |          |
+|           |          |
+
+
 
 ### **utils-componentConfigurator.js**(组件配置)
 
@@ -143,7 +155,7 @@ componentId 为自定义组件的id
 
 children中的container配置如下
 
-```
+```js
 children:[
     {
         component:"container",
@@ -174,7 +186,7 @@ children:[
 
 在自定义组件中配置如下
 
-```
+```html
 <el-row>
   <el-col :span="12"> <Container
       key="editorContainer"
@@ -199,4 +211,72 @@ children:[
     ></Container>
   </el-col>
 </el-row>
+```
+
+## 4.API
+
+### 1.组件移动
+
+```
+moveComponent(e, index) 
+组件拖拽事件，通过鼠标坐标计算得到鼠标位于当前组件方位，left、right、top、bottom，left|top前插  right|bottom后插
+```
+
+### 2.组件样式配置
+
+#### getShapeStyle
+
+在调整组件样式时shape与组件本身的样式分开渲染，以获得良好的操作体验，当生成代码时全部作用于组件
+
+```
+getShapeStyle(styles)
+
+shap组件支持的样式
+['margin',
+        'margin-left',
+        'margin-top',
+        'margin-right',
+        'margin-bottom',
+        'display',
+        'position',
+        'left',
+        'right',
+        'bottom',
+        'top']
+```
+
+#### getComponentStyle
+
+```
+getComponentStyle(styles)
+
+过滤掉组件在操作时不需要的css样式
+['margin',
+        'margin-left',
+        'margin-top',
+        'margin-right',
+        'margin-bottom',
+        'display',
+        'position',
+        'left',
+        'right',
+        'bottom',
+        'top']
+```
+
+#### deleteComponent
+
+组件删除事件，获取选择信息面板中的组件信息，进行删除，并添加清空设置器事件
+
+```
+deleteComponent()
+
+```
+
+#### handleDrop
+
+组件拖拽到画布的事件，向画布或者容器中添加组件数据
+
+```
+handleDrop(e)
 ```
