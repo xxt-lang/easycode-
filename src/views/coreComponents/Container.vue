@@ -89,6 +89,6 @@ export default {
   min-width: 200px;
   padding: 5px;
   overflow: auto;
-  border-style: double;
+  border-style: ridge;
 }
 </style>

@@ -101,7 +101,6 @@ export function moveComponent(e, index) {
             }
         }
     }else{
-        console.log(component)
         // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
         eventBus.emit(`move-dragTip`, {style:{top: startY + 'px', left: startX + 'px'},message:component.label})
     }

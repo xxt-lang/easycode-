@@ -1,15 +1,19 @@
 <template>
-<div>
+<div class="setter">
   设置器
-  <div>--------属性-----------------</div>
-<!--  根据类型配置组件-->
-  <setter-attribute v-show="setter.attributes" :setterData="setterData" :setterAttributes="setter.attributes" ></setter-attribute>
-  <div>--------样式------------</div>
-  <setter-style v-show="setter.styles"
-                :setterData="setterData"
-                :setterStyles="setter.styles"></setter-style>
-  <div>--------事件------------</div>
-  <setter-event v-show="setter.events"  :setterData="setterData" :setterEvents="setter.events" ></setter-event>
+  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+    <el-tab-pane label="属性" name="first">
+      <setter-attribute v-show="setter.attributes" :setterData="setterData" :setterAttributes="setter.attributes" ></setter-attribute>
+    </el-tab-pane>
+    <el-tab-pane label="样式" name="second">
+      <setter-style v-show="setter.styles"
+                    :setterData="setterData"
+                    :setterStyles="setter.styles"></setter-style>
+    </el-tab-pane>
+    <el-tab-pane label="事件" name="third">
+      <setter-event v-show="setter.events"  :setterData="setterData" :setterEvents="setter.events" ></setter-event>
+    </el-tab-pane>
+  </el-tabs>
   <slot></slot>
 </div>
 </template>
@@ -45,7 +49,8 @@ export default {
   data(){
     return {
       setter:{}, // 当前组件的设置器内容
-      setterData:{} // 当前组件的相关数据
+      setterData:{}, // 当前组件的相关数据
+      activeName:'first'
     }
   },
   mounted() {
@@ -73,5 +78,13 @@ export default {
 </script>
 
 <style scoped>
-
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+.setter{
+  padding: 5px;
+}
 </style>

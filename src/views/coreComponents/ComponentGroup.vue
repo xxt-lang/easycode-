@@ -8,10 +8,9 @@
          :data-index="index"
          :key="index"
          :propValue="item.attribute">
-      <span style="align-content:center ">
+      <span style="padding: 5px;">
         {{item.label}}
       </span>
-
     </div>
   </div>
 </template>
@@ -42,7 +41,6 @@ export default {
 
 <style scoped>
 .componentList {
-  background-color: rgb(136, 136, 128);
   max-height: 100%;
   min-height: 80%;
   display: grid;
@@ -52,7 +50,8 @@ export default {
 .componentList .item {
   margin: 5px;
   background-color: white;
-  border: 1px solid var(--el-border-color);
   border-radius: 5px;
+  border-style: ridge;
+  text-align: center;
 }
 </style>

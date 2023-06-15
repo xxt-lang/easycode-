@@ -44,6 +44,22 @@ const keyDowns = {
       deleteComponent()
     }
   },
+  "alt k":{
+    label: '查看快捷键',
+    global:true,
+    func: function () {
+      console.log(this)
+    }
+  }
+}
+const keyDetails = [
+  {key:'ctrl h',detail:'查看历史'},
+  {key:'ctrl m',detail:'调整外边距'},
+  {key:'ctrl d',detail:'删除'},
+  {key:'Backspace',detail:'删除'},
+]
+export function getKeyDetails(){
+  return keyDetails
 }
 
 export function initShortKeyDown() {

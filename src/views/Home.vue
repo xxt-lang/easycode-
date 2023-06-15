@@ -2,7 +2,7 @@
   <div @mousedown="mouseDown">
     <!--    头部工具栏-->
     <div class="head">
-      <ToolBar></ToolBar>
+      <ToolBar @toolClick="toolClick"></ToolBar>
     </div>
     <main>
       <!--  左侧工具栏-->
@@ -18,6 +18,12 @@
         <Setter></Setter>
       </div>
     </main>
+
+<!--    快捷键弹窗-->
+    <el-drawer v-model="showKeyDetails"  :title="drawerTitle" :modal="false" size="15%" >
+
+      <show-key-details></show-key-details>
+    </el-drawer>
   </div>
 </template>
 <script>
@@ -29,12 +35,15 @@ import LeftBar from "./toolBar/LeftBar.vue";
 import Setter from "./coreComponents/setter/Setter.vue";
 import {initShortKeyDown} from "../utils/shortcutKeys";
 import {loadComponentConfiguration} from "../utils/componentConfigurator";
+import ShowKeyDetails from "./toolBar/ShowKeyDetails.vue";
 export default {
-  components: {ToolBar, PageTag, EditorMap, LeftBar,Setter},
+  components: {ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter},
   name: "Home",
   props: [],
   data() {
     return {
+      showKeyDetails:false,
+      drawerTitle:''
     }
   },
   setup() {
@@ -48,7 +57,6 @@ export default {
     }
   },
   created() {
-    let that = this
     // 快捷键
     initShortKeyDown()
     //加载编辑的组件
@@ -62,6 +70,13 @@ export default {
     }
   },
   methods: {
+    toolClick(param){
+      if(param === 'showKeyDetail'){
+        this.drawerTitle = "快捷键"
+        this.showKeyDetails = !this.showKeyDetails
+      }
+
+    },
     clickBar(param) {
       this.leftToolBarActive = param.status
     },
@@ -86,7 +101,7 @@ main {
 .main-right {
   position: absolute;
   right:215px;
-  width: calc(100vw - 310px);
+  width: calc(100vw - 360px);
   left:85px;
   right: 200px;
   flex: 4;
@@ -98,9 +113,9 @@ main {
 }
 .main-right-right{
   position: absolute;
-  width: 200px;
+  width: 250px;
   right:0px;
-  left:calc(100vw - 215px);
+  left:calc(100vw - 265px);
   flex: 1;
   height: calc(100vh - 55px);
   margin: 5px;
@@ -111,6 +126,11 @@ main {
 
 .head {
   width: 100%;
+}
+
+:deep(.el-drawer__header){
+  margin-bottom: 0px
+;
 }
 
 </style>
