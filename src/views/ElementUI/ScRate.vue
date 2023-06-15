@@ -1,5 +1,7 @@
 <template>
-  <el-rate v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :style="getComponentStyle(propValue.styles)"></el-rate>
+  <div :style="getComponentStyle(propValue.styles)">
+    <el-rate v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" ></el-rate>
+  </div>
 </template>
 
 <script>

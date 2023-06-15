@@ -1,14 +1,13 @@
 <template>
-<div>
-  <component
-      v-for="(item,index) in getStore('PageComponentsStore').pageComponents"
-      :is="item.component"
-      :style = "item.styles"
-      :key="index"
-      :propValue="item"
-      :index = "index"
-  />
-</div>
+    <div >
+      <component
+          v-for="(item,index) in getStore('PageComponentsStore').pageComponents"
+          :is="item.component"
+          :key="index"
+          :propValue="item"
+          isPreview
+      />
+    </div>
 </template>
 
 <script>

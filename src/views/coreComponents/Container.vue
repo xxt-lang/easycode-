@@ -85,10 +85,10 @@ export default {
 
 <style scoped>
 .container{
-  min-height: 100px;
+  min-height: 50px;
   min-width: 200px;
-  background-color: #909399;
   padding: 5px;
   overflow: auto;
+  border-style: double;
 }
 </style>

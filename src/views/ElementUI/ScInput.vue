@@ -1,9 +1,10 @@
 <template>
-  <el-input
-            :style="getComponentStyle(propValue.styles)"
-            v-model="input"
-            :placeholder="propValue.attributes.placeholder"
-            :type="propValue.attributes.type"/>
+  <div :style="getComponentStyle(isPreview,propValue.styles)">
+    <el-input
+        v-model="input"
+        :placeholder="propValue.attributes.placeholder"
+        :type="propValue.attributes.type"/>
+  </div>
 </template>
 <script>
 import {ElInput} from 'element-plus'
@@ -16,6 +17,10 @@ export default {
       type: Object, String,
       default: function () {
       }
+    },
+    isPreview:{
+      type: Boolean,
+      default:false
     }
   },
   data() {

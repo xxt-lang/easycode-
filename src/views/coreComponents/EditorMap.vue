@@ -27,7 +27,7 @@
       />
     </Shape>
     <!--    拖拽时的提示信息-->
-    <div :style="dragTip" class="dragTip">拖拽组件</div>
+    <div :style="dragTip" class="dragTip">{{dragTipMessage}}</div>
   </div>
 </template>
 <script>
@@ -51,8 +51,9 @@ export default {
   data() {
     return {
       dragTip: {
-        display: "none",
+        display: "none"
       },
+      dragTipMessage:'拖拽组件',
       drawer: false,
       canvasData: [],
       nowIndex: 0,
@@ -67,11 +68,9 @@ export default {
     let that = this
     // 动态修改拖拽标签
     eventBus.on(`move-dragTip`, (param) => {
-      that.dragTip = {
-        'top': param.top + 'px',
-        'left': param.left + 'px',
-        display: param.display
-      }
+      that.dragTip = param.style
+      if(param.message !== null)
+        that.dragTipMessage = `拖动${param.message}组件`
     })
   },
   methods: {
