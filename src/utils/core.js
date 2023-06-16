@@ -438,6 +438,15 @@ export function objectToCss(styles){
             .replaceAll(',',';\n')
 }
 
+export function getContainerStyle(isPreview,styles){
+    return {
+         height: styles.height === undefined?'20px':`${Number(styles.height.replace('px',''))-12}px`,
+        'border-style':isPreview?'none':'solid'
+    }
+
+}
+
+
 // 解析styles 取得shape应该跟着改变的样式
 export function getShapeStyle(styles){
     const yesStyle = ['margin',

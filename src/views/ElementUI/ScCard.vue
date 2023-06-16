@@ -4,11 +4,12 @@
         key="editorContainer"
         :container="{
           id:propValue.id,
-          featherId:propValue.featherId
-          ,children:propValue.children,
+          featherId:propValue.featherId,
+          children:propValue.children,
           componentId:propValue.id,
           index:index}"
-        :containerStyles = "{'border-style': isPreview?'none':'ridge'}"
+        :container-styles = "propValue.styles"
+        :isPreview = "isPreview"
     ></Container>
   </el-card>
 </template>

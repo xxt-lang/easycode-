@@ -4,7 +4,6 @@
   </div>
 </template>
 <script>
-import eventBus from "../../utils/eventBus";
 export default {
   name: "LeftToolContent",
   props:{
@@ -32,6 +31,7 @@ export default {
   left:80px;
   position: absolute;
   border-style: solid;
+  border-color: #c6e2ff;
   overflow: auto;
 }
 .showToolContent{
@@ -41,6 +41,8 @@ export default {
   left:80px;
   position: absolute;
   border-style: solid;
+  border-width: 1px;
+  border-color: #D4D7DE;
   overflow: auto;
 }
 </style>

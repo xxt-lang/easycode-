@@ -44,13 +44,6 @@ const keyDowns = {
       deleteComponent()
     }
   },
-  "alt k":{
-    label: '查看快捷键',
-    global:true,
-    func: function () {
-      console.log(this)
-    }
-  }
 }
 const keyDetails = [
   {key:'ctrl h',detail:'查看历史'},

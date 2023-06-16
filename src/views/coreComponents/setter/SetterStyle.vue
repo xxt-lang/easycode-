@@ -22,7 +22,6 @@ export default {
     setterData:{
       type:Object,
       default:()=>{
-        console.log(this.css)
         return {}
       }
     },

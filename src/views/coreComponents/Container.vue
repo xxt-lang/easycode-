@@ -7,7 +7,7 @@
        :data-featherId = "container.featherId"
        :data-componentId = "container.componentId"
        :data-index = "container.index"
-       :style = "containerStyles"
+       :style = "getContainerStyle(isPreview,containerStyles)"
   >
     <Shape v-for="(item, index) in container.children "
            :key="index"
@@ -32,7 +32,7 @@
       />
     </Shape>
   </div>
-  <div v-if="isPreview">
+  <div v-if="isPreview" :style = "getContainerStyle(isPreview,containerStyles)">
     <component
         v-for="(item, index) in container.children "
         class="item"
@@ -49,7 +49,8 @@
 import Shape from "./Shape.vue";
 import {
   clickSelectComponent,
-  moveComponent
+  moveComponent,
+  getContainerStyle
 } from '@/utils/core'
 import eventBus from "../../utils/eventBus";
 export default {
@@ -80,6 +81,7 @@ export default {
 
   },
   methods:{
+    getContainerStyle,
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
       clickSelectComponent(event, item, index)
@@ -101,10 +103,9 @@ export default {
 
 <style scoped>
 .container{
-  min-height: 50px;
-  min-width: 200px;
+  min-height: 20px;
   padding: 5px;
   overflow: auto;
-  border-style: ridge;
+  border-color: #d9ecff;
 }
 </style>

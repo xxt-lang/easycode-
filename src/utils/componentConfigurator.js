@@ -78,8 +78,7 @@ const componentList = [
         label: '卡片',
         events: {},
         attributes: {},
-        styles: {
-        },
+        styles: {},
         type:"container"
     },
     {
@@ -87,14 +86,14 @@ const componentList = [
         label: '行',
         event: {},
         attributes: {},
+        styles: {},
         children:[
             {
                 component:"container",
                 id:"",
                 event: {},
                 attributes: {},
-                styles: {
-                },
+                styles: {},
                 children:[],
                 featherId:"",
                 type:"container"},
@@ -108,8 +107,6 @@ const componentList = [
                 featherId:"",
                 type:"container"},
         ],
-        styles: {
-        },
         type:"container"
     },
 ]

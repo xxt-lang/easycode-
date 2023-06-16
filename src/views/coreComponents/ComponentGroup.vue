@@ -51,7 +51,9 @@ export default {
   margin: 5px;
   background-color: white;
   border-radius: 5px;
-  border-style: ridge;
+  border-style: solid;
   text-align: center;
+  border-width: 1px;
+  border-color: #c6e2ff;
 }
 </style>

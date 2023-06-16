@@ -7,11 +7,12 @@
         key="editorContainer"
         :container="{
               id:item.id,
-              featherId:propValue.featherId
-              ,children:item.children,
+              featherId:propValue.featherId,
+              children:item.children,
               componentId:propValue.id,
               index:index}"
-        :containerStyles = "{'border-style': isPreview?'none':'ridge'}"
+        :container-styles = "propValue.styles"
+        :isPreview = "isPreview"
     ></Container></el-col>
   </el-row>
 </template>

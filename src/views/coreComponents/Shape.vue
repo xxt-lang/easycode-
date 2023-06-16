@@ -58,7 +58,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   .shape {
-   margin: 0;
+    margin: 1px;
     padding: 1px;
   }
 
