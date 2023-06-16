@@ -1,5 +1,5 @@
 <template>
-  <el-slider v-model="value" :style="getComponentStyle(propValue.styles)"/>
+  <el-slider v-model="value" :style="getComponentStyle(isPreview,propValue.styles)"/>
 </template>
 
 <script>
@@ -12,13 +12,18 @@ export default {
       type: Object, String,
       default: function () {
       }
-    }
+    },
+    isPreview:{
+      type: Boolean,
+      default:false
+    },
   },
   data() {
     return {
       value:20
     }
   },
+
   methods: {
     getComponentStyle
   }

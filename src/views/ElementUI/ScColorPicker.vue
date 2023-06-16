@@ -1,5 +1,5 @@
 <template>
-  <el-color-picker v-model = "value" :style="getComponentStyle(propValue.styles)"></el-color-picker>
+  <el-color-picker v-model = "value" :style="getComponentStyle(isPreview,propValue.styles)"></el-color-picker>
 </template>
 
 <script>
@@ -16,7 +16,11 @@ export default {
   },
   data() {
     return {
-      value:''
+      value:'',
+      isPreview:{
+        type: Boolean,
+        default:false
+      }
     }
   },
   methods: {

@@ -16,9 +16,6 @@ const componentList = [
         icon: 'el-icon-edit', // 左侧组件列表中显示的名字
         animations: [], // 动画列表
         events: {
-            click:function(age,name){
-                console.log(age)
-            }
         }, // 事件列表
         attributes: {},
         styles: {},
@@ -37,7 +34,6 @@ const componentList = [
         attributes: {},
         styles: {
             width:'200px',
-            display:'inline-flex'
         },
     },
     {
@@ -53,8 +49,6 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {
-            width:'200px',
-            display:'inline-flex'
         },
     },
     {
@@ -70,8 +64,6 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {
-            width:'200px',
-            display:'inline-flex'
         },
     },
     {
@@ -111,11 +103,10 @@ const componentList = [
                 id:"",
                 event: {},
                 attributes: {},
-                styles: {
-                },
+                styles: {},
                 children:[],
                 featherId:"",
-                type:"container"}
+                type:"container"},
         ],
         styles: {
         },
@@ -133,7 +124,8 @@ const componentList = [
         defaultValue:"",//默认属性值 必写
         valueType:String,// 属性值类型 必写
         verifyRule:"",// 属性值校验规则 可填入正则表达式 非必写
-        typeArray:[] //类型选择数组  非必写
+        typeArray:[], //类型选择数组  非必写
+        event:{} // 此属性的方法
     }
 ]
     }
@@ -396,6 +388,75 @@ const componentSetters = [
             ]
         },
     },
+    {component: "ScRow",
+        setter:{
+            attributes:[
+                {
+                    attributeName:"justify",//组件配置中属性字段名
+                    label:"flex水平布局",
+                    type:"select",//编辑自段的类型input select number switch buttonList
+                    value:"start",//属性值
+                    defaultValue:"start",//默认属性值
+                    valueType:String,// 属性值类型
+                    verifyRule:"",// 属性值校验规则 可填入正则表达式
+                    typeArray:[
+                        {value: 'start',
+                            label: 'start'},
+                        {value: 'end',
+                            label: 'end'},
+                        {value: 'center',
+                            label: 'center'},
+                        {value: 'space-around',
+                            label: 'space-around'},
+                        {value: 'space-between',
+                            label: 'space-between'},
+                        {value: 'space-evenly',
+                            label: 'space-evenly'},] //类型选择数组
+                },
+                {
+                    attributeName:"gutter",//组件配置中属性字段名
+                    label:"栅格间隔",
+                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
+                    value:0,//属性值
+                    defaultValue:0,//默认属性值
+                    valueType:Number,// 属性值类型,
+                },
+                {
+                    attributeName:"col",//组件配置中属性字段名
+                    label:"配置列",
+                    type:"table",//编辑自段的类型input select number switch buttonList
+                    defaultValue:[],
+                    isChildren:true,// 是否于children绑定
+                    column:[
+                        {
+                            attributeName:"span",//组件配置中属性字段名
+                            label:"栅格列数",
+                            type:"inputNumber",//编辑自段的类型input select number switch buttonList
+                            value:12,//属性值
+                            defaultValue:12,//默认属性值
+                            valueType:Number,// 属性值类型,
+                        },
+                        {
+                        attributeName:"offset",//组件配置中属性字段名
+                        label:"栅格左侧间隔",
+                        type:"inputNumber",//编辑自段的类型input select number switch buttonList
+                        value:0,//属性值
+                        defaultValue:0,//默认属性值
+                        valueType:Number,// 属性值类型,
+                    },
+                    ],
+                },
+            ],
+            styles:{},
+            events:[
+                {
+                    event:"click", // 事件名称
+                    annotation:"",
+                    eventContent:{}
+                }
+            ]
+        },
+    },
 ]
 
 // 加载组件配置
@@ -423,18 +484,32 @@ export function loadComponentConfiguration(){
 
 // 根据组件配置属性设置组件属性
 function setAttribute(){
-    let settersLength = componentSetters.length
+    let setterMap = new Map();
+    //后期可配置为持久化数据
+    componentSetters.forEach((item,index)=>{
+        setterMap.set(item.component,index)
+    })
     componentList.forEach(item=>{
-        for (let i = 0; i < settersLength; i++) {
-            if(item.component == componentSetters[i].component){
-                // 组件中设置设置器下标
-                item['setterIndex'] = i
-                componentSetters[i].setter.attributes.forEach(setterItem=>{
-                    item.attributes[setterItem.attributeName] = setterItem.defaultValue
-                })
-                break
-            }
+        let index = setterMap.get(item.component)
+        if(index!==undefined){
+            item['setterIndex'] = index
+            componentSetters[index].setter.attributes.forEach(setterItem=>{
+                item.attributes[setterItem.attributeName] = setterItem.defaultValue
+                if(setterItem.type === "table"){
+                    let columnObject = {}
+                    setterItem.column.forEach(columnItem=>{
+                        columnObject[columnItem.attributeName] = columnItem.defaultValue
+                    })
+                    if(setterItem.isChildren){
+                        let childrenLength = item.children.length
+                        for (let i = 0; i < childrenLength; i++) {
+                            item.attributes[setterItem.attributeName].push(columnObject)
+                        }
+                    }else{
+                        item.attributes[setterItem.attributeName].push(columnObject)
+                    }
+                }
+            })
         }
-
     })
 }

@@ -109,7 +109,7 @@ export function moveComponent(e, index) {
         const curY = moveEvent.layerY
         if(getStore("CommonStatusStore").editMargin){
             // 如果有margit-left  margin-top
-            changeMargin(componentStyle,(curX-startX),(curY-startY),oldX,oldY)
+            changeMargin(component.styles,(curX-startX),(curY-startY),oldX,oldY)
         }else{
             let result = mousemoveInfo(moveEvent)
             direction = result.direction

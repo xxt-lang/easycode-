@@ -1,5 +1,7 @@
 <template>
-  <div class="container" id="container"
+  <div
+       v-if="!isPreview"
+       class="container" id="container"
        data-elementType = "container"
        :data-elementId = "container.id"
        :data-featherId = "container.featherId"
@@ -30,12 +32,22 @@
       />
     </Shape>
   </div>
+  <div v-if="isPreview">
+    <component
+        v-for="(item, index) in container.children "
+        class="item"
+        :is="item.component"
+        :key="index"
+        :propValue="item"
+        :index = "index"
+        isPreview
+    />
+  </div>
 </template>
 
 <script>
 import Shape from "./Shape.vue";
 import {
-  searchComponent,
   clickSelectComponent,
   moveComponent
 } from '@/utils/core'
@@ -60,7 +72,11 @@ export default {
     containerStyles:{
       type:Object,
       default:()=>{return {}}
-    }
+    },
+    isPreview:{
+      type: Boolean,
+      default:false
+    },
 
   },
   methods:{

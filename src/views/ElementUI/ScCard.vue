@@ -1,5 +1,5 @@
 <template>
-  <el-card :style="getComponentStyle(propValue.styles)" :header="propValue.attributes['header']" :shadow="propValue.attributes['shadow']">
+  <el-card :style="getComponentStyle(isPreview,propValue.styles)" :header="propValue.attributes['header']" :shadow="propValue.attributes['shadow']">
     <Container
         key="editorContainer"
         :container="{
@@ -8,7 +8,7 @@
           ,children:propValue.children,
           componentId:propValue.id,
           index:index}"
-        :containerStyles = "containerStyles"
+        :containerStyles = "{'border-style': isPreview?'none':'ridge'}"
     ></Container>
   </el-card>
 </template>
@@ -29,7 +29,11 @@ export default {
     },
     index:{
       type: Number,
-    }
+    },
+    isPreview:{
+      type: Boolean,
+      default:false
+    },
   },
   data(){
     return {

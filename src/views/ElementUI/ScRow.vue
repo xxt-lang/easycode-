@@ -1,27 +1,18 @@
 <template>
-  <el-row :style="getComponentStyle(propValue.styles)">
-    <el-col :span="12"> <Container
+  <el-row :style="getComponentStyle(isPreview,propValue.styles)">
+    <el-col v-for = "(item,index) in propValue.children" :key="item.id"
+            :span="propValue.attributes['col'][index]['span'] "
+            :offset="propValue.attributes['col'][index]['offset'] " >
+      <Container
         key="editorContainer"
         :container="{
-              id:propValue.children[0].id,
+              id:item.id,
               featherId:propValue.featherId
-              ,children:propValue.children[0].children,
+              ,children:item.children,
               componentId:propValue.id,
               index:index}"
-        :containerStyles = "containerStyles"
+        :containerStyles = "{'border-style': isPreview?'none':'ridge'}"
     ></Container></el-col>
-    <el-col :span="12">
-      <Container
-          key="editorContainer"
-          :container="{
-              id:propValue.children[1].id,
-              featherId:propValue.featherId
-              ,children:propValue.children[1].children,
-              componentId:propValue.id,
-              index:index}"
-          :containerStyles = "containerStyles"
-      ></Container>
-    </el-col>
   </el-row>
 </template>
 
@@ -42,7 +33,11 @@ export default {
     },
     index:{
       type: Number,
-    }
+    },
+    isPreview:{
+      type: Boolean,
+      default:false
+    },
   },
   data(){
     return {

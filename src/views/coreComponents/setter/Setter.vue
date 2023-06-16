@@ -3,7 +3,9 @@
   设置器
   <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
     <el-tab-pane label="属性" name="first">
-      <setter-attribute v-show="setter.attributes" :setterData="setterData" :setterAttributes="setter.attributes" ></setter-attribute>
+      <setter-attribute v-show="setter.attributes" :setterData="setterData" :setterAttributes="setter.attributes" >
+
+      </setter-attribute>
     </el-tab-pane>
     <el-tab-pane label="样式" name="second">
       <setter-style v-show="setter.styles"

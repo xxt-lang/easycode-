@@ -6,7 +6,7 @@
         :plain="propValue.attributes.plain"
         :round="propValue.attributes.round"
         :disabled="propValue.attributes.disabled"
-        @click="propValue.events['click'](18,'hello')">{{ propValue.attributes.label }}
+        >{{ propValue.attributes.label }}
     </el-button>
 </template>
 <script>
