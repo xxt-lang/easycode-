@@ -38,25 +38,13 @@ export default {
     return {
     }
   },
-  props:{
-    // setter:{
-    //   type:Object,
-    //   default:()=>{
-    //     return {attribute: {}}
-    //   }
-    // },
-    // setterData:{
-    //   // 组件对应数组的参数，通过
-    //   type:Object,
-    //   default:()=>{
-    //     return {}
-    //   }
-    // }
-  },
+  props:{},
   data(){
     return {
       setter:{}, // 当前组件的设置器内容
-      setterData:{}, // 当前组件的相关数据
+      setterData:{
+        status:{lock:false}
+      }, // 当前组件的相关数据
       activeName:'first'
     }
   },
