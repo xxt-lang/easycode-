@@ -88,6 +88,7 @@ export default {
       }
     },
     deleteItem(param,index){
+      if(this.setterData.attributes[param.attributeName].length === 1) return
       this.setterData.attributes[param.attributeName].splice(index,1)
       if(param.isChildren){
         this.setterData.children.splice(index,1)

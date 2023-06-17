@@ -1,7 +1,7 @@
 <template>
   <div
       class="shape"
-      :class="{ active: status.active }"
+      :class="{ active: status.active,lock:status.lock }"
       :data-index = "index"
       :style="getShapeStyle(element.styles)"
   >
@@ -63,7 +63,11 @@ export default {
   }
 
   .active {
-    outline: 1px solid #70c0ff;
+    outline: 2px solid #70c0ff;
+    user-select: none;
+  }
+  .lock {
+    outline: 2px solid #f8e3c5;
     user-select: none;
   }
 

@@ -8,7 +8,7 @@
        :data-componentId = "container.componentId"
        :data-index = "container.index"
        :data-lock = "container.status.lock"
-       :style = "getContainerStyle(isPreview,containerStyles,container.status)"
+       :style = "getContainerStyle(isPreview,containerStyles)"
   >
     <Shape v-for="(item, index) in container.children "
            :key="index"
@@ -51,7 +51,6 @@ import Shape from "./Shape.vue";
 import {
   clickSelectComponent,
   moveComponent,
-  getContainerStyle
 } from '@/utils/core'
 import eventBus from "../../utils/eventBus";
 export default {
@@ -82,7 +81,6 @@ export default {
 
   },
   methods:{
-    getContainerStyle,
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
       if(!this.container.status.lock){

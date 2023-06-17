@@ -447,11 +447,10 @@ export function objectToCss(styles){
             .replaceAll(',',';\n')
 }
 
-export function getContainerStyle(isPreview,styles,status){
+export function getContainerStyle(isPreview,styles){
     return {
          height: styles.height === undefined?'':`${Number(styles.height.replace('px',''))-12}px`,
         'border-style':isPreview?'none':'solid',
-        'border-color': status.lock?'#f8e3c5':'#d9ecff'
     }
 
 }
@@ -517,16 +516,18 @@ export function deleteComponent(){
     let deleteId = []
     selectPlate.forEach(item=>{
         item.info.status.active = false
-        if(featherId !== item.info.featherId){
-            if(item.info.featherId === root){
-                children = getStore("PageComponentsStore").pageComponents
-            }else{
-                children = searchComponent(item.info.featherId).children
+        if(!item.info.status.lock){
+            if(featherId !== item.info.featherId){
+                if(item.info.featherId === root){
+                    children = getStore("PageComponentsStore").pageComponents
+                }else{
+                    children = searchComponent(item.info.featherId).children
+                }
             }
+            deleteId.push(item.info.id)
+            children.splice(item.index,1)
+            featherId = item.info.featherId
         }
-        deleteId.push(item.info.id)
-        children.splice(item.index,1)
-        featherId = item.info.featherId
     })
     selectPlate.splice(0)
     eventBus.emit("clearSetter",{type:"id",params:deleteId})
