@@ -36,6 +36,8 @@ import Setter from "./coreComponents/setter/Setter.vue";
 import {initShortKeyDown} from "../utils/shortcutKeys";
 import {loadComponentConfiguration} from "../utils/componentConfigurator";
 import ShowKeyDetails from "./toolBar/ShowKeyDetails.vue";
+import {clearSelectPlate} from "../utils/core";
+
 export default {
   components: {ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter},
   name: "Home",
@@ -81,6 +83,7 @@ export default {
       this.leftToolBarActive = param.status
     },
     mouseDown(e) {
+      clearSelectPlate()
       this.editorStatusStore.contextmenuData.showContextmenu = false
     }
   }

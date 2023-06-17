@@ -6,6 +6,7 @@ const baseAttribute = {
         active:false,
         activeContainer:false,
         isHidden:false,
+        lock:false,// false 不锁 true 锁
     },// 组件状态 r
 }
 // 注册的组件列表
@@ -18,14 +19,16 @@ const componentList = [
         events: {
         }, // 事件列表
         attributes: {},
-        styles: {},
+        styles: {
+        },
     },
     {
         component: "ScInput",
         label: '输入框',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {
+        },
     },
     {
         component: "ScRate",
@@ -33,7 +36,7 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {
-            width:'200px',
+            width:'200px'
         },
     },
     {
@@ -64,6 +67,7 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {
+            width:'200px'
         },
     },
     {
@@ -454,6 +458,12 @@ const componentSetters = [
             ]
         },
     },
+    {component: "ScSlider",
+    setter:{
+        attributes: [],
+        styles:{},
+        events:[]
+    }}
 ]
 
 // 加载组件配置
@@ -469,7 +479,7 @@ export function loadComponentConfiguration(){
                 item.status.activeContainer = false
                 item["type"] = "common" //是否为容器组件
                 if(item.styles['display'] === undefined){
-                    item.styles['display'] = 'inline-block'
+                    item.styles['display'] = 'inline-flex'
                 }
             }
         })

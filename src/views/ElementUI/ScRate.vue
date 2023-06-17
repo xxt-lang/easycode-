@@ -1,6 +1,6 @@
 <template>
-  <div :style="getComponentStyle(propValue.styles)">
-    <el-rate v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" ></el-rate>
+  <div :style="getComponentStyle(isPreview,propValue.styles)">
+    <el-rate v-model="value" />
   </div>
 </template>
 
@@ -13,11 +13,15 @@ export default {
       type: Object, String,
       default: function () {
       }
+    },
+    isPreview:{
+      type: Boolean,
+      default:false
     }
   },
   data() {
     return {
-      value:5
+      value:null
     }
   },
   methods: {

@@ -94,6 +94,8 @@ export default {
       }
     },
     editItem(param,index){
+      this.tableEditAttributes = []
+      this.tableEditData = []
       this.tableEditStatus = true
       this.tableEditAttributes = param.column
       this.tableEditData = {attributes:this.setterData.attributes[param.attributeName][index]}

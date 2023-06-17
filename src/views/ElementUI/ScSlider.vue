@@ -1,5 +1,5 @@
 <template>
-  <el-slider v-model="value" :style="getComponentStyle(isPreview,propValue.styles)"/>
+    <el-slider v-model="value" :style="getComponentStyle(isPreview,propValue.styles)"/>
 </template>
 
 <script>

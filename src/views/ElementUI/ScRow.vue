@@ -1,8 +1,10 @@
 <template>
-  <el-row :style="getComponentStyle(isPreview,propValue.styles)">
+  <el-row :style="getComponentStyle(isPreview,propValue.styles)"
+  :justify="propValue.attributes['justify']"
+  :gutter="propValue.attributes['gutter']" >
     <el-col v-for = "(item,index) in propValue.children" :key="item.id"
             :span="propValue.attributes['col'][index]['span'] "
-            :offset="propValue.attributes['col'][index]['offset'] " >
+            :offset="propValue.attributes['col'][index]['offset']" >
       <Container
         key="editorContainer"
         :container="{
@@ -10,7 +12,8 @@
               featherId:propValue.featherId,
               children:item.children,
               componentId:propValue.id,
-              index:index}"
+              index:index,
+              status:propValue.status}"
         :container-styles = "propValue.styles"
         :isPreview = "isPreview"
     ></Container></el-col>

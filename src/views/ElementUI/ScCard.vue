@@ -7,7 +7,8 @@
           featherId:propValue.featherId,
           children:propValue.children,
           componentId:propValue.id,
-          index:index}"
+          index:index,
+          status:propValue.status}"
         :container-styles = "propValue.styles"
         :isPreview = "isPreview"
     ></Container>

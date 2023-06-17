@@ -82,7 +82,7 @@ export default {
       // 选中画布中的组件
       clickSelectComponent(event, item, index)
       //非激活状态或者容器状态时才能进行拖动
-      moveComponent(event, index)
+      moveComponent(event, index, item)
     },
 
     // 双击事件

@@ -59,7 +59,7 @@ screen [x,y] 当前屏幕
 
 
 // 组件拖拽功能
-export function moveComponent(e, index) {
+export function moveComponent(e, index,dragObject) {
     // 只有按住左键时才进行拖拽
     if (e.buttons != 1) return
     e.preventDefault()
@@ -73,7 +73,8 @@ export function moveComponent(e, index) {
         targetFeatherId : "",
         targetType : "common",
         targetId : "",
-        targetComponentId : ""
+        targetComponentId : "",
+        targetLock:'false'
     }
     // eId 当前托拽元素的id
     let drag = {
@@ -88,28 +89,29 @@ export function moveComponent(e, index) {
     // 获取元素的初始内边距
     let oldX = 0;
     let oldY = 0;
-    let component = searchComponent(drag.dragId)
     if(getStore("CommonStatusStore").editMargin){
-        if(component.styles['margin-left']){
-            if(component.styles['margin-left'].indexOf('px')!=-1){
-                oldX = Number(component.styles['margin-left'].replace('px',''))
+        if(!dragObject.status.lock){
+            if(dragObject.styles['margin-left']){
+                if(dragObject.styles['margin-left'].indexOf('px')!=-1){
+                    oldX = Number(dragObject.styles['margin-left'].replace('px',''))
+                }
             }
-        }
-        if(component.styles['margin-top']){
-            if(component.styles['margin-top'].indexOf('px')!=-1){
-                oldY = Number(component.styles['margin-top'].replace('px',''))
+            if(dragObject.styles['margin-top']){
+                if(dragObject.styles['margin-top'].indexOf('px')!=-1){
+                    oldY = Number(dragObject.styles['margin-top'].replace('px',''))
+                }
             }
         }
     }else{
         // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
-        eventBus.emit(`move-dragTip`, {style:{top: startY + 'px', left: startX + 'px'},message:component.label})
+        eventBus.emit(`move-dragTip`, {style:{top: startY + 'px', left: startX + 'px'},message:dragObject.label})
     }
     const move = (moveEvent) => {
         const curX = moveEvent.layerX
         const curY = moveEvent.layerY
-        if(getStore("CommonStatusStore").editMargin){
+        if(getStore("CommonStatusStore").editMargin  && !dragObject.status.lock){
             // 如果有margit-left  margin-top
-            changeMargin(component.styles,(curX-startX),(curY-startY),oldX,oldY)
+            changeMargin(dragObject.styles,(curX-startX),(curY-startY),oldX,oldY)
         }else{
             let result = mousemoveInfo(moveEvent)
             direction = result.direction
@@ -120,7 +122,7 @@ export function moveComponent(e, index) {
     upMouse(move, () => {
         if(getStore("CommonStatusStore").editMargin){
         }else{
-            upMouseMoveInfo(target,drag,direction,index)
+            upMouseMoveInfo(target,dragObject,direction,index)
         }
     })
 
@@ -143,7 +145,8 @@ function mousemoveInfo(moveEvent){
             targetFeatherId :moveEvent.target.dataset.featherid,
             targetType : moveEvent.target.dataset.elementtype,
             targetId :moveEvent.target.dataset.elementid,
-            targetComponentId :moveEvent.target.dataset.componentid
+            targetComponentId :moveEvent.target.dataset.componentid,
+            targetLock: moveEvent.target.dataset.lock
         }}
     //访问数组中的元素
     eventBus.emit(`move-dragTip`, {style:{top: moveEvent.layerY + 'px', left: moveEvent.layerX + 'px', display: ''},message:null})
@@ -168,53 +171,59 @@ function mousemoveInfo(moveEvent){
 
 }
 
-function upMouseMoveInfo(target,drag,direction,index){
+function upMouseMoveInfo(target,dragObject,direction,index){
+    let targetComponent = {}
+
     // 用于拖拽时的提示定位
     eventBus.emit(`move-dragTip`, {style:{top: 0, left: 0, display: 'none'},message:null})
     // 父组件不能拖动到子组件上
-    if(target.targetFeatherId === drag.dragId || isFeatherComponent(drag.dragId,target.targetId)) return
-    if(target.targetType === "container" && drag.dragType === "container"){
-        if(target.targetComponentId === drag.dragComponentId){return}
-        if(isLayer(drag.dragComponentId,target.targetId)){return}}
+    if(target.targetFeatherId === dragObject.id || isFeatherComponent(dragObject,target.targetId)) return
+    if (target.targetType === "container") {
+        if(dragObject.type === "container"){
+            if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return
+        }
+    }
 
     const pageComponents = getStore("PageComponentsStore").pageComponents
     let rootId = "editor"
     let dragComponents = pageComponents,targetComponents = pageComponents
     // 当将组件拖拽到画布上时调用
     if (target.targetType === rootId) {
-        if(drag.dragFeatherId!==rootId){
-            targetComponents = deepSelectComponent(pageComponents, drag.dragFeatherId).children
+        if(dragObject.featherId!==rootId){
+            targetComponents = deepSelectComponent(pageComponents, dragObject.featherId).children
         }
-        targetComponents[drag.dragIndex].featherId = "editor"
-        dragComponents.push(targetComponents[drag.dragIndex])
-        targetComponents.splice(drag.dragIndex, 1)
-    } else if ((target.targetIndex != NaN && index != undefined && target.targetFeatherId && drag.dragFeatherId && drag.dragId !== target.targetId)) {
+        targetComponents[index].featherId = "editor"
+        dragComponents.push(targetComponents[index])
+        targetComponents.splice(index, 1)
+    } else if ((target.targetIndex != NaN && index != undefined && target.targetFeatherId && dragObject.featherId && dragObject.id !== target.targetId)) {
         let insertIndex = direction === 'right' || direction === 'bottom' ? target.targetIndex + 1 : target.targetIndex
         // 统一个容器下目标下表要是大于当前下标则当前下表+1
-        let deleteIndex = index > target.targetIndex && target.targetFeatherId === drag.dragFeatherId ? index + 1 : index
+        let deleteIndex = index > target.targetIndex && target.targetFeatherId === dragObject.featherId ? index + 1 : index
         // 目标组件类型为容器，拖拽组件则插入到容器的children中
-        if (target.targetType === "container") {
-            deleteIndex = drag.dragIndex
-            if(drag.dragFeatherId !== rootId){
-                dragComponents = deepSelectComponent(pageComponents, drag.dragFeatherId).children
+        if (target.targetType === "container" && target.targetLock === "false") {
+            deleteIndex = index
+            if(dragObject.featherId !== rootId){
+                dragComponents = deepSelectComponent(pageComponents, dragObject.featherId).children
             }
             targetComponents = deepSelectComponent(pageComponents, target.targetId).children
-            dragComponents[drag.dragIndex].featherId = target.targetId
-            targetComponents.push(dragComponents[drag.dragIndex])
+            dragComponents[index].featherId = target.targetId
+            targetComponents.push(dragComponents[index])
             dragComponents.splice(deleteIndex, 1)
         } else {
-            if( drag.dragFeatherId !== rootId){
-                dragComponents = deepSelectComponent(pageComponents,  drag.dragFeatherId).children
+            if( dragObject.featherId !== rootId){
+                dragComponents = deepSelectComponent(pageComponents,  dragObject.featherId).children
             }
             if(target.targetFeatherId !== rootId){
-                if( drag.dragFeatherId === target.targetFeatherId){
+                if( dragObject.featherId === target.targetFeatherId){
                     targetComponents = dragComponents
                 }else{
-                    targetComponents = deepSelectComponent(pageComponents, target.targetFeatherId).children
+                    targetComponent = deepSelectComponent(pageComponents, target.targetFeatherId)
+                    if(targetComponent.status.lock) return
+                    targetComponents = targetComponent.children
                 }
             }
-            dragComponents[ drag.dragIndex].featherId = target.targetFeatherId
-            targetComponents.splice(insertIndex, 0, dragComponents[ drag.dragIndex])
+            dragComponents[ index].featherId = target.targetFeatherId
+            targetComponents.splice(insertIndex, 0, dragComponents[ index])
             dragComponents.splice(deleteIndex, 1)
         }
     }
@@ -239,17 +248,19 @@ export function handleDrop(e){
         }
         getStore("PageComponentsStore").pageComponents.push(component)
     }else if(e.target.dataset.elementtype == "container"){
-        // 向容器中添加元素
-        let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
-        component.featherId = e.target.dataset.elementid
-        component.id = uuid()
-        if(component.type === "container" && component.children.length>0){
-            component.children.forEach(item=>{
-                item.id = uuid()
-                item.featherId = component.id
-            })
+        if(e.target.dataset.lock === "false"){
+            // 向容器中添加元素
+            let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
+            component.featherId = e.target.dataset.elementid
+            component.id = uuid()
+            if(component.type === "container" && component.children.length>0){
+                component.children.forEach(item=>{
+                    item.id = uuid()
+                    item.featherId = component.id
+                })
+            }
+            searchComponent(e.target.dataset.elementid).children.push(component)
         }
-        searchComponent(component.featherId).children.push(component)
     }
 }
 
@@ -390,8 +401,7 @@ function deepSelectComponent(ComponentList, targetComponentID) {
 
 //导出格式化数据
 export function exportComponent() {
-    const pageComponentsStore = PageComponentsStore()
-    console.log(pageComponentsStore.pageComponents)
+    console.log(getStore("PageComponentsStore").pageComponents)
 }
 
 // 清空画布
@@ -401,16 +411,15 @@ export function clearMap(){
 }
 
 // 判断拖拽组件是否在目标组件上层
-function isFeatherComponent(dragId,targetId){
-    const dragComponent = searchComponent(dragId)
-    if(!dragComponent.children) return false
-    const targetComponent = deepSelectComponent(dragComponent.children,targetId)
+function isFeatherComponent(dragObject,targetId){
+    if(dragObject.children !== undefined || dragObject.children !== null) return false
+    const targetComponent = deepSelectComponent(dragObject.children,targetId)
     return targetComponent?true:false
 }
 
 // 判断两个容器组件是否有上下关系
-function isLayer(dragFeatherId,targetId){
-    let components = deepSelectComponent(searchComponent(dragFeatherId).children,targetId)
+function isLayer(dragObject,targetId){
+    let components = deepSelectComponent(dragObject.children,targetId)
     return components!==null
 }
 
@@ -438,10 +447,11 @@ export function objectToCss(styles){
             .replaceAll(',',';\n')
 }
 
-export function getContainerStyle(isPreview,styles){
+export function getContainerStyle(isPreview,styles,status){
     return {
-         height: styles.height === undefined?'20px':`${Number(styles.height.replace('px',''))-12}px`,
-        'border-style':isPreview?'none':'solid'
+         height: styles.height === undefined?'':`${Number(styles.height.replace('px',''))-12}px`,
+        'border-style':isPreview?'none':'solid',
+        'border-color': status.lock?'#f8e3c5':'#d9ecff'
     }
 
 }
@@ -528,5 +538,19 @@ export function getComponentSetter(){
         return getStore("ComponentListStore").componentSetters[getStore("SimpleStore").selectPlate[0].info['setterIndex']]['setter']
     }
     return null
+}
+// 锁定选中组件
+export function lockComponent(){
+    getStore("SimpleStore").selectPlate.forEach(item=>{
+        item.info.status.lock = !item.info.status.lock
+    })
+}
+
+// 清空选中面板
+export function clearSelectPlate(){
+    getStore("SimpleStore").selectPlate.forEach(item => {
+        item.info.status.active = false
+    })
+    getStore("SimpleStore").selectPlate = []
 }
 

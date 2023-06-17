@@ -1,5 +1,5 @@
 import {CommonStatusStore} from '@/stores/counter'
-import {deleteComponent} from "./core";
+import {deleteComponent, lockComponent} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {
   "ctrl h": {
@@ -44,12 +44,19 @@ const keyDowns = {
       deleteComponent()
     }
   },
+  "ctrl l":{
+    label: '锁定组件',
+    func: function (){
+      lockComponent()
+    }
+  }
 }
 const keyDetails = [
   {key:'ctrl h',detail:'查看历史'},
   {key:'ctrl m',detail:'调整外边距'},
   {key:'ctrl d',detail:'删除'},
   {key:'Backspace',detail:'删除'},
+  {key:'ctrl l',detail:'锁定组件'},
 ]
 export function getKeyDetails(){
   return keyDetails
