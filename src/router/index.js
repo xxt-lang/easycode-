@@ -6,12 +6,15 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: '主页',
+      name: 'home',
+      meta:{
+        keepAlive:true
+      },
       component: Home,
     },
     {
       path: '/preview',
-      name: '预览',
+      name: 'preview',
       component: preview,
     },
 

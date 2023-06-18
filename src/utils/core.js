@@ -1,4 +1,5 @@
 import eventBus from '@/utils/eventBus.js'
+import {ref} from "vue";
 import {deepClone,uuid} from "./tool";
 import {
     SimpleStore,
@@ -6,6 +7,7 @@ import {
     ComponentListStore,
     CommonStatusStore
 } from '@/stores/counter'
+import {saveAs} from 'file-saver';
 
 export function getStore(name){
     if(name === "PageComponentsStore")
@@ -218,7 +220,6 @@ function upMouseMoveInfo(target,dragObject,direction,index){
                     targetComponents = dragComponents
                 }else{
                     targetComponent = deepSelectComponent(pageComponents, target.targetFeatherId)
-                    if(targetComponent.status.lock) return
                     targetComponents = targetComponent.children
                 }
             }
@@ -248,7 +249,7 @@ export function handleDrop(e){
         }
         getStore("PageComponentsStore").pageComponents.push(component)
     }else if(e.target.dataset.elementtype == "container"){
-        if(e.target.dataset.lock === "false"){
+
             // 向容器中添加元素
             let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
             component.featherId = e.target.dataset.elementid
@@ -260,7 +261,6 @@ export function handleDrop(e){
                 })
             }
             searchComponent(e.target.dataset.elementid).children.push(component)
-        }
     }
 }
 
@@ -447,10 +447,11 @@ export function objectToCss(styles){
             .replaceAll(',',';\n')
 }
 
-export function getContainerStyle(isPreview,styles){
+export function getContainerStyle(isPreview,styles,lock){
     return {
          height: styles.height === undefined?'':`${Number(styles.height.replace('px',''))-12}px`,
         'border-style':isPreview?'none':'solid',
+        'pointer-events':lock?'none':''
     }
 
 }
@@ -553,5 +554,17 @@ export function clearSelectPlate(){
         item.info.status.active = false
     })
     getStore("SimpleStore").selectPlate = []
+}
+
+// 缓存页面数据
+export function savePage(){
+    // let saveInfo =
+    // var blob = new Blob([saveInfo], {type: "text/json;charset=utf-8"});
+    // saveAs(blob, "hello world.json")
+    localStorage.setItem("page",JSON.stringify(getStore("PageComponentsStore").pageComponents))
+}
+
+export function getLocalStorage(){
+    return localStorage.getItem("page")!==null?JSON.parse(localStorage.getItem("page")):[]
 }
 

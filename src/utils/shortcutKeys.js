@@ -1,5 +1,5 @@
 import {CommonStatusStore} from '@/stores/counter'
-import {deleteComponent, lockComponent} from "./core";
+import {deleteComponent, lockComponent, savePage} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {
   "ctrl h": {
@@ -48,6 +48,12 @@ const keyDowns = {
     label: '锁定组件',
     func: function (){
       lockComponent()
+    }
+  },
+  "ctrl s":{
+    label: '保存',
+    func: function(){
+      savePage()
     }
   }
 }
