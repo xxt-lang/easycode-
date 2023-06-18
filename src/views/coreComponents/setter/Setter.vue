@@ -2,7 +2,7 @@
 <div class="setter">
   <div v-show="!setterData.status.lock">
     设置器
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+    <el-tabs v-model="activeName" class="demo-tabs">
       <el-tab-pane label="属性" name="first">
         <setter-attribute v-show="setter.attributes" :setterData="setterData" :setterAttributes="setter.attributes" ></setter-attribute>
       </el-tab-pane>
@@ -14,7 +14,6 @@
       <el-tab-pane label="事件" name="third">
         <setter-event v-show="setter.events"  :setterData="setterData" :setterEvents="setter.events" ></setter-event>
       </el-tab-pane>
-
     </el-tabs>
     <slot></slot>
   </div>

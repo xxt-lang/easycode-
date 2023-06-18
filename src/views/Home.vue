@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import {EditorStore, EditorStatusStore,ComponentListStore} from '@/stores/counter'
+import {EditorStore, EditorStatusStore,PageComponentsStore} from '@/stores/counter'
 import ToolBar from "./toolBar/TopBar.vue";
 import PageTag from "./coreComponents/PageTag.vue";
 import EditorMap from "./coreComponents/EditorMap.vue";
@@ -36,7 +36,8 @@ import Setter from "./coreComponents/setter/Setter.vue";
 import {initShortKeyDown} from "../utils/shortcutKeys";
 import {loadComponentConfiguration} from "../utils/componentConfigurator";
 import ShowKeyDetails from "./toolBar/ShowKeyDetails.vue";
-import {clearSelectPlate} from "../utils/core";
+import {clearSelectPlate,getLocalStorage} from "../utils/core";
+import {mapActions} from "pinia"
 
 export default {
   components: {ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter},
@@ -51,11 +52,9 @@ export default {
   setup() {
     const editorStore = EditorStore()
     const editorStatusStore = EditorStatusStore()
-    const componentListStore = ComponentListStore()
     return {
       editorStore,
       editorStatusStore,
-      componentListStore,
     }
   },
   created() {
@@ -70,8 +69,10 @@ export default {
     document.oncontextmenu = function (e) {
       return false;
     }
+    this.setPageComponents(getLocalStorage())
   },
   methods: {
+    ...mapActions(PageComponentsStore,['setPageComponents']),
     toolClick(param){
       if(param === 'showKeyDetail'){
         this.drawerTitle = "快捷键"
@@ -83,7 +84,9 @@ export default {
       this.leftToolBarActive = param.status
     },
     mouseDown(e) {
-      clearSelectPlate()
+      if(e.target.id === "editor" || e.target.id === ''){
+        clearSelectPlate()
+      }
       this.editorStatusStore.contextmenuData.showContextmenu = false
     }
   }

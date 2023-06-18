@@ -6,7 +6,7 @@
        data-containerId = "editor"
        data-elementType = "editor"
   >
-    <Shape v-for="(item, index) in getStore('PageComponentsStore').pageComponents "
+    <Shape v-for="(item, index) in pageComponents "
            :key="index"
            :status="item.status"
            :element="item"
@@ -43,11 +43,13 @@ import Shape from "./Shape.vue";
 import Contextmenu from "./Contextmenu.vue";
 import ToolBar from "../toolBar/TopBar.vue";
 import PageTag from "./PageTag.vue";
+import {mapState} from 'pinia'
+import {PageComponentsStore} from "../../stores/counter";
+
 
 export default {
   name: 'EditorMap',
-  components: {Shape, Contextmenu, ToolBar, PageTag},
-  props: {},
+  components: { Shape, Contextmenu, ToolBar, PageTag},
   data() {
     return {
       dragTip: {
@@ -60,6 +62,9 @@ export default {
       curComponent: null,
       copyComponent: null,
     }
+  },
+  computed:{
+    ...mapState(PageComponentsStore, ['pageComponents']),
   },
   setup() {
     return {}

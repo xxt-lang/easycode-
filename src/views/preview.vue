@@ -1,7 +1,7 @@
 <template>
     <div >
       <component
-          v-for="(item,index) in getStore('PageComponentsStore').pageComponents"
+          v-for="(item,index) in page"
           :is="item.component"
           :key="index"
           :propValue="item"
@@ -11,12 +11,21 @@
 </template>
 
 <script>
-import {getStore} from "../utils/core";
+import {getLocalStorage} from "../utils/core";
 
 export default {
   name: "preview",
+  computed:{
+  },
+  created() {
+    this.page = getLocalStorage()
+  },
+  data(){
+    return {
+      page:[]
+    }
+  },
   methods:{
-    getStore
   }
 }
 </script>

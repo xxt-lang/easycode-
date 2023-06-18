@@ -14,7 +14,7 @@ export default {
   name: "SetterStyle",
   props:{
     setterStyles:{
-      type:Array,
+      type:Object,
       default:()=>{
         return null
       }

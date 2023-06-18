@@ -565,6 +565,6 @@ export function savePage(){
 }
 
 export function getLocalStorage(){
-    return localStorage.getItem("page")!==null?JSON.parse(localStorage.getItem("page")):[]
+   return localStorage.getItem("page")!==null?JSON.parse(localStorage.getItem("page")):[]
 }
 

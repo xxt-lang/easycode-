@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp,defineComponent} from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -10,13 +10,12 @@ import router from './router'
 import './assets/main.css'
 
 const app = createApp(App)
+
 // 通过vite全局加载组件
-const componentsModules  = import.meta.glob('@/views/ElementUI/*.vue')
+const componentsModules  = import.meta.glob('@/views/SCElementUI/*.vue',{eager:true})
 for (const path in componentsModules) {
     const compName = path.match(/\w+.(vue)$/)[0].replace(".vue","")
-    componentsModules[path]().then(mod=>{
-        app.component(compName,mod.default)
-    })
+    app.component(compName,componentsModules[path].default)
 }
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)

@@ -54,7 +54,12 @@ export const PageTagStore = defineStore('PageTagStoreMain', {
 export const PageComponentsStore = defineStore('PageComponentsStoreMain', {
   state: () => ({
     pageComponents:[]
-  })
+  }),
+  actions:{
+    setPageComponents( pageComponents ){
+      this.pageComponents = pageComponents
+    }
+  },
 })
 
 // 公共状态，
