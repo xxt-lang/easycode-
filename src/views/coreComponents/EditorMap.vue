@@ -110,7 +110,6 @@ export default {
 .editor {
   background-color: white;
   min-height: calc(20vh);
-  padding: 5px;
   overflow: auto;
   padding-bottom: 20px;
 }

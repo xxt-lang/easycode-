@@ -15,13 +15,12 @@
            :status="item.status"
            :element="item"
            :index="index"
-
            :data-elementId = "item.id"
            :data-featherid = "container.id"
            :data-elementType = "item.type"
-
            @mousedown="handleMouseDown(item,$event,index)"
            @dblclick="dbClick(item,$event,index)"
+           :style="{'pointer-events':container.status.lock?'none':''}"
     >
       <component
           :style="{'pointer-events':item.type === 'common' ? 'none':''}"

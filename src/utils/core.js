@@ -70,8 +70,6 @@ export function moveComponent(e, index,dragObject) {
     // 是否可以进行推拽
     let startClientY= e.clientY
     let startClientX = e.clientX
-    let startLayerY= e.layerY
-    let startLayerX = e.layerX
     let message =`选中${dragObject.label}组件`
     // node当前鼠标悬浮的元素
     let target ={
@@ -217,7 +215,6 @@ function upMouseMoveInfo(target,dragObject,direction,index){
             if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return
         }
     }
-
     const pageComponents = getStore("PageComponentsStore").pageComponents
     let rootId = "editor"
     let dragComponents = pageComponents,targetComponents = pageComponents
@@ -485,7 +482,6 @@ export function getContainerStyle(isPreview,styles,lock){
     return {
          height: styles.height === undefined?'':`${Number(styles.height.replace('px',''))-12}px`,
         'border-style':isPreview?'none':'solid',
-        'pointer-events':lock?'none':''
     }
 
 }
@@ -592,12 +588,35 @@ export function clearSelectPlate(){
 
 // 缓存页面数据
 export function savePage(){
-    // let saveInfo =
     ElMessage({message: "保存成功", type: 'success',duration:2000,showClose: true,})
-    localStorage.setItem("page",JSON.stringify(getStore("PageComponentsStore").pageComponents))
+    localStorage.setItem("page",JSON.stringify(getStore("PageComponentsStore").pageComponents,re))
+}
+function re (key,value){
+    if(value instanceof Array){
+        return Array.from(value)
+    }
+    return value
 }
 
+// 获取保存到本地的浏览器数据
 export function getLocalStorage(){
-   return localStorage.getItem("page")!==null?JSON.parse(localStorage.getItem("page")):[]
+   return localStorage.getItem("page")!== null && localStorage.getItem("page")!=="undefined" ?JSON.parse(localStorage.getItem("page") ):[]
 }
 
+// 复制选中组件 修改id
+export function copy(){
+    let copy = []
+    if(getStore("SimpleStore").selectPlate){
+        console.log(getStore("SimpleStore").selectPlate)
+    }
+    // getStore("SimpleStore").setCopyPlate()
+}
+
+// 剪切选中组件 调用复制函数 并删除组件
+export function shear(){
+
+}
+// 组件粘贴
+export function stickup(){
+
+}

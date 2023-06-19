@@ -3,9 +3,14 @@ import {defineStore} from 'pinia'
 // 粘贴板，选择板
 export const SimpleStore = defineStore('SimpleStoreMain', {
   state: () => ({
-    shearPlate:[],//剪切板数据
+    copyPlate:[],//剪切板/复制 数据
     selectPlate:[]// 选中数据
-  })
+  }),
+  actions:{
+    setCopyPlate( copyPlate ){
+      this.copyPlate = copyPlate
+    }
+  },
 })
 
 // 鼠标事件

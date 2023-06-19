@@ -1,5 +1,5 @@
 import {CommonStatusStore} from '@/stores/counter'
-import {deleteComponent, lockComponent, savePage} from "./core";
+import {copy, deleteComponent, lockComponent, savePage, shear, stickup} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {
   "ctrl h": {
@@ -23,8 +23,26 @@ const keyDowns = {
       CommonStatusStore().editElement = !CommonStatusStore().editElement
     }
   },
+  "ctrl c":{
+    label:"复制",
+    func:function(){
+      copy()
+    }
+  },
+  "ctrl x":{
+    label:"剪切",
+    func:function(){
+      shear()
+    }
+  },
+  "ctrl v":{
+    label:"粘贴",
+    func:function(){
+      stickup()
+    }
+  },
   "ctrl m":{
-    label: '外边距',
+    label: '调整位置',
     global:true,
     func: function () {
       CommonStatusStore().editMargin = !CommonStatusStore().editMargin
@@ -59,7 +77,7 @@ const keyDowns = {
 }
 const keyDetails = [
   {key:'ctrl h',detail:'查看历史'},
-  {key:'ctrl m',detail:'调整外边距'},
+  {key:'ctrl m',detail:'调整位置'},
   {key:'ctrl d',detail:'删除'},
   {key:'Backspace',detail:'删除'},
   {key:'ctrl l',detail:'锁定组件'},

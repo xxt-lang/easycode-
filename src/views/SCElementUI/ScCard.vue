@@ -52,9 +52,9 @@ export default {
 
 <style scoped>
 ::v-deep(.el-card__body) {
-  padding: 0;
+  padding: 5px;
 }
 ::v-deep(.el-card__header) {
-  padding: 0;
+  padding: 5px;
 }
 </style>

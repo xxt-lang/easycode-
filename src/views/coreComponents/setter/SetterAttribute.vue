@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import {uuid} from "../../../utils/tool";
+import {deepClone, uuid} from "../../../utils/tool";
 import {Delete,Edit,Plus} from "@element-plus/icons-vue";
 
 const indexMethod = (index) => {
@@ -74,7 +74,7 @@ export default {
   },
   methods:{
     addItem(param){
-      this.setterData.attributes[param.attributeName].push(param.defaultValue[0])
+      this.setterData.attributes[param.attributeName].push(deepClone(param.defaultValue[0]))
       if(param.isChildren){
         this.setterData.children.push( {
           component:"container",

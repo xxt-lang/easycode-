@@ -427,7 +427,7 @@ const componentSetters = [
                     label:"配置列",
                     type:"table",//编辑自段的类型input select number switch buttonList
                     defaultValue:[],
-                    isChildren:true,// 是否于children绑定
+                    isChildren:true,// 是否与children绑定
                     column:[
                         {
                             attributeName:"span",//组件配置中属性字段名
