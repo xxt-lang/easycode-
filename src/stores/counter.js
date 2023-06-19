@@ -17,7 +17,12 @@ export const SimpleStore = defineStore('SimpleStoreMain', {
 export const MouseEventStore = defineStore('mouseEventMain', {
   state: () => ({
     mouseEvent: {}
-  })
+  }),
+  actions:{
+    setMouseEvent( mouseEvent ){
+      this.mouseEvent = mouseEvent
+    }
+  },
 })
 
 // 注册的组件列表

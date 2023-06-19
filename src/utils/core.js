@@ -5,7 +5,8 @@ import {
     SimpleStore,
     PageComponentsStore,
     ComponentListStore,
-    CommonStatusStore
+    CommonStatusStore,
+    MouseEventStore
 } from '@/stores/counter'
 import {saveAs} from 'file-saver';
 import {ElMessage} from "element-plus";
@@ -19,6 +20,8 @@ export function getStore(name){
         return SimpleStore()
     if(name === "CommonStatusStore")
         return CommonStatusStore()
+    if(name === "MouseEventStore")
+        return MouseEventStore()
 }
 
 
@@ -432,7 +435,9 @@ function deepSelectComponent(ComponentList, targetComponentID) {
 export function exportComponent() {
     // let blob = new Blob([JSON.stringify(getStore("PageComponentsStore").pageComponents)], {type: "text/json;charset=utf-8"});
     // saveAs(blob, "page.json")
-    console.log(getStore("PageComponentsStore").pageComponents)
+    getStore("PageComponentsStore").pageComponents.forEach(item=>{
+        console.log(item.id)
+    })
 }
 
 // 清空画布
@@ -605,18 +610,50 @@ export function getLocalStorage(){
 
 // 复制选中组件 修改id
 export function copy(){
-    let copy = []
+    let selectPate = []
     if(getStore("SimpleStore").selectPlate){
-        console.log(getStore("SimpleStore").selectPlate)
+        selectPate = deepClone(getStore("SimpleStore").selectPlate)
     }
-    // getStore("SimpleStore").setCopyPlate()
+    getStore("SimpleStore").setCopyPlate(selectPate)
 }
 
 // 剪切选中组件 调用复制函数 并删除组件
 export function shear(){
-
+    copy()
+    deleteComponent()
 }
 // 组件粘贴
 export function stickup(){
-
+    // 获取fatherid 重置fatherid
+    let dataset = getStore("MouseEventStore").mouseEvent.target.dataset
+    let stickPate = deepClone(getStore("SimpleStore").copyPlate)
+    let targetContainer = getStore("PageComponentsStore").pageComponents
+    if(dataset.elementtype === "editor"){
+        stickPate.forEach(item=>{
+            item.info.id = uuid()
+            item.info.featherId = "editor"
+            item.info.status.active = false // 消除选中状态
+            if(item.info.children){
+                item.info.children.forEach(cItem=>{
+                    cItem.featherId = item.info.id
+                })
+            }
+            targetContainer.push(item.info)
+        })
+    }
+    if(dataset.elementtype === "container"){
+        targetContainer = searchComponent(dataset.elementid).children
+        // dataset.elementid
+        stickPate.forEach(item=>{
+            item.info.featherId = dataset.elementid
+            item.info.id = uuid()
+            item.info.status.active = false // 消除选中状态
+            if(item.info.children){
+                item.info.children.forEach(cItem=>{
+                    cItem.featherId = item.info.id
+                })
+            }
+            targetContainer.push(item.info)
+        })
+    }
 }

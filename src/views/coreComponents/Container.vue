@@ -9,6 +9,7 @@
        :data-index = "container.index"
        :data-lock = "container.status.lock"
        :style = "getContainerStyle(isPreview,containerStyles,container.status.lock)"
+       @mousedown="handleMouseDownMap($event)"
   >
     <Shape v-for="(item, index) in container.children "
            :key="index"
@@ -53,6 +54,8 @@ import {
   getContainerStyle
 } from '@/utils/core'
 import eventBus from "../../utils/eventBus";
+import {mapActions} from "pinia";
+import {MouseEventStore} from "../../stores/counter";
 export default {
   name: "Container",
   components:{
@@ -82,11 +85,17 @@ export default {
   },
   methods:{
     getContainerStyle,
+    ...mapActions(MouseEventStore,['setMouseEvent']),
+
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
         clickSelectComponent(event, item, index)
         //非激活状态或者容器状态时才能进行拖动
         moveComponent(event, index,item)
+    },
+    handleMouseDownMap(event){
+      console.log("-------------")
+      this.setMouseEvent(event)
     },
 
     // 双击事件

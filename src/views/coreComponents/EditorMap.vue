@@ -5,6 +5,7 @@
        @dragover="handleDragOver"
        data-containerId = "editor"
        data-elementType = "editor"
+       @mousedown="handleMouseDownMap($event)"
   >
     <Shape v-for="(item, index) in pageComponents "
            :key="index"
@@ -43,8 +44,8 @@ import Shape from "./Shape.vue";
 import Contextmenu from "./Contextmenu.vue";
 import ToolBar from "../toolBar/TopBar.vue";
 import PageTag from "./PageTag.vue";
-import {mapState} from 'pinia'
-import {PageComponentsStore} from "../../stores/counter";
+import {mapActions, mapState} from 'pinia'
+import {PageComponentsStore,MouseEventStore} from "../../stores/counter";
 
 
 export default {
@@ -82,12 +83,17 @@ export default {
     handleDragOver,
     handleDrop,
     getStore,
+    ...mapActions(MouseEventStore,['setMouseEvent']),
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
       // 选中画布中的组件
       clickSelectComponent(event, item, index)
       //非激活状态或者容器状态时才能进行拖动
       moveComponent(event, index, item)
+    },
+    handleMouseDownMap(event){
+      console.log("66666666")
+      this.setMouseEvent(event)
     },
 
     // 双击事件

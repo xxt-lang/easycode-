@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import {EditorStore, EditorStatusStore,PageComponentsStore} from '@/stores/counter'
+import {EditorStore, EditorStatusStore,PageComponentsStore,MouseEventStore} from '@/stores/counter'
 import ToolBar from "./toolBar/TopBar.vue";
 import PageTag from "./coreComponents/PageTag.vue";
 import EditorMap from "./coreComponents/EditorMap.vue";
@@ -35,7 +35,7 @@ import Setter from "./coreComponents/setter/Setter.vue";
 import {initShortKeyDown} from "../utils/shortcutKeys";
 import {loadComponentConfiguration} from "../utils/componentConfigurator";
 import ShowKeyDetails from "./toolBar/ShowKeyDetails.vue";
-import {clearSelectPlate,getLocalStorage} from "../utils/core";
+import {clearSelectPlate, getLocalStorage, getStore} from "../utils/core";
 import {mapActions} from "pinia"
 
 export default {
@@ -90,7 +90,6 @@ export default {
       if(e.target.id === "editor" || e.target.id === ''){
         clearSelectPlate()
       }
-      this.editorStatusStore.contextmenuData.showContextmenu = false
     }
   }
 }
