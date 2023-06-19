@@ -139,7 +139,7 @@ function changeMargin(style,X,Y,oldX,oldY){
     style['margin-top'] = `${oldY + Y }px`
 }
 
-//
+//移动鼠标时
 function mousemoveInfo(moveEvent){
     //target 拖拽时鼠标悬停所指元素
     let result = {direction : '',target:{
@@ -172,7 +172,7 @@ function mousemoveInfo(moveEvent){
     return result
 
 }
-
+//鼠标松开时的事件
 function upMouseMoveInfo(target,dragObject,direction,index){
     let targetComponent = {}
 
@@ -401,6 +401,8 @@ function deepSelectComponent(ComponentList, targetComponentID) {
 
 //导出格式化数据
 export function exportComponent() {
+    // let blob = new Blob([JSON.stringify(getStore("PageComponentsStore").pageComponents)], {type: "text/json;charset=utf-8"});
+    // saveAs(blob, "page.json")
     console.log(getStore("PageComponentsStore").pageComponents)
 }
 
@@ -559,8 +561,6 @@ export function clearSelectPlate(){
 // 缓存页面数据
 export function savePage(){
     // let saveInfo =
-    // var blob = new Blob([saveInfo], {type: "text/json;charset=utf-8"});
-    // saveAs(blob, "hello world.json")
     localStorage.setItem("page",JSON.stringify(getStore("PageComponentsStore").pageComponents))
 }
 

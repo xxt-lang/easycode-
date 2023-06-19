@@ -63,6 +63,7 @@ const keyDetails = [
   {key:'ctrl d',detail:'删除'},
   {key:'Backspace',detail:'删除'},
   {key:'ctrl l',detail:'锁定组件'},
+  {key:'ctrl s',detail:'保存组件'},
 ]
 export function getKeyDetails(){
   return keyDetails

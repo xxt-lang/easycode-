@@ -24,6 +24,7 @@
 </template>
 <script>
 import {exportComponent,clearMap} from "@/utils/core"
+import {savePage} from "../../utils/core";
 export default {
     name: 'TopBar',
     props: {},
@@ -43,16 +44,16 @@ export default {
                 clearMap()
               }
             },
-            {
-              component:"button",
-              label:"返回",
-              attribute:{
-                type:'primary'
-              },
-              icon:'',
-              func:()=>{
-              }
-            },
+            // {
+            //   component:"button",
+            //   label:"返回",
+            //   attribute:{
+            //     type:'primary'
+            //   },
+            //   icon:'',
+            //   func:()=>{
+            //   }
+            // },
             {
               component:"button",
               label:"预览",
@@ -71,6 +72,16 @@ export default {
               icon:'',
               func:()=>{
                 exportComponent()
+              }
+            },
+            {
+              component:"button",
+              label:"保存",
+              attribute:{
+              },
+              icon:'',
+              func:()=>{
+                savePage()
               }
             },
             {
@@ -95,7 +106,8 @@ export default {
         this.$emit('toolClick',param)
       },
       click(){
-        this.$router.push('/preview')
+        let toPage = this.$router.resolve({name:'preview'})
+        window.open(toPage.href,'_blank')
       }
     }
 }

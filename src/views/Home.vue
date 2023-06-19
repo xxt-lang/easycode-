@@ -73,6 +73,7 @@ export default {
   },
   methods: {
     ...mapActions(PageComponentsStore,['setPageComponents']),
+    // 工具栏点击事件，点击之后页面弹窗
     toolClick(param){
       if(param === 'showKeyDetail'){
         this.drawerTitle = "快捷键"
@@ -80,10 +81,13 @@ export default {
       }
 
     },
+    //点击弹窗
     clickBar(param) {
       this.leftToolBarActive = param.status
     },
+    // 页面点击事件
     mouseDown(e) {
+      // 清空选择框
       if(e.target.id === "editor" || e.target.id === ''){
         clearSelectPlate()
       }
