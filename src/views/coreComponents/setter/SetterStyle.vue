@@ -1,11 +1,11 @@
 <template>
-<div>
-  <el-input
-      type="textarea"
-      @input="printCss"
-      v-model="css"
-></el-input>
-</div>
+  <div v-show="setterStyles">
+    <el-input
+        type="textarea"
+        @input="printCss"
+        v-model="css"
+    ></el-input>
+  </div>
 </template>
 <script>
 import {analysisCssText, getComponentSetter, getStore, objectToCss} from "../../../utils/core";

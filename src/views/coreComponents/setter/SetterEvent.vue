@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div v-show = "setterEvents">
 <!--      是否启用方法-->
       <el-switch></el-switch>
 <!--      事件方法名称-->

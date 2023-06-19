@@ -1,27 +1,29 @@
 <template>
-<div class="setter">
-  <div v-show="!setterData.status.lock">
-    设置器
-    <el-tabs v-model="activeName" class="demo-tabs">
-      <el-tab-pane label="属性" name="first">
-        <setter-attribute v-show="setter.attributes" :setterData="setterData" :setterAttributes="setter.attributes" ></setter-attribute>
-      </el-tab-pane>
-      <el-tab-pane label="样式" name="second">
-        <setter-style v-show="setter.styles"
-                      :setterData="setterData"
-                      :setterStyles="setter.styles"></setter-style>
-      </el-tab-pane>
-      <el-tab-pane label="事件" name="third">
-        <setter-event v-show="setter.events"  :setterData="setterData" :setterEvents="setter.events" ></setter-event>
-      </el-tab-pane>
-    </el-tabs>
+  <div class="setter">
+    <div v-show = "!setterData.status.lock">
+      <el-tabs v-model="activeName" class="demo-tabs" >
+        <el-tab-pane label="属性" name="first">
+          <setter-attribute  :setterData="setterData"
+                             :setterAttributes="setter.attributes"
+
+          ></setter-attribute>
+        </el-tab-pane>
+        <el-tab-pane label="样式" name="second">
+          <setter-style
+              :setterData="setterData"
+              :setterStyles="setter.styles"></setter-style>
+        </el-tab-pane>
+        <el-tab-pane label="事件" name="third">
+          <setter-event
+              :setterData="setterData"
+              :setterEvents="setter.events"></setter-event>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+    <span v-show = "setterData.status.lock">组件以锁定</span>
+
     <slot></slot>
   </div>
-  <div v-show="setterData.status.lock">
-      <span>容器已锁定</span>
-  </div>
-
-</div>
 </template>
 
 <script>
@@ -58,12 +60,20 @@ export default {
     // 当删除时触发清除setter事件
     eventBus.on("clearSetter",(param)=>{
       if(param.type==="clearMap"){
-        that.setter = {}
-        that.setterData = {}
+        that.setter = {
+          attributes:null,
+          styles:null,
+          events:null
+        }
+        that.setterData = {status:{lock:false}}
       }
       if( param.type === "id" && param.params!==null && param.params.indexOf(that.setterData.id) !== -1){
-        that.setter = {}
-        that.setterData = {}
+        that.setter = {
+          attributes:null,
+          styles:null,
+          events:null
+        }
+        that.setterData = {status:{lock:false}}
       }
     })
     },

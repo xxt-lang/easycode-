@@ -75,7 +75,7 @@ export default {
     eventBus.on(`move-dragTip`, (param) => {
       that.dragTip = param.style
       if(param.message !== null)
-        that.dragTipMessage = `拖动${param.message}组件`
+        that.dragTipMessage = param.message
     })
   },
   methods: {
@@ -102,7 +102,7 @@ export default {
 </script>
 <style scoped>
 .dragTip {
-  position: absolute;
+  position: fixed;
   background-color: yellow;
   pointer-events: none;
 }

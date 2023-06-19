@@ -8,6 +8,7 @@ import {
     CommonStatusStore
 } from '@/stores/counter'
 import {saveAs} from 'file-saver';
+import {ElMessage} from "element-plus";
 
 export function getStore(name){
     if(name === "PageComponentsStore")
@@ -67,8 +68,11 @@ export function moveComponent(e, index,dragObject) {
     e.preventDefault()
     e.stopPropagation()
     // 是否可以进行推拽
-    const startY = e.layerY
-    const startX = e.layerX
+    let startClientY= e.clientY
+    let startClientX = e.clientX
+    let startLayerY= e.layerY
+    let startLayerX = e.layerX
+    let message =`选中${dragObject.label}组件`
     // node当前鼠标悬浮的元素
     let target ={
         targetIndex : index,
@@ -93,27 +97,43 @@ export function moveComponent(e, index,dragObject) {
     let oldY = 0;
     if(getStore("CommonStatusStore").editMargin){
         if(!dragObject.status.lock){
-            if(dragObject.styles['margin-left']){
-                if(dragObject.styles['margin-left'].indexOf('px')!=-1){
-                    oldX = Number(dragObject.styles['margin-left'].replace('px',''))
+            // 当是定位时可以直接修改left 于 top
+            if(dragObject.styles['position']){
+                if(dragObject.styles['left']){
+                    oldX = getCssAttributeValue(dragObject.styles['left'])
                 }
-            }
-            if(dragObject.styles['margin-top']){
-                if(dragObject.styles['margin-top'].indexOf('px')!=-1){
-                    oldY = Number(dragObject.styles['margin-top'].replace('px',''))
+                if(dragObject.styles['top']){
+                    oldY = getCssAttributeValue(dragObject.styles['top'])
                 }
+                message = `调整${dragObject.label}position`
+            }else{
+                if(dragObject.styles['margin-left']){
+                    oldX = getCssAttributeValue(dragObject.styles['margin-left'])
+                }
+                if(dragObject.styles['margin-top']){
+                    oldY = getCssAttributeValue(dragObject.styles['margin-top'])
+                }
+                message =  `调整${dragObject.label}margin`
             }
         }
-    }else{
-        // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
-        eventBus.emit(`move-dragTip`, {style:{top: startY + 'px', left: startX + 'px'},message:dragObject.label})
     }
+
+
+    eventBus.emit(`move-dragTip`, {style:{top: e.clientY + 'px', left: e.clientX  + 'px'},message:message})
+
+    // position:absolute
     const move = (moveEvent) => {
-        const curX = moveEvent.layerX
-        const curY = moveEvent.layerY
+        const curX = moveEvent.clientX
+        const curY = moveEvent.clientY
+        eventBus.emit(`move-dragTip`, {style:{top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},message:null})
+
         if(getStore("CommonStatusStore").editMargin  && !dragObject.status.lock){
-            // 如果有margit-left  margin-top
-            changeMargin(dragObject.styles,(curX-startX),(curY-startY),oldX,oldY)
+            if(dragObject.styles['position']){
+                changePosition(dragObject.styles,(moveEvent.clientX-startClientX),(moveEvent.clientY-startClientY),oldX,oldY)
+            }else{
+                // 如果有margit-left  margin-top
+                changeMargin(dragObject.styles,(curX-startClientX),(curY-startClientY),oldX,oldY)
+            }
         }else{
             let result = mousemoveInfo(moveEvent)
             direction = result.direction
@@ -122,10 +142,10 @@ export function moveComponent(e, index,dragObject) {
     }
 
     upMouse(move, () => {
-        if(getStore("CommonStatusStore").editMargin){
-        }else{
-            upMouseMoveInfo(target,dragObject,direction,index)
-        }
+        // 用于拖拽时的提示定位
+        eventBus.emit(`move-dragTip`, {style:{top: 0, left: 0, display: 'none'},message:null})
+        if(getStore("CommonStatusStore").editMargin) return
+        upMouseMoveInfo(target,dragObject,direction,index)
     })
 
 }
@@ -139,6 +159,22 @@ function changeMargin(style,X,Y,oldX,oldY){
     style['margin-top'] = `${oldY + Y }px`
 }
 
+// 当组件定位布局是可以更换上下左右坐标
+function changePosition(style,X,Y,oldX,oldY){
+    if(isNaN(oldX) && isNaN(oldY))
+        return
+    style['left'] = `${oldX + X }px`
+    style['top'] = `${oldY + Y }px`
+}
+
+function getCssAttributeValue(param){
+    let value = 0
+    if(param.indexOf('px')!=-1){
+        value = Number(param.replace('px',''))
+    }
+    return value
+}
+
 //移动鼠标时
 function mousemoveInfo(moveEvent){
     //target 拖拽时鼠标悬停所指元素
@@ -150,8 +186,6 @@ function mousemoveInfo(moveEvent){
             targetComponentId :moveEvent.target.dataset.componentid,
             targetLock: moveEvent.target.dataset.lock
         }}
-    //访问数组中的元素
-    eventBus.emit(`move-dragTip`, {style:{top: moveEvent.layerY + 'px', left: moveEvent.layerX + 'px', display: ''},message:null})
 
     let mX = moveEvent.layerX - moveEvent.target.offsetLeft//鼠标X轴坐标
     let mY = moveEvent.layerY - moveEvent.target.offsetTop//鼠标Y轴坐标
@@ -176,8 +210,6 @@ function mousemoveInfo(moveEvent){
 function upMouseMoveInfo(target,dragObject,direction,index){
     let targetComponent = {}
 
-    // 用于拖拽时的提示定位
-    eventBus.emit(`move-dragTip`, {style:{top: 0, left: 0, display: 'none'},message:null})
     // 父组件不能拖动到子组件上
     if(target.targetFeatherId === dragObject.id || isFeatherComponent(dragObject,target.targetId)) return
     if (target.targetType === "container") {
@@ -561,6 +593,7 @@ export function clearSelectPlate(){
 // 缓存页面数据
 export function savePage(){
     // let saveInfo =
+    ElMessage({message: "保存成功", type: 'success',duration:2000,showClose: true,})
     localStorage.setItem("page",JSON.stringify(getStore("PageComponentsStore").pageComponents))
 }
 

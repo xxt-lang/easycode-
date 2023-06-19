@@ -21,7 +21,6 @@
 
 <!--    快捷键弹窗-->
     <el-drawer v-model="showKeyDetails"  :title="drawerTitle" :modal="false" size="15%" >
-
       <show-key-details></show-key-details>
     </el-drawer>
   </div>
