@@ -55,7 +55,7 @@ export default {
     eventBus.on("dbComponent",()=>{
       // that.componentData = param
       that.setter = getComponentSetter()
-      that.setterData = getStore("SimpleStore").selectPlate[0].info
+      that.setterData = getStore("SimpleStore").selectPlate[0]
     })
     // 当删除时触发清除setter事件
     eventBus.on("clearSetter",(param)=>{

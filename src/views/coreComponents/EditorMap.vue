@@ -7,7 +7,7 @@
        data-elementType = "editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <Shape v-for="(item, index) in getNowPage().content "
+    <Shape v-for="(item, index) in getNowPage().children "
            :key="index"
            :status="item.status"
            :element="item"
@@ -87,7 +87,7 @@ export default {
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
       // 选中画布中的组件
-      clickSelectComponent(event, item, index)
+      clickSelectComponent(event, item)
       //非激活状态或者容器状态时才能进行拖动
       moveComponent(event, index, item)
     },
@@ -99,7 +99,7 @@ export default {
     dbClick(item, event,index) {
       event.preventDefault()
       event.stopPropagation()
-      clickSelectComponent(event, item, index)
+      clickSelectComponent(event, item)
       eventBus.emit("dbComponent")
     }
   }

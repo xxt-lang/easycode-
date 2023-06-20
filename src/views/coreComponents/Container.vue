@@ -89,7 +89,7 @@ export default {
 
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
-        clickSelectComponent(event, item, index)
+        clickSelectComponent(event, item)
         //非激活状态或者容器状态时才能进行拖动
         moveComponent(event, index,item)
     },
@@ -102,7 +102,7 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       // 当所选元素为容器组件时才进行isContainer的复制
-      clickSelectComponent(event, item, index)
+      clickSelectComponent(event, item)
       eventBus.emit("dbComponent")
     }
   }

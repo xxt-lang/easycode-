@@ -23,8 +23,10 @@
     </div>
 </template>
 <script>
-import {exportComponent,clearMap} from "@/utils/core"
-import {savePage} from "../../utils/core";
+import {exportComponent,clearMap,savePage} from "@/utils/core"
+import {mapActions} from "pinia";
+import {PagesStore} from "../../stores/counter";
+
 export default {
     name: 'TopBar',
     props: {},
@@ -102,11 +104,13 @@ export default {
       }
     },
     methods: {
+      ...mapActions(PagesStore, ['getPageIndex']),
       toolClick(param){
         this.$emit('toolClick',param)
       },
       click(){
-        let toPage = this.$router.resolve({name:'preview'})
+        savePage()
+        let toPage = this.$router.resolve({name:'preview',query:{page:this.getPageIndex()}})
         window.open(toPage.href,'_blank')
       }
     }

@@ -12,16 +12,11 @@
 
 <script>
 import {getLocalStorage} from "../utils/core";
-import {mapState} from "pinia";
-import {PagesStore} from "../stores/counter";
 
 export default {
   name: "preview",
-  computed:{
-    ...mapState(PagesStore, ['nowPage']),
-  },
   created() {
-    this.page = getLocalStorage()[this.nowPage].content
+    this.page = getLocalStorage()[this.$route.query.page].children
   },
   data(){
     return {

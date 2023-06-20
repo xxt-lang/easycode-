@@ -1,4 +1,6 @@
 // 深度克隆
+import {isReadonly} from "vue";
+
 export function deepClone(target) {
   return clone(target)
 }
@@ -26,6 +28,7 @@ function clone(data) {
     const result = new Map()
     map.set(data, result)
     data.forEach((val, key) => {
+
       if (isObject(val)) {
         result.set(key, clone(val))
       } else {
@@ -47,15 +50,26 @@ function clone(data) {
     return result
   }
   const keys = Reflect.ownKeys(data)
+
   const allDesc = Object.getOwnPropertyDescriptors(data)
+  // 删除elementui tree中不可变的东西
+  if(allDesc["$treeNodeId"]){
+    allDesc["$treeNodeId"].configurable = true
+    allDesc["$treeNodeId"].writable = true
+    allDesc["$treeNodeId"].enumerable = true
+  }
   const result = Object.create(Object.getPrototypeOf(data), allDesc)
+
   map.set(data, result)
   keys.forEach(key => {
     const val = data[key]
     if (isObject(val)) {
       result[key] = clone(val)
     } else {
-      result[key] = val
+        result[key] = val
+    }
+    if(key === "$treeNodeId"){
+      delete result["$treeNodeId"]
     }
   })
   return result

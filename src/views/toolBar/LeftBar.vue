@@ -1,13 +1,14 @@
 <template>
 <div class = "leftBarMain">
-  <button>
+  <button @click="openTool('page')">
    页面
   </button>
-  <button @click="openComponentList()">
+  <button @click="openTool('componentList')">
     组件
   </button>
-  <LeftToolContent :leftToolBarActive="leftToolBarActive">
-    <ComponentGroup @changeLeftToolBarActive = "leftToolBarActive = $event"/>
+  <LeftToolContent :leftToolBarActive="leftToolBarActive" style="width:300px">
+    <ComponentGroup @changeLeftToolBarActive = "leftToolBarActive = $event" v-show="toolName==='componentList'" @update:leftToolBarActive = "leftToolBarActive = $event"/>
+    <PageTree v-show="toolName==='page'" @update:leftToolBarActive = "leftToolBarActive = $event"></PageTree>
   </LeftToolContent>
 </div>
 </template>
@@ -15,21 +16,22 @@
 <script>
 import LeftToolContent from "./LeftToolContent.vue";
 import ComponentGroup from "../coreComponents/ComponentGroup.vue";
+import PageTree from "./PageTree.vue";
+
 export default {
   name: "LeftBar",
-  components:{LeftToolContent,ComponentGroup},
+  components:{PageTree, LeftToolContent,ComponentGroup},
   data(){
     return {
-      ocStats:false,
-      leftToolBarActive: false
+      leftToolBarActive: false,
     }
   },
   methods:{
     // oc openComponent
-    openComponentList(){
-      this.ocStats = !this.ocStats
+    openTool(value){
+      this.toolName = value
       this.leftToolBarActive = !this.leftToolBarActive
-    }
+    },
   }
 }
 </script>

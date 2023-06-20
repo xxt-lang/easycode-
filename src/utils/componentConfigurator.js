@@ -435,6 +435,7 @@ const componentSetters = [
                             type:"inputNumber",//编辑自段的类型input select number switch buttonList
                             value:12,//属性值
                             defaultValue:12,//默认属性值
+                            max:24,
                             valueType:Number,// 属性值类型,
                         },
                         {

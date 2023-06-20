@@ -13,7 +13,12 @@
         </el-select>
         <el-input v-if="item.type === 'input'" v-model="setterData.attributes[item.attributeName]" placeholder="Please input" />
         <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
-        <el-input-number v-if="item.type === 'inputNumber'" v-model="setterData.attributes[item.attributeName]" @change="add"/>
+        <el-input-number
+            v-if="item.type === 'inputNumber'"
+            v-model="setterData.attributes[item.attributeName]"
+            :max="item.max?item.max:100"
+            :min="item.min?item.min:0"
+            @change="add"/>
       </div>
 
       <el-table v-if="item.type === 'table'" :data="setterData.attributes[item.attributeName]" style="width: 100%">

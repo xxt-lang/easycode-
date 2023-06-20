@@ -34,7 +34,7 @@ export default {
   mounted() {
     let that = this
     eventBus.on("dbComponent",()=>{
-      that.css = objectToCss(getStore("SimpleStore").selectPlate[0].info.styles)
+      that.css = objectToCss(getStore("SimpleStore").selectPlate[0].styles)
     })
   },
   methods:{

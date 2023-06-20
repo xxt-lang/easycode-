@@ -29,11 +29,12 @@ export default {
       editorStore
     }
   },
+  emits: ['update:leftToolBarActive'],
   methods: {
     draggableStart,
     draggableOver(e){
       e.dataTransfer.clearData();
-      this.$emit("changeLeftToolBarActive", false)
+      this.$emit("update:leftToolBarActive",false)
     }
   }
 }

@@ -1,5 +1,6 @@
 import {ref, computed} from 'vue'
 import {defineStore} from 'pinia'
+import {deepClone, uuid} from "../utils/tool";
 // 粘贴板，选择板
 export const SimpleStore = defineStore('SimpleStoreMain', {
   state: () => ({
@@ -9,6 +10,9 @@ export const SimpleStore = defineStore('SimpleStoreMain', {
   actions:{
     setCopyPlate( copyPlate ){
       this.copyPlate = copyPlate
+    },
+    setSelectPlate(component){
+      this.selectPlate.push(component)
     }
   },
 })
@@ -63,7 +67,14 @@ export const PageTagStore = defineStore('PageTagStoreMain', {
 // 页面组件列表
 export const PagesStore = defineStore('PagesStoreMain', {
   state: () => ({
-    pages:[{pageName:`page1`,content:[],status:{active:true}}], // 页面page
+    pages:[{
+      pageName:'page1',
+      label:'page1',
+      type:"page",
+      children:[],
+      status:{active:true},
+      id:0
+    }], // 页面page
     nowPage : 0 // 当前选中的页面
   }),
   actions:{
@@ -72,17 +83,16 @@ export const PagesStore = defineStore('PagesStoreMain', {
       if(pages.length>0){
         this.pages = pages
       }else{
-        this.pages = [{pageName:`page1`,content:[]}]
+        this.pages = [{pageName:`page1`,label:'page1',type:"page",children:[], status:{active:true},id:0}]
       }
-
-
     },
     getPage(){
       return this.pages
     },
     // 增加页面
-    addPage(){
-      this.pages.push({pageName:`page${this.pages.length}`,content:[]})
+    addPage(from){
+      from["id"] = uuid()
+      this.pages.push(deepClone(from))
     },
     // 配置当前选中的页面
     setNowPage(index){
@@ -96,6 +106,10 @@ export const PagesStore = defineStore('PagesStoreMain', {
     deletePage(){
       this.pages.splice(this.nowPage,1)
     },
+    // 获取当前nowPage的值
+    getPageIndex(){
+      return this.nowPage
+    }
   },
 })
 

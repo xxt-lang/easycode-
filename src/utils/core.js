@@ -218,7 +218,7 @@ function upMouseMoveInfo(target,dragObject,direction,index){
             if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return
         }
     }
-    const pageComponents = getStore("PagesStore").getNowPage().content
+    const pageComponents = getStore("PagesStore").getNowPage().children
     let rootId = "editor"
     let dragComponents = pageComponents,targetComponents = pageComponents
     // 当将组件拖拽到画布上时调用
@@ -279,7 +279,7 @@ export function handleDrop(e){
                 item.featherId = component.id
             })
         }
-        getStore("PagesStore").getNowPage().content.push(component)
+        getStore("PagesStore").getNowPage().children.push(component)
     }else if(e.target.dataset.elementtype == "container"){
 
             // 向容器中添加元素
@@ -298,7 +298,7 @@ export function handleDrop(e){
 
 // 搜索组件
 export function searchComponent(targetId) {
-    return deepSelectComponent(getStore("PagesStore").getNowPage().content, targetId)
+    return deepSelectComponent(getStore("PagesStore").getNowPage().children, targetId)
 }
 
 //左右键选择组件事件
@@ -321,33 +321,24 @@ export function clickSelectComponent(e, component, index) {
             }
         } else {
             component.status.active = true
-            selectPlate.push({
-                info: component,
-                index: index
-            })
+            selectPlate.push(component)
         }
     } else {
         // 左键单击时触发 1，右键单击时触发 2，
         if (e.buttons == 1) {
             // 将其他选中的元素全部置为未被选中状态
             selectPlate.forEach(item => {
-                item.info.status.active = false
+                item.status.active = false
             })
             // 将单击元素设为选中状态
             component.status.active = true
             selectPlate.splice(0)
-            selectPlate.push({
-                info: component,
-                index: index
-            })
+            selectPlate.push(component)
         } else if (e.buttons == 2) {
             // 只有当未被选中时才会进行选中触发
             if (!component.status.active) {
                 component.status.active = true
-                selectPlate.push({
-                    info: component,
-                    index: index
-                })
+                selectPlate.push(component)
             }
         }
     }
@@ -440,7 +431,7 @@ export function exportComponent() {
 
 // 清空画布
 export function clearMap(){
-    getStore("PagesStore").getNowPage().content = []
+    getStore("PagesStore").getNowPage().children = []
     eventBus.emit("clearSetter",{type:"clearMap",params:null})
 }
 
@@ -549,18 +540,18 @@ export function deleteComponent(){
     let root = "editor"
     let deleteId = []
     selectPlate.forEach(item=>{
-        item.info.status.active = false
-        if(!item.info.status.lock){
-            if(featherId !== item.info.featherId){
-                if(item.info.featherId === root){
-                    children = getStore("PagesStore").getNowPage().content
+        item.status.active = false
+        if(!item.status.lock){
+            if(featherId !== item.featherId){
+                if(item.featherId === root){
+                    children = getStore("PagesStore").getNowPage().children
                 }else{
-                    children = searchComponent(item.info.featherId).children
+                    children = searchComponent(item.featherId).children
                 }
             }
-            deleteId.push(item.info.id)
+            deleteId.push(item.id)
             children.splice(item.index,1)
-            featherId = item.info.featherId
+            featherId = item.featherId
         }
     })
     selectPlate.splice(0)
@@ -570,21 +561,21 @@ export function deleteComponent(){
 // 返回选中组件设置器配置
 export function getComponentSetter(){
     if(getStore("SimpleStore").selectPlate[0]!==undefined){
-        return getStore("ComponentListStore").componentSetters[getStore("SimpleStore").selectPlate[0].info['setterIndex']]['setter']
+        return getStore("ComponentListStore").componentSetters[getStore("SimpleStore").selectPlate[0]['setterIndex']]['setter']
     }
     return null
 }
 // 锁定选中组件
 export function lockComponent(){
     getStore("SimpleStore").selectPlate.forEach(item=>{
-        item.info.status.lock = !item.info.status.lock
+        item.status.lock = !item.status.lock
     })
 }
 
 // 清空选中面板
 export function clearSelectPlate(){
     getStore("SimpleStore").selectPlate.forEach(item => {
-        item.info.status.active = false
+        item.status.active = false
     })
     getStore("SimpleStore").selectPlate = []
 }
@@ -606,7 +597,7 @@ export function getLocalStorage(){
    return localStorage.getItem("page")!== null && localStorage.getItem("page")!=="undefined" ?JSON.parse(localStorage.getItem("page") ):[]
 }
 
-// 复制选中组件 修改id
+// 复制选中组件
 export function copy(){
     let selectPate = []
     if(getStore("SimpleStore").selectPlate){
@@ -625,33 +616,33 @@ export function stickup(){
     // 获取fatherid 重置fatherid
     let dataset = getStore("MouseEventStore").mouseEvent.target.dataset
     let stickPate = deepClone(getStore("SimpleStore").copyPlate)
-    let targetContainer = getStore("PagesStore").getNowPage().content
+    let targetContainer = getStore("PagesStore").getNowPage().children
     if(dataset.elementtype === "editor"){
         stickPate.forEach(item=>{
-            item.info.id = uuid()
-            item.info.featherId = "editor"
-            item.info.status.active = false // 消除选中状态
-            if(item.info.children){
-                item.info.children.forEach(cItem=>{
-                    cItem.featherId = item.info.id
+            item.id = uuid()
+            item.featherId = "editor"
+            item.status.active = false // 消除选中状态
+            if(item.children){
+                item.children.forEach(cItem=>{
+                    cItem.featherId = item.id
                 })
             }
-            targetContainer.push(item.info)
+            targetContainer.push(item)
         })
     }
     if(dataset.elementtype === "container"){
         targetContainer = searchComponent(dataset.elementid).children
         // dataset.elementid
         stickPate.forEach(item=>{
-            item.info.featherId = dataset.elementid
-            item.info.id = uuid()
-            item.info.status.active = false // 消除选中状态
-            if(item.info.children){
-                item.info.children.forEach(cItem=>{
-                    cItem.featherId = item.info.id
+            item.featherId = dataset.elementid
+            item.id = uuid()
+            item.status.active = false // 消除选中状态
+            if(item.children){
+                item.children.forEach(cItem=>{
+                    cItem.featherId = item.id
                 })
             }
-            targetContainer.push(item.info)
+            targetContainer.push(item)
         })
     }
 }

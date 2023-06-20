@@ -38,7 +38,7 @@ export default {
   z-index: 1000;
   height: calc(100vh - 45px);
   background-color: white;
-  left:80px;
+  left:86px;
   position: absolute;
   border-style: solid;
   border-width: 1px;
