@@ -3,7 +3,7 @@ import {ref} from "vue";
 import {deepClone,uuid} from "./tool";
 import {
     SimpleStore,
-    PageComponentsStore,
+    PagesStore,
     ComponentListStore,
     CommonStatusStore,
     MouseEventStore
@@ -12,8 +12,8 @@ import {saveAs} from 'file-saver';
 import {ElMessage} from "element-plus";
 
 export function getStore(name){
-    if(name === "PageComponentsStore")
-        return PageComponentsStore()
+    if(name === "PagesStore")
+        return PagesStore()
     if(name === "ComponentListStore")
         return ComponentListStore()
     if(name === "SimpleStore")
@@ -218,7 +218,7 @@ function upMouseMoveInfo(target,dragObject,direction,index){
             if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return
         }
     }
-    const pageComponents = getStore("PageComponentsStore").pageComponents
+    const pageComponents = getStore("PagesStore").getNowPage().content
     let rootId = "editor"
     let dragComponents = pageComponents,targetComponents = pageComponents
     // 当将组件拖拽到画布上时调用
@@ -279,7 +279,7 @@ export function handleDrop(e){
                 item.featherId = component.id
             })
         }
-        getStore("PageComponentsStore").pageComponents.push(component)
+        getStore("PagesStore").getNowPage().content.push(component)
     }else if(e.target.dataset.elementtype == "container"){
 
             // 向容器中添加元素
@@ -298,7 +298,7 @@ export function handleDrop(e){
 
 // 搜索组件
 export function searchComponent(targetId) {
-    return deepSelectComponent(getStore("PageComponentsStore").pageComponents, targetId)
+    return deepSelectComponent(getStore("PagesStore").getNowPage().content, targetId)
 }
 
 //左右键选择组件事件
@@ -415,7 +415,7 @@ function getEditor(ref) {
     return document.querySelector('#' + ref).getBoundingClientRect()
 }
 
-// 深度搜索查找父组件  PageComponentsStore().pageComponents
+// 深度搜索查找父组件  PagesStore().pageComponents
 function deepSelectComponent(ComponentList, targetComponentID) {
     const length = ComponentList.length
     for (let i = 0; i < length; i++) {
@@ -433,16 +433,14 @@ function deepSelectComponent(ComponentList, targetComponentID) {
 
 //导出格式化数据
 export function exportComponent() {
-    // let blob = new Blob([JSON.stringify(getStore("PageComponentsStore").pageComponents)], {type: "text/json;charset=utf-8"});
+    // let blob = new Blob([JSON.stringify(getStore("PagesStore").pageComponents)], {type: "text/json;charset=utf-8"});
     // saveAs(blob, "page.json")
-    getStore("PageComponentsStore").pageComponents.forEach(item=>{
-        console.log(item.id)
-    })
+    console.log(getStore("PagesStore").getPage())
 }
 
 // 清空画布
 export function clearMap(){
-    getStore("PageComponentsStore").pageComponents = []
+    getStore("PagesStore").getNowPage().content = []
     eventBus.emit("clearSetter",{type:"clearMap",params:null})
 }
 
@@ -555,7 +553,7 @@ export function deleteComponent(){
         if(!item.info.status.lock){
             if(featherId !== item.info.featherId){
                 if(item.info.featherId === root){
-                    children = getStore("PageComponentsStore").pageComponents
+                    children = getStore("PagesStore").getNowPage().content
                 }else{
                     children = searchComponent(item.info.featherId).children
                 }
@@ -594,7 +592,7 @@ export function clearSelectPlate(){
 // 缓存页面数据
 export function savePage(){
     ElMessage({message: "保存成功", type: 'success',duration:2000,showClose: true,})
-    localStorage.setItem("page",JSON.stringify(getStore("PageComponentsStore").pageComponents,re))
+    localStorage.setItem("page",JSON.stringify(getStore("PagesStore").getPage(),re))
 }
 function re (key,value){
     if(value instanceof Array){
@@ -627,7 +625,7 @@ export function stickup(){
     // 获取fatherid 重置fatherid
     let dataset = getStore("MouseEventStore").mouseEvent.target.dataset
     let stickPate = deepClone(getStore("SimpleStore").copyPlate)
-    let targetContainer = getStore("PageComponentsStore").pageComponents
+    let targetContainer = getStore("PagesStore").getNowPage().content
     if(dataset.elementtype === "editor"){
         stickPate.forEach(item=>{
             item.info.id = uuid()

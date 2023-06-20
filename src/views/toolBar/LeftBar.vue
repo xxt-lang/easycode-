@@ -1,7 +1,7 @@
 <template>
 <div class = "leftBarMain">
   <button>
-   大纲树
+   页面
   </button>
   <button @click="openComponentList()">
     组件

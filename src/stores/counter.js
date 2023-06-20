@@ -61,14 +61,41 @@ export const PageTagStore = defineStore('PageTagStoreMain', {
 
 
 // 页面组件列表
-export const PageComponentsStore = defineStore('PageComponentsStoreMain', {
+export const PagesStore = defineStore('PagesStoreMain', {
   state: () => ({
-    pageComponents:[]
+    pages:[{pageName:`page1`,content:[],status:{active:true}}], // 页面page
+    nowPage : 0 // 当前选中的页面
   }),
   actions:{
-    setPageComponents( pageComponents ){
-      this.pageComponents = pageComponents
-    }
+    // 配置整个项目
+    setPage( pages ){
+      if(pages.length>0){
+        this.pages = pages
+      }else{
+        this.pages = [{pageName:`page1`,content:[]}]
+      }
+
+
+    },
+    getPage(){
+      return this.pages
+    },
+    // 增加页面
+    addPage(){
+      this.pages.push({pageName:`page${this.pages.length}`,content:[]})
+    },
+    // 配置当前选中的页面
+    setNowPage(index){
+      this.nowPage = index
+    },
+    // 获取当前选中的页面
+    getNowPage(){
+      return this.pages[this.nowPage]
+    },
+    // 删除当前选中的页面
+    deletePage(){
+      this.pages.splice(this.nowPage,1)
+    },
   },
 })
 

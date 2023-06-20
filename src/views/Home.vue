@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import {EditorStore, EditorStatusStore,PageComponentsStore,MouseEventStore} from '@/stores/counter'
+import {EditorStore, EditorStatusStore,PagesStore,MouseEventStore} from '@/stores/counter'
 import ToolBar from "./toolBar/TopBar.vue";
 import PageTag from "./coreComponents/PageTag.vue";
 import EditorMap from "./coreComponents/EditorMap.vue";
@@ -68,10 +68,10 @@ export default {
     document.oncontextmenu = function (e) {
       return false;
     }
-    this.setPageComponents(getLocalStorage())
+    this.setPage(getLocalStorage())
   },
   methods: {
-    ...mapActions(PageComponentsStore,['setPageComponents']),
+    ...mapActions(PagesStore,['setPage']),
     // 工具栏点击事件，点击之后页面弹窗
     toolClick(param){
       if(param === 'showKeyDetail'){

@@ -94,7 +94,6 @@ export default {
         moveComponent(event, index,item)
     },
     handleMouseDownMap(event){
-      console.log("-------------")
       this.setMouseEvent(event)
     },
 

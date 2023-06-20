@@ -7,7 +7,7 @@
        data-elementType = "editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <Shape v-for="(item, index) in pageComponents "
+    <Shape v-for="(item, index) in getNowPage().content "
            :key="index"
            :status="item.status"
            :element="item"
@@ -45,7 +45,7 @@ import Contextmenu from "./Contextmenu.vue";
 import ToolBar from "../toolBar/TopBar.vue";
 import PageTag from "./PageTag.vue";
 import {mapActions, mapState} from 'pinia'
-import {PageComponentsStore,MouseEventStore} from "../../stores/counter";
+import {PagesStore,MouseEventStore} from "../../stores/counter";
 
 
 export default {
@@ -65,7 +65,7 @@ export default {
     }
   },
   computed:{
-    ...mapState(PageComponentsStore, ['pageComponents']),
+    ...mapState(PagesStore, ['getNowPage']),
   },
   setup() {
     return {}
@@ -92,7 +92,6 @@ export default {
       moveComponent(event, index, item)
     },
     handleMouseDownMap(event){
-      console.log("66666666")
       this.setMouseEvent(event)
     },
 
