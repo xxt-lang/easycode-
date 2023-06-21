@@ -4,21 +4,18 @@ import {copy, deleteComponent, lockComponent, savePage, shear, stickup} from "./
 const keyDowns = {
   "ctrl h": {
     label: '查看历史',
-    global:false,
     func: function () {
       console.log("查看历史")
     }
   },
   "alt c": {
     label: '容器状态',
-    global:true,
     func: function () {
       CommonStatusStore().containerLock = !CommonStatusStore().containerLock
     }
   },
   "ctrl e": {
     label: '编辑元素',
-    global:true,
     func: function () {
       CommonStatusStore().editElement = !CommonStatusStore().editElement
     }
@@ -43,14 +40,12 @@ const keyDowns = {
   },
   "ctrl m":{
     label: '调整位置',
-    global:true,
     func: function () {
       CommonStatusStore().editMargin = !CommonStatusStore().editMargin
     }
   },
   "ctrl d":{
     label: '删除',
-    global:true,
     func: function () {
       deleteComponent()
     }
@@ -70,6 +65,7 @@ const keyDowns = {
   },
   "ctrl s":{
     label: '保存',
+    global:true,
     func: function(){
       savePage()
     }
@@ -90,9 +86,11 @@ export function getKeyDetails(){
 export function initShortKeyDown() {
   if (keyDowns) {
     window.onkeydown = (e)=>{
-      if(e.target.id !== "") return
         const nowKey = analysisKey(e)
         if(keyDowns.hasOwnProperty(nowKey)){
+          if(!keyDowns[nowKey].global){
+            if(e.target.id !== "") return
+          }
           e.preventDefault()
           keyDowns[nowKey].func()
         }
