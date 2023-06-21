@@ -5,18 +5,21 @@
         <el-tab-pane label="属性" name="first">
           <setter-attribute  :setterData="setterData"
                              :setterAttributes="setter.attributes"
+                             :configuration = "setter.configuration"
 
           ></setter-attribute>
         </el-tab-pane>
         <el-tab-pane label="样式" name="second">
           <setter-style
               :setterData="setterData"
-              :setterStyles="setter.styles"></setter-style>
+              :setterStyles="setter.styles"
+              :configuration = "setter.configuration"></setter-style>
         </el-tab-pane>
         <el-tab-pane label="事件" name="third">
           <setter-event
               :setterData="setterData"
-              :setterEvents="setter.events"></setter-event>
+              :setterEvents="setter.events"
+              :configuration = "setter.configuration"></setter-event>
         </el-tab-pane>
       </el-tabs>
     </div>

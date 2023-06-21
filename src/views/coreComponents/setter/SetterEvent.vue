@@ -26,6 +26,12 @@ export default {
       default:()=>{
         return {}
       }
+    },
+    configuration:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
     }
 
   }

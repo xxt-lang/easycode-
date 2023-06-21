@@ -7,28 +7,37 @@
        data-elementType = "editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <Shape v-for="(item, index) in getNowPage().children "
-           :key="index"
-           :status="item.status"
-           :element="item"
-           :index="index"
-           :data-elementId = "item.id"
-           data-featherId = "editor"
-           :data-elementType = "item.type"
-           @mousedown="handleMouseDown(item,$event,index)"
-           @dblclick="dbClick(item,$event)"
-    >
-      <component
-          :style="{'pointer-events':item.type === 'common' ? 'none':''}"
-          class="item"
-          :is="item.component"
-          :key="index"
-          :propValue="item"
-          :index = "index"
-      />
-    </Shape>
-    <!--    拖拽时的提示信息-->
-    <div :style="dragTip" class="dragTip">{{dragTipMessage}}</div>
+<!--    <div v-if="">-->
+
+<!--    </div>-->
+    <div v-if="!getNowPage()">
+      选择或新建页面
+    </div>
+    <div v-else>
+      <Shape v-for="(item, index) in getNowPage().children "
+             :key="index"
+             :status="item.status"
+             :element="item"
+             :index="index"
+             :data-elementId = "item.id"
+             data-featherId = "editor"
+             :data-elementType = "item.type"
+             @mousedown="handleMouseDown(item,$event,index)"
+             @dblclick="dbClick(item,$event)"
+      >
+        <component
+            :style="{'pointer-events':item.type === 'common' ? 'none':''}"
+            class="item"
+            :is="item.component"
+            :key="index"
+            :propValue="item"
+            :index = "index"
+        />
+      </Shape>
+      <!--    拖拽时的提示信息-->
+      <div :style="dragTip" class="dragTip">{{dragTipMessage}}</div>
+    </div>
+
   </div>
 </template>
 <script>

@@ -67,24 +67,13 @@ export const PageTagStore = defineStore('PageTagStoreMain', {
 // 页面组件列表
 export const PagesStore = defineStore('PagesStoreMain', {
   state: () => ({
-    pages:[{
-      pageName:'page1',
-      label:'page1',
-      type:"page",
-      children:[],
-      status:{active:true},
-      id:0
-    }], // 页面page
+    pages:[], // 页面page
     nowPage : 0 // 当前选中的页面
   }),
   actions:{
     // 配置整个项目
     setPage( pages ){
-      if(pages.length>0){
-        this.pages = pages
-      }else{
-        this.pages = [{pageName:`page1`,label:'page1',type:"page",children:[], status:{active:true},id:0}]
-      }
+      this.pages = pages
     },
     getPage(){
       return this.pages

@@ -7,7 +7,7 @@
     <template #default="{ node, data }">
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
-          <span>
+          <span v-if="data.type === 'page'">
             <el-button @click="remove(node, data)" type="warning" size="small">删除</el-button>
           </span>
         </span>
@@ -39,6 +39,7 @@
 import {PagesStore, SimpleStore} from "../../stores/counter";
 import {mapActions, mapState} from "pinia";
 import {Plus} from "@element-plus/icons-vue";
+import {deleteComponent} from "../../utils/core";
 
 export default {
   name: "PageTree",
@@ -90,21 +91,25 @@ export default {
   },
   emits: ['update:leftToolBarActive'],
   methods:{
-    ...mapActions(PagesStore,['addPage','setNowPage']),
+    deleteComponent,
+    ...mapActions(PagesStore,['addPage','setNowPage','deletePage']),
     ...mapActions(SimpleStore,['setSelectPlate']),
     remove(node,data){
-      // 判断是否锁定，锁定不能删除
-      // console.log(node)
+      if(data.type === "page"){
+        this.deletePage()
+      }else{
+        this.deleteComponent()
+      }
     },
     nodeClick(node){
       if(node.type==="page"){
         this.setNowPage(this.getPage().findIndex((d) => d.id === node.id))
       }else{
-        node.status.active = !node.status.active
-        // 选中状态时将当前组件放入选择板中
-        if(node.status.active){
-          this.setSelectPlate(node)
-        }
+          node.status.active = !node.status.active
+          // 选中状态时将当前组件放入选择板中
+          if(node.status.active){
+            this.setSelectPlate(node)
+          }
       }
       this.$emit("update:leftToolBarActive",false)
     },

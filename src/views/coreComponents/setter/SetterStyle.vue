@@ -25,6 +25,12 @@ export default {
         return {}
       }
     },
+    configuration:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
+    }
   },
   data(){
     return{

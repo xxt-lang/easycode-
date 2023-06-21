@@ -67,6 +67,12 @@ export default {
       default:()=>{
         return {}
       }
+    },
+    configuration:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
     }
   },
   data(){
@@ -79,17 +85,33 @@ export default {
   },
   methods:{
     addItem(param){
-      this.setterData.attributes[param.attributeName].push(deepClone(param.defaultValue[0]))
       if(param.isChildren){
-        this.setterData.children.push( {
-          component:"container",
-          id:uuid(),
-          event: {},
-          attributes: {},
-          styles: {},
-          children:[],
-          featherId:this.setterData.id,
-          type:"container"})
+        this.setterData.attributes[param.attributeName].push(deepClone(param.defaultValue[0]))
+        // 如果配置了则按照配置的children来 否则就采用默认的
+        if(this.configuration.childrenTemplate){
+          let childrenTemplate = deepClone(this.configuration.childrenTemplate)
+          childrenTemplate.id = uuid()
+          childrenTemplate.featherId = this.setterData.id,
+          this.setterData.children.push(childrenTemplate)
+        }else{
+          this.setterData.children.push( {
+            component:"container",
+            status:{
+              active:false,
+              activeContainer:false,
+              isHidden:false,
+              lock:false,// false 不锁 true 锁
+            },
+            label:'容器',
+            id:uuid(),
+            event: {},
+            attributes: {},
+            styles: {},
+            children:[],
+            featherId:this.setterData.id,
+            type:"container"})
+        }
+
       }
     },
     deleteItem(param,index){

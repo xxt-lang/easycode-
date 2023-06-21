@@ -94,6 +94,8 @@ const componentList = [
         children:[
             {
                 component:"container",
+                attribute:'col',
+                label:"列",
                 id:"",
                 event: {},
                 attributes: {},
@@ -103,6 +105,8 @@ const componentList = [
                 type:"container"},
             {
                 component:"container",
+                attribute:'col',
+                label:"列",
                 id:"",
                 event: {},
                 attributes: {},
@@ -456,7 +460,21 @@ const componentSetters = [
                     annotation:"",
                     eventContent:{}
                 }
-            ]
+            ],
+            configuration:{
+                childrenTemplate: {
+                    component:"container",
+                    attribute:'col',
+                    label:"列",
+                    id:"",
+                    event: {},
+                    attributes: {},
+                    styles: {},
+                    children:[],
+                    featherId:"",
+                    type:"container"},
+            }
+
         },
     },
     {component: "ScSlider",
@@ -476,6 +494,11 @@ export function loadComponentConfiguration(){
             item[aItem] = baseAttribute[aItem]
             if(item.type && item.type === "container"){
                 item["children"] = item["children"]?item["children"]:[]
+                if(item["children"].length>0){
+                    item["children"].forEach((citem)=>{
+                        citem[aItem] = baseAttribute[aItem]
+                    })
+                }
             }else{
                 item.status.activeContainer = false
                 item["type"] = "common" //是否为容器组件
@@ -501,6 +524,10 @@ function setAttribute(){
         let index = setterMap.get(item.component)
         if(index!==undefined){
             item['setterIndex'] = index
+            // 容器模板增加基础状态
+            if(componentSetters[index].setter.configuration && componentSetters[index].setter.configuration.childrenTemplate){
+                componentSetters[index].setter.configuration.childrenTemplate["status"] = baseAttribute["status"]
+            }
             componentSetters[index].setter.attributes.forEach(setterItem=>{
                 item.attributes[setterItem.attributeName] = setterItem.defaultValue
                 if(setterItem.type === "table"){

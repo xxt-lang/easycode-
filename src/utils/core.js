@@ -279,7 +279,11 @@ export function handleDrop(e){
                 item.featherId = component.id
             })
         }
-        getStore("PagesStore").getNowPage().children.push(component)
+        if(getStore("PagesStore").getNowPage()){
+            getStore("PagesStore").getNowPage().children.push(component)
+        }else{
+            ElMessage({message: "请先选择或者创建画布", type: 'warning',duration:2000,showClose: true,})
+        }
     }else if(e.target.dataset.elementtype == "container"){
 
             // 向容器中添加元素
@@ -536,7 +540,7 @@ export function getComponentStyle(isPreview,styles){
 export function deleteComponent(){
     const selectPlate = getStore("SimpleStore").selectPlate
     let featherId = ''
-    let children = []
+    let target = []
     let root = "editor"
     let deleteId = []
     selectPlate.forEach(item=>{
@@ -544,13 +548,17 @@ export function deleteComponent(){
         if(!item.status.lock){
             if(featherId !== item.featherId){
                 if(item.featherId === root){
-                    children = getStore("PagesStore").getNowPage().children
+                    target = getStore("PagesStore").getNowPage()
                 }else{
-                    children = searchComponent(item.featherId).children
+                    target = searchComponent(item.featherId)
                 }
             }
             deleteId.push(item.id)
-            children.splice(item.index,1)
+            let index = target.children.findIndex((data)=>{data.id === item.id})
+            if(item.component === "container"){
+                target.attributes[item.attribute].splice(index,1)
+            }
+            target.children.splice(index,1)
             featherId = item.featherId
         }
     })
@@ -625,6 +633,7 @@ export function stickup(){
             if(item.children){
                 item.children.forEach(cItem=>{
                     cItem.featherId = item.id
+                    cItem.id = uuid()
                 })
             }
             targetContainer.push(item)
