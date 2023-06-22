@@ -39,7 +39,7 @@
 import {PagesStore, SimpleStore} from "../../stores/counter";
 import {mapActions, mapState} from "pinia";
 import {Plus} from "@element-plus/icons-vue";
-import {deleteComponent} from "../../utils/core";
+import {deleteSelectComponent} from "../../utils/core";
 
 export default {
   name: "PageTree",
@@ -91,25 +91,27 @@ export default {
   },
   emits: ['update:leftToolBarActive'],
   methods:{
-    deleteComponent,
+    deleteSelectComponent,
     ...mapActions(PagesStore,['addPage','setNowPage','deletePage']),
     ...mapActions(SimpleStore,['setSelectPlate']),
     remove(node,data){
       if(data.type === "page"){
         this.deletePage()
       }else{
-        this.deleteComponent()
+        this.deleteSelectComponent()
       }
     },
     nodeClick(node){
       if(node.type==="page"){
         this.setNowPage(this.getPage().findIndex((d) => d.id === node.id))
       }else{
+        if(node.component !== 'container'){
           node.status.active = !node.status.active
           // 选中状态时将当前组件放入选择板中
           if(node.status.active){
             this.setSelectPlate(node)
           }
+        }
       }
       this.$emit("update:leftToolBarActive",false)
     },

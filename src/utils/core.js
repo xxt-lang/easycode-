@@ -6,7 +6,8 @@ import {
     PagesStore,
     ComponentListStore,
     CommonStatusStore,
-    MouseEventStore
+    MouseEventStore,
+    UndoRedoStore
 } from '@/stores/counter'
 import {saveAs} from 'file-saver';
 import {ElMessage} from "element-plus";
@@ -22,6 +23,8 @@ export function getStore(name){
         return CommonStatusStore()
     if(name === "MouseEventStore")
         return MouseEventStore()
+    if(name === "UndoRedoStore")
+        return UndoRedoStore()
 }
 
 
@@ -267,12 +270,22 @@ function upMouseMoveInfo(target,dragObject,direction,index){
 export function handleDrop(e){
     e.preventDefault()
     e.stopPropagation()
-    if (e.target.id == "editor") {
-        let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
+    let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
+    let target = {
+        elementType : e.target.dataset.elementtype,
+        elementId : e.target.dataset.elementid
+    }
+    if(addComponent(target,component)){
+        getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
+    }
+}
+
+// 添加组件
+export function addComponent(target,component,index){
+    if (target.elementType == "editor") {
         component.featherId = "editor"
         component.id = uuid()
         //若容器是组件并且其中包含预定义的容器则向其中容器添加id 与父亲id
-
         if(component.type === "container" && component.children.length>0){
             component.children.forEach(item=>{
                 item.id = uuid()
@@ -280,24 +293,43 @@ export function handleDrop(e){
             })
         }
         if(getStore("PagesStore").getNowPage()){
-            getStore("PagesStore").getNowPage().children.push(component)
+            try {
+                if(index !== undefined){
+                    getStore("PagesStore").getNowPage().children.splice(index,0,component)
+                }else{
+                    getStore("PagesStore").getNowPage().children.push(component)
+                }
+                return true
+            }catch (e){
+                console.log(e)
+            }
         }else{
             ElMessage({message: "请先选择或者创建画布", type: 'warning',duration:2000,showClose: true,})
         }
-    }else if(e.target.dataset.elementtype == "container"){
+    }else if(target.elementType == "container"){
 
-            // 向容器中添加元素
-            let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
-            component.featherId = e.target.dataset.elementid
-            component.id = uuid()
-            if(component.type === "container" && component.children.length>0){
-                component.children.forEach(item=>{
-                    item.id = uuid()
-                    item.featherId = component.id
-                })
+        // 向容器中添加元素
+        component.featherId = target.elementId
+        component.id = uuid()
+        if(component.type === "container" && component.children.length>0){
+            component.children.forEach(item=>{
+                item.id = uuid()
+                item.featherId = component.id
+            })
+        }
+        try {
+            if(index !== undefined){
+                searchComponent(target.elementId).children.splice(index,0,component)
+            }else{
+                searchComponent(target.elementId).children.push(component)
             }
-            searchComponent(e.target.dataset.elementid).children.push(component)
+            return true
+        }catch (e) {
+            console.log(e)
+        }
     }
+    return false
+
 }
 
 // 搜索组件
@@ -435,6 +467,11 @@ export function exportComponent() {
 
 // 清空画布
 export function clearMap(){
+    getStore("UndoRedoStore").addOperation({method:'clearMap',params:deepClone(getStore("PagesStore").getNowPage().children)})
+    clearNowPageChildren()
+}
+
+export function clearNowPageChildren(){
     getStore("PagesStore").getNowPage().children = []
     eventBus.emit("clearSetter",{type:"clearMap",params:null})
 }
@@ -535,15 +572,26 @@ export function getComponentStyle(isPreview,styles){
     return result
 
 }
+export function deleteSelectComponent(){
+    const selectPlate = getStore("SimpleStore").selectPlate
+    // 删除了才增加不删除不添加
+    let result = deleteComponent(selectPlate)
+    if(result){
+        getStore("UndoRedoStore").addOperation({method:'deleteComponent',params:{deleteComponents:result}})
+    }
+}
 
 // 删除组件
-export function deleteComponent(){
-    const selectPlate = getStore("SimpleStore").selectPlate
+export function deleteComponent(selectPlate){
     let featherId = ''
     let target = []
     let root = "editor"
     let deleteId = []
+    let deleteComponentList = []
     selectPlate.forEach(item=>{
+        if(item.index !== undefined){
+            item = item.component
+        }
         item.status.active = false
         if(!item.status.lock){
             if(featherId !== item.featherId){
@@ -554,16 +602,15 @@ export function deleteComponent(){
                 }
             }
             deleteId.push(item.id)
-            let index = target.children.findIndex((data)=>{data.id === item.id})
-            if(item.component === "container"){
-                target.attributes[item.attribute].splice(index,1)
-            }
+            let index = target.children.findIndex((data)=>data.id === item.id)
+            deleteComponentList.push({index:index,component:deepClone(item)})
             target.children.splice(index,1)
             featherId = item.featherId
         }
     })
     selectPlate.splice(0)
     eventBus.emit("clearSetter",{type:"id",params:deleteId})
+    return deleteComponentList
 }
 
 // 返回选中组件设置器配置
@@ -617,7 +664,7 @@ export function copy(){
 // 剪切选中组件 调用复制函数 并删除组件
 export function shear(){
     copy()
-    deleteComponent()
+    deleteSelectComponent()
 }
 // 组件粘贴
 export function stickup(){
@@ -654,4 +701,5 @@ export function stickup(){
             targetContainer.push(item)
         })
     }
+    getStore("UndoRedoStore").addOperation({method:'addComponent',params:stickPate})
 }

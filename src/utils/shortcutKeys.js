@@ -1,11 +1,11 @@
-import {CommonStatusStore} from '@/stores/counter'
-import {copy, deleteComponent, lockComponent, savePage, shear, stickup} from "./core";
+import {CommonStatusStore,UndoRedoStore} from '@/stores/counter'
+import {copy, deleteSelectComponent, lockComponent, savePage, shear, stickup} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {
   "ctrl h": {
     label: '查看历史',
     func: function () {
-      console.log("查看历史")
+      console.log(UndoRedoStore().getHistory())
     }
   },
   "alt c": {
@@ -47,14 +47,13 @@ const keyDowns = {
   "ctrl d":{
     label: '删除',
     func: function () {
-      deleteComponent()
+      deleteSelectComponent()
     }
   },
   "Backspace":{
     label: '删除',
-    global:true,
     func: function () {
-      deleteComponent()
+      deleteSelectComponent()
     }
   },
   "ctrl l":{
@@ -69,7 +68,19 @@ const keyDowns = {
     func: function(){
       savePage()
     }
-  }
+  },
+  "ctrl z":{
+    label: '撤销',
+    func: function (){
+      UndoRedoStore().undo()
+    }
+  },
+  "ctrl y":{
+    label: '回退',
+    func: function (){
+      UndoRedoStore().redo()
+    }
+  },
 }
 const keyDetails = [
   {key:'ctrl h',detail:'查看历史'},
