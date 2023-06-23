@@ -4,7 +4,7 @@ export default {
         for (const path in imports) {
             imports[path]().then((mod) => {
                 let name = path.replace("/src/views/ScElementUI/","").replace(".vue","")
-                console.log(mod)d
+                console.log(mod)
                 app.component(name,mod)
             })
         }

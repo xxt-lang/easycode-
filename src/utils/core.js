@@ -149,7 +149,9 @@ export function moveComponent(e, index,dragObject) {
         // 用于拖拽时的提示定位
         eventBus.emit(`move-dragTip`, {style:{top: 0, left: 0, display: 'none'},message:null})
         if(getStore("CommonStatusStore").editMargin) return
-        upMouseMoveInfo(target,dragObject,direction,index)
+        if(upMouseMoveInfo(target,dragObject,direction,index)){
+            getStore("UndoRedoStore").addOperation({method:'moveComponent',params:{target:target,drag:drag,dragObject:dragObject,direction:direction}})
+        }
     })
 
 }
@@ -211,7 +213,8 @@ function mousemoveInfo(moveEvent){
 
 }
 //鼠标松开时的事件
-function upMouseMoveInfo(target,dragObject,direction,index){
+export function upMouseMoveInfo(target,dragObject,direction,index){
+    let result = false
     let targetComponent = {}
 
     // 父组件不能拖动到子组件上
@@ -232,6 +235,7 @@ function upMouseMoveInfo(target,dragObject,direction,index){
         targetComponents[index].featherId = "editor"
         dragComponents.push(targetComponents[index])
         targetComponents.splice(index, 1)
+        result = true
     } else if ((target.targetIndex != NaN && index != undefined && target.targetFeatherId && dragObject.featherId && dragObject.id !== target.targetId)) {
         let insertIndex = direction === 'right' || direction === 'bottom' ? target.targetIndex + 1 : target.targetIndex
         // 统一个容器下目标下表要是大于当前下标则当前下表+1
@@ -246,6 +250,7 @@ function upMouseMoveInfo(target,dragObject,direction,index){
             dragComponents[index].featherId = target.targetId
             targetComponents.push(dragComponents[index])
             dragComponents.splice(deleteIndex, 1)
+            result = true
         } else {
             if( dragObject.featherId !== rootId){
                 dragComponents = deepSelectComponent(pageComponents,  dragObject.featherId).children
@@ -261,8 +266,10 @@ function upMouseMoveInfo(target,dragObject,direction,index){
             dragComponents[ index].featherId = target.targetFeatherId
             targetComponents.splice(insertIndex, 0, dragComponents[ index])
             dragComponents.splice(deleteIndex, 1)
+            result = true
         }
     }
+    return result
 }
 
 
@@ -275,6 +282,7 @@ export function handleDrop(e){
         elementType : e.target.dataset.elementtype,
         elementId : e.target.dataset.elementid
     }
+    // 若添加成功返回true 并在撤销回退中记录
     if(addComponent(target,component)){
         getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
     }
@@ -284,11 +292,11 @@ export function handleDrop(e){
 export function addComponent(target,component,index){
     if (target.elementType == "editor") {
         component.featherId = "editor"
-        component.id = uuid()
+        component.id = component.id === '' || component.id === undefined ? uuid(): component.id
         //若容器是组件并且其中包含预定义的容器则向其中容器添加id 与父亲id
         if(component.type === "container" && component.children.length>0){
             component.children.forEach(item=>{
-                item.id = uuid()
+                item.id = item.id === '' || item.id === undefined? uuid(): item.id
                 item.featherId = component.id
             })
         }
@@ -310,10 +318,10 @@ export function addComponent(target,component,index){
 
         // 向容器中添加元素
         component.featherId = target.elementId
-        component.id = uuid()
+        component.id = component.id === '' || component.id === undefined ? uuid(): component.id
         if(component.type === "container" && component.children.length>0){
             component.children.forEach(item=>{
-                item.id = uuid()
+                item.id = '' || item.id === undefined? uuid(): item.id
                 item.featherId = component.id
             })
         }
@@ -467,13 +475,24 @@ export function exportComponent() {
 
 // 清空画布
 export function clearMap(){
-    getStore("UndoRedoStore").addOperation({method:'clearMap',params:deepClone(getStore("PagesStore").getNowPage().children)})
-    clearNowPageChildren()
+    // 获取清空画布返回结果，清空则向撤销回退中增加记录
+    let result = clearNowPageChildren()
+    if(result!==null){
+        getStore("UndoRedoStore").addOperation({method:'clearMap',params:result})
+    }
 }
 
 export function clearNowPageChildren(){
-    getStore("PagesStore").getNowPage().children = []
-    eventBus.emit("clearSetter",{type:"clearMap",params:null})
+    let result = null
+    try {
+        result = deepClone(getStore("PagesStore").getNowPage().children)
+        getStore("PagesStore").getNowPage().children = []
+        eventBus.emit("clearSetter",{type:"clearMap",params:null})
+    }catch (e){
+        console.log(e)
+    }finally {
+        return result
+    }
 }
 
 // 判断拖拽组件是否在目标组件上层
@@ -669,37 +688,46 @@ export function shear(){
 // 组件粘贴
 export function stickup(){
     // 获取fatherid 重置fatherid
-    let dataset = getStore("MouseEventStore").mouseEvent.target.dataset
+    let result = false
     let stickPate = deepClone(getStore("SimpleStore").copyPlate)
-    let targetContainer = getStore("PagesStore").getNowPage().children
-    if(dataset.elementtype === "editor"){
-        stickPate.forEach(item=>{
-            item.id = uuid()
-            item.featherId = "editor"
-            item.status.active = false // 消除选中状态
-            if(item.children){
-                item.children.forEach(cItem=>{
-                    cItem.featherId = item.id
-                    cItem.id = uuid()
-                })
-            }
-            targetContainer.push(item)
-        })
+    try {
+        let dataset = getStore("MouseEventStore").mouseEvent.target.dataset
+        let targetContainer = getStore("PagesStore").getNowPage().children
+        if(dataset.elementtype === "editor"){
+            stickPate.forEach(item=>{
+                item.id = uuid()
+                item.featherId = "editor"
+                item.status.active = false // 消除选中状态
+                if(item.children){
+                    item.children.forEach(cItem=>{
+                        cItem.featherId = item.id
+                        cItem.id = uuid()
+                    })
+                }
+                targetContainer.push(item)
+            })
+        }
+        if(dataset.elementtype === "container"){
+            targetContainer = searchComponent(dataset.elementid).children
+            // dataset.elementid
+            stickPate.forEach(item=>{
+                item.featherId = dataset.elementid
+                item.id = uuid()
+                item.status.active = false // 消除选中状态
+                if(item.children){
+                    item.children.forEach(cItem=>{
+                        cItem.featherId = item.id
+                    })
+                }
+                targetContainer.push(item)
+            })
+        }
+        result = true
+    }catch (e){
+        console.log(e)
     }
-    if(dataset.elementtype === "container"){
-        targetContainer = searchComponent(dataset.elementid).children
-        // dataset.elementid
-        stickPate.forEach(item=>{
-            item.featherId = dataset.elementid
-            item.id = uuid()
-            item.status.active = false // 消除选中状态
-            if(item.children){
-                item.children.forEach(cItem=>{
-                    cItem.featherId = item.id
-                })
-            }
-            targetContainer.push(item)
-        })
+    if(result){
+        getStore("UndoRedoStore").addOperation({method:'stickComponent',params:stickPate})
     }
-    getStore("UndoRedoStore").addOperation({method:'addComponent',params:stickPate})
+
 }

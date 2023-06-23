@@ -7,6 +7,10 @@ export default class Stack {
         }
         // 向栈中推入元素
         push(element){
+            if (this.point !== this.size() - 1) {
+                let dif = this.size() - this.point - 1
+                this.stack.splice(this.point === -1 ? 0 : this.point + 1, dif)
+            }
             // 当栈到达最大值时 删除栈底元素并
             if (this.max === this.size()) {
                 this.stack.splice(0,1)
@@ -45,16 +49,16 @@ export default class Stack {
             return this.stack[index]
         }
         undo(){
-            if(this.isEmpty()){
-                return null
-            }
-            return this.stack[this.point <= 0 ? 0:this.point--]
+            if (this.size() === 0 || this.point < 0) return undefined
+            let index = JSON.parse(JSON.stringify(this.point))
+            this.point--
+            return this.stack[index]
         }
         redo(){
-            if(this.isEmpty()){
-                return null
-            }
-            return this.stack[this.point+1 >= this.size() ? this.size()-1 : ++this.point]
+            if (this.size() === 0 || this.point + 1 >= this.size()) return undefined
+            this.point++
+            let index = JSON.parse(JSON.stringify(this.point))
+            return this.stack[index]
         }
 
 }
