@@ -117,6 +117,14 @@ const componentList = [
         ],
         type:"container"
     },
+    {
+        component: "ScMenu",
+        label: '导航',
+        events: {},
+        attributes: {},
+        styles: {},
+        type:"container"
+    },
 ]
 /*component:"ScButton", //组件名 与组件列表中的组件一致
     setter:{

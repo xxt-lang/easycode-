@@ -28,6 +28,11 @@ export function getStore(name){
 }
 
 
+// 模拟路由跳转
+export function ecRouter(path){
+    eventBus.emit("router",{path:path})
+}
+
 
 // 启动拖拽事件
 export function draggableStart(e) {

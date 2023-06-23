@@ -70,9 +70,14 @@ export const PageTagStore = defineStore('PageTagStoreMain', {
 export const PagesStore = defineStore('PagesStoreMain', {
   state: () => ({
     pages:[], // 页面page
-    nowPage : -1 // 当前选中的页面
+    nowPage : -1, // 当前选中的页面
   }),
   actions:{
+    getRouterPage(path){
+      console.log("--------")
+      let index = this.pages.findIndex((data)=>data.pageName === path)
+      return this.pages[index]
+    },
     // 配置整个项目
     setPage( pages ){
       this.pages = pages

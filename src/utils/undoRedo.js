@@ -71,12 +71,11 @@ return{
     }
   },
   undo(param){
-    undoMethods[param.method](param.params)
-    // try {
-    //   undoMethods[param.method](param.params)
-    // }catch (e){
-    //   console.log('撤销以到底')
-    // }
+    try {
+      undoMethods[param.method](param.params)
+    }catch (e){
+      console.log('撤销以到底')
+    }
   }
 }
 })
