@@ -74,7 +74,6 @@ export const PagesStore = defineStore('PagesStoreMain', {
   }),
   actions:{
     getRouterPage(path){
-      console.log("--------")
       let index = this.pages.findIndex((data)=>data.pageName === path)
       return this.pages[index]
     },

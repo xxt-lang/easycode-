@@ -22,7 +22,7 @@
       <el-menu-item index="3" disabled>Info</el-menu-item>
       <el-menu-item index="4">Orders</el-menu-item>
     </el-menu>
-    <ECRouter></ECRouter>
+    <ECRouter :isPreview="isPreview"></ECRouter>
   </div>
 </template>
 
@@ -33,6 +33,17 @@ import {ecRouter} from "../../utils/core";
 export default {
   name: "SCMenu",
   components: {ECRouter},
+  props:{
+    propValue: {
+      type: Object, String,
+      default: function () {
+      }
+    },
+    isPreview:{
+      type: Boolean,
+      default:false
+    }
+  },
   data(){
     return {
       activeIndex:1

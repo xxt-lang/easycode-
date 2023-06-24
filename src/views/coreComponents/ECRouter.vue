@@ -19,9 +19,16 @@
 import {mapActions} from "pinia";
 import {PagesStore} from "../../stores/counter";
 import eventBus from "../../utils/eventBus";
+import {getLocalStorage} from "../../utils/core";
 
 export default {
   name: "ECRouter",
+  props:{
+    isPreview:{
+      type: Boolean,
+      default:false
+    }
+  },
   data(){
     return {
       page:[],
@@ -30,15 +37,30 @@ export default {
     }
   },
   created() {
-    eventBus.on("router",(param)=>{
-      let page = this.getRouterPage(param.path)
-      if(page){
-        this.isPage = true
-        this.page = page.children
-      }else{
-        this.isPage = false
-      }
-    })
+    if(this.isPreview){
+      const pages = getLocalStorage()
+      eventBus.on("router",(param)=>{
+        let page = pages[pages.findIndex((data)=>data.pageName === param.path)]
+        if(page){
+          this.isPage = true
+          this.page = page.children
+        }else{
+          this.isPage = false
+        }
+      })
+    }else{
+      eventBus.on("router",(param)=>{
+        let page = this.getRouterPage(param.path)
+        if(page){
+          this.isPage = true
+          this.page = page.children
+        }else{
+          this.isPage = false
+        }
+      })
+    }
+
+
   },
   methods:{
     ...mapActions(PagesStore,['getRouterPage'])
