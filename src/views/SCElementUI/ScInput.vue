@@ -8,7 +8,7 @@
 </template>
 <script>
 import {ElInput} from 'element-plus'
-import {getComponentStyle} from "../../utils/core";
+import {getComponentStyle,getPageData} from "../../utils/core";
 export default {
   name: 'ScInput',
   components: {ElInput},
@@ -25,10 +25,11 @@ export default {
   },
   data() {
     return {
-      input: ''
+      input: this.getPageData('input',this.isPreview)
     }
   },
   methods: {
+    getPageData,
     getComponentStyle
   }
 }

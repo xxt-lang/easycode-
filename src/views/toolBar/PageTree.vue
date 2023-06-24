@@ -66,6 +66,9 @@ export default {
         label:'',
         children:[],
         status:{active:false},
+        data:{
+          input:'input'
+        },
         id:""
       },
       rules:{

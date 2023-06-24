@@ -26,11 +26,33 @@ export function getStore(name){
     if(name === "UndoRedoStore")
         return UndoRedoStore()
 }
-
+let previewIndex = -1
 
 // 模拟路由跳转
 export function ecRouter(path){
     eventBus.emit("router",{path:path})
+}
+
+export function getPageData(attribute,isPreview){
+    if(isPreview){
+        if(previewIndex !== -1){
+            return getLocalStorage()[previewIndex].data[attribute]
+        }
+    }else{
+        return getStore("PagesStore").getPageData(attribute)
+    }
+}
+export function previewPage(index){
+    let result = {page:[],message:"请先选择或创建页面",isPage:false}
+    if(index !== -1){
+        let localPage = getLocalStorage()
+        if(localPage.length>0){
+            result.page = localPage[index].children
+            result.isPage = true
+            previewIndex = index
+        }
+    }
+    return result
 }
 
 

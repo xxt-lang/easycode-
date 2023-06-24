@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="isPage">
+    <div v-if="page.isPage">
       <component
-          v-for="(item,index) in page"
+          v-for="(item,index) in page.page"
           :is="item.component"
           :key="index"
           :propValue="item"
@@ -10,34 +10,26 @@
       />
     </div>
     <div v-else>
-      {{message}}
+      {{page.message}}
     </div>
   </div>
 </template>
 
 <script>
-import {getLocalStorage} from "../utils/core";
+import { previewPage} from "../utils/core";
 
 export default {
   name: "preview",
   created() {
-    if(this.$route.query.page === -1){
-      this.message = "请先选择页面"
-    }else{
-      let localPage = getLocalStorage()
-      if(localPage.length<=0){
-        this.message = "请先创建页面"
-      }else{
-        this.page = localPage[this.$route.query.page].children
-        this.isPage = true
-      }
-    }
+    this.page = previewPage(this.$route.query.page)
   },
   data(){
     return {
-      page:[],
-      isPage:false,
-      message:""
+      page:{
+        page:[],
+        isPage:false,
+        message:""
+      }
     }
   },
   methods:{
