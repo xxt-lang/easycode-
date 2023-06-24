@@ -1,7 +1,7 @@
 <template>
   <el-tabs v-model="activeName" class="demo-tabs">
     <el-tab-pane label="data" name="data">
-      <VMonacoEditor v-model="editorData"></VMonacoEditor>
+      <VMonacoEditor v-model="editorData" language="json"></VMonacoEditor>
     </el-tab-pane>
     <el-tab-pane label="method" name="method">method</el-tab-pane>
     <el-tab-pane label="history" name="history">
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       activeName: 'data',
-      editorData:'{age:1,name:2}',
+      editorData:'{"name":10,"age":50}',
     }
   },
   watch:{
