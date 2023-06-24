@@ -168,9 +168,13 @@ export const UndoRedoStore = defineStore('UndoRedoStoreMain',{
       if(this.nowHistory.index === -1 || this.historyStore.length<=0){
         return null
       }
-      if(this.historyStore[this.nowHistory.index].pageId !== this.nowHistory.id){
-        // 假如数据不对就重新更正
-        this.nowHistory.index = this.historyStore.findIndex((data)=>this.nowHistory.id === data.pageId )
+      if(this.historyStore[this.nowHistory.index]){
+        if(this.historyStore[this.nowHistory.index].pageId !== this.nowHistory.id){
+          // 假如数据不对就重新更正
+          this.nowHistory.index = this.historyStore.findIndex((data)=>this.nowHistory.id === data.pageId )
+        }
+      }else{
+        this.addPageHistory(this.nowHistory.id)
       }
       return this.historyStore[this.nowHistory.index]
     },

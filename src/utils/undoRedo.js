@@ -10,7 +10,7 @@ export const UndoRedo = (function (){
     },
     "deleteComponent":function (param){
       // console.log(param)
-      deleteComponent(param.deleteComponents)
+      deleteComponent(deepClone(param.deleteComponents))
     },
     "clearMap":function (param){
       clearNowPageChildren()
@@ -19,8 +19,7 @@ export const UndoRedo = (function (){
       param.forEach(item=>{
         addComponent({
               elementType : item.featherId === "editor" ? "editor":"container",
-              elementId : item.featherId},
-            item)
+              elementId : item.featherId},item)
       })
     },
     "moveComponent":function(param){
@@ -71,6 +70,7 @@ return{
     }
   },
   undo(param){
+    console.log(param)
     try {
       undoMethods[param.method](param.params)
     }catch (e){

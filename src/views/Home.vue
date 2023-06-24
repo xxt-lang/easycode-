@@ -21,12 +21,16 @@
 
 <!--    快捷键弹窗-->
     <el-drawer v-model="showKeyDetails"  :title="drawerTitle" :modal="false" size="15%" >
-      <show-key-details></show-key-details>
+      <show-key-details> </show-key-details>
+    </el-drawer>
+<!--    页面配置弹窗-->
+    <el-drawer v-model="showPageConfiguration" :modal="false" size="30%" direction="ltr">
+      <page-configuration></page-configuration>
     </el-drawer>
   </div>
 </template>
 <script>
-import {EditorStore, EditorStatusStore,PagesStore,MouseEventStore} from '@/stores/counter'
+import {EditorStore, EditorStatusStore} from '@/stores/counter'
 import ToolBar from "./toolBar/TopBar.vue";
 import PageTag from "./coreComponents/PageTag.vue";
 import EditorMap from "./coreComponents/EditorMap.vue";
@@ -35,17 +39,19 @@ import Setter from "./coreComponents/setter/Setter.vue";
 import {initShortKeyDown} from "../utils/shortcutKeys";
 import {loadComponentConfiguration} from "../utils/componentConfigurator";
 import ShowKeyDetails from "./toolBar/ShowKeyDetails.vue";
-import {clearSelectPlate, getLocalStorage, getStore} from "../utils/core";
-import {mapActions} from "pinia"
+import {clearSelectPlate, initProject,} from "../utils/core";
+import PageConfiguration from "./toolBar/PageConfiguration.vue";
 
 export default {
-  components: {ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter},
+  components: {PageConfiguration, ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter},
   name: "Home",
   props: [],
   data() {
     return {
       showKeyDetails:false,
-      drawerTitle:''
+      drawerTitle:'',
+      showPageConfiguration:false,
+
     }
   },
   setup() {
@@ -61,6 +67,8 @@ export default {
     initShortKeyDown()
     //加载编辑的组件
     loadComponentConfiguration()
+    // 初始化项目数据
+    initProject()
   },
   mounted() {
     // 关闭浏览器的右键事件
@@ -68,17 +76,17 @@ export default {
     document.oncontextmenu = function (e) {
       return false;
     }
-    this.setPage(getLocalStorage())
   },
   methods: {
-    ...mapActions(PagesStore,['setPage']),
     // 工具栏点击事件，点击之后页面弹窗
     toolClick(param){
       if(param === 'showKeyDetail'){
         this.drawerTitle = "快捷键"
         this.showKeyDetails = !this.showKeyDetails
       }
-
+      if(param === 'pageConfiguration'){
+        this.showPageConfiguration = !this.showPageConfiguration
+      }
     },
     //点击弹窗
     clickBar(param) {
@@ -137,8 +145,13 @@ main {
 }
 
 :deep(.el-drawer__header){
-  margin-bottom: 0px
-;
+  margin-bottom: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 2px;
+}
+:deep(.el-drawer__body){
+  padding-top: 0px;
 }
 
 </style>

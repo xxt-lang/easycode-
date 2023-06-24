@@ -125,6 +125,24 @@ const componentList = [
         styles: {},
         type:"container"
     },
+    {
+        component: "ScDrawer",
+        label: '抽屉',
+        events: {},
+        attributes: {},
+        styles: {
+        },
+        type:"container"
+    },
+    {
+        component: "ScDialog",
+        label: '弹窗',
+        events: {},
+        attributes: {},
+        styles: {
+        },
+        type:"container"
+    },
 ]
 /*component:"ScButton", //组件名 与组件列表中的组件一致
     setter:{
@@ -243,6 +261,14 @@ const componentSetters = [
         component: "ScInput",
         setter: {
             attributes:[
+                {
+                    attributeName:"value",//组件配置中属性字段名 必写
+                    label:"value绑定",// 字段标签
+                    type:"input",//编辑自段的类型input select number switch 必写
+                    value:"",//属性值 必写
+                    defaultValue:"",//默认属性值 必写
+                    valueType:String,// 属性值类型 必写
+                },
                 {
                 attributeName:"type",//组件配置中属性字段名 必写
                 label:"类型",// 字段标签

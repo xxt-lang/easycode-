@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-import {exportComponent,clearMap,savePage} from "@/utils/core"
+import {exportComponent,clearMap,savePage,redo,undo} from "@/utils/core"
 import {mapActions} from "pinia";
 import {PagesStore} from "../../stores/counter";
 
@@ -46,16 +46,16 @@ export default {
                 clearMap()
               }
             },
-            // {
-            //   component:"button",
-            //   label:"返回",
-            //   attribute:{
-            //     type:'primary'
-            //   },
-            //   icon:'',
-            //   func:()=>{
-            //   }
-            // },
+            {
+              component:"button",
+              label:"返回",
+              attribute:{
+                type:'primary'
+              },
+              icon:'',
+              func:()=>{
+              }
+            },
             {
               component:"button",
               label:"预览",
@@ -84,6 +84,35 @@ export default {
               icon:'',
               func:()=>{
                 savePage()
+              }
+            },
+            {
+              component:"button",
+              label:"撤销",
+              attribute:{
+              },
+              icon:'',
+              func:()=>{
+                undo()
+              }
+            },
+            {
+              component:"button",
+              label:"回退",
+              attribute:{
+              },
+              icon:'',
+              func:()=>{
+                redo()
+              }
+            },
+            {
+              component:"button",
+              label:"页面配置",
+              attribute:{
+              },
+              func:()=>{
+                that.toolClick('pageConfiguration')
               }
             },
             {

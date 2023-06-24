@@ -37,7 +37,6 @@
       <!--    拖拽时的提示信息-->
       <div :style="dragTip" class="dragTip">{{dragTipMessage}}</div>
     </div>
-
   </div>
 </template>
 <script>
@@ -71,6 +70,7 @@ export default {
       nowIndex: 0,
       curComponent: null,
       copyComponent: null,
+      model:true
     }
   },
   computed:{

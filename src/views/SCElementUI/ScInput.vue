@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      input: this.getPageData('input',this.isPreview)
+      input: this.getPageData(this.propValue.attributes['value'],this.isPreview)
     }
   },
   methods: {

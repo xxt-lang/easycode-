@@ -32,7 +32,7 @@ let previewIndex = -1
 export function ecRouter(path){
     eventBus.emit("router",{path:path})
 }
-
+// 返回当前页面绑定的数据
 export function getPageData(attribute,isPreview){
     if(isPreview){
         if(previewIndex !== -1){
@@ -42,6 +42,12 @@ export function getPageData(attribute,isPreview){
         return getStore("PagesStore").getPageData(attribute)
     }
 }
+
+export function initProject(){
+    getStore("PagesStore").setPage(getLocalStorage())
+}
+
+// 预览时展示的界面
 export function previewPage(index){
     let result = {page:[],message:"请先选择或创建页面",isPage:false}
     if(index !== -1){
@@ -55,6 +61,15 @@ export function previewPage(index){
     return result
 }
 
+
+// 撤销
+export function undo(){
+    getStore("UndoRedoStore").undo()
+}
+// 回退
+export function redo(){
+    getStore("UndoRedoStore").redo()
+}
 
 // 启动拖拽事件
 export function draggableStart(e) {

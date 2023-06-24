@@ -1,5 +1,5 @@
 import {CommonStatusStore,UndoRedoStore} from '@/stores/counter'
-import {copy, deleteSelectComponent, lockComponent, savePage, shear, stickup} from "./core";
+import {copy, deleteSelectComponent, lockComponent, savePage, shear, stickup,redo,undo} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {
   "ctrl h": {
@@ -72,13 +72,13 @@ const keyDowns = {
   "ctrl z":{
     label: '撤销',
     func: function (){
-      UndoRedoStore().undo()
+      undo()
     }
   },
   "ctrl y":{
     label: '回退',
     func: function (){
-      UndoRedoStore().redo()
+      redo()
     }
   },
 }
@@ -89,6 +89,8 @@ const keyDetails = [
   {key:'Backspace',detail:'删除'},
   {key:'ctrl l',detail:'锁定组件'},
   {key:'ctrl s',detail:'保存组件'},
+  {key:'ctrl z',detail:'撤销'},
+  {key:'ctrl y',detail:'回退'},
 ]
 export function getKeyDetails(){
   return keyDetails
