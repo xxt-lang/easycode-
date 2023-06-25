@@ -20,13 +20,10 @@
     </main>
 
 <!--    快捷键弹窗-->
-    <el-drawer v-model="showKeyDetails"  :title="drawerTitle" :modal="false" size="15%" >
-      <show-key-details> </show-key-details>
-    </el-drawer>
+
+      <show-key-details v-model="showKeyDetails"> </show-key-details>
 <!--    页面配置弹窗-->
-    <el-drawer v-model="showPageConfiguration" :modal="false" size="30%" direction="ltr">
-      <page-configuration></page-configuration>
-    </el-drawer>
+      <page-configuration v-model="showPageConfiguration"></page-configuration>
   </div>
 </template>
 <script>
@@ -51,7 +48,6 @@ export default {
       showKeyDetails:false,
       drawerTitle:'',
       showPageConfiguration:false,
-
     }
   },
   setup() {
@@ -81,7 +77,6 @@ export default {
     // 工具栏点击事件，点击之后页面弹窗
     toolClick(param){
       if(param === 'showKeyDetail'){
-        this.drawerTitle = "快捷键"
         this.showKeyDetails = !this.showKeyDetails
       }
       if(param === 'pageConfiguration'){

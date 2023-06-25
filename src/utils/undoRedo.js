@@ -70,7 +70,6 @@ return{
     }
   },
   undo(param){
-    console.log(param)
     try {
       undoMethods[param.method](param.params)
     }catch (e){

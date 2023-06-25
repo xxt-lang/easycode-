@@ -52,24 +52,23 @@ export default {
   } ,
   emits:['update:modelValue'],
   setup(props, { emit }) {
-    let monacoEditor = null;
+    var monacoEditor = null;
     const { proxy } = getCurrentInstance();
 
     watch(
         () => props.modelValue,
-        (val) => {
+        (val,oldVal) => {
           // 防止改变编辑器内容时光标重定向
-          if (val !== monacoEditor?.getValue()) {
+          if (monacoEditor!=null && val !== monacoEditor?.getValue()) {
             monacoEditor.setValue(val);
+            monacoEditor.trigger('anything', 'editor.action.formatDocument');
           }
         },
     );
 
     onMounted(() => {
-      // monaco.languages.register({ id: 'javascript' });
-      // monaco.languages.setMonarchTokensProvider('javascript', javascript);
       monacoEditor = monaco.editor.create(proxy.$refs.editContainer, {
-        value: props.modelValue,
+        value:props.modelValue,
         readOnly: false,
         language: props.language,
         theme: 'vs',
@@ -77,12 +76,10 @@ export default {
         renderSideBySide: true,
         automaticLayout:true
       });
-      // console.log(monaco.languages.getLanguages().map(function(lang) { return lang.id; }))
-
       // 监听值变化
       monacoEditor.onDidChangeModelContent(() => {
         const currenValue = monacoEditor.getValue();
-        emit('update:value', currenValue);
+        emit('update:modelValue', currenValue);
       });
     });
 
