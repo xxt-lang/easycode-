@@ -23,9 +23,19 @@ export default {
       default:false
     }
   },
+  computed:{
+    input:{
+      get(){
+        // 绑定事件监听
+        return this.getPageData(this.propValue.attributes['value'],this.isPreview)
+      },
+      set(){
+
+      }
+    }
+  },
   data() {
     return {
-      input: this.getPageData(this.propValue.attributes['value'],this.isPreview)
     }
   },
   methods: {
