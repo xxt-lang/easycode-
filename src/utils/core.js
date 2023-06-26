@@ -742,7 +742,8 @@ function re (key,value){
 
 // 获取保存到本地的浏览器数据
 export function getLocalStorage(){
-   return localStorage.getItem("page")!== null && localStorage.getItem("page")!=="undefined" ?JSON.parse(localStorage.getItem("page") ):[]
+   const storage = localStorage.getItem("page")
+   return (storage!== null && storage!=="undefined" && storage === '') ?JSON.parse(storage):[]
 }
 
 // 复制选中组件
