@@ -7,9 +7,6 @@
        data-elementType = "editor"
        @mousedown="handleMouseDownMap($event)"
   >
-<!--    <div v-if="">-->
-
-<!--    </div>-->
     <div v-if="!getNowPage()">
       选择或新建页面
     </div>

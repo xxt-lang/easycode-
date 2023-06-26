@@ -2,11 +2,11 @@ import {ComponentListStore} from "../stores/counter"
 import {uuid} from "./tool";
 // 组件的基础属性
 const baseAttribute = {
-    status:{
-        active:false,
-        activeContainer:false,
-        isHidden:false,
-        lock:false,// false 不锁 true 锁
+    status: {
+        active: false,
+        activeContainer: false,
+        isHidden: false,
+        lock: false,// false 不锁 true 锁
     },// 组件状态 r
 }
 // 注册的组件列表
@@ -16,19 +16,16 @@ const componentList = [
         label: '按钮', // 左侧组件列表中显示的名字
         icon: 'el-icon-edit', // 左侧组件列表中显示的名字
         animations: [], // 动画列表
-        events: {
-        }, // 事件列表
+        events: {}, // 事件列表
         attributes: {},
-        styles: {
-        },
+        styles: {},
     },
     {
         component: "ScInput",
         label: '输入框',
         events: {},
         attributes: {},
-        styles: {
-        },
+        styles: {},
     },
     {
         component: "ScRate",
@@ -36,7 +33,7 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {
-            width:'200px'
+            width: '200px'
         },
     },
     {
@@ -51,8 +48,7 @@ const componentList = [
         label: '颜色选择器',
         events: {},
         attributes: {},
-        styles: {
-        },
+        styles: {},
     },
     {
         component: "ScRadio",
@@ -67,7 +63,7 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {
-            width:'200px'
+            width: '200px'
         },
     },
     {
@@ -83,7 +79,7 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {},
-        type:"container"
+        type: "container"
     },
     {
         component: "ScRow",
@@ -91,31 +87,33 @@ const componentList = [
         event: {},
         attributes: {},
         styles: {},
-        children:[
+        children: [
             {
-                component:"container",
-                attribute:'col',
-                label:"列",
-                id:"",
+                component: "container",
+                attribute: 'col',
+                label: "列",
+                id: "",
                 event: {},
                 attributes: {},
                 styles: {},
-                children:[],
-                featherId:"",
-                type:"container"},
+                children: [],
+                featherId: "",
+                type: "container"
+            },
             {
-                component:"container",
-                attribute:'col',
-                label:"列",
-                id:"",
+                component: "container",
+                attribute: 'col',
+                label: "列",
+                id: "",
                 event: {},
                 attributes: {},
                 styles: {},
-                children:[],
-                featherId:"",
-                type:"container"},
+                children: [],
+                featherId: "",
+                type: "container"
+            },
         ],
-        type:"container"
+        type: "container"
     },
     {
         component: "ScMenu",
@@ -123,25 +121,23 @@ const componentList = [
         events: {},
         attributes: {},
         styles: {},
-        type:"container"
+        type: "container"
     },
     {
         component: "ScDrawer",
         label: '抽屉',
         events: {},
         attributes: {},
-        styles: {
-        },
-        type:"container"
+        styles: {},
+        type: "container"
     },
     {
         component: "ScDialog",
         label: '弹窗',
         events: {},
         attributes: {},
-        styles: {
-        },
-        type:"container"
+        styles: {},
+        type: "container"
     },
 ]
 /*component:"ScButton", //组件名 与组件列表中的组件一致
@@ -161,98 +157,171 @@ const componentList = [
 ]
     }
     */
-
 // 组件设置器配置
 const componentSetters = [
     {
-        component:"ScButton", //组件名 与组件列表中的组件一致
-        setter:{
-            attributes:[
-                    {
-                        attributeName:"type",//组件配置中属性字段名
-                        label:"类型",
-                        type:"select",//编辑自段的类型input select number switch buttonList
-                        value:"primary",//属性值
-                        defaultValue:"primary",//默认属性值
-                        valueType:String,// 属性值类型
-                        verifyRule:"",// 属性值校验规则 可填入正则表达式
-                        typeArray:[
-                            {value: 'primary',
-                                label: 'primary'},
-                            {value: 'success',
-                                label: 'success'},
-                            {value: 'warning',
-                                label: 'warning'},
-                            {value: 'danger',
-                                label: 'danger'},
-                            {value: 'info',
-                                label: 'info'},
-                            {value: 'text',
-                                label: 'text'}] //类型选择数组
-                    },
-                    {
-                        attributeName:"size",//组件配置中属性字段名
-                        label:"尺寸",
-                        type:"select",//编辑自段的类型input select number switch buttonList
-                        value:"default",//属性值
-                        defaultValue:"default",//默认属性值
-                        valueType:String,// 属性值类型
-                        verifyRule:"",// 属性值校验规则 可填入正则表达式
-                        typeArray:[
-                            {value: 'large',
-                                label: 'large'},
-                            {value: 'default',
-                                label: 'default'},
-                            {value: 'small',
-                                label: 'small'}] //类型选择数组
-                    },
-                    {
-                        attributeName:"label",//组件配置中属性字段名
-                        label:"文本",
-                        type:"input",//编辑自段的类型input select number switch buttonList
-                        value:"按钮",//属性值
-                        defaultValue:"按钮",//默认属性值
-                        valueType:Boolean,// 属性值类型,
-                        verifyRule:"",// 属性值校验规则 可填入正则表达式
-                        typeArray:[] //类型选择数组
-                    },
-                    {
-                        attributeName:"plain",//组件配置中属性字段名
-                        label:"朴素按钮",
-                        type:"switch",//编辑自段的类型input select number switch buttonList
-                        value:false,//属性值
-                        defaultValue:false,//默认属性值
-                        valueType:Boolean,// 属性值类型,
-                        verifyRule:"",// 属性值校验规则 可填入正则表达式
-                        typeArray:[] //类型选择数组
-                    },
-                    {
-                        attributeName:"round",//组件配置中属性字段名
-                        label:"原型按钮",
-                        type:"switch",//编辑自段的类型input select number switch buttonList
-                        value:false,//属性值
-                        defaultValue:false,//默认属性值
-                        valueType:Boolean,// 属性值类型,
-                        verifyRule:"",// 属性值校验规则 可填入正则表达式
-                        typeArray:[] //类型选择数组
-                    },
-                    {
-                        attributeName:"disabled",//组件配置中属性字段名
-                        label:"禁用状态",
-                        type:"switch",//编辑自段的类型input select number switch buttonList
-                        value:false,//属性值
-                        defaultValue:false,//默认属性值
-                        valueType:Boolean,// 属性值类型,
-                        verifyRule:"",// 属性值校验规则 可填入正则表达式
-                        typeArray:[] //类型选择数组
-                    },
-                ],
-            styles:{},
-            events:[
+        component: "ScButton", //组件名 与组件列表中的组件一致
+        setter: {
+            attributes: [
                 {
-                    event:"click", // 事件名称
-                    annotation:"",
-                    eventContent:{}
+                    attributeName: "type",//组件配置中属性字段名
+                    label: "类型",
+                    type: "select",//编辑自段的类型input select number switch buttonList
+                    value: "primary",//属性值
+                    defaultValue: "primary",//默认属性值
+                    valueType: String,// 属性值类型
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式
+                    typeArray: [
+                        {
+                            value: 'primary',
+                            label: 'primary'
+                        },
+                        {
+                            value: 'success',
+                            label: 'success'
+                        },
+                        {
+                            value: 'warning',
+                            label: 'warning'
+                        },
+                        {
+                            value: 'danger',
+                            label: 'danger'
+                        },
+                        {
+                            value: 'info',
+                            label: 'info'
+                        },
+                        {
+                            value: 'text',
+                            label: 'text'
+                        }] //类型选择数组
+                },
+                {
+                    attributeName: "size",//组件配置中属性字段名
+                    label: "尺寸",
+                    type: "select",//编辑自段的类型input select number switch buttonList
+                    value: "default",//属性值
+                    defaultValue: "default",//默认属性值
+                    valueType: String,// 属性值类型
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式
+                    typeArray: [
+                        {
+                            value: 'large',
+                            label: 'large'
+                        },
+                        {
+                            value: 'default',
+                            label: 'default'
+                        },
+                        {
+                            value: 'small',
+                            label: 'small'
+                        }] //类型选择数组
+                },
+                {
+                    attributeName: "label",//组件配置中属性字段名
+                    label: "文本",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: "按钮",//属性值
+                    defaultValue: "按钮",//默认属性值
+                    valueType: Boolean,// 属性值类型,
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式
+                    typeArray: [] //类型选择数组
+                },
+                {
+                    attributeName: "plain",//组件配置中属性字段名
+                    label: "朴素按钮",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                    valueType: Boolean,// 属性值类型,
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式
+                    typeArray: [] //类型选择数组
+                },
+                {
+                    attributeName: "round",//组件配置中属性字段名
+                    label: "原型按钮",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                },
+                {
+                    attributeName: "disabled",//组件配置中属性字段名
+                    label: "禁用状态",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                },
+                {
+                    attributeName: "circle",//组件配置中属性字段名
+                    label: "圆形",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                },
+                {
+                    attributeName: "loading",//组件配置中属性字段名
+                    label: "loading",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                },
+                {
+                    attributeName: "loading-icon",//组件配置中属性字段名
+                    label: "加载中状态图标",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: 'Loading',//属性值
+                    defaultValue: 'Loading',//默认属性值
+                },
+                {
+                    attributeName: "icon",//组件配置中属性字段名
+                    label: "图标",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
+                },
+                {
+                    attributeName: "autofocus",//组件配置中属性字段名
+                    label: "原生autofocus",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                },
+                {
+                    attributeName: "native-type",//组件配置中属性字段名
+                    label: "原生type属性",
+                    type: "select",//编辑自段的类型input select number switch buttonList
+                    value: 'button',//属性值
+                    defaultValue: 'button',//默认属性值
+                    typeArray: [
+                        {value: 'button', label: 'button'}, {value: 'submit', label: 'submit'}, {
+                            value: 'reset',
+                            label: 'reset'
+                        }
+                    ] //类型选择数组
+                },
+                {
+                    attributeName: "color",//组件配置中属性字段名
+                    label: "颜色",
+                    type: "color",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
+                },
+                {
+                    attributeName: "dark",//组件配置中属性字段名
+                    label: "dark模式",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                },
+            ],
+            styles: {},
+            events: [
+                {
+                    event: "click", // 事件名称
+                    annotation: "",
+                    eventContent: {}
                 }
             ]
         },
@@ -260,283 +329,501 @@ const componentSetters = [
     {
         component: "ScInput",
         setter: {
-            attributes:[
+            attributes: [
                 {
-                    attributeName:"value",//组件配置中属性字段名 必写
-                    label:"value绑定",// 字段标签
-                    type:"input",//编辑自段的类型input select number switch 必写
-                    value:"",//属性值 必写
-                    defaultValue:"",//默认属性值 必写
-                    valueType:String,// 属性值类型 必写
+                    attributeName: "value",//组件配置中属性字段名 必写
+                    label: "value绑定",// 字段标签
+                    type: "input",//编辑自段的类型input select number switch 必写
+                    value: "",//属性值 必写
+                    defaultValue: "",//默认属性值 必写
+                    valueType: String,// 属性值类型 必写
                 },
                 {
-                attributeName:"type",//组件配置中属性字段名 必写
-                label:"类型",// 字段标签
-                type:"select",//编辑自段的类型input select number switch 必写
-                value:"text",//属性值 必写
-                defaultValue:"text",//默认属性值 必写
-                valueType:String,// 属性值类型 必写
-                verifyRule:"",// 属性值校验规则 可填入正则表达式 非必写
-                typeArray:[   {value: 'text',
-                    label: 'text'},   {value: 'textarea',
-                    label: 'textarea'},] //类型选择数组  非必写
-            },
+                    attributeName: "type",//组件配置中属性字段名 必写
+                    label: "类型",// 字段标签
+                    type: "select",//编辑自段的类型input select number switch 必写
+                    value: "text",//属性值 必写
+                    defaultValue: "text",//默认属性值 必写
+                    valueType: String,// 属性值类型 必写
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式 非必写
+                    typeArray: [{
+                        value: 'text',
+                        label: 'text'
+                    }, {
+                        value: 'textarea',
+                        label: 'textarea'
+                    },] //类型选择数组  非必写
+                },
                 {
-                    attributeName:"placeholder",//组件配置中属性字段名 必写
-                    label:"输入提示",// 字段标签
-                    type:"input",//编辑自段的类型input select number switch 必写
-                    value:"请输入",//属性值 必写
-                    defaultValue:"请输入",//默认属性值 必写
-                    valueType:String,// 属性值类型 必写
-                    typeArray:[
-                        {value: 'text',label: 'text'},
-                        {value: 'textarea',label: 'textarea'},
-                       ] //类型选择数组  非必写
-                }
-                ],
-            styles:{}
+                    attributeName: "placeholder",//组件配置中属性字段名 必写
+                    label: "输入提示",// 字段标签
+                    type: "input",//编辑自段的类型input select number switch 必写
+                    value: "请输入",//属性值 必写
+                    defaultValue: "请输入",//默认属性值 必写
+                    valueType: String,// 属性值类型 必写
+                    typeArray: [
+                        {value: 'text', label: 'text'},
+                        {value: 'textarea', label: 'textarea'},
+                    ] //类型选择数组  非必写
+                },
+                {
+                    attributeName: "maxlength",//组件配置中属性字段名 必写
+                    label: "最大输入长度",// 字段标签
+                    type: "inputNumber",//编辑自段的类型input select number switch 必写
+                    value: 100,//属性值 必写
+                    defaultValue: 100,//默认属性值 必写
+                    max: 1000,
+                    min:0
+                },
+                {
+                    attributeName: "minlength",//组件配置中属性字段名 必写
+                    label: "最小输入长度",// 字段标签
+                    type: "inputNumber",//编辑自段的类型input select number switch 必写
+                    value: 0,//属性值 必写
+                    defaultValue: 0,//默认属性值 必写
+                    max: 100,
+                    min:0
+                },
+                {
+                    attributeName:"show-word-limit",//组件配置中属性字段名
+                    label:"统计字数",
+                    type:"switch",//编辑自段的类型input select number switch buttonList
+                    value:false,//属性值
+                    defaultValue:false,//默认属性值
+                },
+                {
+                    attributeName:"clearable",//组件配置中属性字段名
+                    label:"显示清除按钮",
+                    type:"switch",//编辑自段的类型input select number switch buttonList
+                    value:false,//属性值
+                    defaultValue:false,//默认属性值
+                },
+                {
+                    attributeName:"show-password",//组件配置中属性字段名
+                    label:"切换密码图标",
+                    type:"switch",//编辑自段的类型input select number switch buttonList
+                    value:false,//属性值
+                    defaultValue:false,//默认属性值
+                },
+                {
+                    attributeName:"disabled",//组件配置中属性字段名
+                    label:"是否禁用",
+                    type:"switch",//编辑自段的类型input select number switch buttonList
+                    value:false,//属性值
+                    defaultValue:false,//默认属性值
+                },
+                {
+                    attributeName: "size",//组件配置中属性字段名 必写
+                    label: "尺寸",// 字段标签
+                    type: "select",//编辑自段的类型input select number switch 必写
+                    value: "",//属性值 必写
+                    defaultValue: "",//默认属性值 必写
+                    valueType: String,// 属性值类型 必写
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式 非必写
+                    typeArray: [{
+                        value: 'large',
+                        label: 'large'
+                    }, {
+                        value: 'default',
+                        label: 'default'
+                    },{
+                        value: 'small',
+                        label: 'small'
+                    },] //类型选择数组  非必写
+                },
+                {
+                    attributeName:"prefix-icon",//组件配置中属性字段名
+                    label:"前缀图标",
+                    type:"input",//编辑自段的类型input select number switch buttonList
+                    value:'',//属性值
+                    defaultValue:'',//默认属性值
+                },
+                {
+                    attributeName:"suffix-icon",//组件配置中属性字段名
+                    label:"后缀图标",
+                    type:"input",//编辑自段的类型input select number switch buttonList
+                    value:'',//属性值
+                    defaultValue:'',//默认属性值
+                },
+                {
+                    attributeName:"rows",//组件配置中属性字段名
+                    label:"行数",
+                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
+                    value:1,//属性值
+                    defaultValue:1,//默认属性值
+                },
+                {
+                    attributeName:"autosize",//组件配置中属性字段名
+                    label:"高度是否自适应",
+                    type:"switch",//编辑自段的类型input select number switch buttonList
+                    value:false,//属性值
+                    defaultValue:false,//默认属性值
+                },
+                {
+                    attributeName:"autocomplete",//组件配置中属性字段名
+                    label:"autocomplete 属性",
+                    type:"input",//编辑自段的类型input select number switch buttonList
+                    value:'off',//属性值
+                    defaultValue:'off',//默认属性值
+                },
+                {
+                    attributeName:"name",//组件配置中属性字段名
+                    label:"name 属性",
+                    type:"input",//编辑自段的类型input select number switch buttonList
+                    value:'',//属性值
+                    defaultValue:'',//默认属性值
+                },
+                {
+                    attributeName:"readonly",//组件配置中属性字段名
+                    label:"是否只读",
+                    type:"switch",//编辑自段的类型input select number switch buttonList
+                    value:false,//属性值
+                    defaultValue:false,//默认属性值
+                },
+                {
+                    attributeName:"max",//组件配置中属性字段名
+                    label:"max 属性",
+                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
+                    value:'',//属性值
+                    defaultValue:'',//默认属性值
+                },
+                {
+                    attributeName:"min",//组件配置中属性字段名
+                    label:"min 属性",
+                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
+                    value:'',//属性值
+                    defaultValue:'',//默认属性值
+                },
+                {
+                    attributeName:"step",//组件配置中属性字段名
+                    label:"合法数字间隔",
+                    type:"input",//编辑自段的类型input select number switch buttonList
+                    value:'',//属性值
+                    defaultValue:'',//默认属性值
+                },
+                {
+                    attributeName: "resize",//组件配置中属性字段名 必写
+                    label: "缩放",// 字段标签
+                    type: "select",//编辑自段的类型input select number switch 必写
+                    value: "",//属性值 必写
+                    defaultValue: "",//默认属性值 必写
+                    valueType: String,// 属性值类型 必写
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式 非必写
+                    typeArray: [{
+                        value: 'none',
+                        label: 'none'
+                    }, {
+                        value: 'both',
+                        label: 'both'
+                    },{
+                        value: 'horizontal',
+                        label: 'horizontal'
+                    },{
+                        value: 'vertical',
+                        label: 'vertical'
+                    }] //类型选择数组  非必写
+                },
+                {
+                    attributeName:"autofocus",//组件配置中属性字段名
+                    label:"自动获取焦点",
+                    type:"switch",//编辑自段的类型input select number switch buttonList
+                    value:false,//属性值
+                    defaultValue:false,//默认属性值
+                },
+                {
+                    attributeName:"form",//组件配置中属性字段名
+                    label:"form属性",
+                    type:"input",//编辑自段的类型input select number switch buttonList
+                    value:'',//属性值
+                    defaultValue:'',//默认属性值
+                },
+                {
+                    attributeName:"validate-event",//组件配置中属性字段名
+                    label:"是否触发校验",
+                    type:"switch",//编辑自段的类型input select number switch buttonList
+                    value:false,//属性值
+                    defaultValue:false,//默认属性值
+                },
+                {
+                    attributeName:"tabindex",//组件配置中属性字段名
+                    label:"输入框的 tabindex",
+                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
+                    value:0,//属性值
+                    defaultValue:0,//默认属性值
+                },
+                {
+                    attributeName:" input-style",//组件配置中属性字段名
+                    label:"元素的 style",
+                    type:"input",//编辑自段的类型input select number switch buttonList
+                    value:'',//属性值
+                    defaultValue:'',//默认属性值
+                },
+            ],
+            styles: {}
         }
     },
     {
         component: "ScCard",
         setter: {
-            attributes:[
+            attributes: [
                 {
-                    attributeName:"header",//组件配置中属性字段名 必写
-                    label:"类型",// 字段标签
-                    type:"input",//编辑自段的类型input select number switch 必写
-                    value:"",//属性值 必写
-                    defaultValue:"",//默认属性值 必写
-                    valueType:String,// 属性值类型 必写
+                    attributeName: "header",//组件配置中属性字段名 必写
+                    label: "类型",// 字段标签
+                    type: "input",//编辑自段的类型input select number switch 必写
+                    value: "",//属性值 必写
+                    defaultValue: "",//默认属性值 必写
+                    valueType: String,// 属性值类型 必写
                 },
                 {
-                    attributeName:"shadow",//组件配置中属性字段名 必写
-                    label:"输入提示",// 字段标签
-                    type:"select",//编辑自段的类型input select number switch 必写
-                    value:"always",//属性值 必写
-                    defaultValue:"always",//默认属性值 必写
-                    valueType:String,// 属性值类型 必写
-                    typeArray:[
-                        {value: 'always',label: 'always'},
-                        {value: 'never',label: 'never'},
-                        {value: 'hover',label: 'hover'},] //类型选择数组  非必写
+                    attributeName: "shadow",//组件配置中属性字段名 必写
+                    label: "输入提示",// 字段标签
+                    type: "select",//编辑自段的类型input select number switch 必写
+                    value: "always",//属性值 必写
+                    defaultValue: "always",//默认属性值 必写
+                    valueType: String,// 属性值类型 必写
+                    typeArray: [
+                        {value: 'always', label: 'always'},
+                        {value: 'never', label: 'never'},
+                        {value: 'hover', label: 'hover'},] //类型选择数组  非必写
                 }
             ],
-            styles:{}
+            styles: {}
         }
     },
     {
         component: "ScRate",
         setter: {
-            attributes:[
+            attributes: [
                 {
-                    attributeName:"max",//组件配置中属性字段名 必写
-                    label:"最大分数值",// 字段标签
-                    type:"inputNumber",//编辑自段的类型input select number switch 必写
-                    value:5,//属性值 必写
-                    defaultValue:5,//默认属性值 必写
-                    valueType:Number,// 属性值类型 必写
+                    attributeName: "max",//组件配置中属性字段名 必写
+                    label: "最大分数值",// 字段标签
+                    type: "inputNumber",//编辑自段的类型input select number switch 必写
+                    value: 5,//属性值 必写
+                    defaultValue: 5,//默认属性值 必写
+                    valueType: Number,// 属性值类型 必写
                 },
                 {
-                    attributeName:"shadow",//组件配置中属性字段名 必写
-                    label:"输入提示",// 字段标签
-                    type:"select",//编辑自段的类型input select number switch 必写
-                    value:"always",//属性值 必写
-                    defaultValue:"always",//默认属性值 必写
-                    valueType:String,// 属性值类型 必写
-                    typeArray:[
-                        {value: 'always',label: 'always'},
-                        {value: 'never',label: 'never'},
-                        {value: 'hover',label: 'hover'},] //类型选择数组  非必写
+                    attributeName: "shadow",//组件配置中属性字段名 必写
+                    label: "输入提示",// 字段标签
+                    type: "select",//编辑自段的类型input select number switch 必写
+                    value: "always",//属性值 必写
+                    defaultValue: "always",//默认属性值 必写
+                    valueType: String,// 属性值类型 必写
+                    typeArray: [
+                        {value: 'always', label: 'always'},
+                        {value: 'never', label: 'never'},
+                        {value: 'hover', label: 'hover'},] //类型选择数组  非必写
                 }
             ],
-            styles:{}
+            styles: {}
         }
     },
     {
-        component:"ScSwitch", //组件名 与组件列表中的组件一致
-        setter:{
-            attributes:[
+        component: "ScSwitch", //组件名 与组件列表中的组件一致
+        setter: {
+            attributes: [
                 {
-                    attributeName:"size",//组件配置中属性字段名
-                    label:"尺寸",
-                    type:"select",//编辑自段的类型input select number switch buttonList
-                    value:"default",//属性值
-                    defaultValue:"default",//默认属性值
-                    valueType:String,// 属性值类型
-                    verifyRule:"",// 属性值校验规则 可填入正则表达式
-                    typeArray:[
-                        {value: 'large',
-                            label: 'large'},
-                        {value: 'default',
-                            label: 'default'},
-                        {value: 'small',
-                            label: 'small'}] //类型选择数组
+                    attributeName: "size",//组件配置中属性字段名
+                    label: "尺寸",
+                    type: "select",//编辑自段的类型input select number switch buttonList
+                    value: "default",//属性值
+                    defaultValue: "default",//默认属性值
+                    valueType: String,// 属性值类型
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式
+                    typeArray: [
+                        {
+                            value: 'large',
+                            label: 'large'
+                        },
+                        {
+                            value: 'default',
+                            label: 'default'
+                        },
+                        {
+                            value: 'small',
+                            label: 'small'
+                        }] //类型选择数组
                 },
                 {
-                    attributeName:"width",//组件配置中属性字段名
-                    label:"宽度",
-                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
-                    value:0,//属性值
-                    defaultValue:0,//默认属性值
-                    valueType:Number,// 属性值类型,
+                    attributeName: "width",//组件配置中属性字段名
+                    label: "宽度",
+                    type: "inputNumber",//编辑自段的类型input select number switch buttonList
+                    value: 0,//属性值
+                    defaultValue: 0,//默认属性值
+                    valueType: Number,// 属性值类型,
                 },
                 {
-                    attributeName:"loading",//组件配置中属性字段名
-                    label:"是否显示加载中",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
-                    valueType:Boolean,// 属性值类型,
+                    attributeName: "loading",//组件配置中属性字段名
+                    label: "是否显示加载中",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                    valueType: Boolean,// 属性值类型,
                 },
                 {
-                    attributeName:"disabled",//组件配置中属性字段名
-                    label:"禁用状态",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
-                    valueType:Boolean,// 属性值类型,
-                    verifyRule:"",// 属性值校验规则 可填入正则表达式
-                    typeArray:[] //类型选择数组
+                    attributeName: "disabled",//组件配置中属性字段名
+                    label: "禁用状态",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                    valueType: Boolean,// 属性值类型,
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式
+                    typeArray: [] //类型选择数组
                 },
                 {
-                    attributeName:"active-text",//组件配置中属性字段名
-                    label:"open文字描述",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:"",//属性值
-                    defaultValue:"",//默认属性值
-                    valueType:Boolean,// 属性值类型,
+                    attributeName: "active-text",//组件配置中属性字段名
+                    label: "open文字描述",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: "",//属性值
+                    defaultValue: "",//默认属性值
+                    valueType: Boolean,// 属性值类型,
                 },
                 {
-                    attributeName:" inactive-text",//组件配置中属性字段名
-                    label:"off文字描述",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:"",//属性值
-                    defaultValue:"",//默认属性值
-                    valueType:Boolean,// 属性值类型,
+                    attributeName: " inactive-text",//组件配置中属性字段名
+                    label: "off文字描述",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: "",//属性值
+                    defaultValue: "",//默认属性值
+                    valueType: Boolean,// 属性值类型,
                 },
 
             ],
-            styles:{},
-            events:[
+            styles: {},
+            events: [
                 {
-                    event:"click", // 事件名称
-                    annotation:"",
-                    eventContent:{}
+                    event: "click", // 事件名称
+                    annotation: "",
+                    eventContent: {}
                 }
             ]
         },
     },
-    {component: "ScRow",
-        setter:{
-            attributes:[
+    {
+        component: "ScRow",
+        setter: {
+            attributes: [
                 {
-                    attributeName:"justify",//组件配置中属性字段名
-                    label:"flex水平布局",
-                    type:"select",//编辑自段的类型input select number switch buttonList
-                    value:"start",//属性值
-                    defaultValue:"start",//默认属性值
-                    valueType:String,// 属性值类型
-                    verifyRule:"",// 属性值校验规则 可填入正则表达式
-                    typeArray:[
-                        {value: 'start',
-                            label: 'start'},
-                        {value: 'end',
-                            label: 'end'},
-                        {value: 'center',
-                            label: 'center'},
-                        {value: 'space-around',
-                            label: 'space-around'},
-                        {value: 'space-between',
-                            label: 'space-between'},
-                        {value: 'space-evenly',
-                            label: 'space-evenly'},] //类型选择数组
-                },
-                {
-                    attributeName:"gutter",//组件配置中属性字段名
-                    label:"栅格间隔",
-                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
-                    value:0,//属性值
-                    defaultValue:0,//默认属性值
-                    valueType:Number,// 属性值类型,
-                },
-                {
-                    attributeName:"col",//组件配置中属性字段名
-                    label:"配置列",
-                    type:"table",//编辑自段的类型input select number switch buttonList
-                    defaultValue:[],
-                    isChildren:true,// 是否与children绑定
-                    column:[
+                    attributeName: "justify",//组件配置中属性字段名
+                    label: "flex水平布局",
+                    type: "select",//编辑自段的类型input select number switch buttonList
+                    value: "start",//属性值
+                    defaultValue: "start",//默认属性值
+                    valueType: String,// 属性值类型
+                    verifyRule: "",// 属性值校验规则 可填入正则表达式
+                    typeArray: [
                         {
-                            attributeName:"span",//组件配置中属性字段名
-                            label:"栅格列数",
-                            type:"inputNumber",//编辑自段的类型input select number switch buttonList
-                            value:12,//属性值
-                            defaultValue:12,//默认属性值
-                            max:24,
-                            valueType:Number,// 属性值类型,
+                            value: 'start',
+                            label: 'start'
                         },
                         {
-                        attributeName:"offset",//组件配置中属性字段名
-                        label:"栅格左侧间隔",
-                        type:"inputNumber",//编辑自段的类型input select number switch buttonList
-                        value:0,//属性值
-                        defaultValue:0,//默认属性值
-                        valueType:Number,// 属性值类型,
-                    },
+                            value: 'end',
+                            label: 'end'
+                        },
+                        {
+                            value: 'center',
+                            label: 'center'
+                        },
+                        {
+                            value: 'space-around',
+                            label: 'space-around'
+                        },
+                        {
+                            value: 'space-between',
+                            label: 'space-between'
+                        },
+                        {
+                            value: 'space-evenly',
+                            label: 'space-evenly'
+                        },] //类型选择数组
+                },
+                {
+                    attributeName: "gutter",//组件配置中属性字段名
+                    label: "栅格间隔",
+                    type: "inputNumber",//编辑自段的类型input select number switch buttonList
+                    value: 0,//属性值
+                    defaultValue: 0,//默认属性值
+                    valueType: Number,// 属性值类型,
+                },
+                {
+                    attributeName: "col",//组件配置中属性字段名
+                    label: "配置列",
+                    type: "table",//编辑自段的类型input select number switch buttonList
+                    defaultValue: [],
+                    isChildren: true,// 是否与children绑定
+                    column: [
+                        {
+                            attributeName: "span",//组件配置中属性字段名
+                            label: "栅格列数",
+                            type: "inputNumber",//编辑自段的类型input select number switch buttonList
+                            value: 12,//属性值
+                            defaultValue: 12,//默认属性值
+                            max: 24,
+                            valueType: Number,// 属性值类型,
+                        },
+                        {
+                            attributeName: "offset",//组件配置中属性字段名
+                            label: "栅格左侧间隔",
+                            type: "inputNumber",//编辑自段的类型input select number switch buttonList
+                            value: 0,//属性值
+                            defaultValue: 0,//默认属性值
+                            valueType: Number,// 属性值类型,
+                        },
                     ],
                 },
             ],
-            styles:{},
-            events:[
+            styles: {},
+            events: [
                 {
-                    event:"click", // 事件名称
-                    annotation:"",
-                    eventContent:{}
+                    event: "click", // 事件名称
+                    annotation: "",
+                    eventContent: {}
                 }
             ],
-            configuration:{
+            configuration: {
                 childrenTemplate: {
-                    component:"container",
-                    attribute:'col',
-                    label:"列",
-                    id:"",
+                    component: "container",
+                    attribute: 'col',
+                    label: "列",
+                    id: "",
                     event: {},
                     attributes: {},
                     styles: {},
-                    children:[],
-                    featherId:"",
-                    type:"container"},
+                    children: [],
+                    featherId: "",
+                    type: "container"
+                },
             }
 
         },
     },
-    {component: "ScSlider",
-    setter:{
-        attributes: [],
-        styles:{},
-        events:[]
-    }}
+    {
+        component: "ScSlider",
+        setter: {
+            attributes: [],
+            styles: {},
+            events: []
+        }
+    }
 ]
 
 // 加载组件配置
-export function loadComponentConfiguration(){
+export function loadComponentConfiguration() {
     const componentListStore = ComponentListStore()
     // 组件相关属性值初始化
-    componentList.forEach(item=>{
-        Object.keys(baseAttribute).forEach(aItem=>{
+    componentList.forEach(item => {
+        Object.keys(baseAttribute).forEach(aItem => {
             item[aItem] = baseAttribute[aItem]
-            if(item.type && item.type === "container"){
-                item["children"] = item["children"]?item["children"]:[]
-                if(item["children"].length>0){
-                    item["children"].forEach((citem)=>{
+            if (item.type && item.type === "container") {
+                item["children"] = item["children"] ? item["children"] : []
+                if (item["children"].length > 0) {
+                    item["children"].forEach((citem) => {
                         citem[aItem] = baseAttribute[aItem]
                     })
                 }
-            }else{
+            } else {
                 item.status.activeContainer = false
                 item["type"] = "common" //是否为容器组件
-                if(item.styles['display'] === undefined){
+                if (item.styles['display'] === undefined) {
                     item.styles['display'] = 'inline-flex'
                 }
             }
@@ -548,33 +835,33 @@ export function loadComponentConfiguration(){
 }
 
 // 根据组件配置属性设置组件属性
-function setAttribute(){
+function setAttribute() {
     let setterMap = new Map();
     //后期可配置为持久化数据
-    componentSetters.forEach((item,index)=>{
-        setterMap.set(item.component,index)
+    componentSetters.forEach((item, index) => {
+        setterMap.set(item.component, index)
     })
-    componentList.forEach(item=>{
+    componentList.forEach(item => {
         let index = setterMap.get(item.component)
-        if(index!==undefined){
+        if (index !== undefined) {
             item['setterIndex'] = index
             // 容器模板增加基础状态
-            if(componentSetters[index].setter.configuration && componentSetters[index].setter.configuration.childrenTemplate){
+            if (componentSetters[index].setter.configuration && componentSetters[index].setter.configuration.childrenTemplate) {
                 componentSetters[index].setter.configuration.childrenTemplate["status"] = baseAttribute["status"]
             }
-            componentSetters[index].setter.attributes.forEach(setterItem=>{
+            componentSetters[index].setter.attributes.forEach(setterItem => {
                 item.attributes[setterItem.attributeName] = setterItem.defaultValue
-                if(setterItem.type === "table"){
+                if (setterItem.type === "table") {
                     let columnObject = {}
-                    setterItem.column.forEach(columnItem=>{
+                    setterItem.column.forEach(columnItem => {
                         columnObject[columnItem.attributeName] = columnItem.defaultValue
                     })
-                    if(setterItem.isChildren){
+                    if (setterItem.isChildren) {
                         let childrenLength = item.children.length
                         for (let i = 0; i < childrenLength; i++) {
                             item.attributes[setterItem.attributeName].push(columnObject)
                         }
-                    }else{
+                    } else {
                         item.attributes[setterItem.attributeName].push(columnObject)
                     }
                 }

@@ -71,12 +71,23 @@ export const PagesStore = defineStore('PagesStoreMain', {
   state: () => ({
     pages:[], // 页面page
     nowPage : -1, // 当前选中的页面
+    previewPage:{}
   }),
   actions:{
+    // 获取路由跳转页面
     getRouterPage(path){
       let index = this.pages.findIndex((data)=>data.pageName === path)
       return this.pages[index]
     },
+    // 获取预览页面
+    getPreviewPage(){
+      return this.previewPage
+    },
+    // 设置预览页面
+    setPreviewPage(previewPage){
+      this.previewPage = previewPage
+    },
+
     // 配置整个项目
     setPage( pages ){
       this.pages = pages
@@ -114,10 +125,10 @@ export const PagesStore = defineStore('PagesStoreMain', {
     setPageChildren(children){
       this.getNowPage().children = children
     },
-    getPageData(attribute){
+    getPageData(){
       try {
-        if(this.getNowPage().data && this.getNowPage().data[attribute]){
-          return this.getNowPage().data[attribute]
+        if(this.getNowPage().data){
+          return this.getNowPage().data
         }
       }catch (e){
         console.log(e)

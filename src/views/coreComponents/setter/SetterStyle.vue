@@ -1,15 +1,13 @@
 <template>
   <div v-show="setterStyles">
-    <el-input
-        type="textarea"
-        @input="printCss"
-        v-model="css"
-    ></el-input>
+    <el-button @click="printCss">保存</el-button>
+    <VMonacoEditor v-model="css" language="css" key="css" height="30vh"></VMonacoEditor>
   </div>
 </template>
 <script>
 import {analysisCssText, getComponentSetter, getStore, objectToCss} from "../../../utils/core";
 import eventBus from "../../../utils/eventBus";
+import VMonacoEditor from "../VMonacoEditor.vue";
 export default {
   name: "SetterStyle",
   props:{
@@ -32,6 +30,9 @@ export default {
       }
     }
   },
+  components:{
+    VMonacoEditor
+  },
   data(){
     return{
       css:''
@@ -40,7 +41,7 @@ export default {
   mounted() {
     let that = this
     eventBus.on("dbComponent",()=>{
-      that.css = objectToCss(getStore("SimpleStore").selectPlate[0].styles)
+      that.css = `.main{${objectToCss(getStore("SimpleStore").selectPlate[0].styles)}}`
     })
   },
   methods:{

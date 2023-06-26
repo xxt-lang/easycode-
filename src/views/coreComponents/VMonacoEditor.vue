@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="editContainer" class="code-editor">
+    <div ref="editContainer" class="code-editor" :style="{height:height}">
     </div>
   </div>
 
@@ -48,6 +48,10 @@ export default {
     language:{
       type:String,
       default:'javascript'
+    },
+    height:{
+      type:String,
+      default:'85vh'
     }
   } ,
   emits:['update:modelValue'],
@@ -89,7 +93,4 @@ export default {
 </script>
 
 <style scoped>
-.code-editor{
-  height: 85vh;
-}
 </style>

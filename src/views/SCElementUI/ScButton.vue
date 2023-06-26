@@ -6,7 +6,17 @@
         :plain="propValue.attributes.plain"
         :round="propValue.attributes.round"
         :disabled="propValue.attributes.disabled"
-        >{{ propValue.attributes.label }}
+        :circle="propValue.attributes.circle"
+        :loading="propValue.attributes.loading"
+        :loading-icon="propValue.attributes['loading-icon']"
+        :icon = "propValue.attributes['icon']"
+        :autofocus = "propValue.attributes['autofocus']"
+        :native-type = "propValue.attributes['native-type']"
+        :auto-insert-space = "propValue.attributes['auto-insert-space']"
+        :color="propValue.attributes['color']"
+        :dark = "propValue.attributes['dark']"
+        >
+      {{ propValue.attributes.label }}
     </el-button>
 </template>
 <script>

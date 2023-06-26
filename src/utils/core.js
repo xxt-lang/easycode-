@@ -26,7 +26,6 @@ export function getStore(name){
     if(name === "UndoRedoStore")
         return UndoRedoStore()
 }
-let previewIndex = -1
 
 // 模拟路由跳转
 export function ecRouter(path){
@@ -34,13 +33,44 @@ export function ecRouter(path){
 }
 // 返回当前页面绑定的数据
 export function getPageData(attribute,isPreview){
-    if(isPreview){
-        if(previewIndex !== -1){
-            return getLocalStorage()[previewIndex].data[attribute]
+    const params = analysisData(attribute)
+    let setData = {}
+    if(params.length>0){
+        if(isPreview){
+            setData=getStore("PagesStore").getPreviewPage().data
+        }else{
+            setData=getStore("PagesStore").getPageData()
         }
-    }else{
-        return getStore("PagesStore").getPageData(attribute)
+        let length = params.length
+        for (let i = 0; i < length; i++) {
+            setData = setData[params[i]]
+        }
+        return setData
     }
+
+}
+
+// 设置当前页面绑定的数据
+export function setPageData(attribute,value,isPreview){
+    const params = analysisData(attribute)
+    let setData = {}
+    if(params.length>0){
+        if(isPreview){
+            setData=getStore("PagesStore").getPreviewPage().data
+        }else{
+            setData=getStore("PagesStore").getPageData()
+        }
+        let length = params.length
+        for (let i = 0; i < length - 1; i++) {
+            setData = setData[params[i]]
+        }
+        setData[params[length - 1]] = value
+    }
+}
+
+// 解析数据绑定的数值
+function analysisData(param){
+    return param.split(".")
 }
 
 export function initProject(){
@@ -55,9 +85,10 @@ export function previewPage(index){
         if(localPage.length>0){
             result.page = localPage[index].children
             result.isPage = true
-            previewIndex = index
         }
+        getStore("PagesStore").setPreviewPage(localPage[index])
     }
+
     return result
 }
 
@@ -554,7 +585,7 @@ function isLayer(dragObject,targetId){
 export function analysisCssText(cssText){
     let css = {}
     // 清除\n
-    let str = cssText.replaceAll(/(?:\r:|\t|\n)/g,'')
+    let str = cssText.replace('.main{','').replace('}','').replaceAll(/(?:\r:|\t|\n)/g,'')
     let s1 = str.replaceAll(/:{1,}/g,':')
     let s2 = s1.replaceAll(/;{1,}/g,';')
     let attrAndValues = s2.split(/[:*;]/)
@@ -585,7 +616,8 @@ export function getContainerStyle(isPreview,styles,lock){
 
 // 解析styles 取得shape应该跟着改变的样式
 export function getShapeStyle(styles){
-    const yesStyle = ['margin',
+    const yesStyle = [
+        'margin',
         'margin-left',
         'margin-top',
         'margin-right',
@@ -613,12 +645,12 @@ export function getComponentStyle(isPreview,styles){
     if(isPreview)
         return styles
       //component 不接受的样式
-    const noStyle = ['margin',
+    const noStyle = [
+        'margin',
         'margin-left',
         'margin-top',
         'margin-right',
         'margin-bottom',
-        'display',
         'position',
         'left',
         'right',

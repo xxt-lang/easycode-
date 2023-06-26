@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-for = "(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px">
+  <div >
+    <div v-for = "(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px" class="setterAttribute">
       <span class="itemLabel">{{item.label}}</span>
       <div class="itemContent">
         <el-select  v-if="item.type === 'select'"  v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
@@ -19,6 +19,7 @@
             :max="item.max?item.max:100"
             :min="item.min?item.min:0"
             @change="add"/>
+        <el-color-picker  v-if="item.type === 'color'" v-model="setterData.attributes[item.attributeName]"></el-color-picker>
       </div>
 
       <el-table v-if="item.type === 'table'" :data="setterData.attributes[item.attributeName]" style="width: 100%">
@@ -134,14 +135,17 @@ export default {
 </script>
 
 <style scoped>
+.setterAttribute{
+  display: flex;
+}
 .itemLabel{
-  display: inline-block;
+  display: inline-flex;
   width: 70px;
   font-size: 15px;
   text-align: center
 }
 .itemContent{
-  display: inline-block;
+  display: inline-flex;
   width: 170px
 }
 </style>
