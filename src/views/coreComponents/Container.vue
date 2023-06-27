@@ -112,6 +112,7 @@ export default {
 <style scoped>
 .container{
   min-height: 20px;
+  min-width: 40px;
   padding: 2px;
   overflow: auto;
   border-color: #d9ecff;

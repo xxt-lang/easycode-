@@ -17,8 +17,7 @@
             v-if="item.type === 'inputNumber'"
             v-model="setterData.attributes[item.attributeName]"
             :max="item.max?item.max:100"
-            :min="item.min?item.min:0"
-            @change="add"/>
+            :min="item.min?item.min:0"/>
         <el-color-picker  v-if="item.type === 'color'" v-model="setterData.attributes[item.attributeName]"></el-color-picker>
       </div>
 
