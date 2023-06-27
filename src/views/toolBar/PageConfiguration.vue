@@ -4,7 +4,7 @@
       <el-button @click="save">保存</el-button>
       <el-tabs v-model="activeName" class="demo-tabs">
         <el-tab-pane label="data" name="data">
-          <VMonacoEditor v-model="editorData" language="json" key="json"></VMonacoEditor>
+          <VMonacoEditor v-model="editorData" language="json" key="json" minimap lineNumbers folding></VMonacoEditor>
         </el-tab-pane>
         <el-tab-pane label="method" name="method">
           <VMonacoEditor v-model="editorMethod" language="javascript" key="javascript"></VMonacoEditor>

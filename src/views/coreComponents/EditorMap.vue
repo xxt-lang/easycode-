@@ -7,11 +7,7 @@
        data-elementType = "editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <div v-if="!getNowPage()">
-      选择或新建页面
-    </div>
-    <div v-else>
-      <Shape v-for="(item, index) in getNowPage().children "
+      <Shape v-for="(item, index) in page "
              :key="index"
              :status="item.status"
              :element="item"
@@ -34,7 +30,6 @@
       <!--    拖拽时的提示信息-->
       <div :style="dragTip" class="dragTip">{{dragTipMessage}}</div>
     </div>
-  </div>
 </template>
 <script>
 import eventBus from '@/utils/eventBus.js'
@@ -67,15 +62,27 @@ export default {
       nowIndex: 0,
       curComponent: null,
       copyComponent: null,
-      model:true
+      model:true,
     }
   },
   computed:{
-    ...mapState(PagesStore, ['getNowPage']),
+    page:{
+      get(){
+        let page =  this.getNowPage()
+        if(page){
+          return page.children
+        }
+        return []
+      },
+      set(){
+
+      }
+    }
   },
   setup() {
     return {}
   },
+
   mounted() {
     let that = this
     // 动态修改拖拽标签
@@ -89,6 +96,7 @@ export default {
     handleDragOver,
     handleDrop,
     getStore,
+    ...mapActions(PagesStore, ['getNowPage']),
     ...mapActions(MouseEventStore,['setMouseEvent']),
     // 选择画布中的组件
     handleMouseDown(item, event, index) {

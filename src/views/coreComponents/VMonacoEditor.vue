@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, onMounted, watch} from 'vue';
+import { getCurrentInstance, onMounted, onUnmounted,watch} from 'vue';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
@@ -52,11 +52,23 @@ export default {
     height:{
       type:String,
       default:'85vh'
+    },
+    minimap:{
+      type:Boolean,
+      default:false
+    },
+    lineNumbers:{
+      type:Boolean,
+      default:false
+    },
+    folding:{
+      type:Boolean,
+      default:false
     }
   } ,
   emits:['update:modelValue'],
   setup(props, { emit }) {
-    var monacoEditor = null;
+    let monacoEditor = null;
     const { proxy } = getCurrentInstance();
 
     watch(
@@ -78,7 +90,12 @@ export default {
         theme: 'vs',
         selectOnLineNumbers: true,
         renderSideBySide: true,
-        automaticLayout:true
+        automaticLayout:true,
+        minimap: { // 关闭小地图
+          enabled: props.minimap,
+        },
+        lineNumbers: props.lineNumbers?'on':'off', // 隐藏控制行号
+        folding: props.folding,
       });
       // 监听值变化
       monacoEditor.onDidChangeModelContent(() => {
@@ -86,6 +103,10 @@ export default {
         emit('update:modelValue', currenValue);
       });
     });
+    onUnmounted(()=>{
+      console.log("----------")
+      monacoEditor.dispose()
+    })
 
     return {};
   },
