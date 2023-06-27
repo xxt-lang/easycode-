@@ -8,6 +8,7 @@
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
           <span v-if="data.type === 'page'">
+            <el-button @click="update(node, data)" type="primary" size="small">修改</el-button>
             <el-button @click="remove(node, data)" type="warning" size="small">删除</el-button>
           </span>
         </span>
@@ -86,16 +87,19 @@ export default {
             trigger: 'change',
           },
         ],
-      }
+      },
+      nodeClickStatus:false,
+      pages:[]
     }
   },
-  computed:{
-    ...mapState(PagesStore,['getPage']),
+  mounted() {
+    const pages = this.getPage()
+    this.pages = pages
   },
   emits: ['update:leftToolBarActive'],
   methods:{
     deleteSelectComponent,
-    ...mapActions(PagesStore,['addPage','setNowPage','deletePage']),
+    ...mapActions(PagesStore,['addPage','setNowPage','deletePage','getPage']),
     ...mapActions(SimpleStore,['setSelectPlate']),
     remove(node,data){
       if(data.type === "page"){
@@ -103,20 +107,25 @@ export default {
       }else{
         this.deleteSelectComponent()
       }
+      this.nodeClickStatus = false
     },
     nodeClick(node){
-      if(node.type==="page"){
-        this.setNowPage(this.getPage().findIndex((d) => d.id === node.id))
-      }else{
-        if(node.component !== 'container'){
-          node.status.active = !node.status.active
-          // 选中状态时将当前组件放入选择板中
-          if(node.status.active){
-            this.setSelectPlate(node)
+      if(this.nodeClickStatus){
+        if(node.type==="page"){
+          this.setNowPage(this.getPage().findIndex((d) => d.id === node.id))
+        }else{
+          if(node.component !== 'container'){
+            node.status.active = !node.status.active
+            // 选中状态时将当前组件放入选择板中
+            if(node.status.active){
+              this.setSelectPlate(node)
+            }
           }
         }
+        this.$emit("update:leftToolBarActive",false)
+      }else{
+        this.nodeClickStatus = true
       }
-      this.$emit("update:leftToolBarActive",false)
     },
     commit(){
       this.$refs.pageFromRef.validate((valid) => {
@@ -130,6 +139,13 @@ export default {
     cancel(){
       this.dialogVisible = false
       this.$refs.pageFromRef.resetFields()
+    },
+    update(node,data){
+      this.dialogVisible = true
+      this.nodeClickStatus = false
+      this.pageFrom.label = data.label
+      this.pageFrom.pageName = data.pageName
+      this.pageFrom.id = data.id
     }
   }
 }

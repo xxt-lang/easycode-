@@ -93,14 +93,22 @@ export const PagesStore = defineStore('PagesStoreMain', {
       this.pages = pages
     },
     getPage(){
+      console.log("------")
       return this.pages
     },
     // 增加页面
     addPage(from){
-      from["id"] = uuid()
-      const undoRedoStore = UndoRedoStore()
-      undoRedoStore.addPageHistory(from["id"])
-      this.pages.push(deepClone(from))
+      if(from["id"]||from["id"]!=''){
+        let index = this.pages.findIndex((data)=>data.id === from["id"])
+        this.pages[index].label = from.label
+        this.pages[index].pageName = from.pageName
+      }else{
+        from["id"] = uuid()
+        const undoRedoStore = UndoRedoStore()
+        undoRedoStore.addPageHistory(from["id"])
+        this.pages.push(deepClone(from))
+      }
+
     },
     // 配置当前选中的页面
     setNowPage(index){

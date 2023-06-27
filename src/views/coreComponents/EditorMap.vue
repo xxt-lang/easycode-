@@ -127,6 +127,7 @@ export default {
 }
 
 .editor {
+  padding:2px;
   background-color: white;
   min-height: calc(20vh);
   overflow: auto;

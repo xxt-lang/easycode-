@@ -1,7 +1,5 @@
 <template>
-  <div :style="getComponentStyle(isPreview,propValue.styles)">
-    <el-rate v-model="value" />
-  </div>
+    <el-rate v-model="value" :style="getComponentStyle(isPreview,propValue.styles)"/>
 </template>
 
 <script>

@@ -98,7 +98,7 @@ export default {
             },
             {
               component:"button",
-              label:"回退",
+              label:"撤销回退",
               attribute:{
               },
               icon:'',
