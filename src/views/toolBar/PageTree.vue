@@ -3,7 +3,7 @@
   <div class="pageTreeTop">
     <el-button @click="dialogVisible = true" type="primary" circle icon="Plus" size="small" ></el-button>
   </div>
-  <el-tree :data="getPage()" :props="props"  @node-click="nodeClick" :highlight-current="true">
+  <el-tree :data="pages" :props="props"  @node-click="nodeClick" :highlight-current="true" ref="tree">
     <template #default="{ node, data }">
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>

@@ -24,6 +24,7 @@ export default {
   data(){
     return {
       leftToolBarActive: false,
+      toolName:''
     }
   },
   methods:{

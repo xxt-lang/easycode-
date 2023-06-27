@@ -3,7 +3,7 @@
     <el-dialog
         v-model="dialogVisible"
         title="Tips"
-        width="30%"
+        width="40%"
     >
       <Container
           key="editorContainer"

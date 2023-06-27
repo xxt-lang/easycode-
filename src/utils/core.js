@@ -97,7 +97,7 @@ export function previewPage(index){
 export function undo(){
     getStore("UndoRedoStore").undo()
 }
-// 回退
+// 撤销回退
 export function redo(){
     getStore("UndoRedoStore").redo()
 }
@@ -354,29 +354,37 @@ export function handleDrop(e){
     let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
     let target = {
         elementType : e.target.dataset.elementtype,
-        elementId : e.target.dataset.elementid
+        elementId : e.target.dataset.elementid,
+        featherId:e.target.dataset.featherid
     }
+    let index = Number(e.target.dataset.index) + 1
     // 若添加成功返回true 并在撤销回退中记录
-    if(addComponent(target,component)){
+    if(addComponent(target,component,index)){
         getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
     }
 }
 
 // 添加组件
 export function addComponent(target,component,index){
-    if (target.elementType == "editor") {
+    component.id = component.id === '' || component.id === undefined ? uuid(): component.id
+    if(target.elementType === "editor"){
         component.featherId = "editor"
-        component.id = component.id === '' || component.id === undefined ? uuid(): component.id
+    }else if(target.elementType === "container"){
+        component.featherId = target.elementId
+    }else{
+        component.featherId = target.featherId
+    }
+    if(component.type === "container" && component.children.length>0){
+        component.children.forEach(item=>{
+            item.id = item.id === '' || item.id === undefined? uuid(): item.id
+            item.featherId = component.id
+        })
+    }
+    if (target.elementType == "editor") {
         //若容器是组件并且其中包含预定义的容器则向其中容器添加id 与父亲id
-        if(component.type === "container" && component.children.length>0){
-            component.children.forEach(item=>{
-                item.id = item.id === '' || item.id === undefined? uuid(): item.id
-                item.featherId = component.id
-            })
-        }
         if(getStore("PagesStore").getNowPage()){
             try {
-                if(index !== undefined){
+                if(!isNaN(index)){
                     getStore("PagesStore").getNowPage().children.splice(index,0,component)
                 }else{
                     getStore("PagesStore").getNowPage().children.push(component)
@@ -388,22 +396,21 @@ export function addComponent(target,component,index){
         }else{
             ElMessage({message: "请先选择或者创建画布", type: 'warning',duration:2000,showClose: true,})
         }
-    }else if(target.elementType == "container"){
-
+    }else{
         // 向容器中添加元素
-        component.featherId = target.elementId
-        component.id = component.id === '' || component.id === undefined ? uuid(): component.id
-        if(component.type === "container" && component.children.length>0){
-            component.children.forEach(item=>{
-                item.id = '' || item.id === undefined? uuid(): item.id
-                item.featherId = component.id
-            })
-        }
         try {
-            if(index !== undefined){
-                searchComponent(target.elementId).children.splice(index,0,component)
+            if(!isNaN(index)){
+                if(component.featherId === "editor"){
+                    getStore("PagesStore").getNowPage().children.splice(index,0,component)
+                }else{
+                    searchComponent(component.featherId).children.splice(index,0,component)
+                }
             }else{
-                searchComponent(target.elementId).children.push(component)
+                if(component.featherId === "editor"){
+                    getStore("PagesStore").getNowPage().children.push(component)
+                }else{
+                    searchComponent(component.featherId).children.push(component)
+                }
             }
             return true
         }catch (e) {
