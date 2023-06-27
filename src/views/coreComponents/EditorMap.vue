@@ -124,6 +124,7 @@ export default {
   position: fixed;
   background-color: yellow;
   pointer-events: none;
+  z-index: 30000;
 }
 
 .editor {

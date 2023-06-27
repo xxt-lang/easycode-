@@ -25,7 +25,7 @@ export default {
 <style scoped>
 .hiddenToolContent{
   display: none;
-  z-index: 1000;
+  z-index: 10000;
   height: calc(100vh - 45px);
   background-color: white;
   left:80px;
@@ -35,7 +35,7 @@ export default {
   overflow: auto;
 }
 .showToolContent{
-  z-index: 1000;
+  z-index: 10000;
   height: calc(100vh - 45px);
   background-color: white;
   left:86px;

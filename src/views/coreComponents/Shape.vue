@@ -5,7 +5,7 @@
       :data-index = "index"
       :style="getShapeStyle(element.styles)"
   >
-    <slot ></slot>
+    <slot class="slot"></slot>
   </div>
 
 </template>
@@ -50,7 +50,8 @@ export default {
     created(){
     },
     mounted() {
-      },
+
+    },
     methods: {
       getShapeStyle
     }

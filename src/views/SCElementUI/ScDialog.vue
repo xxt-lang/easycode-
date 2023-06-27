@@ -1,18 +1,32 @@
 <template>
-  <div style="position: absolute">
+  <div>
     <el-dialog
         v-model="dialogVisible"
         title="Tips"
         width="30%"
     >
-      <span>This is a message</span>
+      <Container
+          key="editorContainer"
+          :container="{
+          id:propValue.id,
+          featherId:propValue.featherId,
+          children:propValue.children,
+          componentId:propValue.id,
+          index:index,
+          status:propValue.status}"
+          :container-styles = "propValue.styles"
+          :isPreview = "isPreview"
+      ></Container>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import Container from "../coreComponents/Container.vue";
+
 export default {
   name: "ScDialog",
+  components: {Container},
   props: {
     propValue: {
       type: Object, String,
@@ -22,7 +36,10 @@ export default {
     isPreview:{
       type: Boolean,
       default:false
-    }
+    },
+    index:{
+      type: Number,
+    },
   },
   data(){
     return {
@@ -34,5 +51,10 @@ export default {
 </script>
 
 <style scoped>
-
+:deep(.el-overlay){
+  position: absolute;
+}
+:deep(.el-overlay-dialog){
+  position: absolute;
+}
 </style>

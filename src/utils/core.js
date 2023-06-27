@@ -289,14 +289,15 @@ function mousemoveInfo(moveEvent){
 export function upMouseMoveInfo(target,dragObject,direction,index){
     let result = false
     let targetComponent = {}
-
     // 父组件不能拖动到子组件上
-    if(target.targetFeatherId === dragObject.id || isFeatherComponent(dragObject,target.targetId)) return
+    if(target.targetFeatherId === dragObject.id ) return result
+    if( isFeatherComponent(dragObject,target.targetId)) return result
     if (target.targetType === "container") {
         if(dragObject.type === "container"){
-            if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return
+            if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return result
         }
     }
+
     const pageComponents = getStore("PagesStore").getNowPage().children
     let rootId = "editor"
     let dragComponents = pageComponents,targetComponents = pageComponents
@@ -309,7 +310,7 @@ export function upMouseMoveInfo(target,dragObject,direction,index){
         dragComponents.push(targetComponents[index])
         targetComponents.splice(index, 1)
         result = true
-    } else if ((target.targetIndex != NaN && index != undefined && target.targetFeatherId && dragObject.featherId && dragObject.id !== target.targetId)) {
+    } else if ((target.targetIndex != NaN && target.targetFeatherId && dragObject.featherId && dragObject.id !== target.targetId)) {
         let insertIndex = direction === 'right' || direction === 'bottom' ? target.targetIndex + 1 : target.targetIndex
         // 统一个容器下目标下表要是大于当前下标则当前下表+1
         let deleteIndex = index > target.targetIndex && target.targetFeatherId === dragObject.featherId ? index + 1 : index
@@ -570,7 +571,7 @@ export function clearNowPageChildren(){
 
 // 判断拖拽组件是否在目标组件上层
 function isFeatherComponent(dragObject,targetId){
-    if(dragObject.children !== undefined || dragObject.children !== null) return false
+    if(dragObject.children === undefined || dragObject.children === null) return false
     const targetComponent = deepSelectComponent(dragObject.children,targetId)
     return targetComponent?true:false
 }
@@ -769,31 +770,16 @@ export function stickup(){
         let dataset = getStore("MouseEventStore").mouseEvent.target.dataset
         let targetContainer = getStore("PagesStore").getNowPage().children
         if(dataset.elementtype === "editor"){
-            stickPate.forEach(item=>{
-                item.id = uuid()
-                item.featherId = "editor"
+            updateId(stickPate,"editor").forEach(item=>{
                 item.status.active = false // 消除选中状态
-                if(item.children){
-                    item.children.forEach(cItem=>{
-                        cItem.featherId = item.id
-                        cItem.id = uuid()
-                    })
-                }
                 targetContainer.push(item)
             })
         }
         if(dataset.elementtype === "container"){
             targetContainer = searchComponent(dataset.elementid).children
             // dataset.elementid
-            stickPate.forEach(item=>{
-                item.featherId = dataset.elementid
-                item.id = uuid()
+            updateId(stickPate,dataset.elementid).forEach(item=>{
                 item.status.active = false // 消除选中状态
-                if(item.children){
-                    item.children.forEach(cItem=>{
-                        cItem.featherId = item.id
-                    })
-                }
                 targetContainer.push(item)
             })
         }
@@ -804,5 +790,17 @@ export function stickup(){
     if(result){
         getStore("UndoRedoStore").addOperation({method:'stickComponent',params:stickPate})
     }
-
+    // 递归更新组件中的父id 和id
+    function updateId(array,id){
+        if(array.length>0){
+            array.forEach(item=>{
+                item.id = uuid()
+                item.featherId = id
+                if(item.children){
+                    updateId(item.children,item.id)
+                }
+            })
+        }
+        return array
+    }
 }

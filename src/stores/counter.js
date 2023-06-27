@@ -93,7 +93,6 @@ export const PagesStore = defineStore('PagesStoreMain', {
       this.pages = pages
     },
     getPage(){
-      console.log("------")
       return this.pages
     },
     // 增加页面
