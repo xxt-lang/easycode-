@@ -1,282 +1,105 @@
 # vue3 EasyCode 
 
-## 1.实现与目标
+# 1.功能
 
-在于提高开发效率，减少前端开发中代码量的编写。更容易直观的看到编写的页面样式，可以进行二次开发，基于核心组件如容器等组件，可以在一定规则下进行设置器的自定义配置。可以根据自身需求编写对应的组件、设置器等相配置文件中进行组件的扩展。
+## 1.1头部工具栏
 
-后期将核心编辑的组件与js包抽出来，用于开源Vue3低代码开发
+**清空画布**：消除当前选中页面中编辑的组件
 
-### 实现：
+**预览**：选中页面后点击预览，将新打开一个页面，展示选中页面的预览效果
 
-​	拖拽
+**导出**：目标导出当前项目的json数据（当前为了开发便利只是在控制台展示数据）
 
-​	容器组件-自定义组件中可以预定义多个容器
+**保存**：快捷键*ctrl s*保存当前项目（所有页面数据）将数据缓存到localStorage，当页面刷新时重新打开时将展示缓存的项目数据
 
-​	组件的属性配置
+**撤销|撤销回退**：快捷键*ctrl z，ctrl y*为了储存效率考虑此部分为注册方法传入参数实现本功能，所以当前支持撤销/撤销回退操作的有清空画布、删除、新增、组件移位操作
 
-​    快捷键
+**页面配置**：用于配置页面数据（此数据用于组件的数据绑定）、方法编辑、历史操作记录的动态跳转
 
-​	双击打开对应组件设置器
+**快捷键提示**：点击后右侧会出现当前支持的快捷键及其对应的说明
 
-   组件样式配置输入css格式的内容将其解析为object并改变组件样式
+## 1.2左侧工具栏介绍
 
-  
+**页面**：
 
-### 目标：
+1.点击页面之后会弹出页面配置弹窗，弹窗左上角为新增按钮进行页面的（label，页面名的配置（页面名后期用于.vue文件生成时的文件名）、页面css样式配置）
 
-​	组件事件配置
+2.新增完成后，在页面弹窗则会出现对应的页面信息，可以对页面进行修改与删除操作，在此处点击页面就可以切换页面，
 
-​	组件样式配置
+3.页面树的第二级开始为页面中的组件，当点击组件时就会触发组件选中，（目前点击非当前页面的组件不会进行跳转、后期目标实现这一点）
 
-​	撤销回退
+**组件**：点击组件之后弹出的是已经注册在EasyCode中的组件,其中头部可以切换组件的大致分组，组件使用（在此处选中组件后拖拽到右侧空白画布即可），当前阶段计划支持elementui、echarts、datav大屏，后期目标封装iview 等
 
-​    右键菜单
+## 1.3画布功能介绍
 
-​    引入dataV封装成可配置组件
+**组件选中**：点击组件时组件出现蓝色边框即为选中，按住ctrl键在鼠标左键点击则可完成多选
 
-​	引入echarts封装成可配置组件
+**拖拽移位操作**：组件的渲染底层为json数组，所以在调整组件位置时并不是拖到哪里是哪里，
 
+1.若想进行位置的变化需要拖拽选中组件后移位到目标位置上的组件上，鼠标放在目标组件的左和上位置，则会选中组件会插入到目标组件的前方，右和下相反。
 
+2.当从左侧工具栏中选中组件后拖拽到画布中，当拖拽到空白处组件会默认放到最后的位置，当想要推拽到指定位置是可以选中目标元素进行放置。
 
-​	
+3.当目标组件为容器类型时，拖拽组件时目标为容器类型组件时会默认向容器中插入当前拖拽的组件，若想调整位置则需要先将容器类型组件锁定，此时拖拽组件时就会同1，2的情况
 
-## 2.目录介绍
+**组件编辑**：双击选中组件时右侧设置器栏则会出现属性、样式、事件（暂未想好实现效果），进行组件的编辑，其中css样式编辑完成后需要点击保存按钮才会进行css样式的保存
 
-1.**api**与后端交互接口存放位置
+**调整组件位置**：当点击快捷键*ctrl m*时再进行拖拽组件操作时，则不会调整组件与其他组件的位置关系，默认会为当前组件增加*margin-top、margin-left*，当组件css样式设置position时，拖拽组件则调整的时*left、top*当前默认调整单位为px
 
-2.**assets**项目静态资源
+**组件锁定**：选中组件后点击*ctrl l*则会将选中组件锁定当前组件则会增加黄色边框，组件将只可以调整与其他组件的位置，锁定组件不能进行属性样式修改操作，不可以删除，若锁定的为容器组件时则不可以向其中增加新的组件也不可以将其中的组件进行内部的移位和拖拽出去，
 
-3.**router**路由配置
+**粘贴|复制|剪切**：选中组件后可以通过对应的快捷键进行相关操作，然后点击容器或者画布，则会将组件复制到对应位置
 
-4.**stores**  pinia（组件之间参数传递配置）
+**容器组件**：容器组件为在封装样式组件时使用了*container*的组件，其支持容器组件的无限嵌套，当父组件拖向子组件时会无事发生
 
-5.**utils**项目核心js文件
+**组件删除**：选中组件后点击*ctrl d*或者点击Backspace则会删除所选中的组件
 
-6.**views**
+## **1.4组件的相关功能**
 
-​	**coreComponents**  低代码核心组件包括设置器组件、编辑器组件、元素形状组件......
+**路由功能**：当在组件中调用EasyCode提供的路由方法，就会进行页面之间的跳转与页面嵌套功能（目前页面跳转待开发）
 
-​	**ElementUI** 适应平台后的element组件
+页面嵌套需要引入*ecRouter*方法传入对应页面的*文件名*，并在想要嵌套的位置引入<ECRouter :isPreview="isPreview"></ECRouter>
 
-​	**toolBar** 工具栏组件
+**属性|样式|方法**：可以根据相关规则进行配置，生成对应的配置功能，也可以自己编写配置组件，嵌套到属性、样式、事件编辑弹窗中
 
-## 3.配置文件
+**封装组件规则**：封装组件时需要在props中添加（propValue、isPreview、index）其中propValue获取到的是注册组件时编辑的所有配置信息，当想要进行封装组件的行为控制时就可以在propValue.attributes中获取对应的字段进行控制，isPreview用于控制页面组件与预览时不同的行为
 
-### utils-shortcutKey.js(用于快捷键的配置)
+调整组件样式需要引入在组件上增加:style="getComponentStyle(isPreview,propValue.styles)",getComponentStyle方法为了更好的展示编辑效果会自动屏蔽掉如下属性，这些属性则会渲染到shap组件中去
 
-**keyDowns中增加快捷键**
-
-```javascript
-  "ctrl h": {
-    label: '查看历史',
-    global:false,
-    func: function () {
-     // 在其中编辑快捷键处理的内容
-      console.log("查看历史")
-    }
-  },
+```
+'margin',
+'margin-left',
+'margin-top',
+'margin-right',
+'margin-bottom',
+'position',
+'left',
+'right',
+'bottom',
+'top'
 ```
 
-    #### 当前已有的快捷键
+**属性绑定**：在设置其中配置好value字段后在对应的封装页面引入即可调用页面配置的data数据
 
-| 快捷键    | 作用     |
-| --------- | -------- |
-| ctrl h    | 查看历史 |
-| ctrl d    | 删除     |
-| Backspace | 删除     |
-|           |          |
-|           |          |
-
-
-
-### **utils-componentConfigurator.js**(组件配置)
-
-**componentSetters 组件设置器的配置**
-
-```javascript
-   component:"ScButton", //组件名 与组件列表中的组件一致
-    setter:{
-        //组件属性配置 对应 vue props
-     attributes:[
-            {
-                attributeName:"",//组件配置中属性字段名 必写
-                label:"",// 字段标签
-                type:"",//编辑自段的类型input select number switch 必写
-                value:"",//属性值 必写
-                defaultValue:"",//默认属性值 必写
-                valueType:String,// 属性值类型 必写
-                verifyRule:"",// 属性值校验规则 可填入正则表达式 非必写
-                typeArray:[] //类型选择数组  非必写
-            }
-		],
-         // 组件样式配置
-      styles:{}
-    }
 ```
-
-**componentList** 可拖拽组件配置
-
-```javascript
-{
-    component: "ScCard", // 组件名 此处须与componentSetters中的component保持一致
-    label: '卡片',// 组件的标签名称
-    event: {},// 组件的事件
-    attributes: {},// 组件相关属性，默认不填写时则根据componentSetters 中 attributes编写的属性进行自动配置
-    styles: {
-        width: 192,
-        height: 33
+computed:{
+  input:{
+    get(){
+      // 绑定事件监听
+      return this.getPageData(this.propValue.attributes['value'],this.isPreview)
     },
-    type:"container" // 默认不写为common类型 container类型会自动增加children属性
+    set(value){
+      setPageData(this.propValue.attributes['value'],value,this.isPreview)
+    }
+  }
 },
 ```
 
-### 容器使用
+# 2.后续目标功能
 
-1.需要在组件配置列表中加入   type:"container"  若不写children时会自动添加children字段
+1.接口的配置api接口跳转地址等
 
-在自定义的组件中如Card组件，若卡片中只需要添加一个容器模块则如下 propValue 为card组件相关配置属性
+2.简易方法的配置与绑定
 
-componentId 为自定义组件的id
+3.进行组件的放大缩小操作
 
-```
-<Container
-    key="editorContainer"
-    :container="{
-      id:propValue.id,
-      featherId:propValue.featherId
-      ,children:propValue.children,
-      componentId:propValue.id, 
-      index:index}"
-    :containerStyles = "containerStyles"
-></Container>
-```
-
-2.当添加   type:"container"时并且children为自定义内容此时则不触发默认添加children
-
-children中的container配置如下
-
-```js
-children:[
-    {
-        component:"container",
-        id:"",
-        event: {},
-        attributes: {},
-        styles: {
-            width: 192,
-            height: 33
-        },
-        children:[],
-        featherId:"",
-        type:"container"},
-    {
-        component:"container",
-        id:"",
-        event: {},
-        attributes: {},
-        styles: {
-            width: 192,
-            height: 33
-        },
-        children:[],
-        featherId:"",
-        type:"container"}
-],
-```
-
-在自定义组件中配置如下
-
-```html
-<el-row>
-  <el-col :span="12"> <Container
-      key="editorContainer"
-      :container="{
-            id:propValue.children[0].id,
-            featherId:propValue.featherId,
-            children:propValue.children[0].children,
-            componentId:propValue.id,
-            index:index}"
-      :containerStyles = "containerStyles"
-  ></Container></el-col>
-  <el-col :span="12">
-    <Container
-        key="editorContainer"
-        :container="{
-            id:propValue.children[1].id,
-            featherId:propValue.featherId,
-            children:propValue.children[1].children,
-            componentId:propValue.id,
-            index:index}"
-        :containerStyles = "containerStyles"
-    ></Container>
-  </el-col>
-</el-row>
-```
-
-## 4.API
-
-### 1.组件移动
-
-```
-moveComponent(e, index) 
-组件拖拽事件，通过鼠标坐标计算得到鼠标位于当前组件方位，left、right、top、bottom，left|top前插  right|bottom后插
-```
-
-### 2.组件样式配置
-
-#### getShapeStyle
-
-在调整组件样式时shape与组件本身的样式分开渲染，以获得良好的操作体验，当生成代码时全部作用于组件
-
-```
-getShapeStyle(styles)
-
-shap组件支持的样式
-['margin',
-        'margin-left',
-        'margin-top',
-        'margin-right',
-        'margin-bottom',
-        'display',
-        'position',
-        'left',
-        'right',
-        'bottom',
-        'top']
-```
-
-#### getComponentStyle
-
-```
-getComponentStyle(styles)
-
-过滤掉组件在操作时不需要的css样式
-['margin',
-        'margin-left',
-        'margin-top',
-        'margin-right',
-        'margin-bottom',
-        'display',
-        'position',
-        'left',
-        'right',
-        'bottom',
-        'top']
-```
-
-#### deleteComponent
-
-组件删除事件，获取选择信息面板中的组件信息，进行删除，并添加清空设置器事件
-
-```
-deleteComponent()
-
-```
-
-#### handleDrop
-
-组件拖拽到画布的事件，向画布或者容器中添加组件数据
-
-```
-handleDrop(e)
-```
