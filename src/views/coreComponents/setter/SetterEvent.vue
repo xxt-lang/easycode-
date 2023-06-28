@@ -6,6 +6,11 @@
 <!--      事件方法名称-->
 <!--      方法参数-->
 <!--      方法内容-->
+      <component v-for="(item,index) in configuration.setterEvents"
+                 :is="item.component"
+                 :params="{setterData:setterData,param:item.param}"
+                 :key = "index"
+      ></component>
     </div>
   </div>
 </template>

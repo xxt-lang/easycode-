@@ -674,7 +674,13 @@ export const componentSetters = [
                     method: ''// 绑定方法名
 
                 }
-            ]
+            ],
+            configuration: {
+                setterAttributes:[
+                    {component:"SetButton",
+                    param:{name:"自定义设置器"}}
+                ]
+            }
         },
     },
     {

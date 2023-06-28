@@ -20,7 +20,6 @@
             :min="item.min?item.min:0"/>
         <el-color-picker  v-if="item.type === 'color'" v-model="setterData.attributes[item.attributeName]"></el-color-picker>
       </div>
-
       <el-table v-if="item.type === 'table'" :data="setterData.attributes[item.attributeName]" style="width: 100%">
         <el-table-column type="index" :index="indexMethod" label="项"/>
         <el-table-column align="right">
@@ -34,6 +33,12 @@
         </el-table-column>
       </el-table>
     </div>
+<!--    加载自定义属性设置组件-->
+    <component v-for="(item,index) in configuration.setterAttributes"
+               :is="item.component"
+               :params="{setterData:setterData,param:item.param}"
+               :key = "index"
+    ></component>
     <el-dialog v-model="tableEditStatus" >
       <setter-attribute :setterAttributes="tableEditAttributes" :setterData="tableEditData"></setter-attribute>
     </el-dialog>

@@ -2,6 +2,12 @@
   <div v-show="setterStyles">
     <el-button @click="printCss">保存</el-button>
     <VMonacoEditor v-model="css" language="css" key="css" height="30vh"></VMonacoEditor>
+    <!--    加载自定义属性设置组件-->
+    <component v-for="(item,index) in configuration.setterStyles"
+               :is="item.component"
+               :params="{setterData:setterData,param:item.param}"
+               :key = "index"
+    ></component>
   </div>
 </template>
 <script>

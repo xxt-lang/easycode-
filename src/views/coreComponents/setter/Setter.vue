@@ -23,7 +23,7 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <span v-show = "setterData.status.lock">组件以锁定</span>
+    <span v-show = "setterData.status.lock">组件已锁定</span>
 
     <slot></slot>
   </div>
