@@ -26,7 +26,7 @@ export default {
 .hiddenToolContent{
   display: none;
   z-index: 10000;
-  height: calc(100vh - 45px);
+  height: calc(100vh - 55px);
   background-color: white;
   left:80px;
   position: absolute;
@@ -36,7 +36,7 @@ export default {
 }
 .showToolContent{
   z-index: 10000;
-  height: calc(100vh - 45px);
+  height: calc(100vh - 55px);
   background-color: white;
   left:86px;
   position: absolute;

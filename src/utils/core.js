@@ -359,8 +359,12 @@ export function handleDrop(e){
     }
     let index = Number(e.target.dataset.index) + 1
     // 若添加成功返回true 并在撤销回退中记录
-    if(addComponent(target,component,index)){
-        getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
+    if(component){
+        if(addComponent(target,component,index)){
+            getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
+        }
+    }else{
+        ElMessage({message: "未找到相关组件", type: 'warning',duration:2000,showClose: true,})
     }
 }
 

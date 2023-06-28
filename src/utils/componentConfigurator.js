@@ -1,5 +1,5 @@
 import {ComponentListStore} from "../stores/counter"
-import {componentList,componentSetters} from "./registered/component";
+import {componentList, componentSetters, materials} from "./registered/component";
 // 组件的基础属性
 const baseAttribute = {
     status: {
@@ -55,6 +55,7 @@ export function loadComponentConfiguration() {
     setAttribute()
     componentListStore.componentList = componentList
     componentListStore.componentSetters = componentSetters
+    componentListStore.materials = materials
 }
 
 // 根据组件配置属性设置组件属性

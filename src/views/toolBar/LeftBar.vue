@@ -1,12 +1,9 @@
 <template>
 <div class = "leftBarMain">
-  <button @click="openTool('page')">
-   页面
-  </button>
-  <button @click="openTool('componentList')">
-    组件
-  </button>
-  <LeftToolContent :leftToolBarActive="leftToolBarActive" style="width:300px">
+
+  <el-button round @click="openTool('page')" type="primary" class = "tool-item">页面</el-button>
+  <el-button  round @click="openTool('componentList')"  type="primary" class = "tool-item">组件</el-button >
+  <LeftToolContent :leftToolBarActive="leftToolBarActive" style="width:400px;padding:5px">
     <ComponentGroup @changeLeftToolBarActive = "leftToolBarActive = $event" v-show="toolName==='componentList'" @update:leftToolBarActive = "leftToolBarActive = $event"/>
     <PageTree v-show="toolName==='page'" @update:leftToolBarActive = "leftToolBarActive = $event"></PageTree>
   </LeftToolContent>
@@ -15,7 +12,7 @@
 
 <script>
 import LeftToolContent from "./LeftToolContent.vue";
-import ComponentGroup from "../coreComponents/ComponentGroup.vue";
+import ComponentGroup from "./ComponentGroup.vue";
 import PageTree from "./PageTree.vue";
 
 export default {
@@ -40,5 +37,8 @@ export default {
 <style scoped>
 .leftBarMain{
   display: grid;
+}
+.tool-item{
+  margin: 5px;
 }
 </style>

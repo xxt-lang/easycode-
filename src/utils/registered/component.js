@@ -1,3 +1,310 @@
+export const materials = [
+    {
+        UI: 'element',
+        label: 'element',
+        components: [
+            {
+                group: 'Basic 基础组件',
+                components: [
+                    {
+                        label: '按钮',
+                        componentIndex: 0
+                    },
+                    {
+                        label: 'Container 布局容器',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Layout 布局',
+                        componentIndex: 12
+                    },
+                    {
+                        label: 'Link 链接',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Scrollbar 滚动条',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Space 间距',
+                        componentIndex: -1
+                    }
+                ]
+            },
+            {
+                group: 'Form 表单组件',
+                components: [
+                    {
+                        label: '自动补全输入框',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Cascader 级联选择器',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Checkbox 多选框',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'ColorPicker 颜色选择器',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'DatePicker 日期选择器',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'DateTimePicker 日期时间选择器',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Form 表单',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Input 输入框',
+                        componentIndex: 1
+                    },
+                    {
+                        label: 'Input Number 数字输入框',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Radio 单选框',
+                        componentIndex:5
+                    },
+                    {
+                        label: 'Rate 评分',
+                        componentIndex: 2
+                    },
+                    {
+                        label: 'Select 选择器',
+                        componentIndex: 3
+                    },
+                    {
+                        label: 'Select V2 虚拟列表选择器',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Slider 滑块',
+                        componentIndex: 4
+                    },
+                    {
+                        label: 'Switch 开关',
+                        componentIndex: 7
+                    },
+                    {
+                        label: 'TimePicker 时间选择器',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'TimeSelect 时间选择',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Transfer 穿梭框',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Upload 上传',
+                        componentIndex: -1
+                    },
+                ]
+            },
+            {
+                group: 'Data 数据展示',
+                components: [
+                    {
+                        label: 'Avatar 头像',
+                        componentIndex: 8
+                    },
+                    {
+                        label: 'Badge 徽章',
+                        componentIndex: 9
+                    },
+                    {
+                        label: 'Calendar 日历',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Card 卡片',
+                        componentIndex: 11
+                    },{
+                        label: 'Carousel 走马灯',
+                        componentIndex: 10
+                    },
+                    {
+                        label: 'Collapse 折叠面板',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Descriptions 描述列表',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Empty 空状态',
+                        componentIndex: -1
+                    },{
+                        label: 'Image 图片',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Infinite Scroll 无限滚动',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Pagination 分页',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Progress 进度条',
+                        componentIndex: -1
+                    },{
+                        label: 'Result 结果',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Skeleton 骨架屏',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Table 表格',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Virtualized Table 虚拟化表格',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Tag 标签',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Timeline 时间线',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Tree 树形控件',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'TreeSelect 树形选择',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Tree V2 虚拟化树形控件',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Statistic 统计组件',
+                        componentIndex: -1
+                    },
+                ]
+            },
+            {
+                group: 'Navigation 导航',
+                components: [
+                    {
+                        label: 'Affix 固钉',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Backtop 回到顶部',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Breadcrumb 面包屑',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Dropdown 下拉菜单',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Menu 菜单',
+                        componentIndex: 13
+                    },
+                    {
+                        label: 'Page Header 页头',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Steps 步骤条',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Tabs 标签页',
+                        componentIndex: -1
+                    },
+                ]
+            },
+            {
+                group: 'Feedback 反馈组件',
+                components: [
+                    {
+                        label: 'Alert 提示',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Dialog 对话框',
+                        componentIndex: 15
+                    },
+                    {
+                        label: 'Drawer 抽屉',
+                        componentIndex: 14
+                    },
+                    {
+                        label: 'Loading 加载',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Message 消息提示',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'MessageBox 消息弹框',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Notification 通知',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Popconfirm 气泡确认框',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Popover 气泡卡片',
+                        componentIndex: -1
+                    },
+                    {
+                        label: 'Tooltip 文字提示',
+                        componentIndex: -1
+                    },
+                ]
+            },
+            {
+                group: 'Others 其他',
+                components: [ {
+                    label: 'Divider 分割线',
+                    componentIndex: -1
+                },]
+            }
+        ]
+    },
+    {
+        UI: 'echarts',
+        label: 'echarts图表',
+    },
+    {
+        UI: 'dataV',
+        label: 'dataV大屏',
+    }
+]
+
+
 export const componentList = [
     {
         component: "ScButton",
@@ -20,8 +327,7 @@ export const componentList = [
         label: '评分',
         events: {},
         attributes: {},
-        styles: {
-        },
+        styles: {},
     },
     {
         component: "ScSelect",
@@ -74,7 +380,7 @@ export const componentList = [
         events: {},
         attributes: {},
         styles: {
-            display:'inline-flex'
+            display: 'inline-flex'
         },
     },
     {
@@ -364,8 +670,8 @@ export const componentSetters = [
             events: [
                 {
                     event: "click", // 事件名称
-                    enable:false,// 是否启用
-                    method:''// 绑定方法名
+                    enable: false,// 是否启用
+                    method: ''// 绑定方法名
 
                 }
             ]
@@ -418,7 +724,7 @@ export const componentSetters = [
                     value: 100,//属性值 必写
                     defaultValue: 100,//默认属性值 必写
                     max: 1000,
-                    min:0
+                    min: 0
                 },
                 {
                     attributeName: "minlength",//组件配置中属性字段名 必写
@@ -427,35 +733,35 @@ export const componentSetters = [
                     value: 0,//属性值 必写
                     defaultValue: 0,//默认属性值 必写
                     max: 100,
-                    min:0
+                    min: 0
                 },
                 {
-                    attributeName:"show-word-limit",//组件配置中属性字段名
-                    label:"统计字数",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
+                    attributeName: "show-word-limit",//组件配置中属性字段名
+                    label: "统计字数",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName:"clearable",//组件配置中属性字段名
-                    label:"显示清除按钮",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
+                    attributeName: "clearable",//组件配置中属性字段名
+                    label: "显示清除按钮",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName:"show-password",//组件配置中属性字段名
-                    label:"切换密码图标",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
+                    attributeName: "show-password",//组件配置中属性字段名
+                    label: "切换密码图标",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName:"disabled",//组件配置中属性字段名
-                    label:"是否禁用",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
+                    attributeName: "disabled",//组件配置中属性字段名
+                    label: "是否禁用",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
                 },
                 {
                     attributeName: "size",//组件配置中属性字段名 必写
@@ -471,80 +777,80 @@ export const componentSetters = [
                     }, {
                         value: 'default',
                         label: 'default'
-                    },{
+                    }, {
                         value: 'small',
                         label: 'small'
                     },] //类型选择数组  非必写
                 },
                 {
-                    attributeName:"prefix-icon",//组件配置中属性字段名
-                    label:"前缀图标",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:'',//属性值
-                    defaultValue:'',//默认属性值
+                    attributeName: "prefix-icon",//组件配置中属性字段名
+                    label: "前缀图标",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
                 },
                 {
-                    attributeName:"suffix-icon",//组件配置中属性字段名
-                    label:"后缀图标",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:'',//属性值
-                    defaultValue:'',//默认属性值
+                    attributeName: "suffix-icon",//组件配置中属性字段名
+                    label: "后缀图标",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
                 },
                 {
-                    attributeName:"rows",//组件配置中属性字段名
-                    label:"行数",
-                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
-                    value:1,//属性值
-                    defaultValue:1,//默认属性值
+                    attributeName: "rows",//组件配置中属性字段名
+                    label: "行数",
+                    type: "inputNumber",//编辑自段的类型input select number switch buttonList
+                    value: 1,//属性值
+                    defaultValue: 1,//默认属性值
                 },
                 {
-                    attributeName:"autosize",//组件配置中属性字段名
-                    label:"高度是否自适应",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
+                    attributeName: "autosize",//组件配置中属性字段名
+                    label: "高度是否自适应",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName:"autocomplete",//组件配置中属性字段名
-                    label:"autocomplete 属性",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:'off',//属性值
-                    defaultValue:'off',//默认属性值
+                    attributeName: "autocomplete",//组件配置中属性字段名
+                    label: "autocomplete 属性",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: 'off',//属性值
+                    defaultValue: 'off',//默认属性值
                 },
                 {
-                    attributeName:"name",//组件配置中属性字段名
-                    label:"name 属性",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:'',//属性值
-                    defaultValue:'',//默认属性值
+                    attributeName: "name",//组件配置中属性字段名
+                    label: "name 属性",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
                 },
                 {
-                    attributeName:"readonly",//组件配置中属性字段名
-                    label:"是否只读",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
+                    attributeName: "readonly",//组件配置中属性字段名
+                    label: "是否只读",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName:"max",//组件配置中属性字段名
-                    label:"max 属性",
-                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
-                    value:'',//属性值
-                    defaultValue:'',//默认属性值
+                    attributeName: "max",//组件配置中属性字段名
+                    label: "max 属性",
+                    type: "inputNumber",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
                 },
                 {
-                    attributeName:"min",//组件配置中属性字段名
-                    label:"min 属性",
-                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
-                    value:'',//属性值
-                    defaultValue:'',//默认属性值
+                    attributeName: "min",//组件配置中属性字段名
+                    label: "min 属性",
+                    type: "inputNumber",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
                 },
                 {
-                    attributeName:"step",//组件配置中属性字段名
-                    label:"合法数字间隔",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:'',//属性值
-                    defaultValue:'',//默认属性值
+                    attributeName: "step",//组件配置中属性字段名
+                    label: "合法数字间隔",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
                 },
                 {
                     attributeName: "resize",//组件配置中属性字段名 必写
@@ -560,48 +866,48 @@ export const componentSetters = [
                     }, {
                         value: 'both',
                         label: 'both'
-                    },{
+                    }, {
                         value: 'horizontal',
                         label: 'horizontal'
-                    },{
+                    }, {
                         value: 'vertical',
                         label: 'vertical'
                     }] //类型选择数组  非必写
                 },
                 {
-                    attributeName:"autofocus",//组件配置中属性字段名
-                    label:"自动获取焦点",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
+                    attributeName: "autofocus",//组件配置中属性字段名
+                    label: "自动获取焦点",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName:"form",//组件配置中属性字段名
-                    label:"form属性",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:'',//属性值
-                    defaultValue:'',//默认属性值
+                    attributeName: "form",//组件配置中属性字段名
+                    label: "form属性",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
                 },
                 {
-                    attributeName:"validate-event",//组件配置中属性字段名
-                    label:"是否触发校验",
-                    type:"switch",//编辑自段的类型input select number switch buttonList
-                    value:false,//属性值
-                    defaultValue:false,//默认属性值
+                    attributeName: "validate-event",//组件配置中属性字段名
+                    label: "是否触发校验",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName:"tabindex",//组件配置中属性字段名
-                    label:"输入框的 tabindex",
-                    type:"inputNumber",//编辑自段的类型input select number switch buttonList
-                    value:0,//属性值
-                    defaultValue:0,//默认属性值
+                    attributeName: "tabindex",//组件配置中属性字段名
+                    label: "输入框的 tabindex",
+                    type: "inputNumber",//编辑自段的类型input select number switch buttonList
+                    value: 0,//属性值
+                    defaultValue: 0,//默认属性值
                 },
                 {
-                    attributeName:" input-style",//组件配置中属性字段名
-                    label:"元素的 style",
-                    type:"input",//编辑自段的类型input select number switch buttonList
-                    value:'',//属性值
-                    defaultValue:'',//默认属性值
+                    attributeName: " input-style",//组件配置中属性字段名
+                    label: "元素的 style",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: '',//属性值
+                    defaultValue: '',//默认属性值
                 },
             ],
             styles: {}
@@ -760,7 +1066,7 @@ export const componentSetters = [
                     type: "inputNumber",//编辑自段的类型input select number switch 必写
                     value: 99,//属性值 必写
                     defaultValue: 99,//默认属性值 必写
-                    max:1000,
+                    max: 1000,
                 },
                 {
                     attributeName: "is-dot",//组件配置中属性字段名
@@ -818,7 +1124,7 @@ export const componentSetters = [
                     type: "inputNumber",//编辑自段的类型input select number switch 必写
                     value: 99,//属性值 必写
                     defaultValue: 99,//默认属性值 必写
-                    max:1000,
+                    max: 1000,
                 },
                 {
                     attributeName: "is-dot",//组件配置中属性字段名
@@ -903,7 +1209,7 @@ export const componentSetters = [
                     type: "inputNumber",//编辑自段的类型input select number switch buttonList
                     value: 4000,//属性值
                     defaultValue: 4000,//默认属性值
-                    max:99999
+                    max: 99999
                 },
                 {
                     attributeName: "indicator-position",//组件配置中属性字段名

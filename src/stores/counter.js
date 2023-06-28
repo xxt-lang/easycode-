@@ -34,8 +34,9 @@ export const MouseEventStore = defineStore('mouseEventMain', {
 // 注册的组件列表
 export const ComponentListStore = defineStore('ComponentListMain', {
   state: () =>({
-    componentList:[],
-    componentSetters:[]
+    materials:[],// 拖拽时的导航栏
+    componentList:[], // 携带数据结构的组件
+    componentSetters:[] // 组件设置器的配置
   })
 })
 
