@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Container from "../coreComponents/Container.vue";
+import Container from "../../coreComponents/Container.vue";
 export default {
   name: "ScCarousel",
   components:{
@@ -55,5 +55,7 @@ export default {
 </script>
 
 <style scoped>
-
+.el-carousel__item{
+  background-color: #d3dce6;
+}
 </style>

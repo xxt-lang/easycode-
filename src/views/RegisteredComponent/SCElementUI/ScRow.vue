@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import Container from "../coreComponents/Container.vue";
-import {getComponentStyle} from "../../utils/core";
+import Container from "../../coreComponents/Container.vue";
+import {getComponentStyle} from "../../../utils/core";
 export default {
   name: "ScRow",
   components:{

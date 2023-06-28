@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {getComponentStyle} from "../../utils/core";
+import {getComponentStyle} from "../../../utils/core";
 
 export default {
   name: "ScSwitch",

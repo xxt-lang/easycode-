@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Container from "../coreComponents/Container.vue";
+import Container from "../../coreComponents/Container.vue";
 export default {
   name: "ScBadge",
   components: {Container},

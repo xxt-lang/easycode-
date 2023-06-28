@@ -1,25 +1,21 @@
 <template>
-    <el-rate v-model="value" :style="getComponentStyle(isPreview,propValue.styles)"/>
+<el-select v-model="value" :style="getComponentStyle(propValue.styles)"></el-select>
 </template>
 
 <script>
-import {getComponentStyle} from "../../utils/core";
+import {getComponentStyle} from "../../../utils/core";
 export default {
-  name: "ScRate",
+  name: "ScSelect",
   props: {
     propValue: {
       type: Object, String,
       default: function () {
       }
-    },
-    isPreview:{
-      type: Boolean,
-      default:false
     }
   },
-  data() {
+  data(){
     return {
-      value:null
+      value:''
     }
   },
   methods: {

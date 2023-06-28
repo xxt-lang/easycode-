@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import ECRouter from "../coreComponents/ECRouter.vue";
-import {ecRouter} from "../../utils/core";
+import ECRouter from "../../coreComponents/ECRouter.vue";
+import {ecRouter} from "../../../utils/core";
 
 export default {
   name: "SCMenu",
