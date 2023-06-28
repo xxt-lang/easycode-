@@ -65,10 +65,10 @@ export default {
     outline: 2px solid #70c0ff;
     user-select: none;
   }
-  //.lock {
-  //  outline: 2px solid #f8e3c5;
-  //  user-select: none;
-  //}
+  .lock {
+    outline: 2px solid #f8e3c5;
+    user-select: none;
+  }
   //
   //.shape-point {
   //  position: absolute;

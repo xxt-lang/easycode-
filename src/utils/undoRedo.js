@@ -28,7 +28,8 @@ export const UndoRedo = (function (){
             elementType : param.target.targetType === "common"?(param.target.targetFeatherId === "editor" ? "editor":"container"):param.target.targetType,
             elementId : param.target.targetType === "common"?param.target.targetFeatherId:param.target.targetId},
           param.dragObject,
-          isNaN(param.target.targetIndex)?undefined:param.target.targetIndex)
+          isNaN(param.target.targetIndex)?undefined:param.target.targetIndex),
+          true
     }
 
   }
@@ -58,7 +59,8 @@ export const UndoRedo = (function (){
             elementType : param.drag.dragFeatherId === "editor" ? "editor":"container",
             elementId : param.drag.dragFeatherId},
           param.dragObject,
-          param.drag.dragIndex)
+          param.drag.dragIndex,
+          true)
     }
   }
 return{

@@ -361,7 +361,7 @@ export function handleDrop(e){
     let index = Number(e.target.dataset.index) + 1
     // 若添加成功返回true 并在撤销回退中记录
     if(component){
-        if(addComponent(target,component,index)){
+        if(addComponent(target,component,index,false)){
             getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
         }
     }else{
@@ -370,7 +370,7 @@ export function handleDrop(e){
 }
 
 // 添加组件
-export function addComponent(target,component,index){
+export function addComponent(target,component,index,isRedoUndo){
     component.id = component.id === '' || component.id === undefined ? uuid(): component.id
     if(target.elementType === "editor"){
         component.featherId = "editor"
@@ -385,14 +385,15 @@ export function addComponent(target,component,index){
             item.featherId = component.id
         })
     }
+    let temporary = getStore("PagesStore").getNowPage()
     if (target.elementType == "editor") {
         //若容器是组件并且其中包含预定义的容器则向其中容器添加id 与父亲id
         if(getStore("PagesStore").getNowPage()){
             try {
                 if(!isNaN(index)){
-                    getStore("PagesStore").getNowPage().children.splice(index,0,component)
+                    temporary.children.splice(index,0,component)
                 }else{
-                    getStore("PagesStore").getNowPage().children.push(component)
+                    temporary.children.push(component)
                 }
                 return true
             }catch (e){
@@ -406,15 +407,25 @@ export function addComponent(target,component,index){
         try {
             if(!isNaN(index)){
                 if(component.featherId === "editor"){
-                    getStore("PagesStore").getNowPage().children.splice(index,0,component)
+                    temporary.children.splice(index,0,component)
                 }else{
-                    searchComponent(component.featherId).children.splice(index,0,component)
+                    temporary = searchComponent(component.featherId)
+                    if(!temporary.status.lock || isRedoUndo){
+                        temporary.children.splice(index,0,component)
+                    }else{
+                        return false
+                    }
                 }
             }else{
                 if(component.featherId === "editor"){
-                    getStore("PagesStore").getNowPage().children.push(component)
+                    temporary.children.push(component)
                 }else{
-                    searchComponent(component.featherId).children.push(component)
+                    temporary = searchComponent(component.featherId)
+                    if(!temporary.status.lock || isRedoUndo){
+                    temporary.children.push(component)
+                    }else{
+                        return false
+                    }
                 }
             }
             return true
@@ -786,16 +797,20 @@ export function stickup(){
                 item.status.active = false // 消除选中状态
                 targetContainer.push(item)
             })
+            result = true
         }
         if(dataset.elementtype === "container"){
-            targetContainer = searchComponent(dataset.elementid).children
-            // dataset.elementid
-            updateId(stickPate,dataset.elementid).forEach(item=>{
-                item.status.active = false // 消除选中状态
-                targetContainer.push(item)
-            })
+            targetContainer = searchComponent(dataset.elementid)
+            if(!targetContainer.status.lock){
+                // dataset.elementid
+                updateId(stickPate,dataset.elementid).forEach(item=>{
+                    item.status.active = false // 消除选中状态
+                    targetContainer.children.push(item)
+                })
+                result = true
+            }
         }
-        result = true
+
     }catch (e){
         console.log(e)
     }
