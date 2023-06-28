@@ -139,6 +139,18 @@ export default {
           pageFrom.css = analysisCssText(pageFrom.css)
           this.addPage(pageFrom)
           this.dialogVisible = false
+          this.pageFrom = {
+            type: "page",
+            pageName: '',
+            label: '',
+            children: [],
+            status: {active: false},
+            data: {
+              input: 'input'
+            },
+            css: ".main{}",
+            id: ""
+          }
         }
       })
 

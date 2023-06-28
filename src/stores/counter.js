@@ -102,6 +102,7 @@ export const PagesStore = defineStore('PagesStoreMain', {
         let index = this.pages.findIndex((data)=>data.id === from["id"])
         this.pages[index].label = from.label
         this.pages[index].pageName = from.pageName
+        this.pages[index].css = from.css
       }else{
         from["id"] = uuid()
         const undoRedoStore = UndoRedoStore()
