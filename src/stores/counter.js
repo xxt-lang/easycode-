@@ -106,7 +106,7 @@ export const PagesStore = defineStore('PagesStoreMain', {
         from["id"] = uuid()
         const undoRedoStore = UndoRedoStore()
         undoRedoStore.addPageHistory(from["id"])
-        this.pages.push(deepClone(from))
+        this.pages.push(from)
       }
 
     },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="page.isPage">
+    <div v-if="page.isPage" :style="page.css">
       <component
           v-for="(item,index) in page.page"
           :is="item.component"

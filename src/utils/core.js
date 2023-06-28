@@ -79,12 +79,13 @@ export function initProject(){
 
 // 预览时展示的界面
 export function previewPage(index){
-    let result = {page:[],message:"请先选择或创建页面",isPage:false}
+    let result = {page:[],css:{},message:"请先选择或创建页面",isPage:false}
     if(index !== -1){
         let localPage = getLocalStorage()
         if(localPage.length>0){
             result.page = localPage[index].children
             result.isPage = true
+            result.css = localPage[index].css
         }
         getStore("PagesStore").setPreviewPage(localPage[index])
     }

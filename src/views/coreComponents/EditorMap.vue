@@ -7,7 +7,8 @@
        data-elementType = "editor"
        @mousedown="handleMouseDownMap($event)"
   >
-      <Shape v-for="(item, index) in page "
+    <div :style="page.css">
+      <Shape v-for="(item, index) in page.children "
              :key="index"
              :status="item.status"
              :element="item"
@@ -29,6 +30,7 @@
       </Shape>
       <!--    拖拽时的提示信息-->
       <div :style="dragTip" class="dragTip">{{dragTipMessage}}</div>
+    </div>
     </div>
 </template>
 <script>
@@ -70,7 +72,7 @@ export default {
       get(){
         let page =  this.getNowPage()
         if(page){
-          return page.children
+          return page
         }
         return []
       },

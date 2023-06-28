@@ -27,6 +27,7 @@
       <el-form-item label="页面label" prop="label">
         <el-input v-model="pageFrom.label" />
       </el-form-item>
+      <v-monaco-editor v-model="pageFrom.css" language="css" key="css" height="30vh"></v-monaco-editor>
       <el-form-item>
         <el-button type="primary" @click="commit">确认</el-button>
         <el-button @click="cancel">取消</el-button>
@@ -40,11 +41,14 @@
 import {PagesStore, SimpleStore} from "../../stores/counter";
 import {mapActions, mapState} from "pinia";
 import {Plus} from "@element-plus/icons-vue";
-import {deleteSelectComponent} from "../../utils/core";
+import {analysisCssText, deleteSelectComponent, getStore, objectToCss} from "../../utils/core";
+import VMonacoEditor from "../coreComponents/VMonacoEditor.vue";
+import {deepClone} from "../../utils/tool";
 
 export default {
   name: "PageTree",
   components:{
+    VMonacoEditor,
     Plus
   },
   props:{
@@ -70,6 +74,7 @@ export default {
         data:{
           input:'input'
         },
+        css:".main{}",
         id:""
       },
       rules:{
@@ -130,7 +135,9 @@ export default {
     commit(){
       this.$refs.pageFromRef.validate((valid) => {
         if(valid){
-          this.addPage(this.pageFrom)
+          let pageFrom = deepClone(this.pageFrom)
+          pageFrom.css = analysisCssText(pageFrom.css)
+          this.addPage(pageFrom)
           this.dialogVisible = false
         }
       })
@@ -146,6 +153,7 @@ export default {
       this.pageFrom.label = data.label
       this.pageFrom.pageName = data.pageName
       this.pageFrom.id = data.id
+      this.pageFrom.css = `.main{${objectToCss(data.css)}}`
     }
   }
 }
