@@ -224,7 +224,7 @@ export function moveComponent(e, index,dragObject) {
         eventBus.emit(`move-dragTip`, {style:{top: 0, left: 0, display: 'none'},message:null})
         if(getStore("CommonStatusStore").editMargin) return
         if(upMouseMoveInfo(target,dragObject,direction,index)){
-            // getStore("UndoRedoStore").addOperation({method:'moveComponent',params:{target:target,drag:drag,dragObject:dragObject,direction:direction}})
+            getStore("UndoRedoStore").addOperation('moveComponent')
         }
     })
 
@@ -362,7 +362,7 @@ export function handleDrop(e){
     // 若添加成功返回true 并在撤销回退中记录
     if(component){
         if(addComponent(target,component,index,false)){
-            getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
+            getStore("UndoRedoStore").addOperation('addComponent')
             if(component.attributes.value){
                 let page = getStore("PagesStore").getNowPage()
                 let i = 0
@@ -569,7 +569,7 @@ export function clearMap(){
     // 获取清空画布返回结果，清空则向撤销回退中增加记录
     let result = clearNowPageChildren()
     if(result!==null){
-        getStore("UndoRedoStore").addOperation({method:'clearMap',params:result})
+        getStore("UndoRedoStore").addOperation('clearMap')
     }
 }
 
@@ -688,7 +688,7 @@ export function deleteSelectComponent(){
     // 删除了才增加不删除不添加
     let result = deleteComponent(selectPlate)
     if(result.length>0){
-        getStore("UndoRedoStore").addOperation({method:'deleteComponent',params:{deleteComponents:result}})
+        getStore("UndoRedoStore").addOperation('deleteComponent')
     }
 }
 
@@ -809,7 +809,7 @@ export function stickup(){
         console.log(e)
     }
     if(result){
-        getStore("UndoRedoStore").addOperation({method:'stickComponent',params:stickPate})
+        getStore("UndoRedoStore").addOperation('sticComponent')
     }
     // 递归更新组件中的父id 和id
     function updateId(array,id){

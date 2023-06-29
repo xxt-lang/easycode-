@@ -104,7 +104,7 @@ export default {
   emits: ['update:leftToolBarActive'],
   methods:{
     deleteSelectComponent,
-    ...mapActions(PagesStore,['addPage','setNowPage','deletePage','getPage']),
+    ...mapActions(PagesStore,['addPage','clickNowPage','deletePage','getPage']),
     ...mapActions(SimpleStore,['setSelectPlate']),
     remove(node,data){
       if(data.type === "page"){
@@ -117,7 +117,7 @@ export default {
     nodeClick(node){
       if(this.nodeClickStatus){
         if(node.type==="page"){
-          this.setNowPage(this.getPage().findIndex((d) => d.id === node.id))
+          this.clickNowPage(this.getPage().findIndex((d) => d.id === node.id))
         }else{
           if(node.component !== 'container'){
             node.status.active = !node.status.active

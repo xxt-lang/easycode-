@@ -46,19 +46,16 @@ export default class Stack {
             if(index>=this.size()){
                 index = this.size()-1
             }
-            return this.stack[index]
+            this.point = index
+            return this.stack[index].params
         }
         undo(){
-            if (this.size() === 0 || this.point < 0) return undefined
-            let index = JSON.parse(JSON.stringify(this.point))
-            this.point--
-            return this.stack[index]
+            if (this.size() === 0 || this.point <= 0) return this.stack[0].params
+            return this.stack[--this.point].params
         }
         redo(){
-            if (this.size() === 0 || this.point + 1 >= this.size()) return undefined
-            this.point++
-            let index = JSON.parse(JSON.stringify(this.point))
-            return this.stack[index]
+            if (this.size() === 0 || this.point + 1 >= this.size()) return this.stack[this.size() - 1].params
+            return this.stack[++this.point].params
         }
 
 }

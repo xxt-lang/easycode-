@@ -9,30 +9,14 @@
 </template>
 
 <script>
-import {redo,undo} from "../../utils/core";
 import {mapActions} from "pinia";
-import { UndoRedoStore} from "../../stores/counter";
+import {UndoRedoStore} from "../../stores/counter";
 export default {
   name: "ShowHistory",
   methods:{
-    ...mapActions(UndoRedoStore,['getHistory']),
+    ...mapActions(UndoRedoStore,['getHistory','toHistoryByIndex']),
     clickHistory(index){
-      let length = 0
-      if(this.getHistory().history.point >= index){
-        length = this.getHistory().history.point - index
-        //批量执行撤销操作
-        for (let i = 0; i < length; i++) {
-          undo()
-        }
-      }else{
-        // 批量执行后退操作
-        length = index - this.getHistory().history.point
-        //批量执行撤销操作
-        for (let i = 0; i < length; i++) {
-          redo()
-        }
-      }
-      this.getHistory().history.point = index
+      this.toHistoryByIndex(index)
     }
   }
 }

@@ -2,7 +2,6 @@ import {ref, computed} from 'vue'
 import {defineStore} from 'pinia'
 import {deepClone, uuid} from "../utils/tool";
 import Stack from "../utils/Stack";
-import {UndoRedo} from "../utils/undoRedo";
 // 粘贴板，选择板
 export const SimpleStore = defineStore('SimpleStoreMain', {
   state: () => ({
@@ -92,13 +91,14 @@ export const PagesStore = defineStore('PagesStoreMain', {
     // 配置整个项目
     setPage( pages ){
       // 默认打开第一个页面
+      const undoRedoStore = UndoRedoStore()
       if(pages.length>0){
         this.nowPage = 0
-        const undoRedoStore = UndoRedoStore()
         undoRedoStore.addPageHistory(pages[0].id)
         undoRedoStore.setNowHistory(0,pages[0].id)
       }
       this.pages = pages
+      undoRedoStore.addOperation("init")
     },
     getPage(){
       return this.pages
@@ -115,11 +115,12 @@ export const PagesStore = defineStore('PagesStoreMain', {
         const undoRedoStore = UndoRedoStore()
         undoRedoStore.addPageHistory(from["id"])
         this.pages.push(from)
+        undoRedoStore.addOperation("init")
       }
 
     },
     // 配置当前选中的页面
-    setNowPage(index){
+    clickNowPage(index){
       this.nowPage = index
       const undoRedoStore = UndoRedoStore()
       undoRedoStore.setNowHistory(index,this.pages[index].id)
@@ -127,6 +128,9 @@ export const PagesStore = defineStore('PagesStoreMain', {
     // 获取当前选中的页面
     getNowPage(){
       return this.pages[this.nowPage]
+    },
+    setNowPage(data){
+      this.pages[this.nowPage].children = data
     },
     // 删除当前选中的页面
     deletePage(){
@@ -188,6 +192,7 @@ export const UndoRedoStore = defineStore('UndoRedoStoreMain',{
       this.nowHistory.id = id
       if(this.historyStore.findIndex((data=>data.pageId === id)) === -1){
         this.addPageHistory(id)
+        this.addOperation("init")
       }
     },
     // 展示当前页面历史
@@ -208,19 +213,23 @@ export const UndoRedoStore = defineStore('UndoRedoStoreMain',{
 
     // 撤销 point--
     undo(){
-      UndoRedo().undo(this.historyStore[this.nowHistory.index].history.undo())
+      const pagesStore = PagesStore()
+      pagesStore.setNowPage(this.historyStore[this.nowHistory.index].history.undo())
     },
     // 回退 point++
     redo(){
-      UndoRedo().redo(this.historyStore[this.nowHistory.index].history.redo())
+      const pagesStore = PagesStore()
+      pagesStore.setNowPage(this.historyStore[this.nowHistory.index].history.redo())
     },
     // 向当前页面的操作历史中增加数据
     addOperation(el){
-      this.getHistory().history.push(el)
+      const pagesStore = PagesStore()
+      this.getHistory().history.push({method:el,params:deepClone(pagesStore.getNowPage().children)})
     },
     // 撤销或回退到指定位置
     toHistoryByIndex(index){
-
+      const pagesStore = PagesStore()
+      pagesStore.setNowPage((this.historyStore[this.nowHistory.index].history.peekByIndex(index)) )
     }
   },
 })
