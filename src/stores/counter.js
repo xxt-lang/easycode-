@@ -91,6 +91,13 @@ export const PagesStore = defineStore('PagesStoreMain', {
 
     // 配置整个项目
     setPage( pages ){
+      // 默认打开第一个页面
+      if(pages.length>0){
+        this.nowPage = 0
+        const undoRedoStore = UndoRedoStore()
+        undoRedoStore.addPageHistory(pages[0].id)
+        undoRedoStore.setNowHistory(0,pages[0].id)
+      }
       this.pages = pages
     },
     getPage(){

@@ -10,7 +10,7 @@ export const UndoRedo = (function (){
     },
     "deleteComponent":function (param){
       // console.log(param)
-      deleteComponent(deepClone(param.deleteComponents))
+      deleteComponent(deepClone(param.deleteComponents),true)
     },
     "clearMap":function (param){
       clearNowPageChildren()
@@ -19,24 +19,25 @@ export const UndoRedo = (function (){
       param.forEach(item=>{
         addComponent({
               elementType : item.featherId === "editor" ? "editor":"container",
-              elementId : item.featherId},item)
+              elementId : item.featherId},item,)
       })
     },
-    "moveComponent":function(param){
-      deleteComponent([param.dragObject])
-      addComponent({
-            elementType : param.target.targetType === "common"?(param.target.targetFeatherId === "editor" ? "editor":"container"):param.target.targetType,
-            elementId : param.target.targetType === "common"?param.target.targetFeatherId:param.target.targetId},
-          param.dragObject,
-          isNaN(param.target.targetIndex)?undefined:param.target.targetIndex),
-          true
-    }
+    // "moveComponent":function(param){
+    //
+    //   deleteComponent([param.dragObject],true)
+    //   addComponent({
+    //         elementType : param.target.targetType === "common"?(param.target.targetFeatherId === "editor" ? "editor":"container"):param.target.targetType,
+    //         elementId : param.target.targetType === "common"?param.target.targetFeatherId:param.target.targetId},
+    //       param.dragObject,
+    //       isNaN(param.target.targetIndex)?undefined:param.target.targetIndex),
+    //       true
+    // }
 
   }
   // 撤销方法列表
   const undoMethods = {
     "addComponent":function (param){
-      deleteComponent([param.component])
+      deleteComponent([param.component],true)
     },
     "deleteComponent":function (param){
       param.deleteComponents.forEach(item=>{
@@ -44,24 +45,25 @@ export const UndoRedo = (function (){
           elementType : item.component.featherId === "editor" ? "editor":"container",
           elementId : item.component.featherId},
             item.component,
-            item.index)
+            item.index,
+            true)
       })
     },
     "clearMap":function (param){
       PagesStore().setPageChildren(param)
     },
     "stickComponent":function(param){
-      deleteComponent(deepClone(param))
+      deleteComponent(deepClone(param),true)
     },
-    "moveComponent":function(param){
-      deleteComponent([param.dragObject])
-      addComponent({
-            elementType : param.drag.dragFeatherId === "editor" ? "editor":"container",
-            elementId : param.drag.dragFeatherId},
-          param.dragObject,
-          param.drag.dragIndex,
-          true)
-    }
+    // "moveComponent":function(param){
+    //   addComponent({
+    //         elementType : param.drag.dragFeatherId === "editor" ? "editor":"container",
+    //         elementId : param.drag.dragFeatherId},
+    //       param.dragObject,
+    //       param.drag.dragIndex,
+    //       true)
+    //   deleteComponent([param.dragObject],true)
+    // }
   }
 return{
   redo(param){

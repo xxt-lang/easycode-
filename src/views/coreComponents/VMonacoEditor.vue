@@ -104,7 +104,6 @@ export default {
       });
     });
     onUnmounted(()=>{
-      console.log("----------")
       monacoEditor.dispose()
     })
 

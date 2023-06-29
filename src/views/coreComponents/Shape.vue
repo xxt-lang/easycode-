@@ -59,15 +59,21 @@ export default {
 </script>
 <style lang="scss" scoped>
   .shape {
+    z-index: 1;
   }
 
   .active {
     outline: 2px solid #70c0ff;
     user-select: none;
+    position: relative;
+    z-index: 1000;
+
   }
   .lock {
     outline: 2px solid #f8e3c5;
     user-select: none;
+    position: relative;
+    z-index: 1000;
   }
   //
   //.shape-point {

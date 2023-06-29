@@ -224,7 +224,7 @@ export function moveComponent(e, index,dragObject) {
         eventBus.emit(`move-dragTip`, {style:{top: 0, left: 0, display: 'none'},message:null})
         if(getStore("CommonStatusStore").editMargin) return
         if(upMouseMoveInfo(target,dragObject,direction,index)){
-            getStore("UndoRedoStore").addOperation({method:'moveComponent',params:{target:target,drag:drag,dragObject:dragObject,direction:direction}})
+            // getStore("UndoRedoStore").addOperation({method:'moveComponent',params:{target:target,drag:drag,dragObject:dragObject,direction:direction}})
         }
     })
 
@@ -365,7 +365,13 @@ export function handleDrop(e){
             getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
             if(component.attributes.value){
                 let page = getStore("PagesStore").getNowPage()
-                page.data[component.attributes.value] = getStore("ComponentListStore").componentSetters[component.setterIndex].dataValue
+                let i = 0
+                let valueName = component.attributes.value
+                while(page.data[valueName]){
+                    valueName = component.attributes.value + i++
+                }
+                component.attributes.value = valueName
+                page.data[valueName] = getStore("ComponentListStore").componentSetters[component.setterIndex].dataValue
             }
             // 向页面配置中加入默认的属性
         }
@@ -375,7 +381,7 @@ export function handleDrop(e){
 }
 
 // 添加组件
-export function addComponent(target,component,index,isRedoUndo){
+export function addComponent(target,component,index){
     component.id = component.id === '' || component.id === undefined ? uuid(): component.id
     if(target.elementType === "editor"){
         component.featherId = "editor"
@@ -410,7 +416,7 @@ export function addComponent(target,component,index,isRedoUndo){
                     temporary.children.splice(isNaN(index)?temporary.children.length:index,0,component)
                 }else{
                     temporary = searchComponent(component.featherId)
-                    if(!temporary.status.lock || isRedoUndo){
+                    if(!temporary.status.lock){
                         temporary.children.splice(isNaN(index)?temporary.children.length:index,0,component)
                     }else{
                         return false
@@ -681,7 +687,7 @@ export function deleteSelectComponent(){
     const selectPlate = getStore("SimpleStore").selectPlate
     // 删除了才增加不删除不添加
     let result = deleteComponent(selectPlate)
-    if(result){
+    if(result.length>0){
         getStore("UndoRedoStore").addOperation({method:'deleteComponent',params:{deleteComponents:result}})
     }
 }
