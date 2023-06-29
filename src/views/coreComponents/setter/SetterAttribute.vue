@@ -1,24 +1,26 @@
 <template>
   <div >
-    <div v-for = "(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px" class="setterAttribute">
-      <span class="itemLabel">{{item.label}}</span>
-      <div class="itemContent">
-        <el-select  v-if="item.type === 'select'"  v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
-          <el-option
-              v-for="tItem in item.typeArray"
-              :key="tItem.value"
-              :label="tItem.label"
-              :value="tItem.value"
-          />
-        </el-select>
-        <el-input v-if="item.type === 'input'" v-model="setterData.attributes[item.attributeName]" placeholder="Please input" />
-        <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
-        <el-input-number
-            v-if="item.type === 'inputNumber'"
-            v-model="setterData.attributes[item.attributeName]"
-            :max="item.max?item.max:100"
-            :min="item.min?item.min:0"/>
-        <el-color-picker  v-if="item.type === 'color'" v-model="setterData.attributes[item.attributeName]"></el-color-picker>
+    <div v-for = "(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px" >
+      <div class="setterAttribute">
+        <span class="itemLabel">{{item.label}}</span>
+        <div class="itemContent">
+          <el-select  v-if="item.type === 'select'"  v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
+            <el-option
+                v-for="tItem in item.typeArray"
+                :key="tItem.value"
+                :label="tItem.label"
+                :value="tItem.value"
+            />
+          </el-select>
+          <el-input v-if="item.type === 'input'" v-model="setterData.attributes[item.attributeName]" placeholder="Please input" />
+          <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
+          <el-input-number
+              v-if="item.type === 'inputNumber'"
+              v-model="setterData.attributes[item.attributeName]"
+              :max="item.max?item.max:100"
+              :min="item.min?item.min:0"/>
+          <el-color-picker  v-if="item.type === 'color'" v-model="setterData.attributes[item.attributeName]"></el-color-picker>
+        </div>
       </div>
       <el-table v-if="item.type === 'table'" :data="setterData.attributes[item.attributeName]" style="width: 100%">
         <el-table-column type="index" :index="indexMethod" label="项"/>
