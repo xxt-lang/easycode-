@@ -25,14 +25,6 @@ self.MonacoEnvironment = {
     }
   }
 }
-// // 初始化编辑器的值
-// monacoEditor.setValue(`{"key":"value"}`)
-//
-// // 获取件编辑器的值
-// monacoEditor.getValue();
-//
-// // 注销编辑器实例
-// monacoEditor.dispose();
 
 export default {
   name: "VMonacoEditor",
@@ -66,18 +58,16 @@ export default {
   setup(props, { emit }) {
     let monacoEditor = null;
     const { proxy } = getCurrentInstance();
-
     watch(
         () => props.modelValue,
         (val,oldVal) => {
           // 防止改变编辑器内容时光标重定向
-          // if (monacoEditor!=null && val !== monacoEditor.getValue()) {
-          //   monacoEditor.setValue(val);
-          //   monacoEditor.trigger('anything', 'editor.action.formatDocument');
-          // }
+          if (monacoEditor!=null && val !== monacoEditor?.getValue()) {
+            monacoEditor.setValue(val);
+            monacoEditor.trigger('anything', 'editor.action.formatDocument');
+          }
         },
     );
-
     onMounted(() => {
       monacoEditor = monaco.editor.create(proxy.$refs.editContainer, {
         value:props.modelValue,
@@ -100,7 +90,6 @@ export default {
       });
     });
     onUnmounted(()=>{
-      console.log("----------")
       monacoEditor.dispose()
     })
   },

@@ -51,10 +51,11 @@ export default class Stack {
         }
         undo(){
             if (this.size() === 0 || this.point <= 0) return this.stack[0].params
-            return this.stack[--this.point].params
+            --this.point
+            return this.stack[this.point].params
         }
         redo(){
-            if (this.size() === 0 || this.point + 1 >= this.size()) return this.stack[this.size() - 1].params
+            if (this.size() === 0 || this.point + 1 >= this.size()) return this.stack[this.size()-1].params
             return this.stack[++this.point].params
         }
 

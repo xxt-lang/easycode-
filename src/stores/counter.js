@@ -91,14 +91,14 @@ export const PagesStore = defineStore('PagesStoreMain', {
     // 配置整个项目
     setPage( pages ){
       // 默认打开第一个页面
+      this.pages = pages
       const undoRedoStore = UndoRedoStore()
       if(pages.length>0){
         this.nowPage = 0
-        undoRedoStore.addPageHistory(pages[0].id)
         undoRedoStore.setNowHistory(0,pages[0].id)
+        undoRedoStore.addPageHistory(pages[0].id)
       }
-      this.pages = pages
-      undoRedoStore.addOperation("init")
+
     },
     getPage(){
       return this.pages
@@ -112,10 +112,7 @@ export const PagesStore = defineStore('PagesStoreMain', {
         this.pages[index].css = from.css
       }else{
         from["id"] = uuid()
-        const undoRedoStore = UndoRedoStore()
-        undoRedoStore.addPageHistory(from["id"])
         this.pages.push(from)
-        undoRedoStore.addOperation("init")
       }
 
     },
@@ -124,6 +121,7 @@ export const PagesStore = defineStore('PagesStoreMain', {
       this.nowPage = index
       const undoRedoStore = UndoRedoStore()
       undoRedoStore.setNowHistory(index,this.pages[index].id)
+
     },
     // 获取当前选中的页面
     getNowPage(){
@@ -215,6 +213,7 @@ export const UndoRedoStore = defineStore('UndoRedoStoreMain',{
     undo(){
       const pagesStore = PagesStore()
       pagesStore.setNowPage(this.historyStore[this.nowHistory.index].history.undo())
+
     },
     // 回退 point++
     redo(){

@@ -27,7 +27,7 @@
       <el-form-item label="页面label" prop="label">
         <el-input v-model="pageFrom.label" />
       </el-form-item>
-      <v-monaco-editor v-model="pageFrom.css" language="css" key="css" height="30vh"></v-monaco-editor>
+      <v-monaco-editor v-model="pageFrom.css" language="css" key="pagename" height="30vh"></v-monaco-editor>
       <el-form-item>
         <el-button type="primary" @click="commit">确认</el-button>
         <el-button @click="cancel">取消</el-button>
