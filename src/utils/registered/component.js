@@ -691,9 +691,9 @@ export const componentSetters = [
                     attributeName: "value",//组件配置中属性字段名 必写
                     label: "value绑定",// 字段标签
                     type: "input",//编辑自段的类型input select number switch 必写
-                    value: "",//属性值 必写
-                    defaultValue: "",//默认属性值 必写
-                    valueType: String,// 属性值类型 必写
+                    value: "dataValue",//属性值 必写
+                    defaultValue: "dataValue",//默认属性值 必写
+                    dataValue:"默认data测试"
                 },
                 {
                     attributeName: "type",//组件配置中属性字段名 必写

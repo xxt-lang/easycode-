@@ -7,7 +7,9 @@
        data-elementType = "editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <div :style="page.css">
+    <div :style="page.css"
+         data-containerId = "editor"
+         data-elementType = "editor">
       <Shape v-for="(item, index) in page.children "
              :key="index"
              :status="item.status"

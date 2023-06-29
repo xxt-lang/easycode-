@@ -32,28 +32,35 @@ const baseAttribute = {
 // 加载组件配置
 export function loadComponentConfiguration() {
     const componentListStore = ComponentListStore()
-    // 组件相关属性值初始化
-    componentList.forEach(item => {
-        Object.keys(baseAttribute).forEach(aItem => {
-            item[aItem] = baseAttribute[aItem]
-            if (item.type && item.type === "container") {
-                item["children"] = item["children"] ? item["children"] : []
-                if (item["children"].length > 0) {
-                    item["children"].forEach((citem) => {
-                        citem[aItem] = baseAttribute[aItem]
-                    })
+    // 先判断本地有没有对应数据，有则直接读取不在进行处理
+    if(localStorage.getItem('componentList'))
+    {
+        componentListStore.componentList = JSON.parse(localStorage.getItem('componentList'))
+    }else{
+        // 组件相关属性值初始化
+        componentList.forEach(item => {
+            Object.keys(baseAttribute).forEach(aItem => {
+                item[aItem] = baseAttribute[aItem]
+                if (item.type && item.type === "container") {
+                    item["children"] = item["children"] ? item["children"] : []
+                    if (item["children"].length > 0) {
+                        item["children"].forEach((citem) => {
+                            citem[aItem] = baseAttribute[aItem]
+                        })
+                    }
+                } else {
+                    item.status.activeContainer = false
+                    item["type"] = "common" //是否为容器组件
+                    if (item.styles['display'] === undefined) {
+                        item.styles['display'] = 'inline-flex'
+                    }
                 }
-            } else {
-                item.status.activeContainer = false
-                item["type"] = "common" //是否为容器组件
-                if (item.styles['display'] === undefined) {
-                    item.styles['display'] = 'inline-flex'
-                }
-            }
+            })
         })
-    })
-    setAttribute()
-    componentListStore.componentList = componentList
+        setAttribute()
+        componentListStore.componentList = componentList
+        localStorage.setItem('componentList',JSON.stringify(componentList))
+    }
     componentListStore.componentSetters = componentSetters
     componentListStore.materials = materials
 }
@@ -75,6 +82,10 @@ function setAttribute() {
             }
             componentSetters[index].setter.attributes.forEach(setterItem => {
                 item.attributes[setterItem.attributeName] = setterItem.defaultValue
+                // attributeName 为value的值默认加到dataValue中
+                if(setterItem.attributeName === "value"){
+                    componentSetters[index]['dataValue'] = setterItem.dataValue
+                }
                 if (setterItem.type === "table") {
                     let columnObject = {}
                     setterItem.column.forEach(columnItem => {

@@ -363,6 +363,11 @@ export function handleDrop(e){
     if(component){
         if(addComponent(target,component,index,false)){
             getStore("UndoRedoStore").addOperation({method:'addComponent',params:{target:target,component:component}})
+            if(component.attributes.value){
+                let page = getStore("PagesStore").getNowPage()
+                page.data[component.attributes.value] = getStore("ComponentListStore").componentSetters[component.setterIndex].dataValue
+            }
+            // 向页面配置中加入默认的属性
         }
     }else{
         ElMessage({message: "未找到相关组件", type: 'warning',duration:2000,showClose: true,})
@@ -390,11 +395,7 @@ export function addComponent(target,component,index,isRedoUndo){
         //若容器是组件并且其中包含预定义的容器则向其中容器添加id 与父亲id
         if(getStore("PagesStore").getNowPage()){
             try {
-                if(!isNaN(index)){
-                    temporary.children.splice(index,0,component)
-                }else{
-                    temporary.children.push(component)
-                }
+                temporary.children.splice(isNaN(index)?temporary.children.length:index,0,component)
                 return true
             }catch (e){
                 console.log(e)
@@ -405,29 +406,16 @@ export function addComponent(target,component,index,isRedoUndo){
     }else{
         // 向容器中添加元素
         try {
-            if(!isNaN(index)){
                 if(component.featherId === "editor"){
-                    temporary.children.splice(index,0,component)
+                    temporary.children.splice(isNaN(index)?temporary.children.length:index,0,component)
                 }else{
                     temporary = searchComponent(component.featherId)
                     if(!temporary.status.lock || isRedoUndo){
-                        temporary.children.splice(index,0,component)
+                        temporary.children.splice(isNaN(index)?temporary.children.length:index,0,component)
                     }else{
                         return false
                     }
                 }
-            }else{
-                if(component.featherId === "editor"){
-                    temporary.children.push(component)
-                }else{
-                    temporary = searchComponent(component.featherId)
-                    if(!temporary.status.lock || isRedoUndo){
-                    temporary.children.push(component)
-                    }else{
-                        return false
-                    }
-                }
-            }
             return true
         }catch (e) {
             console.log(e)
