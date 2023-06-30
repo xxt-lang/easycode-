@@ -697,9 +697,8 @@ export const componentSetters = [
                     attributeName: "value",//组件配置中属性字段名 必写
                     label: "value绑定",// 字段标签
                     type: "input",//编辑自段的类型input select number switch 必写
-                    value: "dataValue",//属性值 必写
-                    defaultValue: "dataValue",//默认属性值 必写
-                    dataValue:"默认data测试"
+                    value: "inputValue",//属性值 必写
+                    defaultValue: "inputValue",//默认属性值 必写
                 },
                 {
                     attributeName: "type",//组件配置中属性字段名 必写
@@ -1371,28 +1370,6 @@ export const componentSetters = [
                     type: "input",//编辑自段的类型input select number switch 必写
                     value: "dataValue",//属性值 必写
                     defaultValue: "dataValue",//默认属性值 必写
-                    dataValue:[
-                        {
-                            date: '2016-05-03',
-                            name: 'Tom',
-                            address: 'No. 189, Grove St, Los Angeles',
-                        },
-                        {
-                            date: '2016-05-02',
-                            name: 'Tom',
-                            address: 'No. 189, Grove St, Los Angeles',
-                        },
-                        {
-                            date: '2016-05-04',
-                            name: 'Tom',
-                            address: 'No. 189, Grove St, Los Angeles',
-                        },
-                        {
-                            date: '2016-05-01',
-                            name: 'Tom',
-                            address: 'No. 189, Grove St, Los Angeles',
-                        },
-                    ]
                 },
                 {
                     attributeName: "column",//组件配置中属性字段名

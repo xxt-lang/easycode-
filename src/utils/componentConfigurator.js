@@ -85,10 +85,6 @@ function setAttribute() {
             }
             componentSetters[index].setter.attributes.forEach(setterItem => {
                 item.attributes[setterItem.attributeName] = setterItem.defaultValue
-                // attributeName 为value的值默认加到dataValue中
-                if(setterItem.attributeName === "value"){
-                    componentSetters[index]['dataValue'] = setterItem.dataValue
-                }
                 if (setterItem.type === "table") {
                     let columnObject = {}
                     setterItem.column.forEach(columnItem => {

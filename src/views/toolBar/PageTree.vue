@@ -44,6 +44,7 @@ import {Plus} from "@element-plus/icons-vue";
 import {analysisCssText, deleteSelectComponent, getStore, objectToCss} from "../../utils/core";
 import VMonacoEditor from "../coreComponents/VMonacoEditor.vue";
 import {deepClone} from "../../utils/tool";
+import {ECVue} from "../../utils/ECVue";
 
 export default {
   name: "PageTree",
@@ -71,9 +72,14 @@ export default {
         label:'',
         children:[],
         status:{active:false},
-        data:{
-          input:'input'
-        },
+        data:{},
+        ecVueInfo:'export default{\n' +
+            'data(){\n' +
+            'return{\n' +
+            '}},\n' +
+            'methods:{\n' +
+            '}}\n',
+        EcVue:null,
         css:".main{}",
         id:""
       },
@@ -137,6 +143,8 @@ export default {
         if(valid){
           let pageFrom = deepClone(this.pageFrom)
           pageFrom.css = analysisCssText(pageFrom.css)
+          pageFrom.EcVue = new ECVue({data(){return{}},methods:{}})
+          console.log(pageFrom.EcVue)
           this.addPage(pageFrom)
           this.dialogVisible = false
           this.pageFrom = {
@@ -145,9 +153,13 @@ export default {
             label: '',
             children: [],
             status: {active: false},
-            data: {
-              input: 'input'
-            },
+            ecVueInfo:'export default{\n' +
+                'data(){\n' +
+                'return{\n' +
+                '}},\n' +
+                'methods:{\n' +
+                '}}\n',
+            EcVue:null,
             css: ".main{}",
             id: ""
           }

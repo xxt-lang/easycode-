@@ -48,10 +48,8 @@ import Shape from "./Shape.vue";
 import Contextmenu from "./Contextmenu.vue";
 import ToolBar from "../toolBar/TopBar.vue";
 import PageTag from "./PageTag.vue";
-import {mapActions, mapState} from 'pinia'
+import {mapActions,} from 'pinia'
 import {PagesStore,MouseEventStore} from "../../stores/counter";
-
-
 export default {
   name: 'EditorMap',
   components: { Shape, Contextmenu, ToolBar, PageTag},

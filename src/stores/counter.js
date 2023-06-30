@@ -143,16 +143,6 @@ export const PagesStore = defineStore('PagesStoreMain', {
     setPageChildren(children){
       this.getNowPage().children = children
     },
-    getPageData(){
-      try {
-        if(this.getNowPage().data){
-          return this.getNowPage().data
-        }
-      }catch (e){
-        console.log(e)
-      }
-      return null
-    }
   },
 })
 

@@ -11,6 +11,7 @@ import {
 } from '@/stores/counter'
 import {saveAs} from 'file-saver';
 import {ElMessage} from "element-plus";
+import {ECVue, proxy} from "./ECVue";
 
 export function getStore(name){
     if(name === "PagesStore")
@@ -26,6 +27,36 @@ export function getStore(name){
     if(name === "UndoRedoStore")
         return UndoRedoStore()
 }
+const debounce = (function () {
+    let timer = 0
+    let lastTimer = 0
+    return function (fn, delay = 300, immediate = true) {
+        if (timer) {
+            clearTimeout(timer)
+        }
+        if (immediate) {
+            // 立即执行
+            let callNow = !timer
+            timer = setTimeout(() => {
+                if (lastTimer !== timer) {
+                    timer = 0
+                    lastTimer = 0
+                    fn()
+                }
+            }, delay)
+            if (callNow) {
+                lastTimer = timer
+                fn()
+            }
+        } else {
+            // 非立即执行
+            timer = setTimeout(() => {
+                fn()
+                timer = 0
+            }, delay)
+        }
+    }
+})()
 
 // 模拟路由跳转
 export function ecRouter(path){
@@ -35,19 +66,24 @@ export function ecRouter(path){
 export function getPageData(attribute,isPreview){
     const params = analysisData(attribute)
     let setData = {}
+    let result = ''
     if(params.length>0){
         if(isPreview){
-            setData=getStore("PagesStore").getPreviewPage().data
+            console.log(getStore("PagesStore").getPreviewPage())
+            setData=getStore("PagesStore").getPreviewPage().EcVue
         }else{
-            setData=getStore("PagesStore").getPageData()
+            setData=getStore("PagesStore").getNowPage().EcVue
         }
         let length = params.length
-        for (let i = 0; i < length; i++) {
-            setData = setData[params[i]]
-        }
-        return setData
-    }
+        result = (setData!==null && setData[params[0]])?setData[params[0]]:''
 
+        if(setData){
+            for (let i = 1; i < length; i++) {
+                result = result[params[i]]
+            }
+        }
+        return result
+    }
 }
 
 // 设置当前页面绑定的数据
@@ -56,9 +92,9 @@ export function setPageData(attribute,value,isPreview){
     let setData = {}
     if(params.length>0){
         if(isPreview){
-            setData=getStore("PagesStore").getPreviewPage().data
+            setData=getStore("PagesStore").getPreviewPage().EcVue
         }else{
-            setData=getStore("PagesStore").getPageData()
+            setData=getStore("PagesStore").getNowPage().EcVue
         }
         let length = params.length
         for (let i = 0; i < length - 1; i++) {
@@ -74,8 +110,16 @@ function analysisData(param){
 }
 
 export function initProject(){
-    getStore("PagesStore").setPage(getLocalStorage())
+    let pageData = getLocalStorage()
+
+    pageData.forEach(item=>{
+        item.EcVue = createEcVue(item.ecVueInfo)
+    })
+    getStore("PagesStore").setPage(pageData)
 }
+
+
+
 
 // 预览时展示的界面
 export function previewPage(index){
@@ -86,6 +130,7 @@ export function previewPage(index){
             result.page = localPage[index].children
             result.isPage = true
             result.css = localPage[index].css
+            localPage[index].EcVue = createEcVue(localPage[index].ecVueInfo)
         }
         getStore("PagesStore").setPreviewPage(localPage[index])
     }
@@ -363,17 +408,6 @@ export function handleDrop(e){
     if(component){
         if(addComponent(target,component,index,false)){
             getStore("UndoRedoStore").addOperation('addComponent')
-            if(component.attributes.value){
-                let page = getStore("PagesStore").getNowPage()
-                let i = 0
-                let valueName = component.attributes.value
-                while(page.data[valueName]){
-                    valueName = component.attributes.value + i++
-                }
-                component.attributes.value = valueName
-                page.data[valueName] = getStore("ComponentListStore").componentSetters[component.setterIndex].dataValue
-            }
-            // 向页面配置中加入默认的属性
         }
     }else{
         ElMessage({message: "未找到相关组件", type: 'warning',duration:2000,showClose: true,})
@@ -824,4 +858,21 @@ export function stickup(){
         }
         return array
     }
+}
+
+// 将页面vue信息生成函数并返回
+export function createEcVue(ecVueInfo){
+    ecVueInfo = ecVueInfo.replace("export default",'')
+    let ecVue = null
+    try {
+        if(ecVueInfo && ecVueInfo !==''){
+            let info = `()=>{return ${ecVueInfo}}`
+            let a = eval(info)
+            ecVue = new ECVue(a())
+        }
+    }catch (e){
+        console.log(e)
+    }
+    return ecVue
+
 }

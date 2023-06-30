@@ -3,11 +3,8 @@
     <el-drawer v-model="value" :modal="false" size="30%" direction="ltr" @close="close">
       <el-button @click="save">保存</el-button>
       <el-tabs v-model="activeName" class="demo-tabs">
-        <el-tab-pane label="data" name="data">
-          <VMonacoEditor v-model="editorData" language="json"  key="data" minimap lineNumbers folding></VMonacoEditor>
-        </el-tab-pane>
-        <el-tab-pane label="method" name="method">
-          <VMonacoEditor v-model="editorMethod" language="javascript" key="method"></VMonacoEditor>
+        <el-tab-pane label="EcVue" name="data">
+          <VMonacoEditor v-model="EcVueInfo" language="javascript"  key="data" lineNumbers folding></VMonacoEditor>
         </el-tab-pane>
         <el-tab-pane label="history" name="history">
           <show-history></show-history>
@@ -22,6 +19,7 @@ import {mapActions} from "pinia";
 import {PagesStore} from "../../stores/counter";
 import VMonacoEditor from "../coreComponents/VMonacoEditor.vue";
 import ShowHistory from "./ShowHistory.vue";
+import {createEcVue} from "../../utils/core";
 
 export default {
   name: "PageConfiguration",
@@ -40,12 +38,7 @@ export default {
     value: {
       get() {
         if(this.getNowPage()){
-          if(this.getNowPage()['data']){
-            this.editorData = JSON.stringify(this.getNowPage()['data'])
-          }
-          if(this.getNowPage()['method']){
-            this.editorMethod = JSON.stringify(this.getNowPage()['method'])
-          }
+          this.EcVueInfo = this.getNowPage().ecVueInfo
         }
         return this.modelValue
       },
@@ -57,22 +50,22 @@ export default {
   data() {
     return {
       activeName: 'data',
-      editorData:'暂无数据',
-      editorMethod:'暂无数据',
+      EcVueInfo:'暂无数据',
     }
   },
   created() {
-    this.editorData = '暂无数据'
-    this.editorMethod = '暂无方法'
+    this.EcVueInfo = '暂无数据'
   },
   methods:{
     ...mapActions(PagesStore,['getNowPage']),
     save(){
-      this.getNowPage()['data'] = JSON.parse(this.editorData)
+      this.getNowPage()['ecVueInfo'] = this.EcVueInfo
+      this.getNowPage()['EcVue'] = null
+      this.getNowPage()['EcVue'] = createEcVue(this.EcVueInfo)
     },
     close(){
       this.value = false
-      this.editorData = ''
+      this.EcVueInfo = '暂无数据'
     },
   }
 }
