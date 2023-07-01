@@ -7,7 +7,7 @@ export const materials = [
                 components: [
                     {
                         label: '路由',
-                        component: 'EcRouter'
+                        component: 'ScRouter'
                     },
                 ]
             }]
@@ -610,7 +610,7 @@ export const componentList = [
         ],
     },
     {
-        component: "EcRouter",
+        component: "ScRouter",
         label: '路由',
         events: {},
         attributes: {},

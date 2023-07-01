@@ -87,7 +87,7 @@
 
 <script>
 import Container from "../../coreComponents/Container.vue";
-import ECRouter from "../EcRouter.vue";
+import ECRouter from "../../coreComponents/EcRouter.vue";
 export default {
   name: "ScContainer",
   components: {Container,ECRouter},
