@@ -3,7 +3,7 @@
     <el-menu
         :default-active="activeIndex"
         class="el-menu-demo"
-        mode="horizontal"
+
         @select="handleSelect"
     >
       <el-menu-item index="1">Processing Center</el-menu-item>
@@ -22,17 +22,14 @@
       <el-menu-item index="3" disabled>Info</el-menu-item>
       <el-menu-item index="4">Orders</el-menu-item>
     </el-menu>
-    <ECRouter :isPreview="isPreview"></ECRouter>
+
   </div>
 </template>
 
 <script>
-import ECRouter from "../../coreComponents/ECRouter.vue";
 import {ecRouter} from "../../../utils/core";
-
 export default {
   name: "SCMenu",
-  components: {ECRouter},
   props:{
     propValue: {
       type: Object, String,

@@ -1,4 +1,5 @@
-    var noop = function (){}
+    import {ecRouter} from "./core";
+   var noop = function (){}
     var sharedPropertyDefinition = {
         get(){},
         set(){}
@@ -22,6 +23,8 @@
         if (opts.data) {
             initData(sc);
         }
+        sc['ecRouter'] = ecRouter
+
     }
     function initMethods(sc, methods) {
         //循环methods对象

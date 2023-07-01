@@ -102,7 +102,6 @@ function setAttribute() {
             })
             if(componentSetters[index].setter.events){
                 componentSetters[index].setter.events.forEach(setterItem=>{
-                    console.log(item)
                     item.events[setterItem.event] = {enable:setterItem.enable,method:setterItem.method}
                 })
             }

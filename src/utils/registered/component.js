@@ -1,5 +1,18 @@
 export const materials = [
     {
+        UI: 'baseComponent',
+        label: '其他组件',
+        components: [
+            {
+                components: [
+                    {
+                        label: '路由',
+                        component: 'EcRouter'
+                    },
+                ]
+            }]
+    },
+    {
         UI: 'element',
         label: 'element',
         components: [
@@ -8,27 +21,27 @@ export const materials = [
                 components: [
                     {
                         label: '按钮',
-                        componentIndex: 0
+                        component: 'ScButton',
                     },
                     {
                         label: 'Container 布局容器',
-                        componentIndex: -1
+                        component: 'ScContainer'
                     },
                     {
                         label: 'Layout 布局',
-                        componentIndex: 12
+                        component: 'ScRow'
                     },
                     {
                         label: 'Link 链接',
-                        componentIndex: -1
+                        component: 'ScLink'
                     },
                     {
                         label: 'Scrollbar 滚动条',
-                        componentIndex: -1
+                        component:'ScScrollbar'
                     },
                     {
                         label: 'Space 间距',
-                        componentIndex: -1
+                        component: 'ScSpace'
                     }
                 ]
             },
@@ -37,79 +50,79 @@ export const materials = [
                 components: [
                     {
                         label: '自动补全输入框',
-                        componentIndex: -1
+                        component: -1
                     },
                     {
                         label: 'Cascader 级联选择器',
-                        componentIndex: -1
+                        component: 'ScCascader'
                     },
                     {
                         label: 'Checkbox 多选框',
-                        componentIndex: -1
+                        component: 'ScCheckbox'
                     },
                     {
                         label: 'ColorPicker 颜色选择器',
-                        componentIndex: -1
+                        component: 'ScColorPicker'
                     },
                     {
                         label: 'DatePicker 日期选择器',
-                        componentIndex: -1
+                        component: 'ScDatePicker'
                     },
                     {
                         label: 'DateTimePicker 日期时间选择器',
-                        componentIndex: -1
+                        component: 'ScDateTimePicker'
                     },
                     {
                         label: 'Form 表单',
-                        componentIndex: -1
+                        component: 'ScForm'
                     },
                     {
                         label: 'Input 输入框',
-                        componentIndex: 1
+                        component: 'ScInput'
                     },
                     {
                         label: 'Input Number 数字输入框',
-                        componentIndex: -1
+                        component: 'ScInputNumber'
                     },
                     {
                         label: 'Radio 单选框',
-                        componentIndex:5
+                        component: 'ScRadio'
                     },
                     {
                         label: 'Rate 评分',
-                        componentIndex: 2
+                        component: 'ScRate'
                     },
                     {
                         label: 'Select 选择器',
-                        componentIndex: 3
+                        component: 'ScSelect'
                     },
                     {
                         label: 'Select V2 虚拟列表选择器',
-                        componentIndex: -1
+                        component: 'ScSelectV2'
                     },
                     {
                         label: 'Slider 滑块',
-                        componentIndex: 4
+                        component: 'ScSlider'
                     },
                     {
                         label: 'Switch 开关',
-                        componentIndex: 7
+                        component: 'ScSwitch'
                     },
                     {
                         label: 'TimePicker 时间选择器',
-                        componentIndex: -1
+                        component: 'ScTimePicker'
                     },
                     {
                         label: 'TimeSelect 时间选择',
-                        componentIndex: -1
+                        component: 'ScTimeSelect'
                     },
                     {
                         label: 'Transfer 穿梭框',
-                        componentIndex: -1
+                        component: 'ScTransfer'
                     },
                     {
                         label: 'Upload 上传',
-                        componentIndex: -1
+                        component: 'ScUpload'
                     },
                 ]
             },
@@ -118,88 +131,88 @@ export const materials = [
                 components: [
                     {
                         label: 'Avatar 头像',
-                        componentIndex: 8
+                        component: 'ScAvatar'
                     },
                     {
                         label: 'Badge 徽章',
-                        componentIndex: 9
+                        component: 'ScBadge'
                     },
                     {
                         label: 'Calendar 日历',
-                        componentIndex: -1
+                        component: 'ScCalender'
                     },
                     {
                         label: 'Card 卡片',
-                        componentIndex: 11
-                    },{
+                        component: 'ScCard'
+                    }, {
                         label: 'Carousel 走马灯',
-                        componentIndex: 10
+                        component: 'ScCarousel'
                     },
                     {
                         label: 'Collapse 折叠面板',
-                        componentIndex: -1
+                        component: 'ScCollapse'
                     },
                     {
                         label: 'Descriptions 描述列表',
-                        componentIndex: -1
+                        component: 'ScDescriptions'
                     },
                     {
                         label: 'Empty 空状态',
-                        componentIndex: -1
-                    },{
+                        component: 'ScEmpty'
+                    }, {
                         label: 'Image 图片',
-                        componentIndex: -1
+                        component: 'ScImage'
                     },
                     {
                         label: 'Infinite Scroll 无限滚动',
-                        componentIndex: -1
+                        component: 'ScInfiniteScroll'
                     },
                     {
                         label: 'Pagination 分页',
-                        componentIndex: -1
+                        component: 'ScPagination'
                     },
                     {
                         label: 'Progress 进度条',
-                        componentIndex: -1
-                    },{
+                        component: 'ScProgress'
+                    }, {
                         label: 'Result 结果',
-                        componentIndex: -1
+                        component: 'ScResult'
                     },
                     {
                         label: 'Skeleton 骨架屏',
-                        componentIndex: -1
+                        component: 'ScSkeleton'
                     },
                     {
                         label: 'Table 表格',
-                        componentIndex: 16
+                        component: 'ScTable'
                     },
                     {
                         label: 'Virtualized Table 虚拟化表格',
-                        componentIndex: -1
+                        component: 'ScVirtualizedTable'
                     },
                     {
                         label: 'Tag 标签',
-                        componentIndex: -1
+                        component: 'ScTag'
                     },
                     {
                         label: 'Timeline 时间线',
-                        componentIndex: -1
+                        component: 'ScTimeline'
                     },
                     {
                         label: 'Tree 树形控件',
-                        componentIndex: -1
+                        component: 'ScTree'
                     },
                     {
                         label: 'TreeSelect 树形选择',
-                        componentIndex: -1
+                        component: 'ScTreeSelect'
                     },
                     {
                         label: 'Tree V2 虚拟化树形控件',
-                        componentIndex: -1
+                        component: 'ScTreeV2'
                     },
                     {
                         label: 'Statistic 统计组件',
-                        componentIndex: -1
+                        component: 'ScStatistic'
                     },
                 ]
             },
@@ -208,35 +221,35 @@ export const materials = [
                 components: [
                     {
                         label: 'Affix 固钉',
-                        componentIndex: -1
+                        component: 'ScAffix'
                     },
                     {
                         label: 'Backtop 回到顶部',
-                        componentIndex: -1
+                        component: 'ScBacktop'
                     },
                     {
                         label: 'Breadcrumb 面包屑',
-                        componentIndex: -1
+                        component: 'ScBreadcrumb'
                     },
                     {
                         label: 'Dropdown 下拉菜单',
-                        componentIndex: -1
+                        component: 'ScDropdown'
                     },
                     {
                         label: 'Menu 菜单',
-                        componentIndex: 13
+                        component: 'ScMenu'
                     },
                     {
                         label: 'Page Header 页头',
-                        componentIndex: -1
+                        component: 'ScPageHeader'
                     },
                     {
                         label: 'Steps 步骤条',
-                        componentIndex: -1
+                        component: 'ScSteps'
                     },
                     {
                         label: 'Tabs 标签页',
-                        componentIndex: -1
+                        component: 'ScTabs'
                     },
                 ]
             },
@@ -245,51 +258,51 @@ export const materials = [
                 components: [
                     {
                         label: 'Alert 提示',
-                        componentIndex: -1
+                        component: 'ScAlert'
                     },
                     {
                         label: 'Dialog 对话框',
-                        componentIndex: 15
+                        component: 'ScDialog'
                     },
                     {
                         label: 'Drawer 抽屉',
-                        componentIndex: 14
+                        component: 'ScDrawer'
                     },
                     {
                         label: 'Loading 加载',
-                        componentIndex: -1
+                        component: 'ScLoading'
                     },
                     {
                         label: 'Message 消息提示',
-                        componentIndex: -1
+                        component: 'ScMessage'
                     },
                     {
                         label: 'MessageBox 消息弹框',
-                        componentIndex: -1
+                        component: 'ScMessageBox'
                     },
                     {
                         label: 'Notification 通知',
-                        componentIndex: -1
+                        component: 'ScNotification'
                     },
                     {
                         label: 'Popconfirm 气泡确认框',
-                        componentIndex: -1
+                        component: 'ScPopconfirm'
                     },
                     {
                         label: 'Popover 气泡卡片',
-                        componentIndex: -1
+                        component: 'ScPopover'
                     },
                     {
                         label: 'Tooltip 文字提示',
-                        componentIndex: -1
+                        component: 'ScTooltip'
                     },
                 ]
             },
             {
                 group: 'Others 其他',
-                components: [ {
+                components: [{
                     label: 'Divider 分割线',
-                    componentIndex: -1
+                    component: 'ScDivider'
                 },]
             }
         ]
@@ -507,12 +520,103 @@ export const componentList = [
         styles: {},
         type: "container"
     },
-    {   component: "ScTable",
+    {
+        component: "ScTable",
         label: '表格',
         events: {},
         attributes: {},
         styles: {},
-        type: "container"}
+        type: "container"
+    },
+    {
+        component: "ScContainer",
+        label: 'container 容器布局',
+        type: "container",
+        events: {},
+        attributes: {},
+        styles: {},
+        children: [
+
+            {
+                component: "container",
+                attribute: 'header',
+                label: "header",
+                id: "",
+                event: {},
+                attributes: {},
+                styles: {
+                    "background-color":'#c6e2ff'
+                },
+                children: [],
+                featherId: "",
+                type: "container"
+            },
+            {
+                component: "container",
+                attribute: 'Aside',
+                label: "Aside",
+                id: "",
+                event: {},
+                attributes: {},
+                styles: {
+                   " line-height": '100vh',
+                    "background-color":"#d9ecff"
+                },
+                children: [],
+                featherId: "",
+                type: "container"
+            },
+            {
+                component: "container",
+                attribute: 'main',
+                label: "main",
+                id: "",
+                event: {},
+                attributes: {},
+                styles: {
+                    "background-color":'#ecf5ff',
+                },
+                children: [],
+                featherId: "",
+                type: "container"
+            },
+            {
+                component: "container",
+                attribute: 'footer',
+                label: "footer",
+                id: "",
+                event: {},
+                attributes: {},
+                styles: {
+                    "background-color":'#c6e2ff'
+                },
+                children: [],
+                featherId: "",
+                type: "container"
+            },
+            {
+                component: "container",
+                attribute: 'topContainer',
+                label: "topContainer",
+                id: "",
+                event: {},
+                attributes: {},
+                styles: {
+                },
+                children: [],
+                featherId: "",
+                type: "container"
+            },
+        ],
+    },
+    {
+        component: "EcRouter",
+        label: '路由',
+        events: {},
+        attributes: {},
+        styles: {},
+        type: "base"
+    }
 ]
 export const componentSetters = [
     {
@@ -681,9 +785,11 @@ export const componentSetters = [
                 }
             ],
             configuration: {
-                setterAttributes:[
-                    {component:"SetButton",
-                    param:{name:"自定义设置器"}}
+                setterAttributes: [
+                    {
+                        component: "SetButton",
+                        param: {name: "自定义设置器"}
+                    }
                 ]
             }
         },
@@ -1244,8 +1350,7 @@ export const componentSetters = [
 
             ],
             styles: {},
-            events: [
-            ]
+            events: []
         },
     },
     {
@@ -1322,8 +1427,7 @@ export const componentSetters = [
                 },
             ],
             styles: {},
-            events: [
-            ],
+            events: [],
             configuration: {
                 childrenTemplate: {
                     component: "container",
@@ -1365,9 +1469,9 @@ export const componentSetters = [
                     label: "列",
                     type: "table",//编辑自段的类型input select number switch buttonList
                     defaultValue: [
-                        {prop:'date',label:'data',width:'180' },
-                        {prop:'name',label:'name',width:'180' },
-                        {prop:'address',label:'address',width:'180' }],
+                        {prop: 'date', label: 'data', width: '180'},
+                        {prop: 'name', label: 'name', width: '180'},
+                        {prop: 'address', label: 'address', width: '180'}],
                     isChildren: true,// 是否与children绑定
                     column: [
                         {
@@ -1397,8 +1501,64 @@ export const componentSetters = [
             ],
             styles: {},
             configuration: {
-                childrenTemplate: {prop:'address',label:'address',with:'180' },
+                childrenTemplate: {prop: 'address', label: 'address', with: '180'},
             }
         }
     },
+    {
+        component: "ScContainer",
+        setter: {
+            attributes: [
+                {
+                    attributeName: "AsideWidth",//组件配置中属性字段名
+                    label: "Aside宽度",
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: "200",//属性值
+                    defaultValue: "200",//默认属性值
+                },
+                {
+                    attributeName: "showTopHeader",//组件配置中属性字段名
+                    label: "启用TopHeader",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: true,//属性值
+                    defaultValue: true,//默认属性值
+                },
+                {
+                    attributeName: "showAside",//组件配置中属性字段名
+                    label: "启用Aside",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: true,//属性值
+                    defaultValue: true,//默认属性值
+                },{
+                    attributeName: "showHeader",//组件配置中属性字段名
+                    label: "启用Header",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: true,//属性值
+                    defaultValue: true,//默认属性值
+                },{
+                    attributeName: "showMain",//组件配置中属性字段名
+                    label: "启用Main",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: true,//属性值
+                    defaultValue: true,//默认属性值
+                },{
+                    attributeName: "showMainRouter",//组件配置中属性字段名
+                    label: "启用MainRouter",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                },{
+                    attributeName: "showFooter",//组件配置中属性字段名
+                    label: "启用Footer",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: true,//属性值
+                    defaultValue: true,//默认属性值
+                },
+
+
+            ],
+            styles: {},
+            events: []
+        },
+    }
 ]

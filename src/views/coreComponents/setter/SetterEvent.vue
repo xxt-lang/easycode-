@@ -7,10 +7,6 @@
         <el-switch v-model="setterData.events[item.event].enable"></el-switch>
         <el-input v-model="setterData.events[item.event].method"></el-input>
       </div>
-
-<!--      事件方法名称-->
-<!--      方法参数-->
-<!--      方法内容-->
       <component v-for="(item,index) in configuration.setterEvents"
                  :is="item.component"
                  :params="{setterData:setterData,param:item.param}"

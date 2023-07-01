@@ -11,7 +11,7 @@
                 class="item"
                 v-for="(titem, index) in sitem.components "
                 draggable="true"
-                :data-index="titem.componentIndex"
+                :data-index="titem.component"
                 :key="index">
                 <span style="padding: 5px;">
                   {{titem.label}}

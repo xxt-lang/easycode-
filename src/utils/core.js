@@ -388,7 +388,7 @@ export function upMouseMoveInfo(target,dragObject,direction,index){
 export function handleDrop(e){
     e.preventDefault()
     e.stopPropagation()
-    let component = deepClone(getStore("ComponentListStore").componentList[e.dataTransfer.getData('index')])
+    let component = deepClone(getStore("ComponentListStore").componentList.find((data)=>data.component === e.dataTransfer.getData('index')))
     let target = {
         elementType : e.target.dataset.elementtype,
         elementId : e.target.dataset.elementid,
@@ -649,10 +649,10 @@ export function objectToCss(styles){
 }
 
 export function getContainerStyle(isPreview,styles,lock){
-    return {
-         height: styles.height === undefined?'':`${Number(styles.height.replace('px',''))-12}px`,
-        'border-style':isPreview?'none':'solid',
-    }
+    let result = deepClone(styles)
+    // result['height'] = styles.height === undefined?'':`${Number(styles.height.replace('px',''))-12}px`
+    result['border-style'] = isPreview?'none':'solid'
+    return result
 
 }
 

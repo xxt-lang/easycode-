@@ -12,10 +12,10 @@
               featherId:propValue.featherId,
               children:item.children,
               componentId:propValue.id,
-              index:index,
               status:propValue.status}"
         :container-styles = "propValue.styles"
         :isPreview = "isPreview"
+        :EcVue = "EcVue"
     ></Container></el-col>
   </el-row>
 </template>
@@ -35,13 +35,14 @@ export default {
         return {}
       }
     },
-    index:{
-      type: Number,
-    },
     isPreview:{
       type: Boolean,
       default:false
     },
+    EcVue:{
+      type :Function,
+      default :()=>{}
+    }
   },
   data(){
     return {

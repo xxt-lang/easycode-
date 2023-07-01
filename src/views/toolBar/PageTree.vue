@@ -45,6 +45,7 @@ import {analysisCssText, deleteSelectComponent, getStore, objectToCss} from "../
 import VMonacoEditor from "../coreComponents/VMonacoEditor.vue";
 import {deepClone} from "../../utils/tool";
 import {ECVue} from "../../utils/ECVue";
+import eventBus from "../../utils/eventBus";
 
 export default {
   name: "PageTree",
@@ -124,7 +125,7 @@ export default {
       if(this.nodeClickStatus){
         if(node.type==="page"){
           this.clickNowPage(this.getPage().findIndex((d) => d.id === node.id))
-        }else{
+        }else {
           if(node.component !== 'container'){
             node.status.active = !node.status.active
             // 选中状态时将当前组件放入选择板中
@@ -133,6 +134,7 @@ export default {
             }
           }
         }
+        eventBus.emit("dbComponent")
         this.$emit("update:leftToolBarActive",false)
       }else{
         this.nodeClickStatus = true
