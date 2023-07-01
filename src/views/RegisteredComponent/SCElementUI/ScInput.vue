@@ -48,16 +48,20 @@ export default {
     isPreview:{
       type: Boolean,
       default:false
+    },
+    EcVue:{
+      type:Function,
+      default:()=>{}
     }
   },
   computed:{
     input:{
       get(){
         // 绑定事件监听
-        return this.getPageData(this.propValue.attributes['value'],this.isPreview)
+        return getPageData(this.propValue.attributes['value'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['value'],value,this.isPreview)
+        setPageData(this.propValue.attributes['value'],value,this.EcVue)
       }
     }
   },

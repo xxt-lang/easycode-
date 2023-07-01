@@ -28,6 +28,7 @@
             :key="index"
             :propValue="item"
             :index = "index"
+            :EcVue = "page.EcVue"
         />
       </Shape>
       <!--    拖拽时的提示信息-->

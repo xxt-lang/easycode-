@@ -7,6 +7,7 @@
           :key="index"
           :propValue="item"
           isPreview
+          :EcVue = page.EcVue
       />
     </div>
     <div v-else>

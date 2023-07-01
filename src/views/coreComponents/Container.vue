@@ -30,6 +30,7 @@
           :key="index"
           :propValue="item"
           :index = "index"
+          :EcVue = "EcVue"
       />
     </Shape>
   </div>
@@ -41,6 +42,7 @@
         :key="index"
         :propValue="item"
         :index = "index"
+        :EcVue = "EcVue"
         isPreview
     />
   </div>
@@ -81,7 +83,10 @@ export default {
       type: Boolean,
       default:false
     },
-
+    EcVue:{
+      type:Function,
+      default:()=>{}
+    }
   },
   methods:{
     getContainerStyle,

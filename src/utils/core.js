@@ -63,17 +63,12 @@ export function ecRouter(path){
     eventBus.emit("router",{path:path})
 }
 // 返回当前页面绑定的数据
-export function getPageData(attribute,isPreview){
+export function getPageData(attribute,EcVue){
     const params = analysisData(attribute)
-    let setData = {}
+    let setData = EcVue
     let result = ''
     if(params.length>0){
-        if(isPreview){
-            console.log(getStore("PagesStore").getPreviewPage())
-            setData=getStore("PagesStore").getPreviewPage().EcVue
-        }else{
-            setData=getStore("PagesStore").getNowPage().EcVue
-        }
+
         let length = params.length
         result = (setData!==null && setData[params[0]])?setData[params[0]]:''
 
@@ -87,15 +82,10 @@ export function getPageData(attribute,isPreview){
 }
 
 // 设置当前页面绑定的数据
-export function setPageData(attribute,value,isPreview){
+export function setPageData(attribute,value,EcVue){
     const params = analysisData(attribute)
-    let setData = {}
+    let setData = EcVue
     if(params.length>0){
-        if(isPreview){
-            setData=getStore("PagesStore").getPreviewPage().EcVue
-        }else{
-            setData=getStore("PagesStore").getNowPage().EcVue
-        }
         let length = params.length
         for (let i = 0; i < length - 1; i++) {
             setData = setData[params[i]]
@@ -130,7 +120,8 @@ export function previewPage(index){
             result.page = localPage[index].children
             result.isPage = true
             result.css = localPage[index].css
-            localPage[index].EcVue = createEcVue(localPage[index].ecVueInfo)
+            result.EcVue = createEcVue(localPage[index].ecVueInfo)
+
         }
         getStore("PagesStore").setPreviewPage(localPage[index])
     }

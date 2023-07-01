@@ -2,11 +2,12 @@
   <div>
     <div v-if="isPage">
       <component
-          v-for="(item,index) in page"
+          v-for="(item,index) in page.children"
           :is="item.component"
           :key="index"
           :propValue="item"
           isPreview
+          :EcVue = "page.EcVue"
       />
     </div>
     <div v-else>
@@ -43,7 +44,7 @@ export default {
         let page = pages[pages.findIndex((data)=>data.pageName === param.path)]
         if(page){
           this.isPage = true
-          this.page = page.children
+          this.page = page
         }else{
           this.isPage = false
         }
@@ -53,7 +54,7 @@ export default {
         let page = this.getRouterPage(param.path)
         if(page){
           this.isPage = true
-          this.page = page.children
+          this.page = page
         }else{
           this.isPage = false
         }
