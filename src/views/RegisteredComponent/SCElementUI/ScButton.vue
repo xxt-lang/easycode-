@@ -15,12 +15,14 @@
         :auto-insert-space = "propValue.attributes['auto-insert-space']"
         :color="propValue.attributes['color']"
         :dark = "propValue.attributes['dark']"
+        @click = "click"
         >
       {{ propValue.attributes.label }}
     </el-button>
 </template>
 <script>
 import {getComponentStyle} from "../../../utils/core";
+import {ECVue} from "../../../utils/ECVue";
 export default {
   name: "ScButton",
   props: {
@@ -32,13 +34,22 @@ export default {
     isPreview:{
       type: Boolean,
       default:false
+    },
+    EcVue:{
+      type:Function,
+      default:()=>{}
     }
   },
   data() {
     return {}
   },
   methods: {
-    getComponentStyle
+    getComponentStyle,
+    click(){
+      if(this.propValue.events['click'].enable){
+        this.EcVue[this.propValue.events['click'].method]()
+      }
+    }
   }
 }
 </script>

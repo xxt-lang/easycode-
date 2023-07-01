@@ -678,7 +678,6 @@ export const componentSetters = [
                     event: "click", // 事件名称
                     enable: false,// 是否启用
                     method: ''// 绑定方法名
-
                 }
             ],
             configuration: {
@@ -1246,11 +1245,6 @@ export const componentSetters = [
             ],
             styles: {},
             events: [
-                {
-                    event: "click", // 事件名称
-                    annotation: "",
-                    eventContent: {}
-                }
             ]
         },
     },
@@ -1329,11 +1323,6 @@ export const componentSetters = [
             ],
             styles: {},
             events: [
-                {
-                    event: "click", // 事件名称
-                    annotation: "",
-                    eventContent: {}
-                }
             ],
             configuration: {
                 childrenTemplate: {

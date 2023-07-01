@@ -2,7 +2,12 @@
   <div>
     <div v-show = "setterEvents">
 <!--      是否启用方法-->
-      <el-switch></el-switch>
+      <div v-for="item in setterEvents">
+        {{item.event}}
+        <el-switch v-model="setterData.events[item.event].enable"></el-switch>
+        <el-input v-model="setterData.events[item.event].method"></el-input>
+      </div>
+
 <!--      事件方法名称-->
 <!--      方法参数-->
 <!--      方法内容-->
