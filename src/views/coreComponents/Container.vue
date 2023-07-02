@@ -97,6 +97,7 @@ export default {
         clickSelectComponent(event, item)
         //非激活状态或者容器状态时才能进行拖动
         moveComponent(event, index,item)
+        this.setMouseEvent(event)
     },
     handleMouseDownMap(event){
       this.setMouseEvent(event)

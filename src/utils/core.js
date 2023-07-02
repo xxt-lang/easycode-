@@ -293,8 +293,9 @@ function getCssAttributeValue(param){
 
 //移动鼠标时
 function mousemoveInfo(moveEvent){
-    //target 拖拽时鼠标悬停所指元素
-    let result = {direction : '',target:{
+    return {
+        direction : getMousePosition(moveEvent),
+        target:{
             targetIndex : Number(moveEvent.target.dataset.index),
             targetFeatherId :moveEvent.target.dataset.featherid,
             targetType : moveEvent.target.dataset.elementtype,
@@ -303,37 +304,20 @@ function mousemoveInfo(moveEvent){
             targetLock: moveEvent.target.dataset.lock
         }}
 
-    let mX = moveEvent.layerX - moveEvent.target.offsetLeft//鼠标X轴坐标
-    let mY = moveEvent.layerY - moveEvent.target.offsetTop//鼠标Y轴坐标
-    let scY = moveEvent.target.offsetHeight / 2
-    let scX = moveEvent.target.offsetWidth / 4
-    //right 前插  top 前插  bottom 后插  right 后插
-    if (mX <= scX) {
-        result.direction = "left"
-    } else if (mX > scX && mX < 3 * scX) {
-        if (mY <= scY) {
-            result.direction = "top"
-        } else if (mY > scY) {
-            result.direction = "bottom"
-        }
-    } else if (mX >= 3 * scX) {
-        result.direction = "right"
-    }
-    return result
-
 }
+// 获取鼠标悬停在组件的那个方位上
+function getMousePosition(moveEvent){
+    let mX = moveEvent.offsetX//鼠标X轴坐标
+    let scX = moveEvent.target.offsetWidth / 2
+    return mX<=scX?"left":"right"
+}
+
 //鼠标松开时的事件
 export function upMouseMoveInfo(target,dragObject,direction,index){
     let result = false
     let targetComponent = {}
     // 父组件不能拖动到子组件上
-    if(target.targetFeatherId === dragObject.id ) return result
-    if( isFeatherComponent(dragObject,target.targetId)) return result
-    if (target.targetType === "container") {
-        if(dragObject.type === "container"){
-            if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return result
-        }
-    }
+    if(!dragAllowed(target,dragObject)) return
 
     const pageComponents = getStore("PagesStore").getNowPage().children
     let rootId = "editor"
@@ -383,21 +367,24 @@ export function upMouseMoveInfo(target,dragObject,direction,index){
     return result
 }
 
+// 是否允许进行拖拽插入
+function dragAllowed(target,dragObject){
+    if(target.targetFeatherId === dragObject.id ) return false
+    if( isFeatherComponent(dragObject,target.targetId)) return false
+    if (target.targetType === "container" && dragObject.type === "container") {
+        if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return false
+    }
+    return true
+}
 
 //拖拽到画布前配置组件相关数据
 export function handleDrop(e){
     e.preventDefault()
     e.stopPropagation()
     let component = deepClone(getStore("ComponentListStore").componentList.find((data)=>data.component === e.dataTransfer.getData('index')))
-    let target = {
-        elementType : e.target.dataset.elementtype,
-        elementId : e.target.dataset.elementid,
-        featherId:e.target.dataset.featherid
-    }
-    let index = Number(e.target.dataset.index) + 1
     // 若添加成功返回true 并在撤销回退中记录
     if(component){
-        if(addComponent(target,component,index,false)){
+        if(addComponent(getTarget(e.target.dataset),component,e)){
             getStore("UndoRedoStore").addOperation('addComponent')
         }
     }else{
@@ -406,54 +393,82 @@ export function handleDrop(e){
 }
 
 // 添加组件
-export function addComponent(target,component,index){
-    component.id = component.id === '' || component.id === undefined ? uuid(): component.id
-    if(target.elementType === "editor"){
-        component.featherId = "editor"
-    }else if(target.elementType === "container"){
-        component.featherId = target.elementId
-    }else{
-        component.featherId = target.featherId
-    }
-    if(component.type === "container" && component.children.length>0){
-        component.children.forEach(item=>{
-            item.id = item.id === '' || item.id === undefined? uuid(): item.id
-            item.featherId = component.id
-        })
-    }
-    let temporary = getStore("PagesStore").getNowPage()
-    if (target.elementType == "editor") {
-        //若容器是组件并且其中包含预定义的容器则向其中容器添加id 与父亲id
-        if(getStore("PagesStore").getNowPage()){
-            try {
-                temporary.children.splice(isNaN(index)?temporary.children.length:index,0,component)
-                return true
-            }catch (e){
-                console.log(e)
+export function addComponent(target,component,e){
+    try {
+        if (target.lock) {return false}
+        let temporary = getTargetArray(target)
+        let index = target.index
+        if(target.elementType === "common"){
+            let direction = getMousePosition(e)
+            if(direction === "right" || direction === "bottom"){
+                index++
+            }
+        }
+        if(component instanceof Array){
+            if(isNaN(index)){
+                updateId(component, target.id).forEach(item => {
+                    item.status.active = false // 消除选中状态
+                    temporary.children.push(item)
+                })
+            }else{
+                updateId(component, target.id).forEach(item => {
+                    item.status.active = false // 消除选中状态
+                    temporary.children.splice(index++, 0, item)
+                })
             }
         }else{
-            ElMessage({message: "请先选择或者创建画布", type: 'warning',duration:2000,showClose: true,})
+            component.id = uuid()
+            component.featherId = target.id
+            if (component.type === "container" && component.children.length > 0) {
+                component.children.forEach(item => {
+                    item.id = uuid()
+                    item.featherId = component.id
+                })
+            }
+            if (temporary) {
+                temporary.children.splice(isNaN(index) ? temporary.children.length : index, 0, component)
+            }
         }
-    }else{
-        // 向容器中添加元素
-        try {
-                if(component.featherId === "editor"){
-                    temporary.children.splice(isNaN(index)?temporary.children.length:index,0,component)
-                }else{
-                    temporary = searchComponent(component.featherId)
-                    if(!temporary.status.lock){
-                        temporary.children.splice(isNaN(index)?temporary.children.length:index,0,component)
-                    }else{
-                        return false
-                    }
-                }
-            return true
-        }catch (e) {
-            console.log(e)
-        }
+        temporary = null
+        return true
+    }catch (e){
+        console.log(e)
     }
     return false
+}
 
+// 组件粘贴
+export function stickup(){
+    // 获取选中的数据
+    let stickPate = deepClone(getStore("SimpleStore").copyPlate)
+    try {
+        let e = getStore("MouseEventStore").mouseEvent
+        if (addComponent(getTarget(e.target.dataset),stickPate,e)){
+            // 向操作中增加记录
+            getStore("UndoRedoStore").addOperation('stickComponent')
+        }
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+function getTargetArray(target){
+    if (target.elementType == "editor" || target.id === "editor") {
+        return getStore("PagesStore").getNowPage()
+    } else {
+        return searchComponent(target.id)
+    }
+    return null
+}
+function getTarget(target){
+    return {
+        elementType : target.elementtype,
+        elementId : target.elementid,
+        featherId:target.featherid,
+        index: Number(target.index),
+        lock: target.lock === "true"?true:false,
+        id:target.elementtype === "editor" ? "editor" : target.elementtype === "container" ? target.elementid : target.featherid
+    }
 }
 
 // 搜索组件
@@ -803,54 +818,20 @@ export function shear(){
     copy()
     deleteSelectComponent()
 }
-// 组件粘贴
-export function stickup(){
-    // 获取fatherid 重置fatherid
-    let result = false
-    let stickPate = deepClone(getStore("SimpleStore").copyPlate)
-    try {
-        let dataset = getStore("MouseEventStore").mouseEvent.target.dataset
-        let targetContainer = getStore("PagesStore").getNowPage().children
-        if(dataset.elementtype === "editor"){
-            updateId(stickPate,"editor").forEach(item=>{
-                item.status.active = false // 消除选中状态
-                targetContainer.push(item)
-            })
-            result = true
-        }
-        if(dataset.elementtype === "container"){
-            targetContainer = searchComponent(dataset.elementid)
-            if(!targetContainer.status.lock){
-                // dataset.elementid
-                updateId(stickPate,dataset.elementid).forEach(item=>{
-                    item.status.active = false // 消除选中状态
-                    targetContainer.children.push(item)
-                })
-                result = true
+
+// 递归更新组件中的父id 和id
+function updateId(array,id){
+    if(array.length>0){
+        array.forEach(item=>{
+            item.id = uuid()
+            item.featherId = id
+            if(item.children){
+                updateId(item.children,item.id)
             }
-        }
-
-    }catch (e){
-        console.log(e)
+        })
     }
-    if(result){
-        getStore("UndoRedoStore").addOperation('sticComponent')
-    }
-    // 递归更新组件中的父id 和id
-    function updateId(array,id){
-        if(array.length>0){
-            array.forEach(item=>{
-                item.id = uuid()
-                item.featherId = id
-                if(item.children){
-                    updateId(item.children,item.id)
-                }
-            })
-        }
-        return array
-    }
+    return array
 }
-
 // 将页面vue信息生成函数并返回
 export function createEcVue(ecVueInfo){
     ecVueInfo = ecVueInfo.replace("export default",'')

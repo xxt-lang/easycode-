@@ -3,13 +3,10 @@
        id="editor"
        @drop="handleDrop"
        @dragover="handleDragOver"
-       data-containerId = "editor"
        data-elementType = "editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <div :style="page.css"
-         data-containerId = "editor"
-         data-elementType = "editor">
+    <div :style="page.css" data-elementType = "editor">
       <Shape v-for="(item, index) in page.children "
              :key="index"
              :status="item.status"
@@ -107,6 +104,7 @@ export default {
       clickSelectComponent(event, item)
       //非激活状态或者容器状态时才能进行拖动
       moveComponent(event, index, item)
+      this.setMouseEvent(event)
     },
     handleMouseDownMap(event){
       this.setMouseEvent(event)
