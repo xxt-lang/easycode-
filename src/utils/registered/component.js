@@ -1542,12 +1542,6 @@ export const componentSetters = [
                     value: true,//属性值
                     defaultValue: true,//默认属性值
                 },{
-                    attributeName: "showMainRouter",//组件配置中属性字段名
-                    label: "启用MainRouter",
-                    type: "switch",//编辑自段的类型input select number switch buttonList
-                    value: false,//属性值
-                    defaultValue: false,//默认属性值
-                },{
                     attributeName: "showFooter",//组件配置中属性字段名
                     label: "启用Footer",
                     type: "switch",//编辑自段的类型input select number switch buttonList

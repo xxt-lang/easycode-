@@ -62,9 +62,6 @@
           </Container>
 
         </el-main>
-        <el-main v-if="propValue.attributes['showMainRouter']">
-          <e-c-router :isPreview = "isPreview" :EcVue = "EcVue"></e-c-router>
-        </el-main>
         <el-footer v-if="propValue.attributes['showFooter']" >
           <Container
               key="editorContainer"
