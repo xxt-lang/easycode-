@@ -206,22 +206,13 @@ export function moveComponent(e, index,dragObject) {
     // 只有按住左键时才进行拖拽
     if (e.buttons != 1) return
     handleDragOver(e)
-    // e.preventDefault()
-    // e.stopPropagation()
     // 是否可以进行推拽
     let startClientY= e.clientY
     let startClientX = e.clientX
     let message =`选中${dragObject.label}组件`
     // node当前鼠标悬浮的元素
     let targetInfo = {
-        target: {
-            targetIndex: index,
-            targetFeatherId: "",
-            targetType: "common",
-            targetId: "",
-            targetComponentId: "",
-            targetLock: 'false'
-        },
+        target: null,
         direction: 'right'
     }
     // 获取元素的初始内边距
@@ -348,8 +339,9 @@ export function upMouseMoveInfo(target,dragObject,direction,index){
 
 // 是否允许进行拖拽插入
 function dragAllowed(target,dragObject){
-    if(target.lock) return false
-    if(target.featherId === dragObject.id ) return false
+    if(target === null )return false
+    if(!target.id) return false
+    if(target.lock || target.featherId === dragObject.id || target.featherId ==="") return false
     if( isFeatherComponent(dragObject,target.elementId)) return false
     if (target.elementType === "container" && dragObject.type === "container") {
         if (target.id === dragObject.id || isLayer(dragObject, target.elementId)) return false
@@ -375,7 +367,7 @@ export function handleDrop(e){
 // 添加组件
 export function addComponent(target,component,e){
     try {
-        if (target.lock) {return false}
+        if (target.lock && component) {return false}
         let temporary = getTargetArray(target)
         let index = target.index
         if(target.elementType === "common"){
@@ -420,13 +412,13 @@ export function addComponent(target,component,e){
 // 组件粘贴
 export function stickup(){
     // 获取选中的数据
-    let stickPate = deepClone(getStore("SimpleStore").copyPlate)
     try {
         let e = getStore("MouseEventStore").mouseEvent
-        if (addComponent(getTarget(e.target.dataset),stickPate,e)){
+        if (addComponent(getTarget(e.target.dataset),deepClone(getStore("SimpleStore").copyPlate),e)){
             // 向操作中增加记录
             getStore("UndoRedoStore").addOperation('stickComponent')
         }
+        e = null
     } catch (e) {
         console.log(e)
     }
@@ -457,16 +449,7 @@ function mousemoveInfo(moveEvent){
     return {
         direction : getMousePosition(moveEvent),
         target:getTarget(moveEvent.target.dataset)
-        //     {
-        //     targetIndex : Number(moveEvent.target.dataset.index),
-        //     targetFeatherId :moveEvent.target.dataset.featherid,
-        //     targetType : moveEvent.target.dataset.elementtype,
-        //     targetId :moveEvent.target.dataset.elementid,
-        //     targetComponentId :moveEvent.target.dataset.componentid,
-        //     targetLock: moveEvent.target.dataset.lock
-        // }
     }
-
 }
 
 // 搜索组件
@@ -605,23 +588,20 @@ export function exportComponent() {
 // 清空画布
 export function clearMap(){
     // 获取清空画布返回结果，清空则向撤销回退中增加记录
-    let result = clearNowPageChildren()
-    if(result!==null){
+    if(clearNowPageChildren()){
         getStore("UndoRedoStore").addOperation('clearMap')
     }
 }
 
 export function clearNowPageChildren(){
-    let result = null
     try {
-        result = deepClone(getStore("PagesStore").getNowPage().children)
         getStore("PagesStore").getNowPage().children = []
         eventBus.emit("clearSetter",{type:"clearMap",params:null})
+        return true
     }catch (e){
         console.log(e)
-    }finally {
-        return result
     }
+    return false
 }
 
 // 判断拖拽组件是否在目标组件上层
@@ -721,45 +701,46 @@ export function getComponentStyle(isPreview,styles){
     return result
 
 }
+
 export function deleteSelectComponent(){
-    const selectPlate = getStore("SimpleStore").selectPlate
     // 删除了才增加不删除不添加
-    let result = deleteComponent(selectPlate)
-    if(result.length>0){
+    if(deleteComponent(getStore("SimpleStore").selectPlate)){
         getStore("UndoRedoStore").addOperation('deleteComponent')
     }
 }
 
 // 删除组件
 export function deleteComponent(selectPlate){
-    let featherId = ''
-    let target = []
-    let root = "editor"
-    let deleteId = []
-    let deleteComponentList = []
-    selectPlate.forEach(item=>{
-        if(item.index !== undefined){
-            item = item.component
-        }
-        item.status.active = false
-        if(!item.status.lock){
-            if(featherId !== item.featherId){
-                if(item.featherId === root){
-                    target = getStore("PagesStore").getNowPage()
-                }else{
-                    target = searchComponent(item.featherId)
-                }
+    try{
+        let featherId = ''
+        let target = []
+        let deleteId = []
+        selectPlate.forEach(item=>{
+            if(item.index !== undefined){
+                item = item.component
             }
-            deleteId.push(item.id)
-            let index = target.children.findIndex((data)=>data.id === item.id)
-            deleteComponentList.push({index:index,component:deepClone(item)})
-            target.children.splice(index,1)
-            featherId = item.featherId
-        }
-    })
-    selectPlate.splice(0)
-    eventBus.emit("clearSetter",{type:"id",params:deleteId})
-    return deleteComponentList
+            item.status.active = false
+            if(!item.status.lock){
+                if(featherId !== item.featherId){
+                    if(item.featherId === "editor"){
+                        target = getStore("PagesStore").getNowPage()
+                    }else{
+                        target = searchComponent(item.featherId)
+                    }
+                }
+                deleteId.push(item.id)
+                let index = target.children.findIndex((data)=>data.id === item.id)
+                target.children.splice(index,1)
+                featherId = item.featherId
+            }
+        })
+        selectPlate.splice(0)
+        eventBus.emit("clearSetter",{type:"id",params:deleteId})
+        return true
+    }catch (e){
+        console.log(e)
+    }
+    return false
 }
 
 // 返回选中组件设置器配置
