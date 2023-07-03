@@ -176,96 +176,6 @@ screen [x,y] 当前屏幕
 
  */
 
-
-// 组件拖拽功能
-export function moveComponent(e, index,dragObject) {
-    // 只有按住左键时才进行拖拽
-    if (e.buttons != 1) return
-    e.preventDefault()
-    e.stopPropagation()
-    // 是否可以进行推拽
-    let startClientY= e.clientY
-    let startClientX = e.clientX
-    let message =`选中${dragObject.label}组件`
-    // node当前鼠标悬浮的元素
-    let target ={
-        targetIndex : index,
-        targetFeatherId : "",
-        targetType : "common",
-        targetId : "",
-        targetComponentId : "",
-        targetLock:'false'
-    }
-    // eId 当前托拽元素的id
-    let drag = {
-         dragFeatherId : e.target.dataset.featherid,
-         dragIndex : index,
-         dragId: e.target.dataset.elementid,
-         dragType : e.target.dataset.elementtype,
-         dragComponentId : e.target.dataset.componentid
-    }
-    // 鼠标在元素的方位
-    let direction = ""
-    // 获取元素的初始内边距
-    let oldX = 0;
-    let oldY = 0;
-    if(getStore("CommonStatusStore").editMargin){
-        if(!dragObject.status.lock){
-            // 当是定位时可以直接修改left 于 top
-            if(dragObject.styles['position']){
-                if(dragObject.styles['left']){
-                    oldX = getCssAttributeValue(dragObject.styles['left'])
-                }
-                if(dragObject.styles['top']){
-                    oldY = getCssAttributeValue(dragObject.styles['top'])
-                }
-                message = `调整${dragObject.label}position`
-            }else{
-                if(dragObject.styles['margin-left']){
-                    oldX = getCssAttributeValue(dragObject.styles['margin-left'])
-                }
-                if(dragObject.styles['margin-top']){
-                    oldY = getCssAttributeValue(dragObject.styles['margin-top'])
-                }
-                message =  `调整${dragObject.label}margin`
-            }
-        }
-    }
-
-
-    eventBus.emit(`move-dragTip`, {style:{top: e.clientY + 'px', left: e.clientX  + 'px'},message:message})
-
-    // position:absolute
-    const move = (moveEvent) => {
-        const curX = moveEvent.clientX
-        const curY = moveEvent.clientY
-        eventBus.emit(`move-dragTip`, {style:{top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},message:null})
-
-        if(getStore("CommonStatusStore").editMargin  && !dragObject.status.lock){
-            if(dragObject.styles['position']){
-                changePosition(dragObject.styles,(moveEvent.clientX-startClientX),(moveEvent.clientY-startClientY),oldX,oldY)
-            }else{
-                // 如果有margit-left  margin-top
-                changeMargin(dragObject.styles,(curX-startClientX),(curY-startClientY),oldX,oldY)
-            }
-        }else{
-            let result = mousemoveInfo(moveEvent)
-            direction = result.direction
-            target = result.target
-        }
-    }
-
-    upMouse(move, () => {
-        // 用于拖拽时的提示定位
-        eventBus.emit(`move-dragTip`, {style:{top: 0, left: 0, display: 'none'},message:null})
-        if(getStore("CommonStatusStore").editMargin) return
-        if(upMouseMoveInfo(target,dragObject,direction,index)){
-            getStore("UndoRedoStore").addOperation('moveComponent')
-        }
-    })
-
-}
-
 // 改变组件的外边距
 function changeMargin(style,X,Y,oldX,oldY){
     if(isNaN(oldX) && isNaN(oldY))
@@ -291,20 +201,93 @@ function getCssAttributeValue(param){
     return value
 }
 
-//移动鼠标时
-function mousemoveInfo(moveEvent){
-    return {
-        direction : getMousePosition(moveEvent),
-        target:{
-            targetIndex : Number(moveEvent.target.dataset.index),
-            targetFeatherId :moveEvent.target.dataset.featherid,
-            targetType : moveEvent.target.dataset.elementtype,
-            targetId :moveEvent.target.dataset.elementid,
-            targetComponentId :moveEvent.target.dataset.componentid,
-            targetLock: moveEvent.target.dataset.lock
-        }}
+// 组件拖拽功能
+export function moveComponent(e, index,dragObject) {
+    // 只有按住左键时才进行拖拽
+    if (e.buttons != 1) return
+    handleDragOver(e)
+    // e.preventDefault()
+    // e.stopPropagation()
+    // 是否可以进行推拽
+    let startClientY= e.clientY
+    let startClientX = e.clientX
+    let message =`选中${dragObject.label}组件`
+    // node当前鼠标悬浮的元素
+    let targetInfo = {
+        target: {
+            targetIndex: index,
+            targetFeatherId: "",
+            targetType: "common",
+            targetId: "",
+            targetComponentId: "",
+            targetLock: 'false'
+        },
+        direction: 'right'
+    }
+    // 获取元素的初始内边距
+    let locationInfo = null
+    if(getStore("CommonStatusStore").editMargin){
+        locationInfo = initPositionOrMargin(dragObject)
+        message = `调整${dragObject.label + locationInfo.type}`
+    }
+    eventBus.emit(`move-dragTip`, {style:{top: e.clientY + 'px', left: e.clientX + 'px'},message:message})
+
+    // position:absolute
+    const move = (moveEvent) => {
+        eventBus.emit(`move-dragTip`, {style:{top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},message:null})
+        // 开启编辑margin与position时 拖拽调整的是margin和position相关的left，top else 修改元素在数组中的位置
+        if(locationInfo !== null){
+            if(locationInfo.type === 'position'){
+                changePosition(dragObject.styles,(moveEvent.clientX-startClientX),(moveEvent.clientY-startClientY),locationInfo.oldX,locationInfo.oldY)
+            }else{
+                changeMargin(dragObject.styles,(moveEvent.clientX-startClientX),(moveEvent.clientY-startClientY),locationInfo.oldX,locationInfo.oldY)
+            }
+        }else{
+            targetInfo = mousemoveInfo(moveEvent)
+        }
+    }
+
+    upMouse(move, () => {
+        // 用于拖拽时的提示定位
+        eventBus.emit(`move-dragTip`, {style:{top: 0, left: 0, display: 'none'},message:null})
+        if(getStore("CommonStatusStore").editMargin) return
+        if(upMouseMoveInfo(targetInfo.target,dragObject,targetInfo.direction,index)){
+            getStore("UndoRedoStore").addOperation('moveComponent')
+        }
+    })
 
 }
+
+function initPositionOrMargin(dragObject){
+    //当被拖拽元素是锁定状态时不进行初始化
+    if(!dragObject.status.lock){
+        let result = {oldX:0,oldY:0,type:'position'}
+        // 当是定位时可以直接修改left 于 top
+        if(dragObject.styles['position']){
+            if(dragObject.styles['left']){
+                result.oldX = getCssAttributeValue(dragObject.styles['left'])
+            }
+            if(dragObject.styles['top']){
+                result.oldY = getCssAttributeValue(dragObject.styles['top'])
+            }
+            return result
+        }else{
+            if(dragObject.styles['margin-left']){
+                result.oldX = getCssAttributeValue(dragObject.styles['margin-left'])
+            }
+            if(dragObject.styles['margin-top']){
+                result.oldY = getCssAttributeValue(dragObject.styles['margin-top'])
+            }
+            result.type = "margin"
+            return result
+        }
+    }
+    return null
+}
+
+
+
+
 // 获取鼠标悬停在组件的那个方位上
 function getMousePosition(moveEvent){
     let mX = moveEvent.offsetX//鼠标X轴坐标
@@ -314,65 +297,62 @@ function getMousePosition(moveEvent){
 
 //鼠标松开时的事件
 export function upMouseMoveInfo(target,dragObject,direction,index){
-    let result = false
-    let targetComponent = {}
-    // 父组件不能拖动到子组件上
-    if(!dragAllowed(target,dragObject)) return
-
-    const pageComponents = getStore("PagesStore").getNowPage().children
-    let rootId = "editor"
-    let dragComponents = pageComponents,targetComponents = pageComponents
-    // 当将组件拖拽到画布上时调用
-    if (target.targetType === rootId) {
-        if(dragObject.featherId!==rootId){
-            targetComponents = deepSelectComponent(pageComponents, dragObject.featherId).children
-        }
-        targetComponents[index].featherId = "editor"
-        dragComponents.push(targetComponents[index])
-        targetComponents.splice(index, 1)
-        result = true
-    } else if ((target.targetIndex != NaN && target.targetFeatherId && dragObject.featherId && dragObject.id !== target.targetId)) {
-        let insertIndex = direction === 'right' || direction === 'bottom' ? target.targetIndex + 1 : target.targetIndex
+    try{
+        // 父组件不能拖动到子组件上
+        if(!dragAllowed(target,dragObject)) return
+        const pageComponents = getStore("PagesStore").getNowPage().children
+        const insertIndex = direction === 'right' ? target.index + 1 : target.index
         // 统一个容器下目标下表要是大于当前下标则当前下表+1
-        let deleteIndex = index > target.targetIndex && target.targetFeatherId === dragObject.featherId ? index + 1 : index
-        // 目标组件类型为容器，拖拽组件则插入到容器的children中
-        if (target.targetType === "container" && target.targetLock === "false") {
-            deleteIndex = index
-            if(dragObject.featherId !== rootId){
-                dragComponents = deepSelectComponent(pageComponents, dragObject.featherId).children
-            }
-            targetComponents = deepSelectComponent(pageComponents, target.targetId).children
-            dragComponents[index].featherId = target.targetId
-            targetComponents.push(dragComponents[index])
-            dragComponents.splice(deleteIndex, 1)
-            result = true
+        let deleteIndex = index > target.index && target.featherId === dragObject.featherId ? index + 1 : index
+        const rootId = "editor"
+        let targetComponents = null
+        let dragComponents = null
+        // 当将组件拖拽到画布上时调用
+        if (dragObject.featherId !== rootId) {
+            dragComponents = searchComponent(dragObject.featherId).children
         } else {
-            if( dragObject.featherId !== rootId){
-                dragComponents = deepSelectComponent(pageComponents,  dragObject.featherId).children
-            }
-            if(target.targetFeatherId !== rootId){
-                if( dragObject.featherId === target.targetFeatherId){
-                    targetComponents = dragComponents
-                }else{
-                    targetComponent = deepSelectComponent(pageComponents, target.targetFeatherId)
-                    targetComponents = targetComponent.children
-                }
-            }
-            dragComponents[ index].featherId = target.targetFeatherId
-            targetComponents.splice(insertIndex, 0, dragComponents[ index])
-            dragComponents.splice(deleteIndex, 1)
-            result = true
+            dragComponents = pageComponents
         }
+        if (target.elementType === "container") {
+            deleteIndex = index
+            dragObject.featherId = target.elementId
+            targetComponents = searchComponent(target.elementId).children
+        }
+        if(target.elementType === "common"){
+            if (target.featherId !== rootId) {
+                if (dragObject.featherId === target.featherId) {
+                    targetComponents = dragComponents
+                } else {
+                    targetComponents = searchComponent(target.featherId).children
+                }
+            }else{
+                targetComponents = pageComponents
+            }
+            dragObject.featherId = target.featherId
+        }
+        if (target.elementType === rootId) {
+            dragObject.featherId = rootId
+            targetComponents = pageComponents
+        }
+
+        targetComponents.splice(isNaN(insertIndex)?targetComponents.length:insertIndex, 0, dragObject)
+        dragComponents.splice(deleteIndex, 1)
+        targetComponents =null
+        dragComponents=null
+        return true
+    }catch (e){
+        console.log(e)
     }
-    return result
+    return false
 }
 
 // 是否允许进行拖拽插入
 function dragAllowed(target,dragObject){
-    if(target.targetFeatherId === dragObject.id ) return false
-    if( isFeatherComponent(dragObject,target.targetId)) return false
-    if (target.targetType === "container" && dragObject.type === "container") {
-        if (target.targetComponentId === dragObject.id || isLayer(dragObject, target.targetId)) return false
+    if(target.lock) return false
+    if(target.featherId === dragObject.id ) return false
+    if( isFeatherComponent(dragObject,target.elementId)) return false
+    if (target.elementType === "container" && dragObject.type === "container") {
+        if (target.id === dragObject.id || isLayer(dragObject, target.elementId)) return false
     }
     return true
 }
@@ -451,7 +431,7 @@ export function stickup(){
         console.log(e)
     }
 }
-
+// 当id 或者类型为editor时直接返回页面数据进行操作，否则返回对应组件的信息
 function getTargetArray(target){
     if (target.elementType == "editor" || target.id === "editor") {
         return getStore("PagesStore").getNowPage()
@@ -460,6 +440,7 @@ function getTargetArray(target){
     }
     return null
 }
+// 返回修正后的目标信息
 function getTarget(target){
     return {
         elementType : target.elementtype,
@@ -469,6 +450,23 @@ function getTarget(target){
         lock: target.lock === "true"?true:false,
         id:target.elementtype === "editor" ? "editor" : target.elementtype === "container" ? target.elementid : target.featherid
     }
+}
+
+//移动鼠标时
+function mousemoveInfo(moveEvent){
+    return {
+        direction : getMousePosition(moveEvent),
+        target:getTarget(moveEvent.target.dataset)
+        //     {
+        //     targetIndex : Number(moveEvent.target.dataset.index),
+        //     targetFeatherId :moveEvent.target.dataset.featherid,
+        //     targetType : moveEvent.target.dataset.elementtype,
+        //     targetId :moveEvent.target.dataset.elementid,
+        //     targetComponentId :moveEvent.target.dataset.componentid,
+        //     targetLock: moveEvent.target.dataset.lock
+        // }
+    }
+
 }
 
 // 搜索组件
