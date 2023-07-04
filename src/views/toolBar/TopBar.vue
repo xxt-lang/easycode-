@@ -68,16 +68,6 @@ export default {
             },
             {
               component:"button",
-              label:"test",
-              attribute:{
-              },
-              icon:'',
-              func:()=>{
-                exportComponent()
-              }
-            },
-            {
-              component:"button",
               label:"保存",
               attribute:{
               },
@@ -108,6 +98,24 @@ export default {
             },
             {
               component:"button",
+              label:"导入",
+              attribute:{
+              },
+              func:()=>{
+                that.toolClick('importPage')
+              }
+            },
+            {
+              component:"button",
+              label:"导出",
+              attribute:{
+              },
+              func:()=>{
+                that.toolClick('exportPage')
+              }
+            },
+            {
+              component:"button",
               label:"页面配置",
               attribute:{
               },
@@ -127,20 +135,12 @@ export default {
             },
             {
               component:"button",
-              label:"导入",
+              label:"test",
               attribute:{
               },
+              icon:'',
               func:()=>{
-                that.toolClick('importPage')
-              }
-            },
-            {
-              component:"button",
-              label:"导出",
-              attribute:{
-              },
-              func:()=>{
-                that.toolClick('exportPage')
+                exportComponent()
               }
             },
           ],

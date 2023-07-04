@@ -11,7 +11,7 @@ import {
 } from '@/stores/counter'
 import {saveAs} from 'file-saver';
 import {ElMessage} from "element-plus";
-import {ECVue, proxy} from "./ECVue";
+import {ECVue} from "./ECVue";
 
 export function getStore(name){
     if(name === "PagesStore")

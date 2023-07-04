@@ -13,6 +13,11 @@ export function ECVue(options) {
         console.log('ECVue是一个构造函数，应使用“new”关键字调用');
     }
     this._init(options)
+    // 绑定vue的ref
+    function registeredRefs(key,content){
+        console.log(key,content)
+    }
+
 }
 
 ECVue.prototype._init = function (options) {
@@ -32,10 +37,9 @@ function initState(sc) {
         initData(sc);
     }
     if(registryMethods){
-
         initRegistryMethods(sc,registryMethods)
     }
-
+    sc['$refs'] = {}
 }
 function initRegistryMethods(sc,registryMethods){
     for (var key in registryMethods) {
@@ -68,12 +72,10 @@ function initData(sc) {
             }
         }
         proxy(sc, `_data`, key)
-
-
     }
 }
 
-export function proxy(target, sourceKey, key) {
+function proxy(target, sourceKey, key) {
 
     sharedPropertyDefinition.get = function proxyGetter() {
         return this[sourceKey][key]
