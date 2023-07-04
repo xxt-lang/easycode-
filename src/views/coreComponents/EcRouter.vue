@@ -38,30 +38,21 @@ export default {
     }
   },
   created() {
-    if(this.isPreview){
-      const pages = getLocalStorage()
-      eventBus.on("router",(param)=>{
-        let page = pages[pages.findIndex((data)=>data.pageName === param.path)]
-        if(page){
-          this.isPage = true
-          this.page = page
-        }else{
-          this.isPage = false
-        }
-      })
-    }else{
-      eventBus.on("router",(param)=>{
-        let page = this.getRouterPage(param.path)
-        if(page){
-          this.isPage = true
-          this.page = page
-        }else{
-          this.isPage = false
-        }
-      })
-    }
-
-
+    eventBus.on("router", (param) => {
+      let page = null
+      if (this.isPreview) {
+        const pages = getLocalStorage()
+        page = pages[pages.findIndex((data) => data.pageName === param.path)]
+      } else {
+        page = this.getRouterPage(param.path)
+      }
+      if (page) {
+        this.isPage = true
+        this.page = page
+      } else {
+        this.isPage = false
+      }
+    })
   },
   methods:{
     ...mapActions(PagesStore,['getRouterPage'])

@@ -24,6 +24,10 @@
       <show-key-details v-model="showKeyDetails"> </show-key-details>
 <!--    页面配置弹窗-->
       <page-configuration v-model="showPageConfiguration"></page-configuration>
+<!--    导入-->
+      <export-page-dialog v-model="showExportPageDialog"></export-page-dialog>
+<!--    导出-->
+    <import-page-dialog v-model="showImportPageDialog"></import-page-dialog>
   </div>
 </template>
 <script>
@@ -38,9 +42,13 @@ import {loadComponentConfiguration} from "../utils/componentConfigurator";
 import ShowKeyDetails from "./toolBar/ShowKeyDetails.vue";
 import {clearSelectPlate, initProject,} from "../utils/core";
 import PageConfiguration from "./toolBar/PageConfiguration.vue";
+import ExportPageDialog from "./toolBar/ExportPageDialog.vue";
+import ImportPageDialog from "./toolBar/ImportPageDialog.vue";
 
 export default {
-  components: {PageConfiguration, ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter},
+  components: {
+    ImportPageDialog,
+    ExportPageDialog, PageConfiguration, ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter},
   name: "Home",
   props: [],
   data() {
@@ -48,6 +56,8 @@ export default {
       showKeyDetails:false,
       drawerTitle:'',
       showPageConfiguration:false,
+      showExportPageDialog:false,
+      showImportPageDialog:false
     }
   },
   setup() {
@@ -81,6 +91,12 @@ export default {
       }
       if(param === 'pageConfiguration'){
         this.showPageConfiguration = !this.showPageConfiguration
+      }
+      if(param === 'exportPage'){
+        this.showExportPageDialog = !this.showExportPageDialog
+      }
+      if(param === 'importPage'){
+        this.showImportPageDialog = !this.showImportPageDialog
       }
     },
     //点击弹窗

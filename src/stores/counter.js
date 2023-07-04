@@ -121,7 +121,6 @@ export const PagesStore = defineStore('PagesStoreMain', {
       this.nowPage = index
       const undoRedoStore = UndoRedoStore()
       undoRedoStore.setNowHistory(index,this.pages[index].id)
-
     },
     // 获取当前选中的页面
     getNowPage(){
@@ -131,10 +130,10 @@ export const PagesStore = defineStore('PagesStoreMain', {
       this.pages[this.nowPage].children = data
     },
     // 删除当前选中的页面
-    deletePage(){
+    deletePage(index,pageId){
       const undoRedoStore = UndoRedoStore()
-      undoRedoStore.deletePageHistory()
-      this.pages.splice(this.nowPage,1)
+      undoRedoStore.deletePageHistory(index,pageId)
+      this.pages.splice(index,1)
     },
     // 获取当前nowPage的值
     getPageIndex(){
@@ -163,12 +162,8 @@ export const UndoRedoStore = defineStore('UndoRedoStoreMain',{
   }),
   actions:{
     // 在删除页面时删除回退记录
-    deletePageHistory(){
-      if(this.historyStore[this.nowHistory.index].pageId !== this.nowHistory.id){
-        // 假如数据不对就重新更正
-        this.nowHistory.index = this.historyStore.findIndex((data)=>this.nowHistory.id === data.pageId )
-      }
-     this.historyStore.splice(this.nowHistory.index,1)
+    deletePageHistory(index,pageId){
+     this.historyStore.splice(this.historyStore.findIndex((data)=>pageId === data.pageId ),1)
     },
     // 增加页面时增加撤销回退记录
     addPageHistory(pageId){

@@ -68,7 +68,7 @@ export default {
             },
             {
               component:"button",
-              label:"导出",
+              label:"test",
               attribute:{
               },
               icon:'',
@@ -123,6 +123,24 @@ export default {
               icon:'QuestionFilled',
               func:()=>{
                 that.toolClick('showKeyDetail')
+              }
+            },
+            {
+              component:"button",
+              label:"导入",
+              attribute:{
+              },
+              func:()=>{
+                that.toolClick('importPage')
+              }
+            },
+            {
+              component:"button",
+              label:"导出",
+              attribute:{
+              },
+              func:()=>{
+                that.toolClick('exportPage')
               }
             },
           ],

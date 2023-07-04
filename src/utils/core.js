@@ -121,7 +121,6 @@ export function previewPage(index){
             result.isPage = true
             result.css = localPage[index].css
             result.EcVue = createEcVue(localPage[index].ecVueInfo)
-
         }
         getStore("PagesStore").setPreviewPage(localPage[index])
     }
@@ -825,5 +824,40 @@ export function createEcVue(ecVueInfo){
         console.log(e)
     }
     return ecVue
-
 }
+
+
+
+//导出格式化数据
+export function exportPage(exportPage) {
+    let blob = new Blob([JSON.stringify(exportPage)], {type: "text/json;charset=utf-8"});
+    saveAs(blob, "page.json")
+}
+
+//导入格式化数据.
+export function importPage(importPages,writable) {
+    let nowPages = getStore("PagesStore").getPage()
+    importPages.forEach(item=>{
+        item.EcVue = createEcVue(item.ecVueInfo)
+    })
+    let index = -1
+    if(nowPages.length===0){
+        getStore("PagesStore").setPage(importPages)
+    }else{
+        importPages.forEach(item=>{
+            index = nowPages.findIndex((data)=>data.pageName === item.pageName)
+            if(index === -1){
+                nowPages.push(item)
+            }else{
+                if(writable){
+                    nowPages[index] = item
+                }
+            }
+        })
+    }
+}
+
+export function getPages(){
+    return getStore("PagesStore").getPage()
+}
+

@@ -101,30 +101,35 @@ export default {
         ],
       },
       nodeClickStatus:false,
-      pages:[]
+      // pages:[]
     }
   },
   mounted() {
-    const pages = this.getPage()
-    this.pages = pages
+
+  },
+  computed: {
+    pages: {
+      get() {
+        return this.getPage()
+      },
+      set(value) {
+      }
+    }
   },
   emits: ['update:leftToolBarActive'],
   methods:{
-    deleteSelectComponent,
     ...mapActions(PagesStore,['addPage','clickNowPage','deletePage','getPage']),
     ...mapActions(SimpleStore,['setSelectPlate']),
     remove(node,data){
       if(data.type === "page"){
-        this.deletePage()
-      }else{
-        this.deleteSelectComponent()
+        this.deletePage(this.pages.findIndex((d) => d.id === data.id),data.id)
       }
       this.nodeClickStatus = false
     },
     nodeClick(node){
       if(this.nodeClickStatus){
         if(node.type==="page"){
-          this.clickNowPage(this.getPage().findIndex((d) => d.id === node.id))
+          this.clickNowPage(this.pages.findIndex((d) => d.id === node.id))
         }else {
           if(node.component !== 'container'){
             node.status.active = !node.status.active
