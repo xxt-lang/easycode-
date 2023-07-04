@@ -138,8 +138,8 @@ export default {
               this.setSelectPlate(node)
             }
           }
+          eventBus.emit("dbComponent")
         }
-        eventBus.emit("dbComponent")
         this.$emit("update:leftToolBarActive",false)
       }else{
         this.nodeClickStatus = true

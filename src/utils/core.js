@@ -837,9 +837,7 @@ export function exportPage(exportPage) {
 //导入格式化数据.
 export function importPage(importPages,writable) {
     let nowPages = getStore("PagesStore").getPage()
-    importPages.forEach(item=>{
-        item.EcVue = createEcVue(item.ecVueInfo)
-    })
+    verifyPagesData(importPages)
     let index = -1
     if(nowPages.length===0){
         getStore("PagesStore").setPage(importPages)
@@ -859,5 +857,29 @@ export function importPage(importPages,writable) {
 
 export function getPages(){
     return getStore("PagesStore").getPage()
+}
+
+// 页面数据校验
+function verifyPagesData(Pages){
+    let i = 0
+    if(Pages instanceof Array){
+        Pages.forEach(item=>{
+            if(!item.hasOwnProperty('ecVueInfo')){
+                item['ecVueInfo'] = 'export default{\n' +
+                    'data(){\n' +
+                    'return{\n' +
+                    '}},\n' +
+                    'methods:{\n' +
+                    '}}\n'
+            }
+            item['EcVue'] = createEcVue(item.ecVueInfo)
+            if(!item.hasOwnProperty('pageName')){
+                item['pageName'] = `pageName${i++}`
+            }
+            if(!item.hasOwnProperty('id')){
+                item['id'] = uuid()
+            }
+        })
+    }
 }
 

@@ -4,9 +4,9 @@
     <el-upload
         class="upload-demo"
         drag
-        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+        action="/"
         multiple
-        @success="onSuccess"
+        :http-request="uploadFile"
         @remove = "onRemove"
         accept=".json"
         :limit="1"
@@ -31,6 +31,7 @@
 
 <script>
 import {importPage} from "../../utils/core";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "ImportPageDialog",
@@ -59,19 +60,26 @@ export default {
     }
   },
   methods:{
-    onSuccess(res, file, fileList) {
+    uploadFile(ops) {
       let that = this
       let reader = new FileReader()
-      reader.readAsText(file.raw)
+      reader.readAsText(ops.file)
       reader.onload = ((e) => {
         that.data = JSON.parse(e.target.result)
       })
     },
+
     onRemove(file) {
       this.fileList = []
     },
     commit() {
+      if(this.data === null){
+        ElMessage({message: "请先上传文件", type: 'warning',duration:2000,showClose: true,})
+        return
+      }
       importPage(this.data,this.writable)
+      this.fileList = null
+      this.data = null
       this.value = false
     },
     cancel(){

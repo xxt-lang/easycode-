@@ -6,7 +6,6 @@
           <setter-attribute  :setterData="setterData"
                              :setterAttributes="setter.attributes"
                              :configuration = "setter.configuration"
-
           ></setter-attribute>
         </el-tab-pane>
         <el-tab-pane label="样式" name="second">
