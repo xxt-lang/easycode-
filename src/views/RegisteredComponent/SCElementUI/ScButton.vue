@@ -12,7 +12,7 @@
         :icon = "propValue.attributes['icon']"
         :autofocus = "propValue.attributes['autofocus']"
         :native-type = "propValue.attributes['native-type']"
-        :auto-insert-space = "propValue.attributes['auto-insert-space']"
+        :auto-insert-space = "propValue.attributes['autoInsertSpace']"
         :color="propValue.attributes['color']"
         :dark = "propValue.attributes['dark']"
         @click = "click"

@@ -2,7 +2,13 @@
   <div >
     <div v-for = "(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px" >
       <div class="setterAttribute">
-        <span class="itemLabel">{{item.label}}</span>
+
+          <el-tooltip
+            effect="dark"
+            :content="item.detail"
+            placement="bottom"
+        ><span class="itemLabel">{{item.label}} </span></el-tooltip>
+
         <div class="itemContent">
           <el-select  v-if="item.type === 'select'"  v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
             <el-option

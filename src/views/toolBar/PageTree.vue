@@ -47,6 +47,7 @@ import {deepClone} from "../../utils/tool";
 import {ECVue} from "../../utils/ECVue";
 import eventBus from "../../utils/eventBus";
 
+
 export default {
   name: "PageTree",
   components:{
@@ -93,6 +94,7 @@ export default {
             message: '页面名不能为空',
             trigger: 'change',
           },
+          { validator: this.validPageName, trigger: 'blur' }
         ],
         label: [
           {
@@ -100,10 +102,10 @@ export default {
             message: '页面label',
             trigger: 'change',
           },
+          { validator: this.validPageLabel, trigger: 'blur' }
         ],
       },
       nodeClickStatus:false,
-      // pages:[]
     }
   },
   mounted() {
@@ -188,6 +190,20 @@ export default {
       this.pageFrom.pageName = data.pageName
       this.pageFrom.id = data.id
       this.pageFrom.css = `.main{${objectToCss(data.css)}}`
+    },
+    validPageName(rule, value, callback){
+      if(this.pages.findIndex((data)=>data.pageName === value)!==-1){
+        callback(new Error("页面名不能重复"))
+        console.log(value)
+      }
+      callback()
+    },
+    validPageLabel(rule, value, callback){
+      if(this.pages.findIndex((data)=>data.pageName === value)!==-1){
+        callback(new Error("页面label不能重复"))
+        console.log(value)
+      }
+      callback()
     }
   }
 }

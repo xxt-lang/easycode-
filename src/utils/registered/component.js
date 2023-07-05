@@ -678,6 +678,7 @@ export const componentSetters = [
                 {
                     attributeName: "type",//组件配置中属性字段名
                     label: "类型",
+                    detail:'类型',
                     type: "select",//编辑自段的类型input select number switch buttonList
                     value: "primary",//属性值
                     defaultValue: "primary",//默认属性值
@@ -712,6 +713,7 @@ export const componentSetters = [
                 {
                     attributeName: "size",//组件配置中属性字段名
                     label: "尺寸",
+                    detail:'尺寸',
                     type: "select",//编辑自段的类型input select number switch buttonList
                     value: "default",//属性值
                     defaultValue: "default",//默认属性值
@@ -734,6 +736,7 @@ export const componentSetters = [
                 {
                     attributeName: "label",//组件配置中属性字段名
                     label: "文本",
+                    detail: "自定应文本内容",
                     type: "input",//编辑自段的类型input select number switch buttonList
                     value: "按钮",//属性值
                     defaultValue: "按钮",//默认属性值
@@ -744,6 +747,7 @@ export const componentSetters = [
                 {
                     attributeName: "plain",//组件配置中属性字段名
                     label: "朴素按钮",
+                    detail:'是否为朴素按钮',
                     type: "switch",//编辑自段的类型input select number switch buttonList
                     value: false,//属性值
                     defaultValue: false,//默认属性值
@@ -753,7 +757,8 @@ export const componentSetters = [
                 },
                 {
                     attributeName: "round",//组件配置中属性字段名
-                    label: "原型按钮",
+                    label: "圆角",
+                    detail:'是否为圆角按钮',
                     type: "switch",//编辑自段的类型input select number switch buttonList
                     value: false,//属性值
                     defaultValue: false,//默认属性值
@@ -761,6 +766,7 @@ export const componentSetters = [
                 {
                     attributeName: "disabled",//组件配置中属性字段名
                     label: "禁用状态",
+                    detail:'按钮是否为禁用状态',
                     type: "switch",//编辑自段的类型input select number switch buttonList
                     value: false,//属性值
                     defaultValue: false,//默认属性值
@@ -768,13 +774,15 @@ export const componentSetters = [
                 {
                     attributeName: "circle",//组件配置中属性字段名
                     label: "圆形",
+                    detail:"是否为圆形按钮",
                     type: "switch",//编辑自段的类型input select number switch buttonList
                     value: false,//属性值
                     defaultValue: false,//默认属性值
                 },
                 {
                     attributeName: "loading",//组件配置中属性字段名
-                    label: "loading",
+                    label: "加载中状态",
+                    detail:"是否为加载中状态",
                     type: "switch",//编辑自段的类型input select number switch buttonList
                     value: false,//属性值
                     defaultValue: false,//默认属性值
@@ -782,6 +790,7 @@ export const componentSetters = [
                 {
                     attributeName: "loading-icon",//组件配置中属性字段名
                     label: "加载中状态图标",
+                    detail:"加载中状态图标",
                     type: "input",//编辑自段的类型input select number switch buttonList
                     value: 'Loading',//属性值
                     defaultValue: 'Loading',//默认属性值
@@ -789,13 +798,23 @@ export const componentSetters = [
                 {
                     attributeName: "icon",//组件配置中属性字段名
                     label: "图标",
+                    detail: "图标组件",
                     type: "input",//编辑自段的类型input select number switch buttonList
                     value: '',//属性值
                     defaultValue: '',//默认属性值
                 },
                 {
+                    attributeName: "autoInsertSpace",//组件配置中属性字段名
+                    label: "插入空格",
+                    detail: "自动在两个中文字符之间插入空格",
+                    type: "switch",//编辑自段的类型input select number switch buttonList
+                    value: false,//属性值
+                    defaultValue: false,//默认属性值
+                },
+                {
                     attributeName: "autofocus",//组件配置中属性字段名
-                    label: "原生autofocus",
+                    label: "autofocus",
+                    detail: "原生autofocus",
                     type: "switch",//编辑自段的类型input select number switch buttonList
                     value: false,//属性值
                     defaultValue: false,//默认属性值
@@ -803,6 +822,7 @@ export const componentSetters = [
                 {
                     attributeName: "native-type",//组件配置中属性字段名
                     label: "原生type属性",
+                    detail: "原生type属性",
                     type: "select",//编辑自段的类型input select number switch buttonList
                     value: 'button',//属性值
                     defaultValue: 'button',//默认属性值
@@ -816,6 +836,7 @@ export const componentSetters = [
                 {
                     attributeName: "color",//组件配置中属性字段名
                     label: "颜色",
+                    detail:"自定义按钮颜色, 并自动计算 hover 和 active 触发后的颜色",
                     type: "color",//编辑自段的类型input select number switch buttonList
                     value: '',//属性值
                     defaultValue: '',//默认属性值
@@ -823,6 +844,7 @@ export const componentSetters = [
                 {
                     attributeName: "dark",//组件配置中属性字段名
                     label: "dark模式",
+                    detail: "自定义按钮颜色, 并自动计算 hover 和 active 触发后的颜色",
                     type: "switch",//编辑自段的类型input select number switch buttonList
                     value: false,//属性值
                     defaultValue: false,//默认属性值
