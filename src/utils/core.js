@@ -830,7 +830,7 @@ export function createEcVue(ecVueInfo){
 
 //导出格式化数据
 export function exportPage(exportPage) {
-    let blob = new Blob([JSON.stringify(exportPage)], {type: "text/json;charset=utf-8"});
+    let blob = new Blob([JSON.stringify(exportPage,re)], {type: "text/json;charset=utf-8"});
     saveAs(blob, "page.json")
 }
 
