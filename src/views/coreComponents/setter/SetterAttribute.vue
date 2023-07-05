@@ -22,7 +22,7 @@
           <el-color-picker  v-if="item.type === 'color'" v-model="setterData.attributes[item.attributeName]"></el-color-picker>
         </div>
       </div>
-      <el-table v-if="item.type === 'table'" :data="setterData.attributes[item.attributeName]" style="width: 100%">
+      <el-table v-if="item.type === 'table'" :data="setterData.attributes[item.attributeName]" height="300" style="width: 100%">
         <el-table-column type="index" :index="indexMethod" label="项"/>
         <el-table-column align="right">
           <template #header>
@@ -147,8 +147,11 @@ export default {
 .itemLabel{
   display: inline-flex;
   width: 70px;
-  font-size: 15px;
-  text-align: center
+  font-size: 13px;
+  font-weight: 500;
+  transition: color .5s;
+  text-align: center;
+  transition: color .5s;
 }
 .itemContent{
   display: inline-flex;

@@ -4,9 +4,7 @@
                 :max-height = "propValue.attributes['max-height']"
                 :native = "propValue.attributes['native']"
                 :wrap-style = "propValue.attributes['wrap-style']"
-                :wrap-class = "propValue.attributes['wrap-class']"
                 :view-style = "propValue.attributes['view-style']"
-                :view-class = "propValue.attributes['view-class']"
                 :noresize = "propValue.attributes['noresize']"
                 :tag = "propValue.attributes['tag']"
                 :always = "propValue.attributes['always']"
@@ -32,6 +30,7 @@
 
 <script>
 import Container from "../../coreComponents/Container.vue";
+import {getComponentStyle} from "../../../utils/core";
 export default {
   name: "ScScrollbar",
   components:{Container},
@@ -55,6 +54,7 @@ export default {
     this.EcVue.$refs[this.propValue.attributes['innerRef'] ] = this.$refs[this.propValue.attributes['innerRef'] ]
   },
   methods:{
+    getComponentStyle,
     scroll(scrollLeft,scrollTop){
       if(this.propValue.events['click'].enable){
         this.EcVue[this.propValue.events['click'].method](scrollLeft,scrollTop)
@@ -65,17 +65,6 @@ export default {
 </script>
 
 <style scoped>
-.scrollbar-demo-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  margin: 10px;
-  text-align: center;
-  border-radius: 4px;
-  background: var(--el-color-primary-light-9);
-  color: var(--el-color-primary);
-}
 .el-slider {
   margin-top: 20px;
 }
