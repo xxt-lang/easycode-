@@ -33,6 +33,10 @@ export default {
       }
     }
   },
+  mounted() {
+    console.log(this.page.EcVue)
+    this.page.EcVue['mounted']()
+  },
   methods:{
   }
 }

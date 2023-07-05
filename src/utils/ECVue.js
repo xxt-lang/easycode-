@@ -39,6 +39,7 @@ function initState(sc) {
     if(registryMethods){
         initRegistryMethods(sc,registryMethods)
     }
+    sc['mounted'] = typeof opts.mounted === 'function' ? opts.mounted : noop
     sc['$refs'] = {}
 }
 function initRegistryMethods(sc,registryMethods){

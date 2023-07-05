@@ -75,6 +75,8 @@ export default {
         status:{active:false},
         data:{},
         ecVueInfo:'export default{\n' +
+            'mounted(){\n'+
+            '},\n'+
             'data(){\n' +
             'return{\n' +
             '}},\n' +
@@ -151,7 +153,6 @@ export default {
           let pageFrom = deepClone(this.pageFrom)
           pageFrom.css = analysisCssText(pageFrom.css)
           pageFrom.EcVue = new ECVue({data(){return{}},methods:{}})
-          console.log(pageFrom.EcVue)
           this.addPage(pageFrom)
           this.dialogVisible = false
           this.pageFrom = {
@@ -161,6 +162,8 @@ export default {
             children: [],
             status: {active: false},
             ecVueInfo:'export default{\n' +
+                'mounted(){\n'+
+                '},\n'+
                 'data(){\n' +
                 'return{\n' +
                 '}},\n' +
