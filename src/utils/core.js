@@ -620,7 +620,7 @@ function isLayer(dragObject,targetId){
 export function analysisCssText(cssText){
     let css = {}
     // 清除\n
-    let str = cssText.replace('.main{','').replace('}','').replaceAll(/(?:\r:|\t|\n)/g,'')
+    let str = cssText.split(/[\t\r\f\n\s]*/g).join('').replace('.main{','').replace('}','')
     let s1 = str.replaceAll(/:{1,}/g,':')
     let s2 = s1.replaceAll(/;{1,}/g,';')
     let attrAndValues = s2.split(/[:*;]/)
@@ -628,7 +628,6 @@ export function analysisCssText(cssText){
     if(attrAndValues[length-1] === ''){
         length--
     }
-
     for (let i = 0; i < length; i+=2) {
         css[`${attrAndValues[i].replaceAll(/\s{1,}/g,'')}`] = attrAndValues[i+1]
     }

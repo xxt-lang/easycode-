@@ -3,18 +3,18 @@
        id="editor"
        @drop="handleDrop"
        @dragover="handleDragOver"
-       data-elementType = "editor"
+       data-elementType="editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <div :style="page.css" data-elementType = "editor">
+    <div :style="page.css" data-elementType="editor">
       <Shape v-for="(item, index) in page.children "
              :key="index"
              :status="item.status"
              :element="item"
              :index="index"
-             :data-elementId = "item.id"
-             data-featherId = "editor"
-             :data-elementType = "item.type"
+             :data-elementId="item.id"
+             data-featherId="editor"
+             :data-elementType="item.type"
              @mousedown="handleMouseDown(item,$event,index)"
              @dblclick="dbClick(item,$event)"
       >
@@ -24,14 +24,17 @@
             :is="item.component"
             :key="index"
             :propValue="item"
-            :index = "index"
-            :EcVue = "page.EcVue"
+            :index="index"
+            :EcVue="page.EcVue"
         />
       </Shape>
       <!--    拖拽时的提示信息-->
-      <div :style="dragTip" class="dragTip">{{dragTipMessage}}</div>
+      <div :style="dragTip" class="dragTip">{{ dragTipMessage }}</div>
     </div>
+    <div v-if = "page.length<=0" class="noPageTip">
+      请先在左侧工具栏页面中创建页面
     </div>
+  </div>
 </template>
 <script>
 import eventBus from '@/utils/eventBus.js'
@@ -129,10 +132,24 @@ export default {
 }
 
 .editor {
+  height: calc(100vh - 55px);
   padding:2px;
   background-color: white;
   min-height: calc(20vh);
   overflow: auto;
   padding-bottom: 20px;
+}
+.noPageTip{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 300px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  color:#E6A23C
 }
 </style>
