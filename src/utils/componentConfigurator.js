@@ -60,6 +60,7 @@ export function loadComponentConfiguration() {
                     item.styles['display'] = 'inline-flex'
                 }
             }
+            item['bindClass'] = ""
         })
     })
     setAttribute()

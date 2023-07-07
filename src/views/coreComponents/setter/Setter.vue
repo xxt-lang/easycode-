@@ -10,6 +10,7 @@
         </el-tab-pane>
         <el-tab-pane label="样式" name="second">
           <setter-style
+              :bindClass = "setter.bindClass"
               :setterData="setterData"
               :setterStyles="setter.styles"
               :configuration = "setter.configuration"></setter-style>

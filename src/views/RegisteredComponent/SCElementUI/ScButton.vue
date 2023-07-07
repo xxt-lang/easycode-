@@ -1,6 +1,5 @@
 <template>
     <el-button
-        :class="propValue.attributes['class']"
         :type="propValue.attributes.type"
         :size="propValue.attributes.size"
         :plain="propValue.attributes.plain"
@@ -21,6 +20,8 @@
     </el-button>
 </template>
 <script>
+import {execMethod} from "../../../utils/core";
+
 export default {
   name: "ScButton",
   props: {
@@ -39,9 +40,7 @@ export default {
   },
   methods: {
     click(){
-      if(this.propValue.events['click'].enable){
-        this.EcVue[this.propValue.events['click'].method]()
-      }
+      execMethod('click',this.propValue.events,this.EcVue)
     }
   }
 }

@@ -882,4 +882,12 @@ function verifyPagesData(Pages){
         })
     }
 }
+// 执行方法
+export function execMethod(method,events,EcVue){
+    if(events[method].enable){
+        EcVue[events[method].method]()
+    }else{
+        return
+    }
+}
 

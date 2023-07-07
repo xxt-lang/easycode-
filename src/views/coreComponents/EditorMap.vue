@@ -22,7 +22,7 @@
 <!--        {'pointer-events':item.type === 'common' ? 'none':''}-->
         <component
             :style="getComponentStyle(false,item.styles,item.type)"
-            class="item"
+            :class="item.bindClass"
             :is="item.component"
             :key="index"
             :propValue="item"
