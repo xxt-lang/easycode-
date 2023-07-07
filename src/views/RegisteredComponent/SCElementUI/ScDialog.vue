@@ -37,9 +37,6 @@ export default {
       type: Boolean,
       default:false
     },
-    index:{
-      type: Number,
-    },
   },
   data(){
     return {

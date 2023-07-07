@@ -45,10 +45,6 @@ export default {
       default: function () {
       }
     },
-    isPreview:{
-      type: Boolean,
-      default:false
-    },
     EcVue:{
       type:Function,
       default:()=>{}

@@ -15,10 +15,6 @@ export default {
   data() {
     return {
       value:'',
-      isPreview:{
-        type: Boolean,
-        default:false
-      }
     }
   },
   methods: {

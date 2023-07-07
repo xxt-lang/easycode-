@@ -4,6 +4,7 @@
     <div v-if="page.isPage">
       <component
           v-for="(item,index) in page.page"
+          :style="getComponentStyle(true,item.styles,item.type)"
           :is="item.component"
           :key="index"
           :propValue="item"
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-import { previewPage} from "../utils/core";
+import { previewPage,getComponentStyle} from "../utils/core";
 import EcCss from "./coreComponents/EcCss.vue";
 
 
@@ -42,6 +43,7 @@ export default {
     this.page.EcVue['mounted']()
   },
   methods:{
+    getComponentStyle
   }
 }
 </script>

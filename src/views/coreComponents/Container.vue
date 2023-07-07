@@ -37,7 +37,7 @@
   <div v-if="isPreview" :style = "getContainerStyle(isPreview,containerStyles,false)">
     <component
         v-for="(item, index) in container.children "
-        class="item"
+        :style="getComponentStyle(true,item.styles,item.type)"
         :is="item.component"
         :key="index"
         :propValue="item"

@@ -12,10 +12,6 @@ export default {
       default: function () {
       }
     },
-    isPreview:{
-      type: Boolean,
-      default:false
-    },
   },
   data() {
     return {
