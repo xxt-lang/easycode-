@@ -1,5 +1,6 @@
 <template>
     <el-button
+        :class="propValue.attributes['class']"
         :style="getComponentStyle(isPreview,propValue.styles)"
         :type="propValue.attributes.type"
         :size="propValue.attributes.size"

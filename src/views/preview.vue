@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div v-if="page.isPage" :style="page.css">
+  <div id="preview">
+    <EcCss :CSS = "page.css"></EcCss>
+    <div v-if="page.isPage">
       <component
           v-for="(item,index) in page.page"
           :is="item.component"
@@ -18,9 +19,12 @@
 
 <script>
 import { previewPage} from "../utils/core";
+import EcCss from "./coreComponents/EcCss.vue";
+
 
 export default {
   name: "preview",
+  components: {EcCss},
   created() {
     this.page = previewPage(this.$route.query.page)
   },
@@ -30,11 +34,11 @@ export default {
         page:[],
         isPage:false,
         message:""
-      }
+      },
+      css:""
     }
   },
   mounted() {
-    console.log(this.page.EcVue)
     this.page.EcVue['mounted']()
   },
   methods:{

@@ -676,6 +676,14 @@ export const componentSetters = [
         setter: {
             attributes: [
                 {
+                    attributeName:'class',
+                    label: "绑定Class",
+                    detail:'绑定Class',
+                    type: "input",
+                    value: "",//属性值
+                    defaultValue: "",//默认属性值
+                },
+                {
                     attributeName: "type",//组件配置中属性字段名
                     label: "类型",
                     detail:'类型',

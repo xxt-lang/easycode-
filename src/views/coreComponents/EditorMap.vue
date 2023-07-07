@@ -6,7 +6,8 @@
        data-elementType="editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <div :style="page.css" data-elementType="editor">
+    <EcCss :CSS = "page.css"></EcCss>
+    <div data-elementType="editor">
       <Shape v-for="(item, index) in page.children "
              :key="index"
              :status="item.status"
@@ -51,9 +52,10 @@ import ToolBar from "../toolBar/TopBar.vue";
 import PageTag from "./PageTag.vue";
 import {mapActions,} from 'pinia'
 import {PagesStore,MouseEventStore} from "../../stores/counter";
+import EcCss from "./EcCss.vue";
 export default {
   name: 'EditorMap',
-  components: { Shape, Contextmenu, ToolBar, PageTag},
+  components: { Shape, Contextmenu, ToolBar, PageTag,EcCss},
   data() {
     return {
       dragTip: {

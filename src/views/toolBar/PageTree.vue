@@ -27,7 +27,6 @@
       <el-form-item label="页面label" prop="label">
         <el-input v-model="pageFrom.label" />
       </el-form-item>
-      <v-monaco-editor v-model="pageFrom.css" language="css" key="pagename" height="30vh"></v-monaco-editor>
       <el-form-item>
         <el-button type="primary" @click="commit">确认</el-button>
         <el-button @click="cancel">取消</el-button>
@@ -84,7 +83,7 @@ export default {
             'methods:{\n' +
             '}}\n',
         EcVue:null,
-        css:".main{}",
+        css:"",
         id:""
       },
       rules:{
@@ -153,7 +152,6 @@ export default {
       this.$refs.pageFromRef.validate((valid) => {
         if(valid){
           let pageFrom = deepClone(this.pageFrom)
-          pageFrom.css = analysisCssText(pageFrom.css)
           pageFrom.EcVue = new ECVue({data(){return{}},methods:{}})
           this.addPage(pageFrom)
           this.dialogVisible = false
@@ -172,7 +170,7 @@ export default {
                 'methods:{\n' +
                 '}}\n',
             EcVue:null,
-            css: ".main{}",
+            css: "",
             id: ""
           }
         }
@@ -189,19 +187,16 @@ export default {
       this.pageFrom.label = data.label
       this.pageFrom.pageName = data.pageName
       this.pageFrom.id = data.id
-      this.pageFrom.css = `.main{${objectToCss(data.css)}}`
     },
     validPageName(rule, value, callback){
-      if(this.pages.findIndex((data)=>data.pageName === value)!==-1){
+      if(this.pages.findIndex((data)=>this.pageFrom.id === data.id ?false:data.pageName === value)!==-1){
         callback(new Error("页面名不能重复"))
-        console.log(value)
       }
       callback()
     },
     validPageLabel(rule, value, callback){
-      if(this.pages.findIndex((data)=>data.pageName === value)!==-1){
+      if(this.pages.findIndex((data)=>this.pageFrom.id === data.id ?false:data.pageName === value)!==-1){
         callback(new Error("页面label不能重复"))
-        console.log(value)
       }
       callback()
     }

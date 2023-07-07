@@ -20,7 +20,6 @@
     </main>
 
 <!--    快捷键弹窗-->
-
       <show-key-details v-model="showKeyDetails"> </show-key-details>
 <!--    页面配置弹窗-->
       <page-configuration v-model="showPageConfiguration"></page-configuration>
@@ -28,7 +27,9 @@
       <export-page-dialog v-model="showExportPageDialog"></export-page-dialog>
 <!--    导出-->
     <import-page-dialog v-model="showImportPageDialog"></import-page-dialog>
+
   </div>
+
 </template>
 <script>
 import {EditorStore, EditorStatusStore} from '@/stores/counter'

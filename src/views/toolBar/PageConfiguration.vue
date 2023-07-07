@@ -3,8 +3,11 @@
     <el-drawer v-model="value" :modal="false" size="30%" direction="ltr" @close="close">
       <el-button @click="save">保存</el-button>
       <el-tabs v-model="activeName" class="demo-tabs">
-        <el-tab-pane label="EcVue" name="data">
+        <el-tab-pane label="EcVue" name="EcVue">
           <VMonacoEditor v-model="EcVueInfo" language="javascript"  key="data" lineNumbers folding></VMonacoEditor>
+        </el-tab-pane>
+        <el-tab-pane label="css" name="css">
+        <v-monaco-editor v-model="css" language="css" key="css"></v-monaco-editor>
         </el-tab-pane>
         <el-tab-pane label="history" name="history">
           <show-history></show-history>
@@ -39,6 +42,7 @@ export default {
       get() {
         if(this.getNowPage()){
           this.EcVueInfo = this.getNowPage().ecVueInfo
+          this.css = this.getNowPage().css
         }
         return this.modelValue
       },
@@ -49,8 +53,9 @@ export default {
   },
   data() {
     return {
-      activeName: 'data',
+      activeName: 'EcVue',
       EcVueInfo:'暂无数据',
+      Css:''
     }
   },
   created() {
@@ -62,6 +67,7 @@ export default {
       this.getNowPage()['ecVueInfo'] = this.EcVueInfo
       this.getNowPage()['EcVue'] = null
       this.getNowPage()['EcVue'] = createEcVue(this.EcVueInfo)
+      this.getNowPage()['css'] = this.css
     },
     close(){
       this.value = false
