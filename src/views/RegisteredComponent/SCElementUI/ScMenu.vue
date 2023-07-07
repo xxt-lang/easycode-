@@ -3,7 +3,6 @@
     <el-menu
         :default-active="activeIndex"
         class="el-menu-demo"
-
         @select="handleSelect"
     >
       <el-menu-item index="1">Processing Center</el-menu-item>

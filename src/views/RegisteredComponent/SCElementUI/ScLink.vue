@@ -1,7 +1,6 @@
 <template>
   <el-link
       :ref="propValue.attributes['ref'] "
-      :style="getComponentStyle(isPreview,propValue.styles)"
       :icon="propValue.attributes['icon']"
       :type="propValue.attributes['type']"
       :underline = "propValue.attributes['underline']"
@@ -13,7 +12,6 @@
 </template>
 
 <script>
-import {getComponentStyle} from "../../../utils/core";
 export default {
   name: "ScLink",
   props:{
@@ -35,7 +33,6 @@ export default {
     this.EcVue.$refs[this.propValue.attributes['ref'] ] = this.$refs[this.propValue.attributes['ref'] ]
   },
   methods:{
-    getComponentStyle,
     click(){
       if(this.propValue.events['click'].enable){
         this.EcVue[this.propValue.events['click'].method]()

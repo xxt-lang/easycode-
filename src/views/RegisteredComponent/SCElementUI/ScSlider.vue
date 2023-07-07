@@ -1,9 +1,8 @@
 <template>
-    <el-slider v-model="value" :style="getComponentStyle(isPreview,propValue.styles)"/>
+    <el-slider v-model="value" />
 </template>
 
 <script>
-import {getComponentStyle} from "../../../utils/core";
 
 export default {
   name: "ScSlider",
@@ -25,7 +24,6 @@ export default {
   },
 
   methods: {
-    getComponentStyle
   }
 }
 </script>

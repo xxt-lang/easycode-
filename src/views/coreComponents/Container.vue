@@ -24,7 +24,7 @@
            :style="{'pointer-events':container.status.lock?'none':''}"
     >
       <component
-          :style="{'pointer-events':item.type === 'common' ? 'none':''}"
+          :style="getComponentStyle(false,item.styles,item.type)"
           class="item"
           :is="item.component"
           :key="index"
@@ -53,7 +53,8 @@ import Shape from "./Shape.vue";
 import {
   clickSelectComponent,
   moveComponent,
-  getContainerStyle
+  getContainerStyle,
+  getComponentStyle
 } from '@/utils/core'
 import eventBus from "../../utils/eventBus";
 import {mapActions} from "pinia";
@@ -90,6 +91,7 @@ export default {
   },
   methods:{
     getContainerStyle,
+    getComponentStyle,
     ...mapActions(MouseEventStore,['setMouseEvent']),
 
     // 选择画布中的组件

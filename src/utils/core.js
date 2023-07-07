@@ -675,7 +675,7 @@ export function getShapeStyle(styles){
 }
 
 // 返回组件应该有的shape
-export function getComponentStyle(isPreview,styles){
+export function getComponentStyle(isPreview,styles,type){
     if(isPreview)
         return styles
       //component 不接受的样式
@@ -696,6 +696,7 @@ export function getComponentStyle(isPreview,styles){
                 result[key] = styles[key]
             }
     }
+    result['pointer-events']= type === 'common' ? 'none':''
     return result
 
 }

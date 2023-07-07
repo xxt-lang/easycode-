@@ -1,5 +1,5 @@
 <template>
-  <el-row :style="getComponentStyle(isPreview,propValue.styles)"
+  <el-row
   :justify="propValue.attributes['justify']"
   :gutter="propValue.attributes['gutter']" >
     <el-col v-for = "(item,index) in propValue.children" :key="item.id"
@@ -22,7 +22,6 @@
 
 <script>
 import Container from "../../coreComponents/Container.vue";
-import {getComponentStyle} from "../../../utils/core";
 export default {
   name: "ScRow",
   components:{
@@ -50,7 +49,6 @@ export default {
     }
   },
   methods:{
-    getComponentStyle
   }
 }
 </script>

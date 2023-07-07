@@ -1,9 +1,8 @@
 <template>
-    <el-rate v-model="value" :style="getComponentStyle(isPreview,propValue.styles)"/>
+    <el-rate v-model="value" />
 </template>
 
 <script>
-import {getComponentStyle} from "../../../utils/core";
 export default {
   name: "ScRate",
   props: {
@@ -12,10 +11,6 @@ export default {
       default: function () {
       }
     },
-    isPreview:{
-      type: Boolean,
-      default:false
-    }
   },
   data() {
     return {
@@ -23,7 +18,6 @@ export default {
     }
   },
   methods: {
-    getComponentStyle
   }
 }
 </script>

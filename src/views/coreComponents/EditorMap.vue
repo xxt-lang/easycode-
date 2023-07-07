@@ -19,8 +19,9 @@
              @mousedown="handleMouseDown(item,$event,index)"
              @dblclick="dbClick(item,$event)"
       >
+<!--        {'pointer-events':item.type === 'common' ? 'none':''}-->
         <component
-            :style="{'pointer-events':item.type === 'common' ? 'none':''}"
+            :style="getComponentStyle(false,item.styles,item.type)"
             class="item"
             :is="item.component"
             :key="index"
@@ -44,7 +45,8 @@ import {
   clickSelectComponent,
   moveComponent,
   handleDrop,
-    getStore
+    getStore,
+  getComponentStyle
 } from '@/utils/core'
 import Shape from "./Shape.vue";
 import Contextmenu from "./Contextmenu.vue";
@@ -98,6 +100,7 @@ export default {
     })
   },
   methods: {
+    getComponentStyle,
     handleDragOver,
     handleDrop,
     getStore,

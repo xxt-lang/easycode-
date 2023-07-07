@@ -1,5 +1,5 @@
 <template>
-  <el-card :style="getComponentStyle(isPreview,propValue.styles)" :header="propValue.attributes['header']" :shadow="propValue.attributes['shadow']">
+  <el-card :header="propValue.attributes['header']" :shadow="propValue.attributes['shadow']">
     <Container
         key="editorContainer"
         :container="{
@@ -17,7 +17,6 @@
 
 <script>
 import Container from "../../coreComponents/Container.vue";
-import {getComponentStyle} from "../../../utils/core";
 // 样式分为容器上的样式与当前组件的样式
 export default {
   name: "ScCard",
@@ -46,7 +45,6 @@ export default {
   mounted() {
   },
   methods:{
-    getComponentStyle
   }
 }
 </script>

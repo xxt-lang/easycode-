@@ -1,7 +1,6 @@
 <template>
 <el-switch
     v-model="value"
-    :style = "getComponentStyle(propValue.styles)"
     :loading = "propValue.attributes['loading']"
     :disabled = "propValue.attributes['disabled']"
     :size = "propValue.attributes['size']"
@@ -13,7 +12,6 @@
 </template>
 
 <script>
-import {getComponentStyle} from "../../../utils/core";
 
 export default {
   name: "ScSwitch",
@@ -30,7 +28,6 @@ export default {
     }
   },
   methods: {
-    getComponentStyle
   }
 }
 </script>

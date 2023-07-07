@@ -1,10 +1,8 @@
 <template>
-  <el-color-picker v-model = "value" :style="getComponentStyle(isPreview,propValue.styles)"></el-color-picker>
+  <el-color-picker v-model = "value" ></el-color-picker>
 </template>
 
 <script>
-import {getComponentStyle} from "../../../utils/core";
-
 export default {
   name: "ScColorPicker",
   props: {
@@ -24,7 +22,6 @@ export default {
     }
   },
   methods: {
-    getComponentStyle
   }
 }
 </script>

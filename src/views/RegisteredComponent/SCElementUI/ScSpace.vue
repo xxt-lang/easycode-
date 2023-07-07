@@ -3,7 +3,6 @@
         :alignment = "propValue.attributes['alignment']"
         :direction = "propValue.attributes['direction']"
         :prefix-cls = "propValue.attributes['prefix-cls']"
-        :style = "getComponentStyle(isPreview,propValue.styles)"
         :spacer = "propValue.attributes['spacer']"
         :size = "propValue.attributes['size']"
         :wrap = "propValue.attributes['wrap']"
@@ -28,7 +27,6 @@
 
 <script>
 import Container from "../../coreComponents/Container.vue";
-import {getComponentStyle} from "../../../utils/core";
 export default {
   name: "ScSpace",
   components:{Container},
@@ -48,7 +46,6 @@ export default {
     }
   },
   methods:{
-    getComponentStyle
   }
 }
 </script>

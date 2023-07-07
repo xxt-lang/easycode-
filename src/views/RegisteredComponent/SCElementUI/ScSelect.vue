@@ -1,9 +1,8 @@
 <template>
-<el-select v-model="value" :style="getComponentStyle(propValue.styles)"></el-select>
+<el-select v-model="value"></el-select>
 </template>
 
 <script>
-import {getComponentStyle} from "../../../utils/core";
 export default {
   name: "ScSelect",
   props: {
@@ -19,7 +18,6 @@ export default {
     }
   },
   methods: {
-    getComponentStyle
   }
 }
 </script>

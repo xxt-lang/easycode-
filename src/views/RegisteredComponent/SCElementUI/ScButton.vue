@@ -1,7 +1,6 @@
 <template>
     <el-button
         :class="propValue.attributes['class']"
-        :style="getComponentStyle(isPreview,propValue.styles)"
         :type="propValue.attributes.type"
         :size="propValue.attributes.size"
         :plain="propValue.attributes.plain"
@@ -22,8 +21,6 @@
     </el-button>
 </template>
 <script>
-import {getComponentStyle} from "../../../utils/core";
-import {ECVue} from "../../../utils/ECVue";
 export default {
   name: "ScButton",
   props: {
@@ -45,7 +42,6 @@ export default {
     return {}
   },
   methods: {
-    getComponentStyle,
     click(){
       if(this.propValue.events['click'].enable){
         this.EcVue[this.propValue.events['click'].method]()
