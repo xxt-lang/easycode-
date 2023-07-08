@@ -1,6 +1,6 @@
 <template>
   <div v-show="setterStyles">
-    <div class="setterAttribute">
+    <div class="row">
       <span class="itemLabel">绑定class </span>
       <div class="itemContent">
         <el-input v-model="setterData.bindClass" placeholder="输入对应的class选择器" @blur="blur"/>
@@ -10,7 +10,7 @@
     <VMonacoEditor v-model="css" language="css" key="css" height="30vh"></VMonacoEditor>
     <el-collapse v-model="activeNames">
       <el-collapse-item title="布局" name="1">
-        <div class="setterAttribute" v-for="d in displayList" :key="d.value" v-show="d.enable">
+        <div class="row" v-for="d in displayList" :key="d.value" v-show="d.enable">
           <span class="itemLabel">{{d.label}}</span>
           <div class="itemContent">
             <el-button-group>
@@ -23,22 +23,85 @@
             </el-button-group>
           </div>
         </div>
-        <div class="setterAttribute">
-          <span class="itemLabel">高度(px)</span>
+        <div class="row" v-for="item in marginOrPaddingList">
+          <span class="itemLabel">{{ item.label }}</span>
           <div class="itemContent">
-            <el-input-number v-model="height" @change="choiceStyle('height',height+'px')"></el-input-number>
-          </div>
-        </div>
-        <div class="setterAttribute">
-          <span class="itemLabel">宽度(px)</span>
-          <div class="itemContent">
-            <el-input-number v-model="width" @change="choiceStyle('width',width+'px')"></el-input-number>
+            <el-input-number size="small" controls-position="right" v-model="item.value" @change="choiceStyle(item.name,item.value+'px')"></el-input-number>
           </div>
         </div>
       </el-collapse-item>
       <el-collapse-item title="文字" name="2">
+        <div class="row">
+          <span class="itemLabel">{{ fontList['fontSize'].label }}</span>
+          <div class="itemContent">
+            <el-input-number v-model="fontList['fontSize'].value" @change="choiceStyle(fontList['fontSize'].name,fontList['fontSize'].value+'px')"></el-input-number>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ fontList['lineHeight'].label }}</span>
+          <div class="itemContent">
+            <el-input-number v-model="fontList['lineHeight'].value" @change="choiceStyle(fontList['lineHeight'].name,fontList['lineHeight'].value+'px')"></el-input-number>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ fontList['fontWeight'].label }}</span>
+          <div class="itemContent">
+            <el-select v-model="fontList['fontWeight'].value" @change="choiceStyle(fontList['fontWeight'].name,fontList['fontWeight'].value)">
+              <el-option v-for="item in fontWeightOptions"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ fontList['fontFamily'].label }}</span>
+          <div class="itemContent">
+            <el-select v-model="fontList['fontFamily'].value" @change="choiceStyle(fontList['fontFamily'].name,fontList['fontFamily'].value)">
+              <el-option v-for="item in fontFamilyOptions"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ fontList['color'].label }}</span>
+          <div class="itemContent">
+            <el-color-picker v-model="fontList['color'].value" show-alpha :predefine="predefineColors"  @change="choiceStyle(fontList['color'].name,fontList['color'].value)"/>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ fontList['textAlign'].label }}</span>
+          <div class="itemContent">
+            <el-button-group>
+              <el-button v-for="t in fontList['textAlign'].children"
+                         :key="t.value"
+                         :type="fontList['textAlign'].choice === t.value? 'primary':''"
+                         size="small"
+                         @click="choiceDisplay(fontList['textAlign'],fontList['textAlign'].name,t.value)">
+                {{ t.label }}
+              </el-button>
+            </el-button-group>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ fontList['opacity'].label }}</span>
+          <div class="itemContent">
+            <el-slider v-model="fontList['opacity'].value" @change="choiceStyle(fontList['opacity'].name,fontList['opacity'].value*0.01)"/>
+          </div>
+        </div>
       </el-collapse-item>
       <el-collapse-item title="背景" name="3">
+
+        <div class="row">
+          <span class="itemLabel">{{ fontList['opacity'].label }}</span>
+          <div class="itemContent">
+            <el-slider v-model="fontList['opacity'].value" @change="choiceStyle(fontList['opacity'].name,fontList['opacity'].value*0.01)"/>
+          </div>
+        </div>
       </el-collapse-item>
       <el-collapse-item title="位置" name="4">
       </el-collapse-item>
@@ -151,8 +214,74 @@ export default {
           ]
         }
       ],
-      height:0,
-      width:0
+      marginOrPaddingList:[
+        {label:"外边距(px)",name:"margin",value:0},
+        {label:"top(px)",name:"margin-top",value:0},
+        {label:"left(px)",name:"margin-left",value:0},
+        {label:"bottom(px)",name:"margin-bottom",value:0},
+        {label:"right(px)",name:"margin-right",value:0},
+        {label:"内边距(px)",name:"padding",value:0},
+        {label:"top(px)",name:"padding-top",value:0},
+        {label:"left(px)",name:"padding-left",value:0},
+        {label:"bottom(px)",name:"padding-bottom",value:0},
+        {label:"right(px)",name:"padding-right",value:0},
+        {label:"bottom(px)",name:"padding-bottom",value:0},
+        {label:"高度(px)",name:"height",value:0},
+        {label:"宽度(px)",name:"width",value:0},
+      ],
+      fontList:{
+        "fontSize":{label:"字号(px)",name:"font-size",value:1},
+        "lineHeight":{label:"行高(px)",name:"line-height",value:1},
+        "fontWeight":{label:"字重",name:"font-weight",value:''},
+        "fontFamily":{label:"字体",name:"font-family",value:''},
+        "color":{label:"颜色",name:"color",value:''},
+        "textAlign":{
+          label:"对齐",
+          name:"text-align",
+          choice:'',
+          children: [
+            {value: "left", label: "左对齐", detail: "左对齐left"},
+            {value: "right", label: "右对齐", detail: "右对齐right"},
+            {value: "center", label: "居中对齐", detail: "居中对齐center"},
+            {value: "justify", label: "两端对齐", detail: "两端对齐justify"},
+          ]},
+        "opacity":{label:"透明度",name:"opacity",value:0}
+      },
+      fontWeightOptions:[
+        {label:'100 Thin',value:'100'},
+        {label:'200 Extra Light',value:'200'},
+        {label:'300 Light',value:'300'},
+        {label:'400 Normal',value:'400'},
+        {label:'500 Medium',value:'500'},
+        {label:'600 Semi Bold',value:'600'},
+        {label:'700 Bold',value:'700'},
+        {label:'Extra Bold',value:'800'},
+        {label:'Black',value:'900'},
+      ],
+      fontFamilyOptions:[
+        {label:'Helvetica',value:'Helvetica'},
+        {label:'Arial',value:'Arial'},
+        {label:'serif',value:'serif'},
+      ],
+      predefineColors:[
+        '#ff4500',
+        '#ff8c00',
+        '#ffd700',
+        '#90ee90',
+        '#00ced1',
+        '#1e90ff',
+        '#c71585',
+        'rgba(255, 69, 0, 0.68)',
+        'rgb(255, 120, 0)',
+        'hsv(51, 100, 98)',
+        'hsva(120, 40, 94, 0.5)',
+        'hsl(181, 100%, 37%)',
+        'hsla(209, 100%, 56%, 0.73)',
+        '#c7158577',
+      ],
+      background:[
+        {}
+      ]
     }
   },
   mounted() {
@@ -193,6 +322,10 @@ export default {
 </script>
 
 <style scoped>
+.row{
+  display: flex;
+  margin-top:5px
+}
 .itemLabel {
   display: inline-flex;
   width: 70px;
