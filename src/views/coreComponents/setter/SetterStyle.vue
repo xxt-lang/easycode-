@@ -8,45 +8,73 @@
     </div>
     <el-button @click="printCss">保存</el-button>
     <VMonacoEditor v-model="css" language="css" key="css" height="30vh"></VMonacoEditor>
-    <el-collapse v-model="activeNames">
+    <el-collapse v-model="activeNames" style="margin-top:5px">
       <el-collapse-item title="布局" name="1">
-        <div class="row" v-for="d in displayList" :key="d.value" v-show="d.enable">
-          <span class="itemLabel">{{d.label}}</span>
+        <div class="row"
+             v-for="d in [styles['display'],styles['flex-wrap'],styles['align-items'],styles['justify-content'],styles['flex-direction']]"
+             :key="d.attr"
+             v-show="d.enable"
+        >
+          <span class="itemLabel">{{ d.label }}</span>
           <div class="itemContent">
             <el-button-group>
-              <el-button  v-for="c in d.children"
-                          :key="c.value"
-                          :type="d.choice === c.value? 'primary':''"
-                          size="small"
-                          @click="choiceDisplay(d,d.value,c.value)">
-                {{ c.label }}</el-button>
+              <el-button v-for="c in d.children"
+                         :key="c.value"
+                         :type="d.value === c.value? 'primary':''"
+                         size="small"
+                         @click="choiceDisplay(d,d.attr,c.value)">
+                {{ c.label }}
+              </el-button>
             </el-button-group>
           </div>
         </div>
-        <div class="row" v-for="item in marginOrPaddingList">
+        <div class="row" v-for="item in [styles['height'],styles['width']]" :key=" item.attr">
           <span class="itemLabel">{{ item.label }}</span>
           <div class="itemContent">
-            <el-input-number size="small" controls-position="right" v-model="item.value" @change="choiceStyle(item.name,item.value+'px')"></el-input-number>
+            <ec-input-number v-model="item.value" size="small" :units="units"
+                             @changeValue="choiceStyle(item.attr,$event.value+$event.unit)"></ec-input-number>
           </div>
         </div>
+        <el-collapse-item title="外边距" name="1-1">
+          <div class="row" v-for="item in [styles['margin'],styles['margin-top'],styles['margin-left'],styles['margin-bottom'],styles['margin-right']]" :key="item.attr">
+            <span class="itemLabel">{{ item.label }}</span>
+            <div class="itemContent">
+              <ec-input-number v-model="item.value" size="small" :units="units"
+                               @changeValue="choiceStyle(item.attr,$event.value+$event.unit)"></ec-input-number>
+            </div>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item title="内边距" name="1-2">
+          <div class="row" v-for="item in [styles['padding'],styles['padding-top'],styles['padding-left'],styles['padding-bottom'],styles['padding-right']]" :key="item.attr">
+            <span class="itemLabel">{{ item.label }}</span>
+            <div class="itemContent">
+              <ec-input-number v-model="item.value" size="small" :units="units"
+                               @changeValue="choiceStyle(item.attr,$event.value+$event.unit)"></ec-input-number>
+            </div>
+          </div>
+        </el-collapse-item>
       </el-collapse-item>
       <el-collapse-item title="文字" name="2">
         <div class="row">
-          <span class="itemLabel">{{ fontList['fontSize'].label }}</span>
+          <span class="itemLabel">{{ styles['font-size'].label }}</span>
           <div class="itemContent">
-            <el-input-number v-model="fontList['fontSize'].value" @change="choiceStyle(fontList['fontSize'].name,fontList['fontSize'].value+'px')"></el-input-number>
+            <el-input-number v-model="styles['font-size'].value"
+                             @change="choiceStyle(styles['font-size'].attr,styles['font-size'].value+'px')"></el-input-number>
           </div>
         </div>
         <div class="row">
-          <span class="itemLabel">{{ fontList['lineHeight'].label }}</span>
+          <span class="itemLabel">{{ styles['line-height'].label }}</span>
           <div class="itemContent">
-            <el-input-number v-model="fontList['lineHeight'].value" @change="choiceStyle(fontList['lineHeight'].name,fontList['lineHeight'].value+'px')"></el-input-number>
+            <el-input-number v-model="styles['line-height'].value"
+                             @change="choiceStyle(styles['line-height'].attr,styles['line-height'].value+'px')"></el-input-number>
           </div>
         </div>
         <div class="row">
-          <span class="itemLabel">{{ fontList['fontWeight'].label }}</span>
+          <span class="itemLabel">{{ styles['font-weight'].label }}</span>
           <div class="itemContent">
-            <el-select v-model="fontList['fontWeight'].value" @change="choiceStyle(fontList['fontWeight'].name,fontList['fontWeight'].value)">
+            <el-select v-model="styles['font-weight'].value"
+                       placeholder="选择字重"
+                       @change="choiceStyle(styles['font-weight'].attr,styles['font-weight'].value)">
               <el-option v-for="item in fontWeightOptions"
                          :key="item.value"
                          :label="item.label"
@@ -56,9 +84,11 @@
           </div>
         </div>
         <div class="row">
-          <span class="itemLabel">{{ fontList['fontFamily'].label }}</span>
+          <span class="itemLabel">{{ styles['font-family'].label }}</span>
           <div class="itemContent">
-            <el-select v-model="fontList['fontFamily'].value" @change="choiceStyle(fontList['fontFamily'].name,fontList['fontFamily'].value)">
+            <el-select placeholder="选择字体"
+                v-model="styles['font-family'].value"
+                       @change="choiceStyle(styles['font-family'].attr,styles['font-family'].value)">
               <el-option v-for="item in fontFamilyOptions"
                          :key="item.value"
                          :label="item.label"
@@ -68,38 +98,89 @@
           </div>
         </div>
         <div class="row">
-          <span class="itemLabel">{{ fontList['color'].label }}</span>
+          <span class="itemLabel">{{ styles['color'].label }}</span>
           <div class="itemContent">
-            <el-color-picker v-model="fontList['color'].value" show-alpha :predefine="predefineColors"  @change="choiceStyle(fontList['color'].name,fontList['color'].value)"/>
+            <el-color-picker v-model="styles['color'].value" show-alpha :predefine="predefineColors"
+                             @change="choiceStyle(styles['color'].attr,styles['color'].value)"/>
           </div>
         </div>
         <div class="row">
-          <span class="itemLabel">{{ fontList['textAlign'].label }}</span>
+          <span class="itemLabel">{{ styles['text-align'].label }}</span>
           <div class="itemContent">
             <el-button-group>
-              <el-button v-for="t in fontList['textAlign'].children"
+              <el-button v-for="t in styles['text-align'].children"
                          :key="t.value"
-                         :type="fontList['textAlign'].choice === t.value? 'primary':''"
+                         :type="styles['text-align'].value === t.value? 'primary':''"
                          size="small"
-                         @click="choiceDisplay(fontList['textAlign'],fontList['textAlign'].name,t.value)">
+                         @click="choiceDisplay(styles['text-align'],styles['text-align'].attr,t.value)">
                 {{ t.label }}
               </el-button>
             </el-button-group>
           </div>
         </div>
         <div class="row">
-          <span class="itemLabel">{{ fontList['opacity'].label }}</span>
+          <span class="itemLabel">{{ styles['opacity'].label }}</span>
           <div class="itemContent">
-            <el-slider v-model="fontList['opacity'].value" @change="choiceStyle(fontList['opacity'].name,fontList['opacity'].value*0.01)"/>
+            <el-slider v-model="styles['opacity'].value"
+                       @change="choiceStyle(styles['opacity'].attr,styles['opacity'].value*0.01)"/>
           </div>
         </div>
       </el-collapse-item>
       <el-collapse-item title="背景" name="3">
-
         <div class="row">
-          <span class="itemLabel">{{ fontList['opacity'].label }}</span>
+          <span class="itemLabel">{{ styles['background-color'].label }}</span>
           <div class="itemContent">
-            <el-slider v-model="fontList['opacity'].value" @change="choiceStyle(fontList['opacity'].name,fontList['opacity'].value*0.01)"/>
+            <el-color-picker v-model="styles['background-color'].value" show-alpha :predefine="predefineColors"
+                             @change="choiceStyle(styles['background-color'].attr,styles['background-color'].value)"/>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ styles['background-size'].label }}</span>
+          <div class="itemContent">
+            <el-button-group>
+              <el-button v-for="t in styles['background-size'].children"
+                         :key="t.value"
+                         :type="styles['background-size'].value === t.value? 'primary':''"
+                         size="small"
+                         @click="choiceBackgroundSize(styles['background-size'],styles['background-size'].attr,t.value)">
+                {{ t.label }}
+              </el-button>
+            </el-button-group>
+          </div>
+        </div>
+        <div v-show="styles['background-size'].value === 'default'">
+          <div class="row">
+            <span class="itemLabel">宽</span>
+            <el-input size="small"
+                      v-model="styles['background-size']['children'][0].params.width"
+                      @change="changeBackgroundSize()"></el-input>
+          </div>
+          <div class="row">
+            <span class="itemLabel">高</span>
+            <el-input size="small"
+                      v-model="styles['background-size']['children'][0].params.height"
+                      @change="changeBackgroundSize()"></el-input>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ styles['background-repeat'].label }}</span>
+          <div class="itemContent">
+            <el-button-group>
+              <el-button v-for="t in styles['background-repeat'].children"
+                         :key="t.value"
+                         :type="styles['background-repeat'].value === t.value? 'primary':''"
+                         size="small"
+                         @click="choiceDisplay(styles['background-repeat'],styles['background-repeat'].attr,t.value)">
+                {{ t.label }}
+              </el-button>
+            </el-button-group>
+          </div>
+        </div>
+        <div class="row">
+          <span class="itemLabel">{{ styles['opacity'].label }}</span>
+          <div class="itemContent">
+            <el-slider v-model="styles['opacity'].value"
+                       @change="choiceStyle(styles['opacity'].attr,styles['opacity'].value*0.01)"/>
           </div>
         </div>
       </el-collapse-item>
@@ -120,6 +201,7 @@
 import {analysisCssText, getStore, objectToCss} from "../../../utils/core";
 import eventBus from "../../../utils/eventBus";
 import VMonacoEditor from "../VMonacoEditor.vue";
+import EcInputNumber from "../../../components/EcInputNumber.vue";
 
 export default {
   name: "SetterStyle",
@@ -144,18 +226,19 @@ export default {
     },
   },
   components: {
+    EcInputNumber,
     VMonacoEditor
   },
   data() {
     return {
       css: '',
-      activeNames: 1,
-      displayList: [
-        {
-          value: "display",
+      activeNames: '1',
+      styles: {
+        "display": {
+          attr: "display",
           label: "布局模式",
-          enable:true,
-          choice:'',
+          enable: true,
+          value: '',
           children: [
             {value: "inline", label: "内联", detail: "内联布局inline"},
             {value: "flex", label: "弹性", detail: "弹性布局flex"},
@@ -164,11 +247,11 @@ export default {
             {value: "none", label: "隐藏", detail: "隐藏none"}
           ]
         },
-        {
-          value: "flex-direction",
+        "flex-direction": {
+          attr: "flex-direction",
           label: "主轴方向",
-          enable:false,
-          choice:'',
+          enable: false,
+          value: '',
           children: [
             {value: "row", label: "左", detail: "水平方向,起点在左侧row"},
             {value: "row-reverse", label: "右", detail: "水平方向，起点在右侧row-reverse"},
@@ -176,11 +259,11 @@ export default {
             {value: "column-reverse", label: "上", detail: "垂直方向,起点在下沿column-reverse"}
           ]
         },
-        {
-          value: "justify-content",
+        "justify-content": {
+          attr: "justify-content",
           label: "主轴对齐",
-          enable:false,
-          choice:'',
+          enable: false,
+          value: '',
           children: [
             {value: "flex-start", label: "左对齐", detail: "左对齐flex-start"},
             {value: "flex-end", label: "右对齐", detail: "右对齐flex-end"},
@@ -189,11 +272,11 @@ export default {
             {value: "space-around", label: "横向平分", detail: "横向平分space-around"}
           ]
         },
-        {
-          value: "align-items",
+        "align-items": {
+          attr: "align-items",
           label: "辅轴对齐",
-          enable:false,
-          choice:'',
+          enable: false,
+          value: '',
           children: [
             {value: "flex-start", label: "起点对齐", detail: "起点对齐flex-start"},
             {value: "flex-end", label: "终点对齐", detail: "终点对齐flex-end"},
@@ -202,68 +285,91 @@ export default {
             {value: "stretch", label: "stretch", detail: "沾满整个容器的高度stretch"}
           ]
         },
-        {
-          value: "flex-wrap",
+        "flex-wrap": {
+          attr: "flex-wrap",
           label: "换行",
-          enable:false,
-          choice:'',
+          enable: false,
+          value: '',
           children: [
             {value: "nowrap", label: "不换行", detail: "不换行nowrap"},
             {value: "wrap", label: "正换行", detail: "正换行wrap"},
             {value: "wrap-reverse", label: "逆换行", detail: "逆换行wrap-reverse"},
           ]
-        }
-      ],
-      marginOrPaddingList:[
-        {label:"外边距(px)",name:"margin",value:0},
-        {label:"top(px)",name:"margin-top",value:0},
-        {label:"left(px)",name:"margin-left",value:0},
-        {label:"bottom(px)",name:"margin-bottom",value:0},
-        {label:"right(px)",name:"margin-right",value:0},
-        {label:"内边距(px)",name:"padding",value:0},
-        {label:"top(px)",name:"padding-top",value:0},
-        {label:"left(px)",name:"padding-left",value:0},
-        {label:"bottom(px)",name:"padding-bottom",value:0},
-        {label:"right(px)",name:"padding-right",value:0},
-        {label:"bottom(px)",name:"padding-bottom",value:0},
-        {label:"高度(px)",name:"height",value:0},
-        {label:"宽度(px)",name:"width",value:0},
-      ],
-      fontList:{
-        "fontSize":{label:"字号(px)",name:"font-size",value:1},
-        "lineHeight":{label:"行高(px)",name:"line-height",value:1},
-        "fontWeight":{label:"字重",name:"font-weight",value:''},
-        "fontFamily":{label:"字体",name:"font-family",value:''},
-        "color":{label:"颜色",name:"color",value:''},
-        "textAlign":{
-          label:"对齐",
-          name:"text-align",
-          choice:'',
+        },
+        "height": {label: "高度", attr: "height", value: {value: 0, unit: 'px'}},
+        "width": {label: "宽度", attr: "width", value: {value: 0, unit: 'px'}},
+        "margin": {label: "外边距", attr: "margin", value: {value: 0, unit: 'px'}},
+        "margin-top": {label: "上", attr: "margin-top", value: {value: 0, unit: 'px'}},
+        "margin-left": {label: "左", attr: "margin-left", value: {value: 0, unit: 'px'}},
+        "margin-bottom": {label: "下", attr: "margin-bottom", value: {value: 0, unit: 'px'}},
+        "margin-right": {label: "右", attr: "margin-right", value: {value: 0, unit: 'px'}},
+        "padding": {label: "内边距", attr: "padding", value: {value: 0, unit: 'px'}},
+        "padding-top": {label: "上", attr: "padding-top", value: {value: 0, unit: 'px'}},
+        "padding-left": {label: "左", attr: "padding-left", value: {value: 0, unit: 'px'}},
+        "padding-bottom": {label: "下", attr: "padding-bottom", value: {value: 0, unit: 'px'}},
+        "padding-right": {label: "右", attr: "padding-right", value: {value: 0, unit: 'px'}},
+        "font-size": {label: "字号(px)", attr: "font-size", value: 1},
+        "line-height": {label: "行高(px)", attr: "line-height", value: 1},
+        "font-weight": {label: "字重", attr: "font-weight", value: ''},
+        "font-family": {label: "字体", attr: "font-family", value: ''},
+        "color": {label: "颜色", attr: "color", value: ''},
+        "text-align": {
+          label: "对齐",
+          attr: "text-align",
+          value: '',
           children: [
             {value: "left", label: "左对齐", detail: "左对齐left"},
             {value: "right", label: "右对齐", detail: "右对齐right"},
             {value: "center", label: "居中对齐", detail: "居中对齐center"},
             {value: "justify", label: "两端对齐", detail: "两端对齐justify"},
-          ]},
-        "opacity":{label:"透明度",name:"opacity",value:0}
+          ]
+        },
+        "opacity": {label: "透明度", attr: "opacity", value: 0},
+        "background-color": {label: "背景色", attr: "background-color", value: ''},
+        "background-image": {label: "图片地址", attr: "background-image", value: ''},
+        "background-size": {
+          label: "尺寸",
+          attr: "background-size",
+          value: '',
+          children: [
+            {value: 'default', label: "默认", detail: "默认", params: {height: "auto", width: "auto"}},
+            {value: "contain", label: "等比填充", detail: "等比填充contain"},
+            {value: "cover", label: "等比覆盖", detail: "等比覆盖cover"},
+          ]
+        },
+        "background-repeat": {
+          label: "重复显示",
+          attr: "background-repeat",
+          value: '',
+          children: [
+            {value: "repeat", label: "垂直水平方向", detail: "垂直方向水平方向重复repeat"},
+            {value: "repeat-x", label: "水平", detail: "水平方向重复repeat-x"},
+            {value: "repeat-y", label: "垂直", detail: "垂直方向重复repeat-y"},
+            {value: "no-repeat", label: "不重复", detail: "不重复no-repeat"},
+          ]
+        },
       },
-      fontWeightOptions:[
-        {label:'100 Thin',value:'100'},
-        {label:'200 Extra Light',value:'200'},
-        {label:'300 Light',value:'300'},
-        {label:'400 Normal',value:'400'},
-        {label:'500 Medium',value:'500'},
-        {label:'600 Semi Bold',value:'600'},
-        {label:'700 Bold',value:'700'},
-        {label:'Extra Bold',value:'800'},
-        {label:'Black',value:'900'},
+      units: [
+        {label: 'px', value: 'px'},
+        {label: '%', value: '%'}
       ],
-      fontFamilyOptions:[
-        {label:'Helvetica',value:'Helvetica'},
-        {label:'Arial',value:'Arial'},
-        {label:'serif',value:'serif'},
+      fontWeightOptions: [
+        {label: '100 Thin', value: '100'},
+        {label: '200 Extra Light', value: '200'},
+        {label: '300 Light', value: '300'},
+        {label: '400 Normal', value: '400'},
+        {label: '500 Medium', value: '500'},
+        {label: '600 Semi Bold', value: '600'},
+        {label: '700 Bold', value: '700'},
+        {label: 'Extra Bold', value: '800'},
+        {label: 'Black', value: '900'},
       ],
-      predefineColors:[
+      fontFamilyOptions: [
+        {label: 'Helvetica', value: 'Helvetica'},
+        {label: 'Arial', value: 'Arial'},
+        {label: 'serif', value: 'serif'},
+      ],
+      predefineColors: [
         '#ff4500',
         '#ff8c00',
         '#ffd700',
@@ -279,9 +385,7 @@ export default {
         'hsla(209, 100%, 56%, 0.73)',
         '#c7158577',
       ],
-      background:[
-        {}
-      ]
+
     }
   },
   mounted() {
@@ -289,43 +393,73 @@ export default {
     eventBus.on("dbComponent", () => {
       that.css = `.main{${objectToCss(getStore("SimpleStore").selectPlate[0].styles)}}`
     })
+
   },
   methods: {
+    change(param) {
+      console.log(param)
+    },
     printCss() {
       this.setterData.styles = analysisCssText(this.css)
     },
-    choiceDisplay(a,attr,value) {
-      if(a.choice!==value){
-        a.choice = value
-        this.setterData.styles[attr] = value
-      }else{
-        a.choice = ''
+    choiceDisplay(a, attr, value) {
+      if (a.value !== value) {
+        a.value = value
+        this.choiceStyle(attr, value)
+      } else {
+        a.value = ''
         delete this.setterData.styles[attr]
       }
-      if(this.displayList[0].choice === "flex"){
-        this.displayList[1].enable = true
-        this.displayList[2].enable = true
-        this.displayList[3].enable = true
-        this.displayList[4].enable = true
-      }else{
-        this.displayList[1].enable = false
-        this.displayList[2].enable = false
-        this.displayList[3].enable = false
-        this.displayList[4].enable = false
+      if (this.styles['display'].value === "flex") {
+        this.styles['flex-wrap'].enable = true
+        this.styles['align-items'].enable = true
+        this.styles['justify-content'].enable = true
+        this.styles['flex-direction'].enable = true
+      } else {
+        this.styles['flex-wrap'].enable = false
+        this.styles['align-items'].enable = false
+        this.styles['justify-content'].enable = false
+        this.styles['flex-direction'].enable = false
       }
     },
-    choiceStyle(attr,value){
+    choiceStyle(attr, value) {
       this.setterData.styles[attr] = value
+    },
+    choiceBackgroundSize(a, attr, value) {
+      if (a.value !== value) {
+        a.value = value
+        if (a.value === "default") {
+          let width = a['children'][0].params['width']
+          let height = a['children'][0].params['height']
+          value = `${width === "auto" ? width : width + 'px'} ${height === "auto" ? height : height + 'px'}`
+        }
+        this.choiceStyle(attr, value)
+      } else {
+        a.value = ''
+        delete this.setterData.styles[attr]
+      }
+    },
+    changeBackgroundSize() {
+      let width = this.styles['background-size']['children'][0].params['width']
+      let height = this.styles['background-size']['children'][0].params['height']
+      if (isNaN(width)) {
+        this.styles['background-size']['children'][0].params['width'] = "auto"
+      }
+      if (isNaN(height)) {
+        this.styles['background-size']['children'][0].params['height'] = "auto"
+      }
+      this.choiceStyle('background-size', `${isNaN(width) ? "auto" : width + 'px'} ${isNaN(height) ? "auto" : height + 'px'}`)
     }
-}
+  }
 }
 </script>
 
 <style scoped>
-.row{
+.row {
   display: flex;
-  margin-top:5px
+  margin-top: 5px
 }
+
 .itemLabel {
   display: inline-flex;
   width: 70px;
