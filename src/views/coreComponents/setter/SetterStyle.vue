@@ -162,6 +162,7 @@
                       @change="changeBackgroundSize()"></el-input>
           </div>
         </div>
+
         <div class="row">
           <span class="itemLabel">{{ styles['background-repeat'].label }}</span>
           <div class="itemContent">
@@ -176,6 +177,24 @@
             </el-button-group>
           </div>
         </div>
+
+
+
+        <div class="row">
+          <span class="itemLabel">{{ styles['background-position'].label }}</span>
+          <div class="itemContent">
+            <el-button-group>
+              <el-button v-for="t in styles['background-position'].children"
+                         :key="t.value"
+                         :type="styles['background-position'].value === t.value? 'primary':''"
+                         size="small"
+                         @click="choiceDisplay(styles['background-position'],styles['background-position'].attr,t.value)">
+                {{ t.label }}
+              </el-button>
+            </el-button-group>
+          </div>
+        </div>
+
         <div class="row">
           <span class="itemLabel">{{ styles['opacity'].label }}</span>
           <div class="itemContent">
@@ -348,7 +367,14 @@ export default {
             {value: "no-repeat", label: "不重复", detail: "不重复no-repeat"},
           ]
         },
-      },
+        "background-position":{
+          label: "定位",
+          attr: "background-position",
+          value: {left:{label:"左",value:'auto', unit: 'px'},top:{label:"顶",value: 'auto', unit: 'px'},
+          children: [
+            {value: {left:{value: 0, unit: 'px'},top:{value: 0, unit: 'px'}}, label: "左上", detail: "默认"},
+          ]},
+      }},
       units: [
         {label: 'px', value: 'px'},
         {label: '%', value: '%'}
@@ -449,7 +475,10 @@ export default {
         this.styles['background-size']['children'][0].params['height'] = "auto"
       }
       this.choiceStyle('background-size', `${isNaN(width) ? "auto" : width + 'px'} ${isNaN(height) ? "auto" : height + 'px'}`)
-    }
+    },
+    // setTwoValue(x,y,dx,dy){
+    //
+    // }
   }
 }
 </script>

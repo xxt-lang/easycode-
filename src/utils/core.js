@@ -224,13 +224,15 @@ export function moveComponent(e, index,dragObject) {
 
     // position:absolute
     const move = (moveEvent) => {
-        eventBus.emit(`move-dragTip`, {style:{top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},message:null})
+
         // 开启编辑margin与position时 拖拽调整的是margin和position相关的left，top else 修改元素在数组中的位置
         if(locationInfo !== null){
             if(locationInfo.type === 'position'){
                 changePosition(dragObject.styles,(moveEvent.clientX-startClientX),(moveEvent.clientY-startClientY),locationInfo.oldX,locationInfo.oldY)
             }else{
                 changeMargin(dragObject.styles,(moveEvent.clientX-startClientX),(moveEvent.clientY-startClientY),locationInfo.oldX,locationInfo.oldY)
+                eventBus.emit(`move-dragTip`, {style:{top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},
+                    message:`margin-left:${(moveEvent.clientX-startClientX) + locationInfo.oldX}  margin-top:${(moveEvent.clientY-startClientY+locationInfo.oldY)}`})
             }
         }else{
             targetInfo = mousemoveInfo(moveEvent)

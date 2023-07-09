@@ -1,7 +1,7 @@
 <template>
 <div style="display: inline-block">
-  <el-input-number :size="size" v-model="modelValue.value" @change="change('a')" @focus="isblur = false" @blur="isblur = true" @mousewheel="scroll"></el-input-number>
-  <el-select :size="size" v-model="modelValue.unit" :style="{width:unitWidth+'px'}" @change="changeSelect('b')">
+  <el-input-number :size="size" v-model="modelValue.value" :placeholder="defaultValue" @focus="isblur = false" @blur="blur" @mousewheel="scroll"></el-input-number>
+  <el-select :size="size" v-model="modelValue.unit" :style="{width:unitWidth+'px'}" @change="changeSelect()">
     <el-option v-for="item in units"
                :label="item.label"
                :value="item.value"></el-option>
@@ -30,6 +30,10 @@ export default {
     size:{
       type:String,
       default:'small'
+    },
+    defaultValue:{
+      type:String,
+      default:'auto'
     }
   },
   data(){
@@ -38,12 +42,14 @@ export default {
     }
   },
   methods:{
-    change(param){
-      console.log(param)
-      // console.log("+++++++++++++")
+    changeSelect(){
       this.$emit('changeValue',this.modelValue)
     },
-    changeSelect(){
+    blur(){
+      this.isblur = true
+      this.modelValue.unit = this.modelValue.value === null ? '':this.modelValue.unit
+      this.modelValue.value = this.modelValue.value === null ? this.defaultValue:this.modelValue.value
+      console.log(this.modelValue.value)
       this.$emit('changeValue',this.modelValue)
     },
     scroll(e){
