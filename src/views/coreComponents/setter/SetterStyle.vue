@@ -417,16 +417,21 @@ export default {
   mounted() {
     let that = this
     eventBus.on("dbComponent", () => {
-      that.css = `.main{${objectToCss(getStore("SimpleStore").selectPlate[0].styles)}}`
+      let styles = getStore("SimpleStore").selectPlate[0].styles
+      that.css = `.main{${objectToCss(styles)}}`
+      for(let key in styles){
+        that.styles[key].value = styles[key]
+      }
+      console.log(that.css)
     })
 
   },
   methods: {
-    change(param) {
-      console.log(param)
-    },
     printCss() {
       this.setterData.styles = analysisCssText(this.css)
+      for(let key in this.setterData.styles){
+        this.styles[key].value = this.setterData.styles[key]
+      }
     },
     choiceDisplay(a, attr, value) {
       if (a.value !== value) {
@@ -434,7 +439,7 @@ export default {
         this.choiceStyle(attr, value)
       } else {
         a.value = ''
-        delete this.setterData.styles[attr]
+        this.deleteStyle(attr)
       }
       if (this.styles['display'].value === "flex") {
         this.styles['flex-wrap'].enable = true
@@ -448,9 +453,6 @@ export default {
         this.styles['flex-direction'].enable = false
       }
     },
-    choiceStyle(attr, value) {
-      this.setterData.styles[attr] = value
-    },
     choiceBackgroundSize(a, attr, value) {
       if (a.value !== value) {
         a.value = value
@@ -462,8 +464,16 @@ export default {
         this.choiceStyle(attr, value)
       } else {
         a.value = ''
-        delete this.setterData.styles[attr]
+        this.deleteStyle(attr)
       }
+    },
+    choiceStyle(attr, value) {
+      this.setterData.styles[attr] = value
+      this.css = `.main{${objectToCss(this.setterData.styles)}}`
+    },
+    deleteStyle(attr){
+      delete this.setterData.styles[attr]
+      this.css = `.main{${objectToCss(this.setterData.styles)}}`
     },
     changeBackgroundSize() {
       let width = this.styles['background-size']['children'][0].params['width']
@@ -476,9 +486,6 @@ export default {
       }
       this.choiceStyle('background-size', `${isNaN(width) ? "auto" : width + 'px'} ${isNaN(height) ? "auto" : height + 'px'}`)
     },
-    // setTwoValue(x,y,dx,dy){
-    //
-    // }
   }
 }
 </script>

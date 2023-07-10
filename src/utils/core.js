@@ -232,7 +232,7 @@ export function moveComponent(e, index,dragObject) {
             }else{
                 changeMargin(dragObject.styles,(moveEvent.clientX-startClientX),(moveEvent.clientY-startClientY),locationInfo.oldX,locationInfo.oldY)
                 eventBus.emit(`move-dragTip`, {style:{top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},
-                    message:`margin-left:${(moveEvent.clientX-startClientX) + locationInfo.oldX}  margin-top:${(moveEvent.clientY-startClientY+locationInfo.oldY)}`})
+                    message:`margin-left:${(moveEvent.clientX-startClientX) + locationInfo.oldX}<br>  margin-top:${(moveEvent.clientY-startClientY+locationInfo.oldY)}`})
             }
         }else{
             targetInfo = mousemoveInfo(moveEvent)
@@ -620,25 +620,39 @@ function isLayer(dragObject,targetId){
 
 // 解析css样式
 export function analysisCssText(cssText){
-    let css = {}
-    // 清除\n
-    let str = cssText.split(/[\t\r\f\n\s]*/g).join('').replace('.main{','').replace('}','')
-    let s1 = str.replaceAll(/:{1,}/g,':')
-    let s2 = s1.replaceAll(/;{1,}/g,';')
-    let attrAndValues = s2.split(/[:*;]/)
-    let length = attrAndValues.length
-    if(attrAndValues[length-1] === ''){
-        length--
-    }
-    for (let i = 0; i < length; i+=2) {
-        css[`${attrAndValues[i].replaceAll(/\s{1,}/g,'')}`] = attrAndValues[i+1]
-    }
-    return css
+    cssText = cssText.replace(".main",'').replace("{",'').replace("}",'')
+    if (!cssText || cssText == '') { return }
+    let Arr = cssText.split(';')
+    Arr = Arr.filter(item => {
+        return item != ''
+    })
+    let str = ''
+    Arr.forEach(item => {
+        let test = ''
+        trim(item).split(':').forEach(item2 => {
+            test += '"' + trim(item2) + '":'
+        })
+        str += test + ','
+    })
+    str = str.replace(/:,/g, ',')
+    str = str.substring(0, str.lastIndexOf(','))
+    str = '{' + str + '}'
+    return JSON.parse(str)
 }
 
-export function objectToCss(styles){
-    return  JSON.stringify(styles).replaceAll(/[{]|[}]|["]/g,'')
-            .replaceAll(',',';\n')
+export function objectToCss(style){
+    let s = []
+    for(let i in style){
+        s.push(i+':'+style[i]);
+    }
+    s = s.join(';')
+    return  s
+}
+
+function trim (str) {
+    let result
+    result = str.replace(/(^\s+)|(\s+$)/g, '')
+    return result
 }
 
 export function getContainerStyle(isPreview,styles,lock){

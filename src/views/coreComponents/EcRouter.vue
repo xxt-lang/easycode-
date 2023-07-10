@@ -20,7 +20,7 @@
 import {mapActions} from "pinia";
 import {PagesStore} from "../../stores/counter";
 import eventBus from "../../utils/eventBus";
-import {getLocalStorage} from "../../utils/core";
+import {createEcVue, getLocalStorage} from "../../utils/core";
 
 export default {
   name: "ECRouter",
@@ -43,10 +43,12 @@ export default {
       if (this.isPreview) {
         const pages = getLocalStorage()
         page = pages[pages.findIndex((data) => data.pageName === param.path)]
+        page.EcVue = createEcVue(page.ecVueInfo)
       } else {
         page = this.getRouterPage(param.path)
       }
       if (page) {
+        debugger
         this.isPage = true
         this.page = page
       } else {

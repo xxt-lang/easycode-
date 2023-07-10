@@ -31,7 +31,7 @@
         />
       </Shape>
       <!--    拖拽时的提示信息-->
-      <div :style="dragTip" class="dragTip">{{ dragTipMessage }}</div>
+      <div :style="dragTip" class="dragTip" v-html="dragTipMessage"></div>
     </div>
     <div v-if = "page.length<=0" class="noPageTip">
       请先在左侧工具栏页面中创建页面
@@ -131,8 +131,8 @@ export default {
 <style scoped>
 .dragTip {
   position: fixed;
-  background-color: yellow;
   pointer-events: none;
+  padding: 15px;
   z-index: 30000;
 }
 
