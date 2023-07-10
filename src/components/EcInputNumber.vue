@@ -1,6 +1,10 @@
 <template>
 <div style="display: inline-block">
-  <el-input-number :size="size" v-model="modelValue.value" :placeholder="defaultValue" @focus="isblur = false" @blur="blur" @mousewheel="scroll"></el-input-number>
+  <el-input-number :size="size" v-model="modelValue.value" :placeholder="defaultValue"
+                   @focus="isblur = false"
+                   @blur="blur"
+                   @change = "changeSelect"
+                   @mousewheel="scroll"></el-input-number>
   <el-select :size="size" v-model="modelValue.unit" :style="{width:unitWidth+'px'}" @change="changeSelect()">
     <el-option v-for="item in units"
                :label="item.label"
@@ -43,13 +47,12 @@ export default {
   },
   methods:{
     changeSelect(){
+      this.dealValue()
       this.$emit('changeValue',this.modelValue)
     },
     blur(){
+      this.dealValue()
       this.isblur = true
-      this.modelValue.unit = this.modelValue.value === null ? '':this.modelValue.unit
-      this.modelValue.value = this.modelValue.value === null ? this.defaultValue:this.modelValue.value
-      console.log(this.modelValue.value)
       this.$emit('changeValue',this.modelValue)
     },
     scroll(e){
@@ -59,7 +62,13 @@ export default {
       }else{
         this.modelValue.value++
       }
+      this.dealValue()
       this.$emit('changeValue',this.modelValue)
+    },
+    dealValue(){
+      if(this.modelValue.value && this.modelValue.unit === ''){
+        this.modelValue.unit = this.units.length>0?this.units[0].value:''
+      }
     }
   }
 }
