@@ -8,7 +8,7 @@
           children:propValue.children,
           componentId:propValue.id,
           status:propValue.status,}"
-
+          :containerStyles = "propValue.styles"
         :isPreview = "isPreview"
         :EcVue = "EcVue"
     ></Container>

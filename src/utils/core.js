@@ -656,9 +656,10 @@ function trim (str) {
 }
 
 export function getContainerStyle(isPreview,styles,lock){
-    let result = deepClone(styles)
-    // result['height'] = styles.height === undefined?'':`${Number(styles.height.replace('px',''))-12}px`
+    let result = {}
     result['border-style'] = isPreview?'none':'solid'
+    result['height'] = styles['height']
+    result['width'] = styles['width']
     return result
 
 }

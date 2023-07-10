@@ -1,5 +1,5 @@
 <template>
-  <div id="preview">
+  <div style="height: 100vh">
     <EcCss :CSS = "page.css"></EcCss>
     <div v-if="page.isPage">
       <component
