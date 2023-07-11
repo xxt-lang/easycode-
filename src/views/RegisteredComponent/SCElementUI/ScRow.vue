@@ -1,10 +1,13 @@
 <template>
   <el-row
+      style="min-height: 100px;background-color: #59c7f9"
   :justify="propValue.attributes['justify']"
   :gutter="propValue.attributes['gutter']" >
     <el-col v-for = "(item,index) in propValue.children" :key="item.id"
             :span="propValue.attributes['col'][index]['span'] "
-            :offset="propValue.attributes['col'][index]['offset']" >
+            :offset="propValue.attributes['col'][index]['offset']"
+            v-container = "{id:item.id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status}"
+    >
       <Container
         key="editorContainer"
         :container="{

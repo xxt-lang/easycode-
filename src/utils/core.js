@@ -224,7 +224,8 @@ export function moveComponent(e, index,dragObject) {
 
     // position:absolute
     const move = (moveEvent) => {
-
+        eventBus.emit(`move-dragTip`, {style:{top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},
+            message:null})
         // 开启编辑margin与position时 拖拽调整的是margin和position相关的left，top else 修改元素在数组中的位置
         if(locationInfo !== null){
             if(locationInfo.type === 'position'){
@@ -655,9 +656,8 @@ function trim (str) {
     return result
 }
 
-export function getContainerStyle(isPreview,styles,lock){
+export function getContainerStyle(styles){
     let result = {}
-    result['border-style'] = isPreview?'none':'solid'
     result['height'] = styles['height']
     result['width'] = styles['width']
     return result
@@ -906,5 +906,9 @@ export function execMethod(method,events,EcVue){
     }else{
         return
     }
+}
+
+export function setMouseEvent(e){
+    getStore("MouseEventStore").setMouseEvent(e)
 }
 

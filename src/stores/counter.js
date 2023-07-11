@@ -25,6 +25,7 @@ export const MouseEventStore = defineStore('mouseEventMain', {
   }),
   actions:{
     setMouseEvent( mouseEvent ){
+      this.mouseEvent = null
       this.mouseEvent = mouseEvent
     }
   },

@@ -19,7 +19,6 @@
              @mousedown="handleMouseDown(item,$event,index)"
              @dblclick="dbClick(item,$event)"
       >
-<!--        {'pointer-events':item.type === 'common' ? 'none':''}-->
         <component
             :style="getComponentStyle(false,item.styles,item.type)"
             :class="item.bindClass"
@@ -45,7 +44,6 @@ import {
   clickSelectComponent,
   moveComponent,
   handleDrop,
-    getStore,
   getComponentStyle
 } from '@/utils/core'
 import Shape from "./Shape.vue";
@@ -103,7 +101,6 @@ export default {
     getComponentStyle,
     handleDragOver,
     handleDrop,
-    getStore,
     ...mapActions(PagesStore, ['getNowPage']),
     ...mapActions(MouseEventStore,['setMouseEvent']),
     // 选择画布中的组件

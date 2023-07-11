@@ -1,51 +1,47 @@
 <template>
-  <div
-       v-if="!isPreview"
-       class="container" id="container"
-       data-elementType = "container"
-       :data-elementId = "container.id"
-       :data-featherId = "container.featherId"
-       :data-componentId = "container.componentId"
-       :data-index = "container.index"
-       :data-lock = "container.status.lock"
-       :style = "getContainerStyle(isPreview,containerStyles,container.status.lock)"
-       @mousedown="handleMouseDownMap($event)"
+  <Shape v-for="(item, index) in container.children "
+         :key="index"
+         :status="item.status"
+         :element="item"
+         :index="index"
+         :data-elementId = "item.id"
+         :data-featherid = "container.id"
+         :data-elementType = "item.type"
+         @mousedown="handleMouseDown(item,$event,index)"
+         @dblclick="dbClick(item,$event,index)"
+         :style="{'pointer-events':container.status.lock?'none':''}"
   >
-    <Shape v-for="(item, index) in container.children "
-           :key="index"
-           :status="item.status"
-           :element="item"
-           :index="index"
-           :data-elementId = "item.id"
-           :data-featherid = "container.id"
-           :data-elementType = "item.type"
-           @mousedown="handleMouseDown(item,$event,index)"
-           @dblclick="dbClick(item,$event,index)"
-           :style="{'pointer-events':container.status.lock?'none':''}"
-    >
-      <component
-          :style="getComponentStyle(false,item.styles,item.type)"
-          class="item"
-          :is="item.component"
-          :key="index"
-          :propValue="item"
-          :index = "index"
-          :EcVue = "EcVue"
-      />
-    </Shape>
-  </div>
-  <div v-if="isPreview" :style = "getContainerStyle(isPreview,containerStyles,false)">
     <component
-        v-for="(item, index) in container.children "
-        :style="getComponentStyle(true,item.styles,item.type)"
+        :style="getComponentStyle(false,item.styles,item.type)"
+        class="item"
         :is="item.component"
         :key="index"
         :propValue="item"
         :index = "index"
         :EcVue = "EcVue"
-        isPreview
     />
-  </div>
+  </Shape>
+<!--  <div-->
+<!--       v-if="!isPreview"-->
+<!--       class="container" id="container"-->
+
+<!--       :style = "getContainerStyle(isPreview,containerStyles,container.status.lock)"-->
+<!--       @mousedown="handleMouseDownMap($event)"-->
+<!--  >-->
+<!--   -->
+<!--  </div>-->
+<!--  <div v-if="isPreview" :style = "getContainerStyle(isPreview,containerStyles,false)">-->
+<!--    <component-->
+<!--        v-for="(item, index) in container.children "-->
+<!--        :style="getComponentStyle(true,item.styles,item.type)"-->
+<!--        :is="item.component"-->
+<!--        :key="index"-->
+<!--        :propValue="item"-->
+<!--        :index = "index"-->
+<!--        :EcVue = "EcVue"-->
+<!--        isPreview-->
+<!--    />-->
+<!--  </div>-->
 </template>
 
 <script>

@@ -1,5 +1,15 @@
 <template>
-  <el-card :header="propValue.attributes['header']" :shadow="propValue.attributes['shadow']">
+  <el-card
+      style="min-height:100px"
+      :header="propValue.attributes['header']"
+      :shadow="propValue.attributes['shadow']"
+      v-container = "propValue"
+  >
+    <!--    data-elementType = "container"
+      :data-elementId = "propValue.id"
+      :data-featherId = "propValue.featherId"
+      :data-componentId = "propValue.componentId"
+      :data-lock = "propValue.status.lock"   -->
     <Container
         key="editorContainer"
         :container="{
@@ -8,7 +18,6 @@
           children:propValue.children,
           componentId:propValue.id,
           status:propValue.status,}"
-          :containerStyles = "propValue.styles"
         :isPreview = "isPreview"
         :EcVue = "EcVue"
     ></Container>
