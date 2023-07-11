@@ -13,7 +13,7 @@ export default class Stack {
             }
             // 当栈到达最大值时 删除栈底元素并
             if (this.max === this.size()) {
-                this.stack.splice(0,1)
+                this.stack.splice(1,1)
             }else{
                 this.point++
             }

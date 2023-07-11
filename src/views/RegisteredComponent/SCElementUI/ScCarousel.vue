@@ -1,28 +1,15 @@
 <template>
   <el-carousel
-      :type="propValue.attributes['type']"
-      :height="propValue.attributes['height']"
-      :initial-index="propValue.attributes['initial-index']"
-      :trigger = "propValue.attributes['trigger']"
-      :autoplay = "propValue.attributes['autoplay']"
-      :interval = "propValue.attributes['interval']"
-      :indicator-position = "propValue.attributes['indicator-position']"
-      :arrow = "propValue.attributes['arrow']"
-      :loop = "propValue.attributes['loop']"
-      :direction = "propValue.attributes['direction']"
-      :pause-on-hover = "propValue.attributes['pause-on-hover']"
+      v-bind = "propValue.attributes"
   >
-    <el-carousel-item v-for = "(item,index) in propValue.children" :key="item.id">
+    <el-carousel-item
+        v-for = "(item,index) in propValue.children"
+        :key="item.id"
+        v-container="{id:item.id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}"
+    >
       <Container
           key="editorContainer"
-          :container="{
-              id:item.id,
-              featherId:propValue.featherId,
-              children:item.children,
-              componentId:propValue.id,
-              index:index,
-              status:propValue.status}"
-          :container-styles = "propValue.styles"
+          :children="item.children"
           :isPreview = "isPreview"
       ></Container>
     </el-carousel-item>
@@ -42,9 +29,6 @@ export default {
       default: function () {
         return {}
       }
-    },
-    index:{
-      type: Number,
     },
     isPreview:{
       type: Boolean,

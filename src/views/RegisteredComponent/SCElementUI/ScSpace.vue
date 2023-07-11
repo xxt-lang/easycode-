@@ -1,27 +1,15 @@
 <template>
     <el-space
-        :alignment = "propValue.attributes['alignment']"
-        :direction = "propValue.attributes['direction']"
-        :prefix-cls = "propValue.attributes['prefix-cls']"
-        :spacer = "propValue.attributes['spacer']"
-        :size = "propValue.attributes['size']"
-        :wrap = "propValue.attributes['wrap']"
-        :fill = "propValue.attributes['fill']"
-        :fill-ratio = "propValue.attributes['fillRatio']"
+        v-bind = "propValue.attributes"
     >
-      <Container
-          v-for = "(item,index) in propValue.children" :key="item.id"
-          key="editorContainer"
-          :container="{
-              id:item.id,
-              featherId:propValue.featherId,
-              children:item.children,
-              componentId:propValue.id,
-              status:propValue.status}"
-          :container-styles = "item.styles"
-          :isPreview = "isPreview"
-          :EcVue = "EcVue"
-      ></Container>
+      <div v-for = "(item,index) in propValue.children" :key="item.id" v-container="item">
+        <Container
+
+            :children="item.children"
+            :isPreview = "isPreview"
+            :EcVue = "EcVue"
+        ></Container>
+      </div>
     </el-space>
 </template>
 

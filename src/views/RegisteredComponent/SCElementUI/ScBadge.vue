@@ -1,22 +1,13 @@
 <template>
   <el-badge
-      :value = "propValue.attributes['value']"
-      :max = "propValue.attributes['max']"
-      :is-dot="propValue.attributes['is-dot']"
-      :hidden = "propValue.attributes['hidden']"
-      :type="propValue.attributes['type']"
+      style="min-height: 50px;min-width: 50px"
+      v-bind="propValue.attributes"
+      v-container = "propValue"
   >
     <Container
-        key="editorContainer"
-        :container="{
-          id:propValue.id,
-          featherId:propValue.featherId,
-          children:propValue.children,
-          componentId:propValue.id,
-          index:index,
-          status:propValue.status}"
-        :container-styles = "propValue.styles"
+        :children="propValue.children"
         :isPreview = "isPreview"
+        :EcVue = "EcVue"
     ></Container>
   </el-badge>
 </template>
@@ -33,13 +24,14 @@ export default {
         return {}
       }
     },
-    index:{
-      type: Number,
-    },
     isPreview:{
       type: Boolean,
       default:false
     },
+    EcVue:{
+      type:Function,
+      default:()=>{}
+    }
   },
 }
 </script>

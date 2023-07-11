@@ -1,35 +1,8 @@
 <template>
   <div>
     <el-input
+        v-bind = "propValue.attributes"
         v-model="input"
-        :placeholder="propValue.attributes.placeholder"
-        :type="propValue.attributes.type"
-        :maxlength="propValue.attributes['maxlength']"
-        :minlength="propValue.attributes['minlength']"
-        :show-word-limit = "propValue.attributes['show-word-limit']"
-        :clearable = "propValue.attributes['clearable']"
-        :formatter = "propValue.attributes['formatter']"
-        :paresr = "propValue.attributes['parser']"
-        :show-password = "propValue.attributes['show-password']"
-        :disabled = "propValue.attributes['disabled']"
-        :size="propValue.attributes['size']"
-        :prefix-icon = "propValue.attributes['prefix-icon']"
-        :suffix-icon = "propValue.attributes['suffix-icon']"
-        :rows="propValue.attributes['rows']"
-        :autosize = "propValue.attributes['autosize']"
-        :autocomplete = "propValue.attributes['autocomplete']"
-        :name = "propValue.attributes['name']"
-        :readonly = "propValue.attributes['readonly']"
-        :max = "propValue.attributes['max']"
-        :min = "propValue.attributes['min']"
-        :step ="propValue.attributes['step']"
-        :resize ="propValue.attributes['resize']"
-        :autofocus = "propValue.attributes['autofocus']"
-        :form = "propValue.attributes['form']"
-        :label = "propValue.attributes['label']"
-        :tabindex ="propValue.attributes['tabindex']"
-        :validate-event = "propValue.attributes['validate-event']"
-        :input-style = "propValue.attributes['input-style']"
     />
   </div>
 </template>
@@ -54,10 +27,10 @@ export default {
     input:{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['value'],this.EcVue)
+        return getPageData(this.propValue.attributes['inputValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['value'],value,this.EcVue)
+        setPageData(this.propValue.attributes['inputValue'],value,this.EcVue)
       }
     }
   },

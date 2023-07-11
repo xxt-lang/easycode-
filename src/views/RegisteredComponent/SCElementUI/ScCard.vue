@@ -5,19 +5,8 @@
       :shadow="propValue.attributes['shadow']"
       v-container = "propValue"
   >
-    <!--    data-elementType = "container"
-      :data-elementId = "propValue.id"
-      :data-featherId = "propValue.featherId"
-      :data-componentId = "propValue.componentId"
-      :data-lock = "propValue.status.lock"   -->
     <Container
-        key="editorContainer"
-        :container="{
-          id:propValue.id,
-          featherId:propValue.featherId,
-          children:propValue.children,
-          componentId:propValue.id,
-          status:propValue.status,}"
+        :children="propValue.children"
         :isPreview = "isPreview"
         :EcVue = "EcVue"
     ></Container>

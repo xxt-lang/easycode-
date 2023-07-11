@@ -1,77 +1,47 @@
 <template>
   <el-container>
-    <el-header v-if="propValue.attributes['showTopHeader']" >
+    <el-header v-if="propValue.attributes['showTopHeader']" v-container = "propValue.children[4]">
       <Container
           key="editorContainer"
-          :container="{
-              id:propValue.children[4].id,
-              featherId:propValue.featherId,
-              children:propValue.children[4].children,
-              componentId:propValue.id,
-              status:propValue.status}"
-          :container-styles="propValue.children[4].styles"
+          :children="propValue.children[4].children"
           :isPreview="isPreview"
           :EcVue = "EcVue"
       >
       </Container>
     </el-header>
     <el-container>
-      <el-aside v-if="propValue.attributes['showAside']" :width="propValue.attributes['AsideWidth']+'px'">
+      <el-aside v-if="propValue.attributes['showAside']" :width="propValue.attributes['AsideWidth']+'px'" v-container = "propValue.children[1]">
         <Container
             key="editorContainer"
-            :container="{
-                id:propValue.children[1].id,
-                featherId:propValue.featherId,
-                children:propValue.children[1].children,
-                componentId:propValue.id,
-                status:propValue.status}"
-            :container-styles="propValue.children[1].styles"
+            :children="propValue.children[1].children"
             :isPreview="isPreview"
             :EcVue = "EcVue"
         ></Container>
       </el-aside>
       <el-container>
-        <el-header v-if="propValue.attributes['showHeader']" >
+        <el-header v-if="propValue.attributes['showHeader']"  v-container = "propValue.children[0]">
           <Container
               key="editorContainer"
-              :container="{
-              id:propValue.children[0].id,
-              featherId:propValue.featherId,
-              children:propValue.children[0].children,
-              componentId:propValue.id,
-              status:propValue.status}"
-              :container-styles="propValue.children[0].styles"
+              :children="propValue.children[0].children"
               :isPreview="isPreview"
               :EcVue = "EcVue"
           >
           </Container>
         </el-header>
-        <el-main v-if="propValue.attributes['showMain']" >
+        <el-main v-if="propValue.attributes['showMain']"  v-container = "propValue.children[2]">
           <Container
               key="editorContainer"
-              :container="{
-              id:propValue.children[2].id,
-              featherId:propValue.featherId,
-              children:propValue.children[2].children,
-              componentId:propValue.id,
-              status:propValue.status}"
-              :container-styles="propValue.children[2].styles"
+              :children="propValue.children[2].children"
               :isPreview="isPreview"
               :EcVue = "EcVue"
           >
           </Container>
 
         </el-main>
-        <el-footer v-if="propValue.attributes['showFooter']" >
+        <el-footer v-if="propValue.attributes['showFooter']" v-container = "propValue.children[3]">
           <Container
               key="editorContainer"
-              :container="{
-              id:propValue.children[3].id,
-              featherId:propValue.featherId,
-              children:propValue.children[3].children,
-              componentId:propValue.id,
-              status:propValue.status}"
-              :container-styles="propValue.children[3].styles"
+              :children="propValue.children[3].children"
               :isPreview="isPreview"
               :EcVue = "EcVue"
           >

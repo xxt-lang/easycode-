@@ -1,26 +1,12 @@
 <template>
-  <el-scrollbar :height="propValue.attributes['height']"
-                :ref="propValue.attributes['ref']"
-                :max-height = "propValue.attributes['max-height']"
-                :native = "propValue.attributes['native']"
-                :wrap-style = "propValue.attributes['wrap-style']"
-                :view-style = "propValue.attributes['view-style']"
-                :noresize = "propValue.attributes['noresize']"
-                :tag = "propValue.attributes['tag']"
-                :always = "propValue.attributes['always']"
-                :min-size = "propValue.attributes['min-size']"
-                @scroll = "scroll"
+  <el-scrollbar
+      v-bind="propValue.attributes"
+      @scroll = "scroll"
   >
-    <div :ref="propValue.attributes['innerRef']">
+    <div :ref="propValue.attributes['innerRef']" v-container="propValue">
       <Container
           key="editorContainer"
-          :container="{
-          id:propValue.id,
-          featherId:propValue.featherId,
-          children:propValue.children,
-          componentId:propValue.id,
-          status:propValue.status,}"
-          :container-styles = "propValue.styles"
+          :children="propValue.children"
           :isPreview = "isPreview"
           :EcVue = "EcVue"
       ></Container>

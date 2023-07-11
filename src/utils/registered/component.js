@@ -1159,7 +1159,7 @@ export const componentSetters = [
         setter: {
             attributes: [
                 {
-                    attributeName: "value",//组件配置中属性字段名 必写
+                    attributeName: "inputValue",//组件配置中属性字段名 必写
                     label: "value绑定",// 字段标签
                     bind: true,
                     type: "input",//编辑自段的类型input select number switch 必写
@@ -1380,7 +1380,7 @@ export const componentSetters = [
                     defaultValue: 0,//默认属性值
                 },
                 {
-                    attributeName: " input-style",//组件配置中属性字段名
+                    attributeName: "input-style",//组件配置中属性字段名
                     label: "元素的 style",
                     type: "input",//编辑自段的类型input select number switch buttonList
                     value: '',//属性值

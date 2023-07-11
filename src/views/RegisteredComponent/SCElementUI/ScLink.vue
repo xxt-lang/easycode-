@@ -1,12 +1,6 @@
 <template>
   <el-link
-      :ref="propValue.attributes['ref'] "
-      :icon="propValue.attributes['icon']"
-      :type="propValue.attributes['type']"
-      :underline = "propValue.attributes['underline']"
-      :disabled = "propValue.attributes['disabled']"
-      :href = "propValue.attributes['href']"
-      :target = "propValue.attributes['target']"
+      v-bind = "propValue.attributes"
       @click="click"
   >{{propValue.attributes['label']}}</el-link>
 </template>

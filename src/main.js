@@ -31,7 +31,7 @@ const container =   {mounted(el, binding, vnode, prevVnode) {
         el.dataset['elementtype'] = "container"
         el.dataset['elementid'] = binding.value.id
         el.dataset['featherid'] = binding.value.featherId
-        el.dataset['componentid'] = binding.value.id
+        el.dataset['componentid'] = binding.value.multiple?binding.value.componentId:binding.value.id
         el.dataset['lock'] = binding.value.status.lock
         el.addEventListener("mousedown",(e)=>{
             setMouseEvent(e)

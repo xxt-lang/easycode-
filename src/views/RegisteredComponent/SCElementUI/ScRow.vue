@@ -1,24 +1,20 @@
 <template>
   <el-row
       style="min-height: 100px;background-color: #59c7f9"
-  :justify="propValue.attributes['justify']"
-  :gutter="propValue.attributes['gutter']" >
-    <el-col v-for = "(item,index) in propValue.children" :key="item.id"
+      :justify="propValue.attributes['justify']"
+      :gutter="propValue.attributes['gutter']">
+    <el-col v-for="(item,index) in propValue.children" :key="item.id"
             :span="propValue.attributes['col'][index]['span'] "
             :offset="propValue.attributes['col'][index]['offset']"
-            v-container = "{id:item.id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status}"
+            v-container="{id:item.id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}"
     >
       <Container
-        key="editorContainer"
-        :container="{
-              id:item.id,
-              featherId:propValue.featherId,
-              children:item.children,
-              componentId:propValue.id,
-              status:propValue.status}"
-        :isPreview = "isPreview"
-        :EcVue = "EcVue"
-    ></Container></el-col>
+          key="editorContainer"
+          :children="item.children"
+          :isPreview="isPreview"
+          :EcVue="EcVue"
+      ></Container>
+    </el-col>
   </el-row>
 </template>
 

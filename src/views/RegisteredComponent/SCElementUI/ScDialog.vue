@@ -4,17 +4,11 @@
         v-model="dialogVisible"
         title="Tips"
         width="40%"
+        v-container="propValue"
     >
       <Container
           key="editorContainer"
-          :container="{
-          id:propValue.id,
-          featherId:propValue.featherId,
-          children:propValue.children,
-          componentId:propValue.id,
-          index:index,
-          status:propValue.status}"
-          :container-styles = "propValue.styles"
+          :children="propValue.children"
           :isPreview = "isPreview"
       ></Container>
     </el-dialog>

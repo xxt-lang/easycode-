@@ -1,12 +1,7 @@
 <template>
 <el-switch
     v-model="value"
-    :loading = "propValue.attributes['loading']"
-    :disabled = "propValue.attributes['disabled']"
-    :size = "propValue.attributes['size']"
-    :width = "propValue.attributes['width']"
-    :active-text = "propValue.attributes['active-text']"
-    :inactive-textt= "propValue.attributes['inactive-textt']"
+    v-bind="propValue.attributes"
 
 ></el-switch>
 </template>

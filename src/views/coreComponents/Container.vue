@@ -1,15 +1,15 @@
 <template>
-  <Shape v-for="(item, index) in container.children "
+  <Shape
+         v-for="(item, index) in children "
          :key="index"
          :status="item.status"
          :element="item"
          :index="index"
-         :data-elementId = "item.id"
-         :data-featherid = "container.id"
+         :data-elementid = "item.id"
+         :data-featherid = "item.featherId"
          :data-elementType = "item.type"
          @mousedown="handleMouseDown(item,$event,index)"
          @dblclick="dbClick(item,$event,index)"
-         :style="{'pointer-events':container.status.lock?'none':''}"
   >
     <component
         :style="getComponentStyle(false,item.styles,item.type)"
@@ -21,27 +21,6 @@
         :EcVue = "EcVue"
     />
   </Shape>
-<!--  <div-->
-<!--       v-if="!isPreview"-->
-<!--       class="container" id="container"-->
-
-<!--       :style = "getContainerStyle(isPreview,containerStyles,container.status.lock)"-->
-<!--       @mousedown="handleMouseDownMap($event)"-->
-<!--  >-->
-<!--   -->
-<!--  </div>-->
-<!--  <div v-if="isPreview" :style = "getContainerStyle(isPreview,containerStyles,false)">-->
-<!--    <component-->
-<!--        v-for="(item, index) in container.children "-->
-<!--        :style="getComponentStyle(true,item.styles,item.type)"-->
-<!--        :is="item.component"-->
-<!--        :key="index"-->
-<!--        :propValue="item"-->
-<!--        :index = "index"-->
-<!--        :EcVue = "EcVue"-->
-<!--        isPreview-->
-<!--    />-->
-<!--  </div>-->
 </template>
 
 <script>
@@ -50,11 +29,10 @@ import {
   clickSelectComponent,
   moveComponent,
   getContainerStyle,
-  getComponentStyle
+  getComponentStyle,
+  setMouseEvent
 } from '@/utils/core'
 import eventBus from "../../utils/eventBus";
-import {mapActions} from "pinia";
-import {MouseEventStore} from "../../stores/counter";
 export default {
   name: "Container",
   components:{
@@ -65,16 +43,12 @@ export default {
     }
   },
   props:{
-    container:{
-      type:Object,
+    children:{
+      type:Array,
       default:()=>{return {}}
     },
     containerIndex:{
       type:Number,
-    },
-    containerStyles:{
-      type:Object,
-      default:()=>{return {}}
     },
     isPreview:{
       type: Boolean,
@@ -88,19 +62,15 @@ export default {
   methods:{
     getContainerStyle,
     getComponentStyle,
-    ...mapActions(MouseEventStore,['setMouseEvent']),
 
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
+      if(this.isPreview) return
         clickSelectComponent(event, item)
         //非激活状态或者容器状态时才能进行拖动
         moveComponent(event, index,item)
-        this.setMouseEvent(event)
+        setMouseEvent(event)
     },
-    handleMouseDownMap(event){
-      this.setMouseEvent(event)
-    },
-
     // 双击事件
     dbClick(item, event,index) {
       event.preventDefault()

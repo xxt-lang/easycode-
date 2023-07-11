@@ -1,24 +1,7 @@
 <template>
     <el-rate
         v-model="value"
-        :max = "propValue.attributes['max']"
-        :size = "propValue.attributes['size']"
-        :disabled = "propValue.attributes['disabled']"
-        :allow-half = "propValue.attributes['allow-half']"
-        :low-threshold = "propValue.attributes['lowThreshold']"
-        :high-threshold = "propValue.attributes['highThreshold']"
-        :colors = "JSON.parse(propValue.attributes['colors'])"
-        :void-color = "propValue.attributes['voidColor']"
-        :disabled-void-color = "propValue.attributes['disabledVoidColor']"
-        :icons="JSON.parse(propValue.attributes['icons'])"
-        :void-icon = "propValue.attributes['void-icon']"
-        :disabled-void-icon = "propValue.attributes['disabledVoidIcon']"
-        :show-text="propValue.attributes['showText']"
-        :show-score = "propValue.attributes['showScore']"
-        :text-color = "propValue.attributes['textColor']"
-        :texts = "JSON.parse(propValue.attributes['texts'])"
-        :score-template = "propValue.attributes['scoreTemplate']"
-        :clearable = "propValue.attributes['clearable']"
+        v-bind = "propValue.attributes"
         @change = "change"
     />
 </template>
