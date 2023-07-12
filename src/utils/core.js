@@ -656,17 +656,10 @@ function trim (str) {
     return result
 }
 
-export function getContainerStyle(styles){
-    let result = {}
-    result['height'] = styles['height']
-    result['width'] = styles['width']
-    return result
-
-}
-
 
 // 解析styles 取得shape应该跟着改变的样式
-export function getShapeStyle(styles){
+export function getShapeStyle(styles,isPreview){
+    if(isPreview === undefined || isPreview ) return
     const yesStyle = [
         'margin',
         'margin-left',
@@ -679,8 +672,6 @@ export function getShapeStyle(styles){
         'right',
         'bottom',
         'top',
-        'width',
-        'height'
     ]
     let result = {}
     for(let key in yesStyle) {
@@ -688,6 +679,7 @@ export function getShapeStyle(styles){
             result[yesStyle[key]] = styles[yesStyle[key]]
         }
     }
+
     return result
 }
 
@@ -713,7 +705,7 @@ export function getComponentStyle(isPreview,styles,type){
                 result[key] = styles[key]
             }
     }
-    result['pointer-events']= type === 'common' ? 'none':''
+    result['pointer-events'] = isPreview?'':type === 'common' ? 'none':''
     return result
 
 }

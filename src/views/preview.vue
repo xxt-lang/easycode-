@@ -3,6 +3,7 @@
     <EcCss :CSS = "page.css"></EcCss>
     <div v-if="page.isPage">
       <component
+          :class="item.bindClass"
           v-for="(item,index) in page.page"
           :style="getComponentStyle(true,item.styles,item.type)"
           :is="item.component"

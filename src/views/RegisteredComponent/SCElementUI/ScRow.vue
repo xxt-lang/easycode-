@@ -1,12 +1,11 @@
 <template>
   <el-row
-      style="min-height: 100px;background-color: #59c7f9"
-      :justify="propValue.attributes['justify']"
-      :gutter="propValue.attributes['gutter']">
-    <el-col v-for="(item,index) in propValue.children" :key="item.id"
-            :span="propValue.attributes['col'][index]['span'] "
-            :offset="propValue.attributes['col'][index]['offset']"
-            v-container="{id:item.id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}"
+      v-bind="propValue.attributes">
+    <el-col
+        class="elCol"
+        v-for="(item,index) in propValue.children" :key="item.id"
+        v-bind="propValue.attributes['col'][index]"
+        v-container="{id:item.id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}"
     >
       <Container
           key="editorContainer"
@@ -20,9 +19,10 @@
 
 <script>
 import Container from "../../coreComponents/Container.vue";
+
 export default {
   name: "ScRow",
-  components:{
+  components: {
     Container
   },
   props: {
@@ -32,25 +32,28 @@ export default {
         return {}
       }
     },
-    isPreview:{
+    isPreview: {
       type: Boolean,
-      default:false
+      default: false
     },
-    EcVue:{
-      type :Function,
-      default :()=>{}
+    EcVue: {
+      type: Function,
+      default: () => {
+      }
     }
   },
-  data(){
+  data() {
     return {
-      containerStyles:{}
+      containerStyles: {}
     }
   },
-  methods:{
-  }
+  methods: {}
 }
 </script>
 
 <style scoped>
-
+.elCol {
+  border-style: solid;
+  min-height: 50px;
+}
 </style>

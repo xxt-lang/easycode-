@@ -1,5 +1,6 @@
 <template>
   <Shape
+         v-if="!isPreview"
          v-for="(item, index) in children "
          :key="index"
          :status="item.status"
@@ -10,9 +11,10 @@
          :data-elementType = "item.type"
          @mousedown="handleMouseDown(item,$event,index)"
          @dblclick="dbClick(item,$event,index)"
+         :style="getShapeStyle(item.styles,isPreview)"
   >
     <component
-        :style="getComponentStyle(false,item.styles,item.type)"
+        :style="getComponentStyle(isPreview,item.styles,item.type)"
         class="item"
         :is="item.component"
         :key="index"
@@ -21,6 +23,17 @@
         :EcVue = "EcVue"
     />
   </Shape>
+  <component
+      v-if="isPreview"
+      v-for="(item, index) in children "
+      :style="getComponentStyle(isPreview,item.styles,item.type)"
+      class="item"
+      :is="item.component"
+      :key="index"
+      :propValue="item"
+      :index = "index"
+      :EcVue = "EcVue"
+  />
 </template>
 
 <script>
@@ -28,7 +41,7 @@ import Shape from "./Shape.vue";
 import {
   clickSelectComponent,
   moveComponent,
-  getContainerStyle,
+  getShapeStyle,
   getComponentStyle,
   setMouseEvent
 } from '@/utils/core'
@@ -47,9 +60,6 @@ export default {
       type:Array,
       default:()=>{return {}}
     },
-    containerIndex:{
-      type:Number,
-    },
     isPreview:{
       type: Boolean,
       default:false
@@ -60,9 +70,8 @@ export default {
     }
   },
   methods:{
-    getContainerStyle,
     getComponentStyle,
-
+    getShapeStyle,
     // 选择画布中的组件
     handleMouseDown(item, event, index) {
       if(this.isPreview) return

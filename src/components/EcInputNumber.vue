@@ -5,7 +5,12 @@
                    @blur="blur"
                    @change = "changeSelect"
                    @mousewheel="scroll"></el-input-number>
-  <el-select :size="size" v-model="modelValue.unit" :style="{width:unitWidth+'px'}" @change="changeSelect()">
+  <el-select
+      :size="size"
+      v-model="modelValue.unit"
+      :style="{width:unitWidth+'px'}"
+      @change="changeSelect()"
+  >
     <el-option v-for="item in units"
                :label="item.label"
                :value="item.value"></el-option>
@@ -38,7 +43,7 @@ export default {
     defaultValue:{
       type:String,
       default:'auto'
-    }
+    },
   },
   data(){
     return{

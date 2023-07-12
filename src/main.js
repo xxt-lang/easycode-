@@ -36,5 +36,7 @@ const container =   {mounted(el, binding, vnode, prevVnode) {
         el.addEventListener("mousedown",(e)=>{
             setMouseEvent(e)
         })
-}}
+},updated(el, binding, vnode, prevVnode){
+        el.dataset['lock'] = binding.value.status.lock
+    }}
 app.directive('container',container)
