@@ -1,15 +1,16 @@
 <template>
 <div style="display: inline-block">
-  <el-input-number :size="size" v-model="modelValue.value" :placeholder="defaultValue"
+  <el-input-number :size="size" v-model="numberValue" :placeholder="defaultValue"
                    @focus="isblur = false"
                    @blur="blur"
                    @change = "changeSelect"
                    @mousewheel="scroll"></el-input-number>
   <el-select
       :size="size"
-      v-model="modelValue.unit"
+      v-model="unitValue"
       :style="{width:unitWidth+'px'}"
       @change="changeSelect()"
+      :disabled="unit"
   >
     <el-option v-for="item in units"
                :label="item.label"
@@ -23,8 +24,8 @@ export default {
   name: "EcInputNumber",
   props:{
     modelValue:{
-      type:Object,
-      default:()=>{return {value:0,unit:''} }
+      type:String,
+      default:''
     },
     units:{
       type:Array,
@@ -44,35 +45,58 @@ export default {
       type:String,
       default:'auto'
     },
+    unit:{
+      type:Boolean,
+      default:false
+    }
+  },
+  emits:['update:modelValue'],
+  watch:{
+    modelValue(newVal,oldVal){
+      this.unitValue = ''
+      this.numberValue = ""
+      if((typeof newVal) === 'string')
+       this.units.forEach((item)=>{
+        if(newVal.indexOf(item.value)>-1){
+          this.unitValue = item.value
+          console.log(this.unitValue)
+        }
+      })
+      this.numberValue = parseFloat(newVal)
+    }
   },
   data(){
     return{
-      isblur:true
+      isblur:true,
+      numberValue:'',
+      unitValue:''
     }
   },
   methods:{
     changeSelect(){
       this.dealValue()
-      this.$emit('changeValue',this.modelValue)
+      this.$emit('changeValue',this.numberValue + this.unitValue)
     },
     blur(){
       this.dealValue()
       this.isblur = true
-      this.$emit('changeValue',this.modelValue)
+      this.$emit('changeValue',this.numberValue + this.unitValue)
     },
     scroll(e){
       if (this.isblur) return
       if(e.wheelDelta<0){
-        this.modelValue.value--
+        this.numberValue--
       }else{
-        this.modelValue.value++
+        this.numberValue++
       }
-      this.dealValue()
-      this.$emit('changeValue',this.modelValue)
+      if(this.unitValue === ''){
+        this.unitValue = this.units[0].value
+      }
+      this.$emit('changeValue',this.numberValue + this.unitValue)
     },
     dealValue(){
-      if(this.modelValue.value && this.modelValue.unit === ''){
-        this.modelValue.unit = this.units.length>0?this.units[0].value:''
+      if(this.value === ''){
+        this.unit = this.units.length>0?this.units[0].value:''
       }
     }
   }
