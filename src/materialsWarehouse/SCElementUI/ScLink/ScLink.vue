@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import {execMethod} from "@/utils/core";
 export default {
   name: "ScLink",
   props:{
@@ -24,9 +25,7 @@ export default {
   },
   methods:{
     click(){
-      if(this.propValue.events['click'].enable){
-        this.EcVue[this.propValue.events['click'].method]()
-      }
+      execMethod('click',this.propValue.events,this.EcVue)
     }
   }
 

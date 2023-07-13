@@ -186,14 +186,15 @@ export const ScButton = {
                     defaultValue: false,//默认属性值
                 },
             ],
-            styles: {},
             events: [
                 {
                     event: "click", // 事件名称
+                    detail:'点击事件',
                     enable: false,// 是否启用
                     method: ''// 绑定方法名
                 }
             ],
+            styles: {},
             configuration: {
                 setterAttributes: [
                     {

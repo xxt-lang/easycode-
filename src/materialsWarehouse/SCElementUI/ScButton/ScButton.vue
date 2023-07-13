@@ -7,7 +7,7 @@
     </el-button>
 </template>
 <script>
-import {execMethod} from "../../../utils/core";
+import {execMethod} from "@/utils/core";
 
 
 export default {

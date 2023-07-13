@@ -1,5 +1,5 @@
 import {ComponentListStore} from "../stores/counter"
-import {materials} from "../RegisteredComponent/materials";
+import {materials} from "../materialsWarehouse/materials";
 // 组件的基础属性
 const baseAttribute = {
     status: {

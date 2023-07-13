@@ -3,7 +3,11 @@
     <div v-show = "setterEvents">
 <!--      是否启用方法-->
       <div v-for="item in setterEvents">
-        {{item.event}}
+        <el-tooltip
+            effect="dark"
+            :content="item.detail"
+            placement="bottom"
+        >{{item.event}}</el-tooltip>
         <el-switch v-model="setterData.events[item.event].enable"></el-switch>
         <el-input v-model="setterData.events[item.event].method"></el-input>
       </div>
