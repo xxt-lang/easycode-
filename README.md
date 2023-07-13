@@ -56,13 +56,35 @@
 
 ## **1.4组件的相关功能**
 
-**路由功能**：当在组件中调用EasyCode提供的路由方法，就会进行页面之间的跳转与页面嵌套功能（目前页面跳转待开发）
+**封装组件规则**：封装组件时需要在props中添加（propValue、isPreview、EcVue），
 
-页面嵌套需要引入*ecRouter*方法传入对应页面的*文件名*，并在想要嵌套的位置引入<ECRouter :isPreview="isPreview"></ECRouter>
+1.propValue获取到的是注册组件时编辑的所有配置信息，当想要进行封装组件的行为控制时就可以在propValue.attributes中获取对应的字段进行控制，
 
-**属性|样式|方法**：可以根据相关规则进行配置，生成对应的配置功能，也可以自己编写配置组件，嵌套到属性、样式、事件编辑弹窗中
+2.isPreview用于控制页面组件与预览时不同的行为
 
-**封装组件规则**：封装组件时需要在props中添加（propValue、isPreview、index）其中propValue获取到的是注册组件时编辑的所有配置信息，当想要进行封装组件的行为控制时就可以在propValue.attributes中获取对应的字段进行控制，isPreview用于控制页面组件与预览时不同的行为
+3.EcVue用于获取页面配置中属性与方法相关的内容
+
+**组件中属性绑定示例：**
+
+    input:{
+      get(){
+        // 绑定事件监听
+        return getPageData(this.propValue.attributes['value'],this.EcVue)
+      },
+      set(value){
+        setPageData(this.propValue.attributes['value'],value,this.EcVue)
+      }
+    }
+
+**事件绑定：**click为组件的事件名，enable为是否启用事件
+
+```
+click(){
+  if(this.propValue.events['click'].enable){
+    this.EcVue[this.propValue.events['click'].method]()
+  }
+}
+```
 
 调整组件样式需要引入在组件上增加:style="getComponentStyle(isPreview,propValue.styles)",getComponentStyle方法为了更好的展示编辑效果会自动屏蔽掉如下属性，这些属性则会渲染到shap组件中去
 
@@ -79,21 +101,9 @@
 'top'
 ```
 
-**属性绑定**：在设置其中配置好value字段后在对应的封装页面引入即可调用页面配置的data数据
 
-```
-computed:{
-  input:{
-    get(){
-      // 绑定事件监听
-      return this.getPageData(this.propValue.attributes['value'],this.isPreview)
-    },
-    set(value){
-      setPageData(this.propValue.attributes['value'],value,this.isPreview)
-    }
-  }
-},
-```
+
+
 
 # 2.后续目标功能
 

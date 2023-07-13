@@ -62,14 +62,14 @@
         <div class="row">
           <span class="itemLabel">{{ styles['font-size'].label }}</span>
           <div class="itemContent">
-            <ec-input-number v-model="styles['font-size'].value" unit size="small" :units="units"
+            <ec-input-number v-model="styles['font-size'].value" unit="px" size="small" :units="units"
                              @changeValue="changeValue(styles['font-size'].attr,$event)"></ec-input-number>
           </div>
         </div>
         <div class="row">
           <span class="itemLabel">{{ styles['line-height'].label }}</span>
           <div class="itemContent">
-            <ec-input-number v-model="styles['line-height'].value" unit size="small" :units="units"
+            <ec-input-number v-model="styles['line-height'].value" unit="px" size="small" :units="units"
                              @change="choiceStyle(styles['line-height'].attr,styles['line-height'].value)"></ec-input-number>
           </div>
         </div>
@@ -162,17 +162,17 @@
         </div>
         <div v-show="styles['background-size'].value === 'default'">
           <div class="row">
-            <span class="itemLabel">{{ styles['background-size'].params.width.label }}</span>
+            <span class="itemLabel">宽</span>
             <div class="itemContent">
               <ec-input-number v-model="styles['background-size'].params.width" size="small" :units="units"
-                               @change="changeBackgroundSize('width',$event)"></ec-input-number>
+                               @changeValue="changeBackgroundSize"></ec-input-number>
             </div>
           </div>
           <div class="row">
-            <span class="itemLabel">{{ styles['background-size'].params.height.label }}</span>
+            <span class="itemLabel">高</span>
             <div class="itemContent">
               <ec-input-number v-model="styles['background-size'].params.height" size="small" :units="units"
-                               @change="changeBackgroundSize('height',$event)"></ec-input-number>
+                               @changeValue="changeBackgroundSize"></ec-input-number>
             </div>
           </div>
         </div>
@@ -196,17 +196,17 @@
           <span class="itemLabel">{{ styles['background-position'].label }}</span>
         </div>
         <div class="row">
-          <span class="itemLabel">{{ styles['background-position'].params.left.label }}</span>
+          <span class="itemLabel">左</span>
           <div class="itemContent">
             <ec-input-number v-model="styles['background-position'].params.left" size="small" :units="units"
-                             @change="changeBackgroundPosition('left',$event)"></ec-input-number>
+                             @changeValue="changeBackgroundPosition"></ec-input-number>
           </div>
         </div>
         <div class="row">
-          <span class="itemLabel">{{ styles['background-position'].params.top.label }}</span>
+          <span class="itemLabel">顶</span>
           <div class="itemContent">
             <ec-input-number v-model="styles['background-position'].params.top" size="small" :units="units"
-                             @change="changeBackgroundPosition('top',$event)"></ec-input-number>
+                             @changeValue="changeBackgroundPosition"></ec-input-number>
           </div>
         </div>
         <div class="row">
@@ -259,8 +259,8 @@
         <div class="row">
           <span class="itemLabel">{{ styles['z-index'].label }}</span>
           <div class="itemContent">
-            <el-input-number v-model="styles['z-index'].value" size="small"
-                             @change="choiceStyle(styles['z-index'].attr,styles['z-index'].value)"></el-input-number>
+            <ec-input-number v-model="styles['z-index'].value" size="small"
+                             @changeValue="choiceStyle(styles['z-index'].attr,styles['z-index'].value)"></ec-input-number>
           </div>
         </div>
 
@@ -334,7 +334,7 @@
         <div class="row">
           <span class="itemLabel">{{ styles['border-width'].label }}</span>
           <div class="itemContent">
-            <ec-input-number v-model="styles['border-width'].value" size="small" :units="units" unit
+            <ec-input-number v-model="styles['border-width'].value" size="small" :units="units" unit="px"
                              @changeValue="choiceStyle(styles['border-width'].attr,$event)"></ec-input-number>
           </div>
         </div>
@@ -364,7 +364,7 @@
           <div class="row">
             <span class="itemLabel">{{ styles['border-top-width'].label }}</span>
             <div class="itemContent">
-              <ec-input-number v-model="styles['border-top-width'].value" size="small" :units="units" unit
+              <ec-input-number v-model="styles['border-top-width'].value" size="small" :units="units" unit="px"
                                @changeValue="choiceStyle(styles['border-top-width'].attr,$event)"></ec-input-number>
             </div>
           </div>
@@ -395,7 +395,7 @@
           <div class="row">
             <span class="itemLabel">{{ styles['border-left-width'].label }}</span>
             <div class="itemContent">
-              <ec-input-number v-model="styles['border-left-width'].value" size="small" :units="units" unit
+              <ec-input-number v-model="styles['border-left-width'].value" size="small" :units="units" unit="px"
                                @changeValue="choiceStyle(styles['border-left-width'].attr,$event)"></ec-input-number>
             </div>
           </div>
@@ -426,7 +426,7 @@
           <div class="row">
             <span class="itemLabel">{{ styles['border-bottom-width'].label }}</span>
             <div class="itemContent">
-              <ec-input-number v-model="styles['border-bottom-width'].value" size="small" :units="units" unit
+              <ec-input-number v-model="styles['border-bottom-width'].value" size="small" :units="units" unit="px"
                                @changeValue="choiceStyle(styles['border-bottom-width'].attr,$event)"></ec-input-number>
             </div>
           </div>
@@ -457,7 +457,7 @@
           <div class="row">
             <span class="itemLabel">{{ styles['border-right-width'].label }}</span>
             <div class="itemContent">
-              <ec-input-number v-model="styles['border-right-width'].value" size="small" :units="units" unit
+              <ec-input-number v-model="styles['border-right-width'].value" size="small" :units="units" unit="px"
                                @changeValue="choiceStyle(styles['border-right-width'].attr,$event)"></ec-input-number>
             </div>
           </div>
@@ -502,29 +502,29 @@
         <div class="row">
           <span class="itemLabel">{{ styles['box-shadow']['params']['x'].label }}</span>
           <div class="itemContent">
-            <el-input-number v-model="styles['box-shadow']['params']['x'].value" size="small"
-                             @change="changeBoxShadow"></el-input-number>
+            <ec-input-number v-model="styles['box-shadow']['params']['x'].value" size="small" unit="px" :units="units"
+                             @changeValue="changeBoxShadow"></ec-input-number>
           </div>
         </div>
         <div class="row">
           <span class="itemLabel">{{ styles['box-shadow']['params']['y'].label }}</span>
           <div class="itemContent">
-            <el-input-number v-model="styles['box-shadow']['params']['y'].value" size="small"
-                             @change="changeBoxShadow"></el-input-number>
+            <ec-input-number v-model="styles['box-shadow']['params']['y'].value" size="small" unit="px" :units="units"
+                             @changeValue="changeBoxShadow"></ec-input-number>
           </div>
         </div>
         <div class="row">
           <span class="itemLabel">{{ styles['box-shadow']['params']['obscure'].label }}</span>
           <div class="itemContent">
-            <el-input-number v-model="styles['box-shadow']['params']['obscure'].value" size="small"
-                             @change="changeBoxShadow"></el-input-number>
+            <ec-input-number v-model="styles['box-shadow']['params']['obscure'].value" size="small" unit="px" :units="units"
+                             @changeValue="changeBoxShadow"></ec-input-number>
           </div>
         </div>
         <div class="row">
           <span class="itemLabel">{{ styles['box-shadow']['params']['extend'].label }}</span>
           <div class="itemContent">
-            <el-input-number v-model="styles['box-shadow']['params']['extend'].value" size="small"
-                             @change="changeBoxShadow"></el-input-number>
+            <ec-input-number v-model="styles['box-shadow']['params']['extend'].value" size="small" unit="px" :units="units"
+                             @changeValue="changeBoxShadow"></ec-input-number>
           </div>
         </div>
       </el-collapse-item>
@@ -671,7 +671,7 @@ export default {
           label: "尺寸",
           attr: "background-size",
           value: '',
-          params: {height: {label: "高", value: "auto"}, width: {label: "宽", value: "auto"}},
+          params: {height: "auto", width: "auto"},
           children: [
             {value: 'default', label: "默认", detail: "默认"},
             {value: "contain", label: "等比填充", detail: "等比填充contain"},
@@ -693,7 +693,7 @@ export default {
           label: "定位",
           attr: "background-position",
           value: '',
-          params: {left: {label: "左", value: 'auto'}, top: {label: "顶", value: 'auto'}},
+          params: {left:'',top: ''},
           choice: '',
           children: [
             {value: {left: '0px', top: '0px'}, label: "左上", detail: "左上"},
@@ -736,7 +736,7 @@ export default {
         "z-index": {
           label: "z-index",
           attr: "z-index",
-          value: ''
+          value: 0
         },
         "float": {
           label: '浮动',
@@ -859,10 +859,10 @@ export default {
           params: {
             inset: {label: '内外阴影', value: false},
             color: {label: "颜色", value: ''},
-            x: {label: "x", value: 0},
-            y: {label: "y", value: 0},
-            obscure: {label: "模糊", value: 0},
-            extend: {label: "扩展", value: 0}
+            x: {label: "x", value: '0px'},
+            y: {label: "y", value: '0px'},
+            obscure: {label: "模糊", value: '0px'},
+            extend: {label: "扩展", value: '0px'}
           },
         }
       },
@@ -1038,7 +1038,7 @@ export default {
           label: "尺寸",
           attr: "background-size",
           value: '',
-          params: {height: {label: "高", value: "auto"}, width: {label: "宽", value: "auto"}},
+          params: {height: "auto", width: "auto"},
           children: [
             {value: 'default', label: "默认", detail: "默认"},
             {value: "contain", label: "等比填充", detail: "等比填充contain"},
@@ -1060,7 +1060,7 @@ export default {
           label: "定位",
           attr: "background-position",
           value: '',
-          params: {left: {label: "左", value: 'auto'}, top: {label: "顶", value: 'auto'}},
+          params: {left: 'auto', top:'auto'},
           choice: '',
           children: [
             {value: {left: '0px', top: '0px'}, label: "左上", detail: "左上"},
@@ -1103,7 +1103,7 @@ export default {
         "z-index": {
           label: "z-index",
           attr: "z-index",
-          value: ''
+          value: 0
         },
         "float": {
           label: '浮动',
@@ -1226,15 +1226,34 @@ export default {
           params: {
             inset: {label: '内外阴影', value: false},
             color: {label: "颜色", value: ''},
-            x: {label: "x", value: 0},
-            y: {label: "y", value: 0},
-            obscure: {label: "模糊", value: 0},
-            extend: {label: "扩展", value: 0}
+            x: {label: "x", value: '0px'},
+            y: {label: "y", value: '0px'},
+            obscure: {label: "模糊", value: '0px'},
+            extend: {label: "扩展", value: '0px'}
           },
         }
       }
       for (let key in styles) {
-        that.styles[key].value = styles[key]
+        if(key === 'background-position'){
+          let position =styles[key].split(" ")
+          that.styles[key].params.left=position[0]
+          that.styles[key].params.top=position[1]
+        }else if(key === 'background-size'){
+          let size = styles[key].split(" ")
+          that.styles[key].params.height = size[1]
+          that.styles[key].params.width = size[0]
+        }else if(key === 'box-shadow'){
+          let boxShadow = styles[key].split(" ")
+          that.styles[key].params.inset.value = boxShadow[0]==='inset'
+          that.styles[key].params.x.value=boxShadow[1]
+          that.styles[key].params.y.value = boxShadow[2]
+          that.styles[key].params.obscure.value=boxShadow[3]
+          that.styles[key].params.extend.value = boxShadow[4]
+          that.styles[key].params.color.value=boxShadow[5]
+        }else{
+          that.styles[key].value = styles[key]
+        }
+
       }
     })
 
@@ -1242,7 +1261,6 @@ export default {
   methods: {
     choiceStyle(attr, value) {
       this.setterData.styles[attr] = value
-      console.log(this.setterData.styles)
       this.css = `.main{${objectToCss(this.setterData.styles)}}`
     },
     deleteStyle(attr) {
@@ -1256,7 +1274,6 @@ export default {
       }
     },
     changeValue(attr, param) {
-      console.log(attr,param)
       if (!param|| param === "") {
         this.deleteStyle(attr)
       } else {
@@ -1299,44 +1316,25 @@ export default {
     },
 
     changeBackgroundSize() {
-      let width = this.styles['background-size'].params['width']
-      let height = this.styles['background-size'].params['height']
-      if (width.value === null) {
-        this.styles['background-size'].params['width'].value = "auto"
-      }
-      if (height.value === null) {
-        this.styles['background-size'].params['height'].value = "auto"
-      }
-      this.choiceStyle('background-size', `${width.value} ${height.value}`)
+      this.choiceStyle('background-size', `${this.styles['background-size'].params['width']} ${this.styles['background-size'].params['height']}`)
     },
 
     changeBackgroundPosition() {
-      let left = this.styles['background-position'].params['left']
-      let top = this.styles['background-position'].params['top']
-      if (left.value === null) {
-        this.styles['background-position'].params['left'].value = "auto"
-        this.styles['background-position'].params['left'].unit = ""
-      }
-      if (top.value === null) {
-        this.styles['background-position'].params['top'].value = "auto"
-        this.styles['background-position'].params['top'].unit = ""
-      }
-      this.choiceStyle('background-position', `${left.value} ${top.value}`)
+      console.log(this.styles['background-position'].params)
+      this.choiceStyle('background-position', `${this.styles['background-position'].params.left} ${this.styles['background-position'].params.top}`)
     },
     choiceBackgroundPosition(position, param) {
       if (position.choice === param.label) {
         position.choice = ""
         this.choiceStyle('background-position', `auto auto`)
         this.styles['background-position'].params = {
-          left: {label: "左", value: 'auto'},
-          top: {label: "顶", value: 'auto'}
+          left: 'auto',
+          top: 'auto'
         }
       } else {
         position.choice = param.label
-        position.params.left.value = param.value.left.value
-        position.params.left.unit = param.value.left.unit
-        position.params.top.value = param.value.top.value
-        position.params.top.unit = param.value.top.unit
+        position.params.left = param.value.left
+        position.params.top = param.value.top
         this.changeBackgroundPosition()
       }
     },
@@ -1344,7 +1342,7 @@ export default {
     changeBoxShadow() {
       let params = this.styles['box-shadow'].params
       this.choiceStyle("box-shadow",
-          `${params['inset'].value ? 'inset ' : ''}${params['x'].value} ${params['y'].value} ${params['obscure'].value} ${params['extend'].value} ${params['color'].value}`)
+          `${params['inset'].value ? 'inset' : ""} ${params['x'].value} ${params['y'].value} ${params['obscure'].value} ${params['extend'].value} ${params['color'].value}`)
     },
     changeBorderRadio(attr, value) {
       if (attr === 'border-radius') {
@@ -1360,7 +1358,7 @@ export default {
         this.deleteStyle('border-radius')
         this.styles['border-radius'].value = 0
       }
-      this.choiceStyle(attr, value)
+      this.choiceStyle(attr, value+'px')
     }
   }
 }

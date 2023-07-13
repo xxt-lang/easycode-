@@ -10,7 +10,7 @@
       v-model="unitValue"
       :style="{width:unitWidth+'px'}"
       @change="changeSelect()"
-      :disabled="unit"
+      :disabled="unit!==''"
   >
     <el-option v-for="item in units"
                :label="item.label"
@@ -46,8 +46,8 @@ export default {
       default:'auto'
     },
     unit:{
-      type:Boolean,
-      default:false
+      type:String,
+      default:''
     }
   },
   emits:['update:modelValue'],
@@ -59,44 +59,51 @@ export default {
        this.units.forEach((item)=>{
         if(newVal.indexOf(item.value)>-1){
           this.unitValue = item.value
-          console.log(this.unitValue)
         }
       })
       this.numberValue = parseFloat(newVal)
-    }
+    },
   },
   data(){
     return{
       isblur:true,
       numberValue:'',
-      unitValue:''
+      unitValue:this.unit
     }
   },
   methods:{
     changeSelect(){
       this.dealValue()
+      this.$emit("update:modelValue",this.numberValue + this.unitValue)
       this.$emit('changeValue',this.numberValue + this.unitValue)
     },
     blur(){
       this.dealValue()
       this.isblur = true
+      this.$emit("update:modelValue",this.numberValue + this.unitValue)
       this.$emit('changeValue',this.numberValue + this.unitValue)
     },
     scroll(e){
       if (this.isblur) return
+      if(isNaN( this.numberValue)){
+        this.numberValue = 0
+      }
       if(e.wheelDelta<0){
         this.numberValue--
       }else{
         this.numberValue++
       }
-      if(this.unitValue === ''){
-        this.unitValue = this.units[0].value
-      }
+      this.dealValue()
+      this.$emit("update:modelValue",this.numberValue + this.unitValue)
       this.$emit('changeValue',this.numberValue + this.unitValue)
     },
     dealValue(){
-      if(this.value === ''){
-        this.unit = this.units.length>0?this.units[0].value:''
+      if(this.unitValue === ''){
+        this.unitValue = this.units[0].value
+      }
+      if(!this.numberValue || this.numberValue === ''){
+        this.numberValue = 'auto'
+        this.unitValue = this.unit
       }
     }
   }

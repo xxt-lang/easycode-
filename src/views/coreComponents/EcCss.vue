@@ -1,5 +1,5 @@
 <template>
-  <div v-html="`<style>${CSS}</style>`"></div>
+  <div v-html="`<style scoped>${CSS}</style>`"></div>
 </template>
 
 <script>
