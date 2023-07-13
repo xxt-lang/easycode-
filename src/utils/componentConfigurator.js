@@ -1,5 +1,5 @@
 import {ComponentListStore} from "../stores/counter"
-import {componentList, componentSetters, materials} from "./registered/component";
+import {materials} from "../RegisteredComponent/materials";
 // 组件的基础属性
 const baseAttribute = {
     status: {
@@ -9,25 +9,8 @@ const baseAttribute = {
         lock: false,// false 不锁 true 锁
     },// 组件状态 r
 }
-// 注册的组件列表
-/*component:"ScButton", //组件名 与组件列表中的组件一致
-    setter:{
-     attributes:[
-    {
-        attributeName:"",//组件配置中属性字段名 必写
-        label:"",// 字段标签
-        type:"",//编辑自段的类型input select number switch 必写
-        value:"",//属性值 必写
-        defaultValue:"",//默认属性值 必写
-        valueType:String,// 属性值类型 必写
-        verifyRule:"",// 属性值校验规则 可填入正则表达式 非必写
-        typeArray:[], //类型选择数组  非必写
-        event:{} // 此属性的方法
-    }
-]
-    }
-    */
-// 组件设置器配置
+const componentList = []
+const componentSetters = []
 
 // 加载组件配置
 export function loadComponentConfiguration() {
@@ -67,6 +50,15 @@ export function loadComponentConfiguration() {
     componentListStore.componentList = componentList
     componentListStore.componentSetters = componentSetters
     componentListStore.materials = materials
+}
+
+export function assembleComponent(component,name){
+    if(component.hasOwnProperty('component')){
+        componentList.push(component.component)
+    }
+    if(component.hasOwnProperty('setter')){
+        componentSetters.push(component.setter)
+    }
 }
 
 // 根据组件配置属性设置组件属性

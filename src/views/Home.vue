@@ -45,6 +45,7 @@ import {clearSelectPlate, initProject,} from "../utils/core";
 import PageConfiguration from "./toolBar/PageConfiguration.vue";
 import ExportPageDialog from "./toolBar/ExportPageDialog.vue";
 import ImportPageDialog from "./toolBar/ImportPageDialog.vue";
+import {loadComponent} from "../utils/registered/registeredComponent";
 
 export default {
   components: {
@@ -72,6 +73,7 @@ export default {
   created() {
     // 快捷键
     initShortKeyDown()
+    loadComponent()
     //加载编辑的组件
     loadComponentConfiguration()
     // 初始化项目数据
