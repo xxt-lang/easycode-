@@ -29,7 +29,7 @@ export const materials = [
                     },
                     {
                         label: 'Layout 布局',
-                        component: 'ScRow'
+                        component: 'ScLayout'
                     },
                     {
                         label: 'Link 链接',
@@ -320,81 +320,6 @@ export const materials = [
 
 export const componentList = [
     {
-        component: "ScButton",
-        label: '按钮', // 左侧组件列表中显示的名字
-        animations: [], // 动画列表
-        events: {}, // 事件列表
-        attributes: {},
-        styles: {},
-    },
-    {
-        component: "ScLink",
-        label: '链接', // 左侧组件列表中显示的名字
-        animations: [], // 动画列表
-        events: {}, // 事件列表
-        attributes: {},
-        styles: {},
-    },
-    {
-        component: "ScScrollbar",
-        label: '滚动条', // 左侧组件列表中显示的名字
-        type: "container",
-        animations: [], // 动画列表
-        events: {}, // 事件列表
-        attributes: {},
-        styles: {},
-    },
-    {
-        component: "ScSpace",
-        label: 'Space间距', // 左侧组件列表中显示的名字
-        type: "container",
-        children: [
-            {
-                component: "container",
-                attribute: 'space',
-                label: "space",
-                id: "",
-                event: {},
-                attributes: {},
-                styles: {},
-                children: [],
-                featherId: "",
-                type: "container"
-            },
-            {
-                component: "container",
-                attribute: 'space',
-                label: "space",
-                id: "",
-                event: {},
-                attributes: {},
-                styles: {},
-                children: [],
-                featherId: "",
-                type: "container"
-            },
-        ],
-        animations: [], // 动画列表
-        events: {}, // 事件列表
-        attributes: {},
-        styles: {
-        },
-    },
-    {
-        component: "ScInput",
-        label: '输入框',
-        events: {},
-        attributes: {},
-        styles: {},
-    },
-    {
-        component: "ScRate",
-        label: '评分',
-        events: {},
-        attributes: {},
-        styles: {},
-    },
-    {
         component: "ScSelect",
         label: 'select选择器',
         events: {},
@@ -416,63 +341,11 @@ export const componentList = [
         styles: {},
     },
     {
-        component: "ScSlider",
-        label: '滑块',
-        events: {},
-        attributes: {},
-        styles: {
-            width: '200px'
-        },
-    },
-    {
         component: "ScSwitch",
         label: '开关',
         events: {},
         attributes: {},
         styles: {},
-    },
-
-    {
-        component: "ScCard",
-        label: '卡片',
-        events: {},
-        attributes: {},
-        styles: {},
-        type: "container"
-    },
-    {
-        component: "ScRow",
-        label: '行',
-        event: {},
-        attributes: {},
-        styles: {},
-        children: [
-            {
-                component: "container",
-                attribute: 'col',
-                label: "列",
-                id: "",
-                event: {},
-                attributes: {},
-                styles: {},
-                children: [],
-                featherId: "",
-                type: "container"
-            },
-            {
-                component: "container",
-                attribute: 'col',
-                label: "列",
-                id: "",
-                event: {},
-                attributes: {},
-                styles: {},
-                children: [],
-                featherId: "",
-                type: "container"
-            },
-        ],
-        type: "container"
     },
     {
         component: "ScMenu",
@@ -598,106 +471,7 @@ export const componentList = [
 ]
 export const componentSetters = [
 
-    {
-        component: "ScRow",
-        setter: {
-            attributes: [
-                {
-                    attributeName: "justify",//组件配置中属性字段名
-                    label: "flex水平布局",
-                    type: "select",//编辑自段的类型input select number switch buttonList
-                    value: "start",//属性值
-                    defaultValue: "start",//默认属性值
-                    valueType: String,// 属性值类型
-                    verifyRule: "",// 属性值校验规则 可填入正则表达式
-                    typeArray: [
-                        {
-                            value: 'start',
-                            label: 'start'
-                        },
-                        {
-                            value: 'end',
-                            label: 'end'
-                        },
-                        {
-                            value: 'center',
-                            label: 'center'
-                        },
-                        {
-                            value: 'space-around',
-                            label: 'space-around'
-                        },
-                        {
-                            value: 'space-between',
-                            label: 'space-between'
-                        },
-                        {
-                            value: 'space-evenly',
-                            label: 'space-evenly'
-                        },] //类型选择数组
-                },
-                {
-                    attributeName: "gutter",//组件配置中属性字段名
-                    label: "栅格间隔",
-                    type: "inputNumber",//编辑自段的类型input select number switch buttonList
-                    value: 0,//属性值
-                    defaultValue: 0,//默认属性值
-                    valueType: Number,// 属性值类型,
-                },
-                {
-                    attributeName: "col",//组件配置中属性字段名
-                    label: "配置列",
-                    type: "table",//编辑自段的类型input select number switch buttonList
-                    defaultValue: [],
-                    isChildren: true,// 是否与children绑定
-                    column: [
-                        {
-                            attributeName: "span",//组件配置中属性字段名
-                            label: "栅格列数",
-                            type: "inputNumber",//编辑自段的类型input select number switch buttonList
-                            value: 12,//属性值
-                            defaultValue: 12,//默认属性值
-                            max: 24,
-                            valueType: Number,// 属性值类型,
-                        },
-                        {
-                            attributeName: "offset",//组件配置中属性字段名
-                            label: "栅格左侧间隔",
-                            type: "inputNumber",//编辑自段的类型input select number switch buttonList
-                            value: 0,//属性值
-                            defaultValue: 0,//默认属性值
-                            valueType: Number,// 属性值类型,
-                        },
-                    ],
-                },
-            ],
-            styles: {},
-            events: [],
-            configuration: {
-                childrenTemplate: {
-                    component: "container",
-                    attribute: 'col',
-                    label: "列",
-                    id: "",
-                    event: {},
-                    attributes: {},
-                    styles: {},
-                    children: [],
-                    featherId: "",
-                    type: "container"
-                },
-            }
 
-        },
-    },
-    {
-        component: "ScSlider",
-        setter: {
-            attributes: [],
-            styles: {},
-            events: []
-        }
-    },
     {
         component: "ScTable",
         setter: {

@@ -18,7 +18,12 @@
                 :value="tItem.value"
             />
           </el-select>
-          <el-input v-if="item.type === 'input'" :disabled="item.bind === 'ref'" v-model="setterData.attributes[item.attributeName]" placeholder="Please input"/>
+          <el-input v-if="item.type === 'input' || item.type === 'inputArea'"
+                    :disabled="item.bind === 'ref'"
+                    v-model="setterData.attributes[item.attributeName]"
+                    placeholder="Please input"
+                    :type="item.type === 'inputArea'?'textarea':'text'"
+          />
           <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
           <el-input-number
               v-if="item.type === 'inputNumber'"

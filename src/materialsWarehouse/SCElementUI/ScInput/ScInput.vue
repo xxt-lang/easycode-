@@ -36,17 +36,17 @@ export default {
     }
   },
   methods: {
-    changeMethod(){
-      execMethod(this.propValue.events['change'],this.EcVue)
+    changeMethod(val){
+      execMethod(this.propValue.events['change'],this.EcVue)(val)
     },
-    blurMethod(){
-      execMethod(this.propValue.events['blur'],this.EcVue)
+    blurMethod(val){
+      execMethod(this.propValue.events['blur'],this.EcVue)(val)
     },
-    focusMethod(){
-      execMethod(this.propValue.events['focus'],this.EcVue)
+    focusMethod(val){
+      execMethod(this.propValue.events['focus'],this.EcVue)(val)
     },
-    inputMethod(){
-      execMethod(this.propValue.events['input'],this.EcVue)
+    inputMethod(val){
+      execMethod(this.propValue.events['input'],this.EcVue)(val)
     },
     clearMethod(){
       execMethod(this.propValue.events['clear'],this.EcVue)

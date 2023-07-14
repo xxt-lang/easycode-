@@ -96,6 +96,9 @@ export function setPageData(attribute,value,EcVue){
 
 // 解析数据绑定的数值
 function analysisData(param){
+    if(!param){
+        return []
+    }
     return param.split(".")
 }
 
