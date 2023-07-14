@@ -326,13 +326,7 @@ export const componentList = [
         attributes: {},
         styles: {},
     },
-    {
-        component: "ScColorPicker",
-        label: '颜色选择器',
-        events: {},
-        attributes: {},
-        styles: {},
-    },
+
     {
         component: "ScRadio",
         label: '单选框',
