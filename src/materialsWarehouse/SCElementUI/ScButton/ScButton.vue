@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     click(){
-      execMethod('click',this.propValue.events,this.EcVue)
+      execMethod(this.propValue.events['click'],this.EcVue)()
     }
   }
 }

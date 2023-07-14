@@ -1,11 +1,13 @@
 <template>
   <el-scrollbar
       v-bind="propValue.attributes"
+      ref="scrollbarRef"
       @scroll = "scroll"
   >
-    <div :ref="propValue.attributes['innerRef']" v-container="propValue">
+    <div ref="innerRef"
+         v-container="propValue"
+          :style="{'background-color': '#c6e2ff',height: propValue.attributes['height'],padding: '5px'}">
       <Container
-          key="editorContainer"
           :children="propValue.children"
           :isPreview = "isPreview"
           :EcVue = "EcVue"
@@ -16,7 +18,7 @@
 
 <script>
 import Container from "@/views/coreComponents/Container.vue";
-import {getComponentStyle} from "@/utils/core";
+import {bindRefs,execMethod} from "@/utils/core";
 export default {
   name: "ScScrollbar",
   components:{Container},
@@ -36,15 +38,12 @@ export default {
     }
   },
   mounted() {
-    this.EcVue.$refs[this.propValue.attributes['ref'] ] = this.$refs[this.propValue.attributes['ref'] ]
-    this.EcVue.$refs[this.propValue.attributes['innerRef'] ] = this.$refs[this.propValue.attributes['innerRef'] ]
+    bindRefs(this.propValue.attributes,this.$refs['scrollbarRef'],'scrollbarRef',this.EcVue)
+   bindRefs(this.propValue.attributes,this.$refs['innerRef'],'innerRef',this.EcVue)
   },
   methods:{
-    getComponentStyle,
     scroll(scrollLeft,scrollTop){
-      if(this.propValue.events['click'].enable){
-        this.EcVue[this.propValue.events['click'].method](scrollLeft,scrollTop)
-      }
+      execMethod(this.propValue.events['scroll'],this.EcVue)(scrollLeft,scrollTop)
     }
   }
 }

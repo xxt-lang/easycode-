@@ -7,7 +7,7 @@
             effect="dark"
             :content="item.detail"
             placement="bottom"
-        ><span class="itemLabel" :style="{color:item.bind?'green':''}">{{item.label}} </span></el-tooltip>
+        ><span class="itemLabel" :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{item.label}} </span></el-tooltip>
 
         <div class="itemContent">
           <el-select  v-if="item.type === 'select'"  v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
@@ -18,7 +18,7 @@
                 :value="tItem.value"
             />
           </el-select>
-          <el-input v-if="item.type === 'input'" v-model="setterData.attributes[item.attributeName]" placeholder="Please input" />
+          <el-input v-if="item.type === 'input'" :disabled="item.bind === 'ref'" v-model="setterData.attributes[item.attributeName]" placeholder="Please input"/>
           <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
           <el-input-number
               v-if="item.type === 'inputNumber'"
@@ -140,9 +140,8 @@ export default {
       this.tableEditStatus = true
       this.tableEditAttributes = param.column
       this.tableEditData = {attributes:this.setterData.attributes[param.attributeName][index]}
-    }
+    },
   }
-
 }
 </script>
 

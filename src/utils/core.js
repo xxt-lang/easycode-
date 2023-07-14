@@ -736,6 +736,7 @@ export function deleteComponent(selectPlate){
                         target = searchComponent(item.featherId)
                     }
                 }
+                deleteRefs(item)
                 deleteId.push(item.id)
                 let index = target.children.findIndex((data)=>data.id === item.id)
                 target.children.splice(index,1)
@@ -892,15 +893,40 @@ function verifyPagesData(Pages){
     }
 }
 // 执行方法
-export function execMethod(method,events,EcVue){
-    if(events[method].enable){
-        EcVue[events[method].method]()
+export function execMethod(events,EcVue){
+    if(events.enable){
+        return EcVue[events.method]
     }else{
-        return
+        return function(){}
     }
 }
 
 export function setMouseEvent(e){
     getStore("MouseEventStore").setMouseEvent(e)
+}
+
+export function bindRefs(attr,refs,name,EcVue){
+    if(!EcVue.$refs){
+        EcVue['$refs'] = null
+    }
+    if(!refs){
+        refs = null
+    }
+    let i = 0
+    let value = attr[name].replace(/[0-9]+/g, "")
+    debugger
+    while(EcVue.$refs[attr[name]]){
+        i++
+        attr[name] = value + i
+    }
+    EcVue.$refs[attr[name]] = refs
+}
+export function deleteRefs(component){
+
+    for(let key in component.attributes){
+        if(key.indexOf('Ref')>-1){
+            delete getStore("PagesStore").getNowPage().EcVue.$refs [component.attributes[key]]
+        }
+    }
 }
 

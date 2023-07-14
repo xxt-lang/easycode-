@@ -87,13 +87,13 @@ export const ScLink={
                     value: '',//属性值
                     defaultValue: '',//默认属性值
                 },
-                {
-                    attributeName: "ref",//组件配置中属性字段名
-                    label: "ref",
-                    type: "input",//编辑自段的类型input select number switch buttonList
-                    value: "link",//属性值
-                    defaultValue: "link",//默认属性值
-                },
+                // {
+                //     attributeName: "ref",//组件配置中属性字段名
+                //     label: "ref",
+                //     type: "input",//编辑自段的类型input select number switch buttonList
+                //     value: "link",//属性值
+                //     defaultValue: "link",//默认属性值
+                // },
             ],
             styles: {},
             events: [

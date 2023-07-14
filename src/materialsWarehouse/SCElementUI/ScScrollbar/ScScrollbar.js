@@ -13,6 +13,22 @@ export const ScScrollbar = {
         setter: {
             attributes: [
                 {
+                    attributeName: "scrollbarRef",//组件配置中属性字段名
+                    label: "绑定scrollbarRef",
+                    bind:'ref',
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: "scrollbarRef",//属性值
+                    defaultValue: "scrollbarRef",//默认属性值
+                },
+                {
+                    attributeName: "innerRef",//组件配置中属性字段名
+                    label: "绑定innerRef",
+                    bind:'ref',
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: "innerRef",//属性值
+                    defaultValue: "innerRef",//默认属性值
+                },
+                {
                     attributeName: "height",//组件配置中属性字段名
                     label: "滚动条高度",
                     type: "input",//编辑自段的类型input select number switch buttonList
@@ -55,34 +71,13 @@ export const ScScrollbar = {
                     value: false,//属性值
                     defaultValue: false,//默认属性值
                 },
-                {
-                    attributeName: "tag",//组件配置中属性字段名
-                    label: "视图的元素标签",
-                    type: "input",//编辑自段的类型input select number switch buttonList
-                    value: "div",//属性值
-                    defaultValue: "div",//默认属性值
-                },
-                {
-                    attributeName: "ref",//组件配置中属性字段名
-                    label: "ref",
-                    type: "input",//编辑自段的类型input select number switch buttonList
-                    value: "link",//属性值
-                    defaultValue: "link",//默认属性值
-                },
-                {
-                    attributeName: "innerRef",//组件配置中属性字段名
-                    label: "innerRef",
-                    type: "input",//编辑自段的类型input select number switch buttonList
-                    value: "",//属性值
-                    defaultValue: "",//默认属性值
-                },
-
             ],
             styles: {},
             events: [
                 {
                     event: "scroll", // 事件名称
                     enable: false,// 是否启用
+                    detail:"当触发滚动事件时，返回滚动的距离",
                     method: ''// 绑定方法名
                 }
             ],

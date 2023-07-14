@@ -1,10 +1,13 @@
 <template>
   <el-avatar
       v-bind ="propValue.attributes"
+      @error = "errorMethod"
   />
 </template>
 
 <script>
+import {execMethod} from "@/utils/core";
+
 export default {
   name: "ScAvatar",
   props:{
@@ -13,6 +16,15 @@ export default {
       default: function () {
       }
     },
+    EcVue:{
+      type:Function,
+      default:()=>{}
+    }
+  },
+  methods: {
+    errorMethod(){
+      execMethod(this.propValue.events['error'],this.EcVue)()
+    }
   }
 
 }

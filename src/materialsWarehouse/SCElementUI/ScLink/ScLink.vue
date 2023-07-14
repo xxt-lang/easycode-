@@ -20,12 +20,9 @@ export default {
       default:()=>{}
     }
   },
-  mounted() {
-    this.EcVue.$refs[this.propValue.attributes['ref'] ] = this.$refs[this.propValue.attributes['ref'] ]
-  },
   methods:{
     click(){
-      execMethod('click',this.propValue.events,this.EcVue)
+      execMethod(this.propValue.events['click'],this.EcVue)
     }
   }
 

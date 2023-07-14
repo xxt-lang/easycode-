@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     change(){
-      execMethod('change',this.propValue.events,this.EcVue)
+      execMethod(this.propValue.events['change'],this.EcVue)
     }
   }
 }

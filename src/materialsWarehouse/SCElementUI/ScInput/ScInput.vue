@@ -1,7 +1,7 @@
 <template>
     <el-input
         v-bind = "propValue.attributes"
-        v-model="input"
+        v-model="inputValue"
         @change="changeMethod"
         @blur = "blurMethod"
         @focus="focusMethod"
@@ -25,7 +25,7 @@ export default {
     }
   },
   computed:{
-    input:{
+    inputValue: {
       get(){
         // 绑定事件监听
         return getPageData(this.propValue.attributes['inputValue'],this.EcVue)
@@ -35,25 +35,21 @@ export default {
       }
     }
   },
-  data() {
-    return {
-    }
-  },
   methods: {
     changeMethod(){
-      execMethod('change',this.propValue.events,this.EcVue)
+      execMethod(this.propValue.events['change'],this.EcVue)
     },
     blurMethod(){
-      execMethod('blur',this.propValue.events,this.EcVue)
+      execMethod(this.propValue.events['blur'],this.EcVue)
     },
     focusMethod(){
-      execMethod('focus',this.propValue.events,this.EcVue)
+      execMethod(this.propValue.events['focus'],this.EcVue)
     },
     inputMethod(){
-      execMethod('input',this.propValue.events,this.EcVue)
+      execMethod(this.propValue.events['input'],this.EcVue)
     },
     clearMethod(){
-      execMethod('clear',this.propValue.events,this.EcVue)
+      execMethod(this.propValue.events['clear'],this.EcVue)
     }
   }
 }
