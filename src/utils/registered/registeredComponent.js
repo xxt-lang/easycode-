@@ -15,6 +15,6 @@ export function loadComponent(){
     const componentsModules  = import.meta.glob('@/materialsWarehouse/**/*.js',{eager:true})
     for (const path in componentsModules) {
         const compName = path.match(/\w+.(js)$/)[0].replace(".js","")
-        assembleComponent(componentsModules[path][compName],compName)
+       assembleComponent(componentsModules[path][compName],compName)
     }
 }

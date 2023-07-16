@@ -53,6 +53,9 @@ export function loadComponentConfiguration() {
 }
 
 export function assembleComponent(component,name){
+    if(!component){
+        return
+    }
     if(component.hasOwnProperty('component')){
         componentList.push(component.component)
     }
