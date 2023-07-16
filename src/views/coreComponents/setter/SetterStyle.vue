@@ -1,5 +1,5 @@
 <template>
-  <div v-show="setterStyles">
+  <div v-if="setterStyles">
     <div class="row">
       <span class="itemLabel">绑定class </span>
       <div class="itemContent">
@@ -7,7 +7,7 @@
       </div>
     </div>
     <el-button @click="printCss">保存</el-button>
-    <VMonacoEditor v-model="css" language="css" key="css" height="30vh"></VMonacoEditor>
+    <AceEditor v-model="css" language="css" key="styleCss" height="30vh"></AceEditor>
     <el-collapse v-model="activeNames" style="margin-top:5px">
       <el-collapse-item title="布局" class="collapseGroup" name="1">
         <div class="row"
@@ -540,7 +540,7 @@
 <script>
 import {analysisCssText, getStore, objectToCss} from "../../../utils/core";
 import eventBus from "../../../utils/eventBus";
-import VMonacoEditor from "../VMonacoEditor.vue";
+import AceEditor from "../AceEditor.vue";
 import EcInputNumber from "../../../components/EcInputNumber.vue";
 
 export default {
@@ -567,7 +567,7 @@ export default {
   },
   components: {
     EcInputNumber,
-    VMonacoEditor
+    AceEditor
   },
   data() {
     return {
@@ -939,7 +939,7 @@ export default {
     let that = this
     eventBus.on("dbComponent", () => {
       let styles = getStore("SimpleStore").selectPlate[0].styles
-      that.css = `.main{${objectToCss(styles)}}`
+      that.css = `.main{\n${objectToCss(styles)}\n}`
       that.styles = {
         "display": {
           attr: "display",
@@ -1264,11 +1264,11 @@ export default {
     },
     choiceStyle(attr, value) {
       this.setterData.styles[attr] = value
-      this.css = `.main{${objectToCss(this.setterData.styles)}}`
+      this.css = `.main{\n${objectToCss(this.setterData.styles)}\n}`
     },
     deleteStyle(attr) {
       delete this.setterData.styles[attr]
-      this.css = `.main{${objectToCss(this.setterData.styles)}}`
+      this.css = `.main{\n${objectToCss(this.setterData.styles)}\n}`
     },
     printCss() {
       this.setterData.styles = analysisCssText(this.css)

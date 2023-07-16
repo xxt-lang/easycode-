@@ -41,7 +41,7 @@ import {PagesStore, SimpleStore} from "../../stores/counter";
 import {mapActions, mapState} from "pinia";
 import {Plus} from "@element-plus/icons-vue";
 import {analysisCssText, deleteSelectComponent, getStore, objectToCss} from "../../utils/core";
-import VMonacoEditor from "../coreComponents/VMonacoEditor.vue";
+import VMonacoEditor from "../coreComponents/AceEditor.vue";
 import {deepClone} from "../../utils/tool";
 import {ECVue} from "../../utils/ECVue";
 import eventBus from "../../utils/eventBus";

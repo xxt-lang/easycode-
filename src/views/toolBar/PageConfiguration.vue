@@ -4,10 +4,10 @@
       <el-button @click="save">保存</el-button>
       <el-tabs v-model="activeName" class="demo-tabs">
         <el-tab-pane label="EcVue" name="EcVue">
-          <VMonacoEditor v-model="EcVueInfo" language="javascript"  key="data" folding></VMonacoEditor>
+          <AceEditor v-model="EcVueInfo" language="javascript"  key="data"></AceEditor>
         </el-tab-pane>
         <el-tab-pane label="css" name="css">
-        <v-monaco-editor v-model="css" language="css" key="css"></v-monaco-editor>
+        <AceEditor v-model="css" language="css" key="css"></AceEditor>
         </el-tab-pane>
         <el-tab-pane label="history" name="history">
           <show-history></show-history>
@@ -20,7 +20,7 @@
 <script>
 import {mapActions} from "pinia";
 import {PagesStore} from "../../stores/counter";
-import VMonacoEditor from "../coreComponents/VMonacoEditor.vue";
+import AceEditor from "../coreComponents/AceEditor.vue";
 import ShowHistory from "./ShowHistory.vue";
 import {createEcVue} from "../../utils/core";
 
@@ -28,7 +28,7 @@ export default {
   name: "PageConfiguration",
   components:{
     ShowHistory,
-    VMonacoEditor
+    AceEditor
   },
   props:{
     modelValue:{
