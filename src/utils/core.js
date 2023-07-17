@@ -1,5 +1,6 @@
 import eventBus from '@/utils/eventBus.js'
-import {ref} from "vue";
+import postcss from "postcss";
+import postcssJs from "postcss-js"
 import {deepClone,uuid} from "./tool";
 import {
     SimpleStore,
@@ -120,6 +121,7 @@ export function previewPage(index){
     if(index !== -1){
         let localPage = getLocalStorage()
         if(localPage.length>0){
+            result.pageName = localPage[index].pageName
             result.page = localPage[index].children
             result.isPage = true
             result.css = localPage[index].css
@@ -625,39 +627,15 @@ function isLayer(dragObject,targetId){
 // 解析css样式
 export function analysisCssText(cssText){
     cssText = cssText.replace(".main",'').replace("{",'').replace("}",'')
-    if (!cssText || cssText == '') { return }
-    let Arr = cssText.split(';')
-    Arr = Arr.filter(item => {
-        return item != ''
-    })
-    let str = ''
-    Arr.forEach(item => {
-        let test = ''
-        trim(item).split(':').forEach(item2 => {
-            test += '"' + trim(item2) + '":'
-        })
-        str += test + ','
-    })
-    str = str.replace(/:,/g, ',')
-    str = str.substring(0, str.lastIndexOf(','))
-    str = '{' + str + '}'
-    return JSON.parse(str)
+    return postcssJs.objectify(postcss.parse(cssText))
 }
 
 export function objectToCss(style){
-    let s = []
-    for(let i in style){
-        s.push(i+':'+style[i]);
-    }
-    s = s.join(';')
-    return  s
+
+    let result = postcss().process(style, { parser: postcssJs })
+    return result.css
 }
 
-function trim (str) {
-    let result
-    result = str.replace(/(^\s+)|(\s+$)/g, '')
-    return result
-}
 
 
 // 解析styles 取得shape应该跟着改变的样式

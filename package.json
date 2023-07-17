@@ -16,6 +16,8 @@
     "mitt": "^3.0.0",
     "pinia": "^2.0.32",
     "pinia-plugin-persist": "^1.0.0",
+    "postcss": "^8.4.25",
+    "postcss-js": "^4.0.1",
     "sass": "^1.0.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"

@@ -6,8 +6,8 @@
        data-elementType="editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <EcCss :CSS = "page.css"></EcCss>
-    <div data-elementType="editor">
+    <EcCss :CSS = "page.css" :selecor = "{attr:'scope',value:page.pageName}" ></EcCss>
+    <div data-elementType="editor" :scope = "page.pageName" >
       <Shape v-for="(item, index) in page.children "
              :key="index"
              :status="item.status"
@@ -86,9 +86,6 @@ export default {
       }
     }
   },
-  setup() {
-    return {}
-  },
 
   mounted() {
     let that = this
@@ -98,6 +95,7 @@ export default {
       if(param.message !== null)
         that.dragTipMessage = param.message
     })
+
   },
   methods: {
     getShapeStyle,

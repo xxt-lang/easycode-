@@ -14,8 +14,8 @@
          :style="getShapeStyle(item.styles,isPreview)"
   >
     <component
+        :class="item.bindClass"
         :style="getComponentStyle(isPreview,item.styles,item.type)"
-        class="item"
         :is="item.component"
         :key="index"
         :propValue="item"
@@ -24,10 +24,10 @@
     />
   </Shape>
   <component
+      :class="item.bindClass"
       v-if="isPreview"
       v-for="(item, index) in children "
       :style="getComponentStyle(isPreview,item.styles,item.type)"
-      class="item"
       :is="item.component"
       :key="index"
       :propValue="item"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isPage">
+    <div v-if="isPage" :scope = "page.pageName">
       <component
           v-for="(item,index) in page.children"
           :is="item.component"
@@ -8,6 +8,7 @@
           :propValue="item"
           isPreview
           :EcVue = "page.EcVue"
+          :class="item.bindClass"
       />
     </div>
     <div v-else>

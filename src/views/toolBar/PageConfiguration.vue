@@ -22,7 +22,7 @@ import {mapActions} from "pinia";
 import {PagesStore} from "../../stores/counter";
 import AceEditor from "../coreComponents/AceEditor.vue";
 import ShowHistory from "./ShowHistory.vue";
-import {createEcVue} from "../../utils/core";
+import {analysisCssText, createEcVue} from "../../utils/core";
 
 export default {
   name: "PageConfiguration",
