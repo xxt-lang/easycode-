@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100vh">
-    <EcCss :CSS = "page.css"></EcCss>
+    <EcCss :CSS = "page.css" v-show="false"></EcCss>
     <div v-if="page.isPage">
       <component
           :class="item.bindClass"

@@ -6,7 +6,7 @@
        data-elementType="editor"
        @mousedown="handleMouseDownMap($event)"
   >
-    <EcCss :CSS = "page.css" :selecor = "{attr:'scope',value:page.pageName}" ></EcCss>
+    <EcCss v-show="false" :CSS = "page.css" :selecor = "{attr:'scope',value:page.pageName}" ></EcCss>
     <div data-elementType="editor" :scope = "page.pageName" >
       <Shape v-for="(item, index) in page.children "
              :key="index"
