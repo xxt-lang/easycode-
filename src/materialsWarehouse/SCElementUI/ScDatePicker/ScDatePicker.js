@@ -1,7 +1,7 @@
 export const ScDatePicker = {
     component: {
         component: "ScDatePicker",
-        label: 'ScDatePicker',
+        label: '日期选择器',
         events: {},
         attributes: {},
         styles: {},
@@ -67,27 +67,27 @@ export const ScDatePicker = {
                 },
                 {
                     attributeName: "placeholder",
-                    label: "占位内容",
+                    label: "占位文本",
                     type: "input",
                     value: "",
                     defaultValue: "",
-                    detail: "非范围选择占位内容",
+                    detail: "非范围选择占位文本",
                 },
                 {
                     attributeName: "start-placeholder",
-                    label: "开始日期占位内容",
+                    label: "开始日期占位文本",
                     type: "input",
                     value: "",
                     defaultValue: "",
-                    detail: "范围选择时开始日期的占位内容",
+                    detail: "范围选择时开始日期的占位文本",
                 },
                 {
                     attributeName: "end-placeholder",
-                    label: "结束日期占位内容",
+                    label: "结束日期占位文本",
                     type: "input",
                     value: "",
                     defaultValue: "",
-                    detail: "范围选择时结束日期的占位内容",
+                    detail: "范围选择时结束日期的占位文本",
                 },
                 {
                     attributeName: "type",

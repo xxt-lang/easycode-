@@ -50,7 +50,7 @@ export const materials = [
                 components: [
                     {
                         label: '自动补全输入框',
-                        component: -1
+                        component: "ScAutocomplete"
                     },
                     {
                         label: 'Cascader 级联选择器',

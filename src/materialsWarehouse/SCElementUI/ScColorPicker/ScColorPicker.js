@@ -7,7 +7,7 @@ export const ScColorPicker = {
         styles: {},
     },
     setter: {
-        component: "ScInput",
+        component: "ScColorPicker",
         setter: {
             attributes: [
                 {
@@ -22,7 +22,7 @@ export const ScColorPicker = {
                 {
                     attributeName: "predefineValue",
                     label: "value绑定",
-                    detail: "预定义颜色",
+                    detail: "预定义颜色 Array类型",
                     bind: 'value',
                     type: "input",
                     value: "predefineValue",

@@ -54,8 +54,6 @@ export default {
       })
       if(props.modelValue){
         editor.setValue(props.modelValue)
-      }else{
-        editor.setValue(this.code)
       }
       editor.selection.selectTo(0,0)
       editor.getSession().on('change', function() {

@@ -39,7 +39,7 @@ export default {
   },
   mounted() {
     bindRefs(this.propValue.attributes,this.$refs['scrollbarRef'],'scrollbarRef',this.EcVue)
-   bindRefs(this.propValue.attributes,this.$refs['innerRef'],'innerRef',this.EcVue)
+    bindRefs(this.propValue.attributes,this.$refs['innerRef'],'innerRef',this.EcVue)
   },
   methods:{
     scroll(scrollLeft,scrollTop){
