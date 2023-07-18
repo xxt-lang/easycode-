@@ -74,7 +74,6 @@ function setAttribute() {
     componentList.forEach(item => {
         let index = setterMap.get(item.component)
         if (index !== undefined) {
-            item['setterIndex'] = index
             // 容器模板增加基础状态
             if (componentSetters[index].setter.configuration && componentSetters[index].setter.configuration.childrenTemplate) {
                 componentSetters[index].setter.configuration.childrenTemplate["status"] = baseAttribute["status"]

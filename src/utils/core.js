@@ -741,9 +741,11 @@ export function deleteComponent(selectPlate) {
 // 返回选中组件设置器配置
 export function getComponentSetter() {
     if (getStore("SimpleStore").selectPlate[0] !== undefined) {
-        let setter = getStore("ComponentListStore").componentSetters[getStore("SimpleStore").selectPlate[0]['setterIndex']]
-        if(setter){
-            return setter['setter']
+        let component = getStore("SimpleStore").selectPlate[0]['component']
+        if(component){
+            let index = getStore("ComponentListStore").componentSetters.findIndex((item)=>item.component === component)
+            if(getStore("ComponentListStore").componentSetters[index].hasOwnProperty('setter'))
+            return getStore("ComponentListStore").componentSetters[index]['setter']
         }
     }
     return null

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ECRouter from "../../coreComponents/EcRouter.vue";
+import ECRouter from "@/views/coreComponents/EcRouter.vue";
 export default {
   name: "ScRouter",
   components: {ECRouter},

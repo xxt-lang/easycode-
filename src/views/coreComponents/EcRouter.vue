@@ -11,7 +11,7 @@
           :class="item.bindClass"
       />
     </div>
-    <div v-else>
+    <div v-else class="info">
       {{message}}
     </div>
   </div>
@@ -64,5 +64,10 @@ export default {
 </script>
 
 <style scoped>
-
+.info{
+  width: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+}
 </style>
