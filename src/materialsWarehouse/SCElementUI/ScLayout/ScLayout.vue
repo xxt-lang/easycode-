@@ -48,6 +48,7 @@ export default {
 
 <style scoped>
 .elCol {
+  border-color: #f2f2f2;
   border-style: solid;
   min-height: 50px;
 }

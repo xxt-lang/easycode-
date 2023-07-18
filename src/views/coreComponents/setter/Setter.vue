@@ -92,6 +92,9 @@ export default {
   font-weight: 600;
 }
 .setter{
+  background-color: white;
+  max-height: calc(100vh - 59px);
   padding: 5px;
+  overflow: auto;
 }
 </style>

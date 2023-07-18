@@ -5,17 +5,10 @@
       <ToolBar @toolClick="toolClick"></ToolBar>
     </div>
     <main>
-      <!--  左侧工具栏-->
-      <div class="main-left">
-        <left-bar @clickBar="clickBar"></left-bar>
-      </div>
-      <!--    画布-->
-      <div class="main-right">
-        <EditorMap key="editorMain"></EditorMap>
-      </div>
-      <!--    设置器-->
-      <div class="main-right-right">
-        <Setter></Setter>
+      <div class="main">
+        <left-bar @clickBar="clickBar" class="leftBar"></left-bar>
+        <EditorMap key="editorMain" class="editomap"></EditorMap>
+        <Setter class="setter"></Setter>
       </div>
     </main>
 
@@ -117,41 +110,23 @@ export default {
 }
 </script>
 <style scoped>
-main {
-  display: flex;
+.main {
+  display: grid;
+  grid-template-columns: 1fr 20fr 5fr;
 }
-
-.main-left {
-  width: 80px;
-  height: calc(100vh - 45px);
+.leftBar{
+  border-style: solid;
   background-color: white;
-  border-style: ridge;
+  border-color: #c6e2ff;
 }
-
-.main-right {
-  position: absolute;
-  right:215px;
-  width: calc(100vw - 360px);
-  left:85px;
-  right: 200px;
-  flex: 4;
-  height: calc(100vh - 55px);
-  margin: 5px;
-  background-color: #f0f0f0;
-  overflow: auto;
-  border-style: ridge;
+.setter{
+  border-style: solid;
+  border-color: #c6e2ff;
 }
-.main-right-right{
-  position: absolute;
-  width: 250px;
-  right:0px;
-  left:calc(100vw - 265px);
-  flex: 1;
-  height: calc(100vh - 55px);
-  margin: 5px;
-  background-color: #f0f0f0;
-  overflow: auto;
-  border-style: ridge;
+.editomap{
+  margin: 0 2px 2px 2px;
+  border-style: solid;
+  border-color: #c6e2ff;
 }
 
 .head {

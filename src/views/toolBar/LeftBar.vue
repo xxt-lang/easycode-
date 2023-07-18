@@ -1,9 +1,8 @@
 <template>
 <div class = "leftBarMain">
-
-  <el-button round @click="openTool('page')" type="primary" class = "tool-item">页面</el-button>
-  <el-button  round @click="openTool('componentList')"  type="primary" class = "tool-item">组件</el-button >
-  <el-button  round @click="openTool('dataSource')"  type="primary" class = "tool-item">数据源</el-button >
+  <el-button round @click="openTool('page')" type="primary" class = "tool-item" size="small">页面</el-button>
+  <el-button  round @click="openTool('componentList')"  type="primary" class = "tool-item" size="small">组件</el-button >
+  <el-button  round @click="openTool('dataSource')"  type="primary" class = "tool-item" size="small">数据源</el-button >
   <LeftToolContent :leftToolBarActive="leftToolBarActive" style="width:400px;padding:5px">
     <ComponentGroup @changeLeftToolBarActive = "leftToolBarActive = $event" v-show="toolName==='componentList'" @update:leftToolBarActive = "leftToolBarActive = $event"/>
     <PageTree v-show="toolName==='page'" @update:leftToolBarActive = "leftToolBarActive = $event"></PageTree>
@@ -37,7 +36,9 @@ export default {
 
 <style scoped>
 .leftBarMain{
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 50px);
 }
 .tool-item{
   margin: 5px;

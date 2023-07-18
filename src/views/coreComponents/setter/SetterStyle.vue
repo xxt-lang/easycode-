@@ -1,5 +1,5 @@
 <template>
-  <div v-if="setterStyles">
+  <div v-if="setterStyles" class="setterStyle">
     <div class="row">
       <span class="itemLabel">绑定class </span>
       <div class="itemContent">
@@ -1366,6 +1366,7 @@ export default {
 </script>
 
 <style scoped>
+
 .row {
   display: flex;
   margin-top: 5px
