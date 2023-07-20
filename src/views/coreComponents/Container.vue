@@ -11,7 +11,7 @@
          :data-elementType = "item.type"
          @mousedown="handleMouseDown(item,$event,index)"
          @dblclick="dbClick(item,$event,index)"
-         :style="getShapeStyle(item.styles,isPreview)"
+         :style="getShapeStyle(item.styles,lock)"
   >
     <component
         :isPreview = "isPreview"
@@ -69,6 +69,10 @@ export default {
     EcVue:{
       type:Function,
       default:()=>{}
+    },
+    lock:{
+      type:Boolean,
+      default:false
     }
   },
   methods:{

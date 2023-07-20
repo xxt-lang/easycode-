@@ -11,6 +11,7 @@
           :children="propValue.children"
           :isPreview = "isPreview"
           :EcVue = "EcVue"
+          :lock = "propValue.status.lock"
       ></Container>
     </div>
   </el-scrollbar>

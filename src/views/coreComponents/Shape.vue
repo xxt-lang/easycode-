@@ -3,14 +3,16 @@
       class="shape"
       :class="{ active: status.active,lock:status.lock }"
       :data-index = "index"
+      :data-shape="true"
       :style="getShapeStyle(element.styles)"
   >
-    <slot class="slot"></slot>
+    <div :style="{'pointer-events': element.type ==='common' ? 'none':''}">
+      <slot></slot>
+    </div>
   </div>
-
 </template>
 <script>
-import {getShapeStyle} from "../../utils/core";
+import {getShapeStyle} from "@/utils/core";
 
 export default {
     name: 'Shape',
@@ -59,19 +61,22 @@ export default {
 </script>
 <style lang="scss" scoped>
   .shape {
-    z-index: 1;
+    opacity: 1;
   }
 
   .active {
     outline: 2px solid #70c0ff;
-    user-select: none;
     position: relative;
-    z-index: 1000;
+    z-index: 1001;
 
   }
   .lock {
     outline: 2px solid #f8e3c5;
-    user-select: none;
+    position: relative;
+    z-index: 1000;
+  }
+  .lock:active {
+    outline: 2px solid #70c0ff;
     position: relative;
     z-index: 1000;
   }

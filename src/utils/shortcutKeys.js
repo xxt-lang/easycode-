@@ -17,7 +17,7 @@ const keyDowns = {
   "ctrl e": {
     label: '编辑元素',
     func: function () {
-      CommonStatusStore().editElement = !CommonStatusStore().editElement
+      CommonStatusStore().editPosition = !CommonStatusStore().editPosition
     }
   },
   "ctrl c":{
@@ -39,9 +39,17 @@ const keyDowns = {
     }
   },
   "ctrl m":{
-    label: '调整位置',
+    label: '调整margin',
     func: function () {
       CommonStatusStore().editMargin = !CommonStatusStore().editMargin
+      CommonStatusStore().editPosition = false
+    }
+  },
+  "ctrl p":{
+    label: '调整position',
+    func: function () {
+      CommonStatusStore().editPosition = !CommonStatusStore().editPosition
+      CommonStatusStore().editMargin = false
     }
   },
   "ctrl d":{

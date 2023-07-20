@@ -19,6 +19,7 @@
              @mousedown="handleMouseDown(item,$event,index)"
              @dblclick="dbClick(item,$event)"
              :style="getShapeStyle(item.styles,false)"
+             :data-shape="true"
       >
         <component
             :style="getComponentStyle(false,item.styles,item.type)"
@@ -130,8 +131,11 @@ export default {
 .dragTip {
   position: fixed;
   pointer-events: none;
-  padding: 15px;
+  padding: 5px;
   z-index: 30000;
+  margin:10px;
+  font-size: 16px;
+  background-color: #f2f2f2;
 }
 
 .editor {

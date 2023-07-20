@@ -1,7 +1,7 @@
 export const ScRouter = {
     component:{
         component: "ScRouter",
-        label: '路由组件',
+        label: '路由',
         events: {},
         attributes: {},
         styles: {

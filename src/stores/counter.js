@@ -151,6 +151,7 @@ export const CommonStatusStore = defineStore('CommonStatusStoreMain',{
   state: () => ({
     containerLock:false, // false 不锁容器 true 锁住容器
     editMargin:false,
+    editPosition:false
   })
 })
 

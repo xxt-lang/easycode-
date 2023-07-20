@@ -221,13 +221,13 @@ export function moveComponent(e, index, dragObject) {
     }
     // 获取元素的初始内边距
     let locationInfo = null
-    if (getStore("CommonStatusStore").editMargin) {
-        locationInfo = initPositionOrMargin(dragObject)
+    if (getStore("CommonStatusStore").editMargin || getStore("CommonStatusStore").editPosition) {
+        locationInfo = initPositionOrMargin(e,dragObject,getStore("CommonStatusStore").editPosition,getStore("CommonStatusStore").editMargin)
         message = `调整${dragObject.label + locationInfo.type}`
     }
     eventBus.emit(`move-dragTip`, {style: {top: e.clientY + 'px', left: e.clientX + 'px'}, message: message})
-
-    // position:absolute
+    let oldDocument = null
+    let oldDirection = 'left'
     const move = (moveEvent) => {
         eventBus.emit(`move-dragTip`, {
             style: {top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},
@@ -237,6 +237,10 @@ export function moveComponent(e, index, dragObject) {
         if (locationInfo !== null) {
             if (locationInfo.type === 'position') {
                 changePosition(dragObject.styles, (moveEvent.clientX - startClientX), (moveEvent.clientY - startClientY), locationInfo.oldX, locationInfo.oldY)
+                eventBus.emit(`move-dragTip`, {
+                    style: {top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},
+                    message: `left:${(moveEvent.clientX - startClientX) + locationInfo.oldX}<br>  top:${(moveEvent.clientY - startClientY + locationInfo.oldY)}`
+                })
             } else {
                 changeMargin(dragObject.styles, (moveEvent.clientX - startClientX), (moveEvent.clientY - startClientY), locationInfo.oldX, locationInfo.oldY)
                 eventBus.emit(`move-dragTip`, {
@@ -246,13 +250,34 @@ export function moveComponent(e, index, dragObject) {
             }
         } else {
             targetInfo = mousemoveInfo(moveEvent)
+            if(dragObject.id !==moveEvent.target.dataset.elementid){
+                if((oldDocument !== moveEvent.target || oldDirection !== targetInfo.direction) && moveEvent.target.dataset.shape === 'true'){
+                    if (oldDocument){
+                        oldDocument.style['outline'] = ''
+                    }
+                    oldDocument = moveEvent.target
+                    oldDirection = targetInfo.direction
+                    oldDocument.style['outline'] = `2px solid ${targetInfo.direction === 'left'?'green':'orange'}`
+                }
+                if(!moveEvent.target.dataset.shape){
+                    if (oldDocument){
+                        oldDocument.style['outline'] = ''
+                    }
+                    oldDocument = null
+                }
+            }
         }
+
     }
 
     upMouse(move, () => {
         // 用于拖拽时的提示定位
         eventBus.emit(`move-dragTip`, {style: {top: 0, left: 0, display: 'none'}, message: null})
-        if (getStore("CommonStatusStore").editMargin) return
+        if(oldDocument){
+            oldDocument.style['outline'] = ''
+            oldDocument = null
+        }
+        if (getStore("CommonStatusStore").editMargin || getStore("CommonStatusStore").editPosition) return
         if (upMouseMoveInfo(targetInfo.target, dragObject, targetInfo.direction, index)) {
             getStore("UndoRedoStore").addOperation('moveComponent')
         }
@@ -260,20 +285,25 @@ export function moveComponent(e, index, dragObject) {
 
 }
 
-function initPositionOrMargin(dragObject) {
+function initPositionOrMargin(moveEvent,dragObject,position,margin) {
     //当被拖拽元素是锁定状态时不进行初始化
     if (!dragObject.status.lock) {
         let result = {oldX: 0, oldY: 0, type: 'position'}
         // 当是定位时可以直接修改left 于 top
-        if (dragObject.styles['position']) {
+        if (position && !margin) {
             if (dragObject.styles['left']) {
                 result.oldX = getCssAttributeValue(dragObject.styles['left'])
+            }else{
+                result.oldX = moveEvent.clientX - moveEvent.offsetX
             }
             if (dragObject.styles['top']) {
                 result.oldY = getCssAttributeValue(dragObject.styles['top'])
+            }else{
+                result.oldY = moveEvent.clientY- moveEvent.offsetY
             }
+            dragObject.styles['position'] = dragObject.styles['position']?dragObject.styles['position']:'absolute'
             return result
-        } else {
+        } else if(margin){
             if (dragObject.styles['margin-left']) {
                 result.oldX = getCssAttributeValue(dragObject.styles['margin-left'])
             }
@@ -644,8 +674,7 @@ export function objectToCss(style) {
 
 
 // 解析styles 取得shape应该跟着改变的样式
-export function getShapeStyle(styles, isPreview) {
-    if (isPreview === undefined || isPreview) return
+export function getShapeStyle(styles,lock) {
     const yesStyle = [
         'margin',
         'margin-left',
@@ -665,7 +694,11 @@ export function getShapeStyle(styles, isPreview) {
             result[yesStyle[key]] = styles[yesStyle[key]]
         }
     }
-
+    if (lock){
+        result['pointer-events'] = 'none'
+    }else{
+        result['pointer-events'] = ''
+    }
     return result
 }
 
@@ -691,7 +724,6 @@ export function getComponentStyle(isPreview, styles, type) {
             result[key] = styles[key]
         }
     }
-    result['pointer-events'] = isPreview ? '' : type === 'common' ? 'none' : ''
     return result
 
 }
