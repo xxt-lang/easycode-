@@ -37,19 +37,29 @@ export default {
   },
   methods: {
     changeMethod(val){
-      execMethod(this.propValue.events['change'],this.EcVue)(val)
+      if(execMethod(this.propValue.events['change'])){
+        this.EcVue[this.propValue.events['change'].method](val)
+      }
     },
     blurMethod(val){
-      execMethod(this.propValue.events['blur'],this.EcVue)(val)
+      if(execMethod(this.propValue.events['blur'])){
+        this.EcVue[this.propValue.events['blur'].method](val)
+      }
     },
     focusMethod(val){
-      execMethod(this.propValue.events['focus'],this.EcVue)(val)
+      if(execMethod(this.propValue.events['focus'])){
+        this.EcVue[this.propValue.events['focus'].method](val)
+      }
     },
     inputMethod(val){
-      execMethod(this.propValue.events['input'],this.EcVue)(val)
+      if(execMethod(this.propValue.events['input'])){
+        this.EcVue[this.propValue.events['input'].method](val)
+      }
     },
     clearMethod(){
-      execMethod(this.propValue.events['clear'],this.EcVue)
+      if(execMethod(this.propValue.events['clear'])){
+        this.EcVue[this.propValue.events['clear'].method]()
+      }
     }
   }
 }

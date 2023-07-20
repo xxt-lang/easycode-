@@ -23,7 +23,9 @@ export default {
   },
   methods: {
     errorMethod(){
-      execMethod(this.propValue.events['error'],this.EcVue)()
+      if(execMethod(this.propValue.events['error'])){
+        this.EcVue[this.propValue.events['error'].method]()
+      }
     }
   }
 

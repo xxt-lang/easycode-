@@ -63,10 +63,14 @@ export default {
   },
   methods: {
     changeMethod(val){
-      execMethod(this.propValue.events['change'],this.EcVue)(val)
+      if(execMethod(this.propValue.events['change'])){
+        this.EcVue[this.propValue.events['change'].method](val)
+      }
     },
     inputMethod(val){
-      execMethod(this.propValue.events['input'],this.EcVue)(val)
+      if(execMethod(this.propValue.events['input'])){
+        this.EcVue[this.propValue.events['input'].method](val)
+      }
     }
   }
 }

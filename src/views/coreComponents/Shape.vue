@@ -1,6 +1,5 @@
 <template>
   <div
-      class="shape"
       :class="{ active: status.active,lock:status.lock }"
       :data-index = "index"
       :data-shape="true"
@@ -60,15 +59,10 @@ export default {
   }
 </script>
 <style lang="scss" scoped>
-  .shape {
-    opacity: 1;
-  }
-
-  .active {
+  .active{
     outline: 2px solid #70c0ff;
     position: relative;
     z-index: 1001;
-
   }
   .lock {
     outline: 2px solid #f8e3c5;

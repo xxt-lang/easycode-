@@ -50,10 +50,14 @@ export default {
   },
   methods: {
     changeMethod(val) {
-      execMethod(this.propValue.events['change'], this.EcVue)(val)
+      if(execMethod(this.propValue.events['change'])){
+        this.EcVue[this.propValue.events['change'].method](val)
+      }
     },
     activeChangeMethod(val) {
-      execMethod(this.propValue.events['active-change'], this.EcVue)(val)
+      if(execMethod(this.propValue.events['active-change'])){
+        this.EcVue[this.propValue.events['active-change'].method](val)
+      }
     }
   }
 }

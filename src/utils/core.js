@@ -857,8 +857,10 @@ export function createEcVue(ecVueInfo) {
     try {
         if (ecVueInfo && ecVueInfo !== '') {
             let info = `()=>{return ${ecVueInfo}}`
+            console.log(info)
             let a = eval(info)
             ecVue = new ECVue(a())
+            ecVue['add']()
         }
     } catch (e) {
         console.log(e)
@@ -923,13 +925,11 @@ function verifyPagesData(Pages) {
 }
 
 // 执行方法
-export function execMethod(events, EcVue) {
+export function execMethod(events) {
     if (events && events.enable) {
-        return EcVue[events.method]
-    } else {
-        return function () {
-        }
+        return true
     }
+    return false
 }
 
 export function setMouseEvent(e) {
