@@ -63,7 +63,6 @@ export default {
     rulesValue: {
       get() {
         // °ó¶¨ÊÂ¼þ¼àÌý
-        console.log(getPageData(this.propValue.attributes['rulesValue'], this.EcVue))
         return getPageData(this.propValue.attributes['rulesValue'], this.EcVue)
       },
       set(value) {

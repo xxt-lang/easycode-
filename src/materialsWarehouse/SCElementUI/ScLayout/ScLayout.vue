@@ -2,7 +2,7 @@
   <el-row
       v-bind="propValue.attributes">
     <el-col
-        class="elCol"
+        :class="{elCol:!isPreview}"
         v-for="(item,index) in propValue.children"
         :key="item.id"
         v-bind="propValue.attributes['col'][index]"
