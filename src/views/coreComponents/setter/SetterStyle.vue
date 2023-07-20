@@ -1321,7 +1321,6 @@ export default {
     },
 
     changeBackgroundPosition() {
-      console.log(this.styles['background-position'].params)
       this.choiceStyle('background-position', `${this.styles['background-position'].params.left} ${this.styles['background-position'].params.top}`)
     },
     choiceBackgroundPosition(position, param) {

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-drawer v-model="value"  title="快捷键" :modal="false" size="15%" >
+  <el-drawer v-model="value"  title="快捷键"  size="15%">
     <p v-for="(item,index) in keyList" :key="item.key"
        :style="{'background-color':index%2===0? '#f0f0f0':'',padding:'5px'}">
       <span>{{item.key}}</span>
@@ -45,5 +45,7 @@ export default {
 </script>
 
 <style scoped>
-
+:deep(.el-overlay ){
+  background-color:transparent;
+}
 </style>

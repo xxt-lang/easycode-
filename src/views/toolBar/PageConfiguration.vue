@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-drawer v-model="value" :modal="false" size="30%" direction="ltr" @close="close">
+    <el-drawer v-model="value" size="30%" direction="ltr" @close="close">
       <el-button @click="save">保存</el-button>
       <el-tabs v-model="activeName" class="demo-tabs">
         <el-tab-pane label="EcVue" name="EcVue">
@@ -22,7 +22,7 @@ import {mapActions} from "pinia";
 import {PagesStore} from "../../stores/counter";
 import AceEditor from "../coreComponents/AceEditor.vue";
 import ShowHistory from "./ShowHistory.vue";
-import {analysisCssText, createEcVue} from "../../utils/core";
+import { createEcVue} from "../../utils/core";
 
 export default {
   name: "PageConfiguration",
@@ -40,10 +40,6 @@ export default {
   computed: {
     value: {
       get() {
-        if(this.getNowPage()){
-          this.EcVueInfo = this.getNowPage().ecVueInfo
-          this.css = this.getNowPage().css
-        }
         return this.modelValue
       },
       set(value) {
@@ -51,11 +47,20 @@ export default {
       }
     }
   },
+  watch:{
+    modelValue(nVal,oVal){
+      if(nVal){
+        if(this.getNowPage()){
+          this.EcVueInfo = this.getNowPage().ecVueInfo
+          this.css = this.getNowPage().css
+        }
+      }
+    }
+  },
   data() {
     return {
       activeName: 'EcVue',
       EcVueInfo:'暂无数据',
-      Css:''
     }
   },
   created() {
@@ -78,4 +83,7 @@ export default {
 </script>
 
 <style scoped>
+:deep(.el-overlay ){
+  background-color:transparent;
+}
 </style>

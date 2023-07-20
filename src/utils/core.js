@@ -857,10 +857,8 @@ export function createEcVue(ecVueInfo) {
     try {
         if (ecVueInfo && ecVueInfo !== '') {
             let info = `()=>{return ${ecVueInfo}}`
-            console.log(info)
             let a = eval(info)
             ecVue = new ECVue(a())
-            ecVue['add']()
         }
     } catch (e) {
         console.log(e)

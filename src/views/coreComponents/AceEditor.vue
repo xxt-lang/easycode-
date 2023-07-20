@@ -39,6 +39,7 @@ export default {
           // 防止改变编辑器内容时光标重定向
           if (editor!=null && val !== editor?.getValue()) {
             editor.setValue(val);
+            editor.selection.selectTo(0,1)
           }
         },
     );
@@ -55,8 +56,9 @@ export default {
       if(props.modelValue){
         editor.setValue(props.modelValue)
       }
-      editor.selection.selectTo(0,0)
+      editor.selection.selectTo(0,1)
       editor.getSession().on('change', function() {
+        editor.selection.selectTo(0,1)
         emit('update:modelValue', editor.getValue())
       })
     });
