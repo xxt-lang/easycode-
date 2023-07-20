@@ -58,7 +58,6 @@ export default {
       }
       editor.selection.selectTo(0,1)
       editor.getSession().on('change', function() {
-        editor.selection.selectTo(0,1)
         emit('update:modelValue', editor.getValue())
       })
     });
