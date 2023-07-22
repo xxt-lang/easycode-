@@ -157,8 +157,9 @@ export default {
       },
       click(){
         savePage()
-        let toPage = this.$router.resolve({name:'preview',query:{page:this.getPageIndex()}})
-        window.open(toPage.href,'_blank')
+        this.$router.push({name:'preview',query:{page:this.getPageIndex()}})
+        // let toPage = this.$router.resolve({name:'preview',query:{page:this.getPageIndex()}})
+        // window.open(toPage.href,'_blank')
       }
     }
 }
