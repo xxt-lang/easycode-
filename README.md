@@ -1,4 +1,14 @@
-# vue3 EasyCode 
+# EasyCode vue3低代码开发工具
+
+项目预览地址：[简单代码 (gitee.io)](https://xxt2286621910.gitee.io/easy-code/)
+
+主体功能讲解：[基于Vue3的低代码开发工具 - 掘金 (juejin.cn)](https://juejin.cn/post/7257873231381708857)
+
+事件绑定实现：[基于vue3的低代码开发工具-事件与value的绑定 - 掘金 (juejin.cn)](https://juejin.cn/post/7258165891279339575)
+
+样式绑定实现：[基于vue3的低代码开发工具-样式绑定 - 掘金 (juejin.cn)](https://juejin.cn/post/7257894053902647353)
+
+后续将增加出码功能，数据源功能在近期会完成并提交上
 
 # 1.功能
 

@@ -8,6 +8,7 @@ export default defineConfig({
   define: {
     'process.env': {}, // 重要
   },
+  base: '/easy-code/',
   plugins: [vue()],
   resolve: {
     alias: {
@@ -15,3 +16,4 @@ export default defineConfig({
     }
   }
 })
+

@@ -13,15 +13,10 @@ export function ECVue(options) {
         console.log('ECVue是一个构造函数，应使用“new”关键字调用');
     }
     this._init(options)
-    // 绑定vue的ref
-    function registeredRefs(key,content){
-        console.log(key,content)
-    }
-
 }
 
 ECVue.prototype._init = function (options) {
-    var sc = this; //Vue实例
+    var sc = this;
     sc.$options = options
     //代码进行了删减
     initState(sc);
@@ -39,7 +34,9 @@ function initState(sc) {
     if(registryMethods){
         initRegistryMethods(sc,registryMethods)
     }
+    // 对应vue 中mounted函数的调用
     sc['mounted'] = typeof opts.mounted === 'function' ? opts.mounted : noop
+    // 用于存放vue中的ref 可通过this.$refs['ref']来进行调用
     sc['$refs'] = {}
 }
 function initRegistryMethods(sc,registryMethods){
