@@ -1,7 +1,13 @@
 import {CommonStatusStore,UndoRedoStore} from '@/stores/counter'
-import {copy, deleteSelectComponent, lockComponent, savePage, shear, stickup,redo,undo,upSelectComponent} from "./core";
+import {copy, deleteSelectComponent, lockComponent, savePage, shear, stickup,redo,undo,upSelectComponent,setterComponent} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {
+  "alt e": {
+    label: '设置组件',
+    func: function () {
+      setterComponent()
+    }
+  },
   "alt t": {
     label: '向上选择组件',
     func: function () {
@@ -99,10 +105,11 @@ export function getKeyDetails(){
 export function initShortKeyDown() {
   if (keyDowns) {
     window.onkeydown = (e)=>{
+      console.log(e)
         const nowKey = analysisKey(e)
         if(keyDowns.hasOwnProperty(nowKey)){
           if(!keyDowns[nowKey].global){
-            if(e.target.id !== "") return
+            if(e.target.localName !== "body") return
           }
           e.preventDefault()
           keyDowns[nowKey].func()

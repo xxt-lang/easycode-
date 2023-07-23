@@ -976,11 +976,14 @@ export function upSelectComponent(){
             upComponent.status.active = true
             selectPate[0] = upComponent
             firstComponent.status.active = false
-            eventBus.emit("dbComponent")
+            eventBus.emit("setterComponent")
             upComponent = null
         }
         firstComponent = null
     }
     selectPate = null
+}
+export function setterComponent(){
+    eventBus.emit("setterComponent")
 }
 

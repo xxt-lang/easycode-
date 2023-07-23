@@ -92,7 +92,7 @@ export default {
       event.stopPropagation()
       // 当所选元素为容器组件时才进行isContainer的复制
       clickSelectComponent(event, item)
-      eventBus.emit("dbComponent")
+      eventBus.emit("setterComponent")
     }
   }
 }

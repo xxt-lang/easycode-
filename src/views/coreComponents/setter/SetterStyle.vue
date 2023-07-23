@@ -937,7 +937,7 @@ export default {
   },
   mounted() {
     let that = this
-    eventBus.on("dbComponent", () => {
+    eventBus.on("setterComponent", () => {
       let styles = getStore("SimpleStore").selectPlate[0].styles
       that.css = `.main{\n${objectToCss(styles)}\n}`
       that.styles = {

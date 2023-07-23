@@ -141,7 +141,7 @@ export default {
               this.setSelectPlate(node)
             }
           }
-          eventBus.emit("dbComponent")
+          eventBus.emit("setterComponent")
         }
         this.$emit("update:leftToolBarActive",false)
       }else{

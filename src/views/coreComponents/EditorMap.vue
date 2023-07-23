@@ -122,7 +122,7 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       clickSelectComponent(event, item)
-      eventBus.emit("dbComponent")
+      eventBus.emit("setterComponent")
     }
   }
 }
