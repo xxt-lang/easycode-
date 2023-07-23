@@ -960,3 +960,27 @@ export function deleteRefs(component) {
     }
 }
 
+export function upSelectComponent(){
+    let selectPate = []
+    if (getStore("SimpleStore").selectPlate) {
+        selectPate = getStore("SimpleStore").selectPlate
+        let firstComponent = selectPate[0]
+        // 向上跳转只作用于选择列表的第一个 当父id为editor时则不进行向上查找
+        if(firstComponent.featherId === 'editor'){
+            return
+        }else{
+            let upComponent = searchComponent(firstComponent.featherId)
+            if(upComponent.component === 'container'){
+                upComponent = searchComponent(upComponent.featherId)
+            }
+            upComponent.status.active = true
+            selectPate[0] = upComponent
+            firstComponent.status.active = false
+            eventBus.emit("dbComponent")
+            upComponent = null
+        }
+        firstComponent = null
+    }
+    selectPate = null
+}
+

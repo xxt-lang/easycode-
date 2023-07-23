@@ -40,7 +40,6 @@
 import {PagesStore, SimpleStore} from "../../stores/counter";
 import {mapActions, mapState} from "pinia";
 import {Plus} from "@element-plus/icons-vue";
-import {analysisCssText, deleteSelectComponent, getStore, objectToCss} from "../../utils/core";
 import VMonacoEditor from "../coreComponents/AceEditor.vue";
 import {deepClone} from "../../utils/tool";
 import {ECVue} from "../../utils/ECVue";
@@ -126,6 +125,7 @@ export default {
     remove(node,data){
       if(data.type === "page"){
         this.deletePage(this.pages.findIndex((d) => d.id === data.id),data.id)
+        eventBus.emit("clearSetter", {type: "clearMap", params: null})
       }
       this.nodeClickStatus = false
     },

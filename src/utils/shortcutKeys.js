@@ -1,23 +1,11 @@
 import {CommonStatusStore,UndoRedoStore} from '@/stores/counter'
-import {copy, deleteSelectComponent, lockComponent, savePage, shear, stickup,redo,undo} from "./core";
+import {copy, deleteSelectComponent, lockComponent, savePage, shear, stickup,redo,undo,upSelectComponent} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {
-  "ctrl h": {
-    label: '查看历史',
+  "alt t": {
+    label: '向上选择组件',
     func: function () {
-      console.log(UndoRedoStore().getHistory())
-    }
-  },
-  "alt c": {
-    label: '容器状态',
-    func: function () {
-      CommonStatusStore().containerLock = !CommonStatusStore().containerLock
-    }
-  },
-  "ctrl e": {
-    label: '编辑元素',
-    func: function () {
-      CommonStatusStore().editPosition = !CommonStatusStore().editPosition
+      upSelectComponent()
     }
   },
   "ctrl c":{
@@ -91,12 +79,16 @@ const keyDowns = {
   },
 }
 const keyDetails = [
-  {key:'ctrl h',detail:'查看历史'},
-  {key:'ctrl m',detail:'调整位置'},
+  {key:'ctrl t',detail:'向上选择组件'},
+  {key:'ctrl m',detail:'调整margin'},
+  {key:'ctrl p',detail:'调整position'},
   {key:'ctrl d',detail:'删除'},
   {key:'Backspace',detail:'删除'},
   {key:'ctrl l',detail:'锁定组件'},
-  {key:'ctrl s',detail:'保存组件'},
+  {key:'ctrl c',detail:'复制'},
+  {key:'ctrl v',detail:'粘贴'},
+  {key:'ctrl x',detail:'剪切'},
+  {key:'ctrl s',detail:'保存'},
   {key:'ctrl z',detail:'撤销'},
   {key:'ctrl y',detail:'回退'},
 ]
