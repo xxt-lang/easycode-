@@ -1,4 +1,4 @@
-import {CommonStatusStore,UndoRedoStore} from '@/stores/counter'
+import {CommonStatusStore} from '@/stores/counter'
 import {copy, deleteSelectComponent, lockComponent, savePage, shear, stickup,redo,undo,upSelectComponent,setterComponent} from "./core";
 //ctrl alt shift [小写字母]
 const keyDowns = {

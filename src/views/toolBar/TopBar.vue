@@ -143,6 +143,15 @@ export default {
                 exportComponent()
               }
             },
+            {
+              component:"button",
+              label:"下载源码",
+              attribute:{
+              },
+              func:()=>{
+                that.toolClick('generateCode')
+              }
+            },
           ],
         }
     },

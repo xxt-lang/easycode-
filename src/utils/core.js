@@ -13,7 +13,7 @@ import {
 import {saveAs} from 'file-saver';
 import {ElMessage} from "element-plus";
 import {ECVue} from "./ECVue";
-
+import JSZip from "jszip";
 export function getStore(name) {
     if (name === "PagesStore")
         return PagesStore()
@@ -985,5 +985,17 @@ export function upSelectComponent(){
 }
 export function setterComponent(){
     eventBus.emit("setterComponent")
+}
+export function generateCode(exportPage){
+
+    // let zip = new JSZip()
+    // let blob = new Blob([JSON.stringify(exportPage, re)], {type: "text/json;charset=utf-8"});
+    // for (let i = 0; i < 10; i++) {
+    //     zip.file(`pageName${i}.json`,blob,{binary:true})
+    // }
+    // zip.generateAsync({ type: "blob" }).then(content => {
+    //     // 生成二进制流
+    //     saveAs(content, "zip测试"); // 利用file-saver保存文件  自定义文件名
+    // });
 }
 

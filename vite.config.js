@@ -8,6 +8,7 @@ export default defineConfig({
   define: {
     'process.env': {}, // 重要
   },
+  // base:"./",
   base: '/easy-code/',
   plugins: [vue()],
   resolve: {

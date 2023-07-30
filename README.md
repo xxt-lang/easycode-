@@ -8,6 +8,8 @@
 
 样式绑定实现：[基于vue3的低代码开发工具-样式绑定 - 掘金 (juejin.cn)](https://juejin.cn/post/7257894053902647353)
 
+后端生成源码demo：[另一种生命里/Spring-Boot-Template (gitee.com)](https://gitee.com/xxt2286621910/Spring-Boot-Template)
+
 后续将增加出码功能，数据源功能在近期会完成并提交上
 
 # 1.功能
@@ -118,8 +120,6 @@ click(){
 # 2.后续目标功能
 
 1.接口的配置api接口跳转地址等
-
-2.简易方法的配置与绑定
 
 3.进行组件的放大缩小操作
 

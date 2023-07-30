@@ -20,7 +20,8 @@
       <export-page-dialog v-model="showExportPageDialog"></export-page-dialog>
 <!--    导出-->
     <import-page-dialog v-model="showImportPageDialog"></import-page-dialog>
-
+<!--    出码-->
+    <generate-code-dialog v-model = "showGenerateDialog"></generate-code-dialog>
   </div>
 
 </template>
@@ -39,11 +40,12 @@ import PageConfiguration from "./toolBar/PageConfiguration.vue";
 import ExportPageDialog from "./toolBar/ExportPageDialog.vue";
 import ImportPageDialog from "./toolBar/ImportPageDialog.vue";
 import {loadComponent} from "../utils/registered/registeredComponent";
+import GenerateCodeDialog from "./toolBar/GenerateCodeDialog.vue";
 
 export default {
   components: {
     ImportPageDialog,
-    ExportPageDialog, PageConfiguration, ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter},
+    ExportPageDialog, PageConfiguration, ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter,GenerateCodeDialog},
   name: "Home",
   props: [],
   data() {
@@ -52,7 +54,8 @@ export default {
       drawerTitle:'',
       showPageConfiguration:false,
       showExportPageDialog:false,
-      showImportPageDialog:false
+      showImportPageDialog:false,
+      showGenerateDialog:false
     }
   },
   setup() {
@@ -82,17 +85,27 @@ export default {
   methods: {
     // 工具栏点击事件，点击之后页面弹窗
     toolClick(param){
-      if(param === 'showKeyDetail'){
-        this.showKeyDetails = !this.showKeyDetails
-      }
-      if(param === 'pageConfiguration'){
-        this.showPageConfiguration = !this.showPageConfiguration
-      }
-      if(param === 'exportPage'){
-        this.showExportPageDialog = !this.showExportPageDialog
-      }
-      if(param === 'importPage'){
-        this.showImportPageDialog = !this.showImportPageDialog
+      switch (param){
+        case "showKeyDetail":{
+          this.showKeyDetails = !this.showKeyDetails
+          break
+        }
+        case "pageConfiguration":{
+          this.showPageConfiguration = !this.showPageConfiguration
+          break
+        }
+        case "exportPage":{
+          this.showExportPageDialog = !this.showExportPageDialog
+          break
+        }
+        case "importPage":{
+          this.showImportPageDialog = !this.showImportPageDialog
+          break
+        }
+        case "generateCode":{
+          this.showGenerateDialog = !this.showGenerateDialog
+          break
+        }
       }
     },
     //点击弹窗
