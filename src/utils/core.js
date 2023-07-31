@@ -14,6 +14,13 @@ import {saveAs} from 'file-saver';
 import {ElMessage} from "element-plus";
 import {ECVue} from "./ECVue";
 import JSZip from "jszip";
+import {ecTemplate} from "./ecTemplate";
+import prettier from "prettier/standalone"
+import parserHtml from "prettier/plugins/html"
+
+import parserCss from "prettier/plugins/postcss"
+
+
 export function getStore(name) {
     if (name === "PagesStore")
         return PagesStore()
@@ -220,7 +227,7 @@ export function moveComponent(e, index, dragObject) {
     // 获取元素的初始内边距
     let locationInfo = null
     if (getStore("CommonStatusStore").editMargin || getStore("CommonStatusStore").editPosition) {
-        locationInfo = initPositionOrMargin(e,dragObject,getStore("CommonStatusStore").editPosition,getStore("CommonStatusStore").editMargin)
+        locationInfo = initPositionOrMargin(e, dragObject, getStore("CommonStatusStore").editPosition, getStore("CommonStatusStore").editMargin)
         message = `调整${dragObject.label + locationInfo.type}`
     }
     eventBus.emit(`move-dragTip`, {style: {top: e.clientY + 'px', left: e.clientX + 'px'}, message: message})
@@ -248,17 +255,17 @@ export function moveComponent(e, index, dragObject) {
             }
         } else {
             targetInfo = mousemoveInfo(moveEvent)
-            if(dragObject.id !==moveEvent.target.dataset.elementid){
-                if((oldDocument !== moveEvent.target || oldDirection !== targetInfo.direction) && moveEvent.target.dataset.shape === 'true'){
-                    if (oldDocument){
+            if (dragObject.id !== moveEvent.target.dataset.elementid) {
+                if ((oldDocument !== moveEvent.target || oldDirection !== targetInfo.direction) && moveEvent.target.dataset.shape === 'true') {
+                    if (oldDocument) {
                         oldDocument.style['outline'] = ''
                     }
                     oldDocument = moveEvent.target
                     oldDirection = targetInfo.direction
-                    oldDocument.style['outline'] = `2px solid ${targetInfo.direction === 'left'?'green':'orange'}`
+                    oldDocument.style['outline'] = `2px solid ${targetInfo.direction === 'left' ? 'green' : 'orange'}`
                 }
-                if(!moveEvent.target.dataset.shape){
-                    if (oldDocument){
+                if (!moveEvent.target.dataset.shape) {
+                    if (oldDocument) {
                         oldDocument.style['outline'] = ''
                     }
                     oldDocument = null
@@ -271,7 +278,7 @@ export function moveComponent(e, index, dragObject) {
     upMouse(move, () => {
         // 用于拖拽时的提示定位
         eventBus.emit(`move-dragTip`, {style: {top: 0, left: 0, display: 'none'}, message: null})
-        if(oldDocument){
+        if (oldDocument) {
             oldDocument.style['outline'] = ''
             oldDocument = null
         }
@@ -283,7 +290,7 @@ export function moveComponent(e, index, dragObject) {
 
 }
 
-function initPositionOrMargin(moveEvent,dragObject,position,margin) {
+function initPositionOrMargin(moveEvent, dragObject, position, margin) {
     //当被拖拽元素是锁定状态时不进行初始化
     if (!dragObject.status.lock) {
         let result = {oldX: 0, oldY: 0, type: 'position'}
@@ -291,17 +298,17 @@ function initPositionOrMargin(moveEvent,dragObject,position,margin) {
         if (position && !margin) {
             if (dragObject.styles['left']) {
                 result.oldX = getCssAttributeValue(dragObject.styles['left'])
-            }else{
+            } else {
                 result.oldX = moveEvent.clientX - moveEvent.offsetX
             }
             if (dragObject.styles['top']) {
                 result.oldY = getCssAttributeValue(dragObject.styles['top'])
-            }else{
-                result.oldY = moveEvent.clientY- moveEvent.offsetY
+            } else {
+                result.oldY = moveEvent.clientY - moveEvent.offsetY
             }
-            dragObject.styles['position'] = dragObject.styles['position']?dragObject.styles['position']:'absolute'
+            dragObject.styles['position'] = dragObject.styles['position'] ? dragObject.styles['position'] : 'absolute'
             return result
-        } else if(margin){
+        } else if (margin) {
             if (dragObject.styles['margin-left']) {
                 result.oldX = getCssAttributeValue(dragObject.styles['margin-left'])
             }
@@ -673,7 +680,7 @@ export function objectToCss(style) {
 
 
 // 解析styles 取得shape应该跟着改变的样式
-export function getShapeStyle(styles,lock) {
+export function getShapeStyle(styles, lock) {
     const yesStyle = [
         'margin',
         'margin-left',
@@ -693,9 +700,9 @@ export function getShapeStyle(styles,lock) {
             result[yesStyle[key]] = styles[yesStyle[key]]
         }
     }
-    if (lock){
+    if (lock) {
         result['pointer-events'] = 'none'
-    }else{
+    } else {
         result['pointer-events'] = ''
     }
     return result
@@ -773,10 +780,10 @@ export function deleteComponent(selectPlate) {
 export function getComponentSetter() {
     if (getStore("SimpleStore").selectPlate[0] !== undefined) {
         let component = getStore("SimpleStore").selectPlate[0]['component']
-        if(component){
-            let index = getStore("ComponentListStore").componentSetters.findIndex((item)=>item.component === component)
-            if(getStore("ComponentListStore").componentSetters[index].hasOwnProperty('setter'))
-            return getStore("ComponentListStore").componentSetters[index]['setter']
+        if (component) {
+            let index = getStore("ComponentListStore").componentSetters.findIndex((item) => item.component === component)
+            if (getStore("ComponentListStore").componentSetters[index].hasOwnProperty('setter'))
+                return getStore("ComponentListStore").componentSetters[index]['setter']
         }
     }
     return null
@@ -802,7 +809,7 @@ export function savePage() {
     try {
         localStorage.setItem("page", JSON.stringify(getStore("PagesStore").getPage(), re))
         ElMessage({message: "保存成功", type: 'success', duration: 2000, showClose: true,})
-    }catch (e) {
+    } catch (e) {
         ElMessage({message: "保存失败", type: 'error', duration: 2000, showClose: true,})
     }
 }
@@ -960,17 +967,17 @@ export function deleteRefs(component) {
     }
 }
 
-export function upSelectComponent(){
+export function upSelectComponent() {
     let selectPate = []
     if (getStore("SimpleStore").selectPlate) {
         selectPate = getStore("SimpleStore").selectPlate
         let firstComponent = selectPate[0]
         // 向上跳转只作用于选择列表的第一个 当父id为editor时则不进行向上查找
-        if(firstComponent.featherId === 'editor'){
+        if (firstComponent.featherId === 'editor') {
             return
-        }else{
+        } else {
             let upComponent = searchComponent(firstComponent.featherId)
-            if(upComponent.component === 'container'){
+            if (upComponent.component === 'container') {
                 upComponent = searchComponent(upComponent.featherId)
             }
             upComponent.status.active = true
@@ -983,19 +990,48 @@ export function upSelectComponent(){
     }
     selectPate = null
 }
-export function setterComponent(){
+
+export function setterComponent() {
     eventBus.emit("setterComponent")
 }
-export function generateCode(exportPage){
 
-    // let zip = new JSZip()
-    // let blob = new Blob([JSON.stringify(exportPage, re)], {type: "text/json;charset=utf-8"});
-    // for (let i = 0; i < 10; i++) {
-    //     zip.file(`pageName${i}.json`,blob,{binary:true})
-    // }
-    // zip.generateAsync({ type: "blob" }).then(content => {
-    //     // 生成二进制流
-    //     saveAs(content, "zip测试"); // 利用file-saver保存文件  自定义文件名
-    // });
+export async function generateCode(exportPage) {
+    let zip = new JSZip()
+    for (const item of exportPage) {
+        let data = await formatText(ecTemplate(item))
+        let blob = new Blob([data], {type: "text/json;charset=utf-8"});
+        zip.file(item.pageName + ".vue", blob, {binary: true})
+    }
+    zip.generateAsync({type: "blob"}).then(content => {
+        // 生成二进制流
+        saveAs(content, "easyCode源码"); // 利用file-saver保存文件  自定义文件名
+    });
+
+}
+
+export async function formatText(text, type) {
+    if (!type || type === "javascript" ) return text
+    let result = ""
+    let plugin = null
+    let vueIndentScriptAndStyle = false
+    if (type === "css") {
+        plugin = parserCss
+        type = "css"
+    }
+    if (type === "html") {
+        type = "html"
+        plugin = parserHtml
+        vueIndentScriptAndStyle = true
+    }
+    if (plugin !== null) {
+        await prettier.format(text, {
+            parser: type,
+            plugins: [plugin],
+            vueIndentScriptAndStyle: vueIndentScriptAndStyle
+        }).then(data => {
+            result = data
+        })
+    }
+    return result
 }
 

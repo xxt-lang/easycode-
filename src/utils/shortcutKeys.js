@@ -105,7 +105,6 @@ export function getKeyDetails(){
 export function initShortKeyDown() {
   if (keyDowns) {
     window.onkeydown = (e)=>{
-      console.log(e)
         const nowKey = analysisKey(e)
         if(keyDowns.hasOwnProperty(nowKey)){
           if(!keyDowns[nowKey].global){

@@ -69,6 +69,7 @@ export default {
   methods:{
     ...mapActions(PagesStore,['getNowPage']),
     save(){
+      console.log(this.EcVueInfo)
       this.getNowPage()['ecVueInfo'] = this.EcVueInfo
       this.getNowPage()['EcVue'] = null
       this.getNowPage()['EcVue'] = createEcVue(this.EcVueInfo)

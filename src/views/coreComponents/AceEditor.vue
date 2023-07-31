@@ -8,6 +8,7 @@
 
 <script>
 import { getCurrentInstance, onMounted, onUnmounted,watch} from 'vue';
+import {formatText} from "../../utils/core";
 
 import ace from 'brace'
 import 'brace/mode/javascript'
@@ -38,8 +39,10 @@ export default {
         (val,oldVal) => {
           // 防止改变编辑器内容时光标重定向
           if (editor!=null && val !== editor?.getValue()) {
-            editor.setValue(val);
-            editor.selection.selectTo(0,1)
+            formatText(val).then(data=>{
+              editor.setValue(data);
+              editor.selection.selectTo(0,1)
+            })
           }
         },
     );
@@ -54,9 +57,12 @@ export default {
         enableMultiselect:false
       })
       if(props.modelValue){
-        editor.setValue(props.modelValue)
+        formatText(props.modelValue,props.language).then(data=>{
+          console.log(data)
+          editor.setValue(data)
+          editor.selection.selectTo(0,1)
+        })
       }
-      editor.selection.selectTo(0,1)
       editor.getSession().on('change', function() {
         emit('update:modelValue', editor.getValue())
       })

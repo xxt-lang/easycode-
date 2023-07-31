@@ -73,14 +73,7 @@ export default {
         children:[],
         status:{active:false},
         data:{},
-        ecVueInfo:'export default{\n' +
-            'mounted(){\n'+
-            '},\n'+
-            'data(){\n' +
-            'return{\n' +
-            '}},\n' +
-            'methods:{\n' +
-            '}}\n',
+        ecVueInfo:'',
         EcVue:null,
         css:"",
         id:""
@@ -152,6 +145,7 @@ export default {
       this.$refs.pageFromRef.validate((valid) => {
         if(valid){
           let pageFrom = deepClone(this.pageFrom)
+          pageFrom.ecVueInfo = `export default{ \n name:"${pageFrom.pageName}", \n mounted(){ \n}, \n data(){\n return{ \n }}, \n methods:{\n} \n}`
           pageFrom.EcVue = new ECVue({data(){return{}},methods:{}})
           this.addPage(pageFrom)
           this.dialogVisible = false
@@ -161,14 +155,7 @@ export default {
             label: '',
             children: [],
             status: {active: false},
-            ecVueInfo:'export default{\n' +
-                'mounted(){\n'+
-                '},\n'+
-                'data(){\n' +
-                'return{\n' +
-                '}},\n' +
-                'methods:{\n' +
-                '}}\n',
+            ecVueInfo:"",
             EcVue:null,
             css: "",
             id: ""
