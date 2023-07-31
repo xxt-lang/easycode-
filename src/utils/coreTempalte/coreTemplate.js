@@ -6,10 +6,10 @@ export function coreTemplate(param) {
          return includeTemplate(item.component,item)})}
     </template>
     <script>
-        ${param.ecVueInfo}
+    ${param.ecVueInfo}
     </script>
     <style>
-        ${param.css}
+    ${param.css}
     </style>
     `
 }

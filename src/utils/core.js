@@ -998,7 +998,7 @@ export function setterComponent() {
 export async function generateCode(exportPage) {
     let zip = new JSZip()
     for (const item of exportPage) {
-        let data = await formatText(ecTemplate(item))
+        let data = await formatText(ecTemplate(item),"html")
         let blob = new Blob([data], {type: "text/json;charset=utf-8"});
         zip.file(item.pageName + ".vue", blob, {binary: true})
     }

@@ -3,7 +3,7 @@
     <el-drawer v-model="value" size="30%" direction="ltr" @close="close">
       <el-button @click="save">保存</el-button>
       <el-tabs v-model="activeName" class="demo-tabs">
-        <el-tab-pane label="EcVue" name="EcVue">
+        <el-tab-pane label="js" name="js">
           <AceEditor v-model="EcVueInfo" language="javascript"  key="data"></AceEditor>
         </el-tab-pane>
         <el-tab-pane label="css" name="css">
@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      activeName: 'EcVue',
+      activeName: 'js',
       EcVueInfo:'暂无数据',
     }
   },

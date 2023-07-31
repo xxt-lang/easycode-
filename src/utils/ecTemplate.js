@@ -1,6 +1,5 @@
 import {coreTemplate} from "./coreTempalte/coreTemplate";
-import {ScButtonTemplate} from "./coreTempalte/ScButtonTemplate";
-import {ScLayoutTemplate} from "./coreTempalte/ScLayoutTemplate";
+import {ComponentListStore} from "../stores/counter";
 
 export function ecTemplate(data){
     return coreTemplate(data)
@@ -23,13 +22,10 @@ export function ecTemplateFor(list,method){
     }
     return result
 }
-const templateList = {
-    ScButton:ScButtonTemplate,
-    ScLayout:ScLayoutTemplate
-}
 export function includeTemplate(template,param){
-    if(templateList.hasOwnProperty(template)){
-        return templateList[template](param)
+    const componentListStore = ComponentListStore()
+    if(componentListStore.componentTemplates.hasOwnProperty(template)){
+        return componentListStore.componentTemplates[template](param)
     }
     return ""
 }

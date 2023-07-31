@@ -11,6 +11,7 @@ const baseAttribute = {
 }
 const componentList = []
 const componentSetters = []
+const componentTemplates = {}
 
 // 加载组件配置
 export function loadComponentConfiguration() {
@@ -50,6 +51,7 @@ export function loadComponentConfiguration() {
     componentListStore.componentList = componentList
     componentListStore.componentSetters = componentSetters
     componentListStore.materials = materials
+    componentListStore.componentTemplates = componentTemplates
 }
 
 export function assembleComponent(component,name){
@@ -61,6 +63,9 @@ export function assembleComponent(component,name){
     }
     if(component.hasOwnProperty('setter')){
         componentSetters.push(component.setter)
+    }
+    if(component.hasOwnProperty('template')){
+        componentTemplates[name] = component.template
     }
 }
 

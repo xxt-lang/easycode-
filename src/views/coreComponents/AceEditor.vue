@@ -58,7 +58,6 @@ export default {
       })
       if(props.modelValue){
         formatText(props.modelValue,props.language).then(data=>{
-          console.log(data)
           editor.setValue(data)
           editor.selection.selectTo(0,1)
         })
