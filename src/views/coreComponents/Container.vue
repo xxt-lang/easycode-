@@ -11,6 +11,8 @@
          :data-elementType = "item.type"
          @mousedown="handleMouseDown(item,$event,index)"
          @dblclick="dbClick(item,$event,index)"
+         :data-shape="true"
+         :style="{'pointer-events':lock?'none':''}"
   >
     <component
         :isPreview = "isPreview"

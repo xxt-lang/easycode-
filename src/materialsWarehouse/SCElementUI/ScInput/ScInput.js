@@ -7,6 +7,9 @@ export const ScInput = {
         events: {},
         attributes: {},
         styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter:{
         component: "ScInput",

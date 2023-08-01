@@ -404,7 +404,6 @@ export function handleDrop(e) {
     e.stopPropagation()
     let component = deepClone(getStore("ComponentListStore").componentList.find((data) => data.component === e.dataTransfer.getData('index')))
     // 若添加成功返回true 并在撤销回退中记录
-    console.log(e)
     if (component) {
         if (addComponent(getTarget(e.target.dataset), component, e)) {
             getStore("UndoRedoStore").addOperation('addComponent')
@@ -1028,28 +1027,34 @@ export async function generateCode(exportPage) {
 
 // 格式化文本
 export async function formatText(text, type) {
-    if (!type || type === "javascript" ) return text
-    let result = ""
-    let plugin = null
-    let vueIndentScriptAndStyle = false
-    if (type === "css") {
-        plugin = parserCss
-        type = "css"
+    try {
+        if (!type || type === "javascript" ) return text
+        let result = ""
+        let plugin = null
+        let vueIndentScriptAndStyle = false
+        if (type === "css") {
+            plugin = parserCss
+            type = "css"
+        }
+        if (type === "html") {
+            type = "html"
+            plugin = parserHtml
+            vueIndentScriptAndStyle = true
+        }
+        if (plugin !== null) {
+            await prettier.format(text, {
+                parser: type,
+                plugins: [plugin],
+                vueIndentScriptAndStyle: vueIndentScriptAndStyle
+            }).then(data => {
+                result = data
+            })
+        }
+        return result
+    }catch (e){
+        console.log(e)
+        ElMessage({message: "有错误请检查后在进行保存", type: 'warning', duration: 2000, showClose: true,})
     }
-    if (type === "html") {
-        type = "html"
-        plugin = parserHtml
-        vueIndentScriptAndStyle = true
-    }
-    if (plugin !== null) {
-        await prettier.format(text, {
-            parser: type,
-            plugins: [plugin],
-            vueIndentScriptAndStyle: vueIndentScriptAndStyle
-        }).then(data => {
-            result = data
-        })
-    }
-    return result
+
 }
 

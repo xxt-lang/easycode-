@@ -45,8 +45,7 @@ import {
   clickSelectComponent,
   moveComponent,
   handleDrop,
-  getComponentStyle,
-  getShapeStyle
+  getComponentStyle
 } from '@/utils/core'
 import Shape from "./Shape.vue";
 import Contextmenu from "./Contextmenu.vue";
@@ -98,7 +97,6 @@ export default {
 
   },
   methods: {
-    getShapeStyle,
     getComponentStyle,
     handleDragOver,
     handleDrop,

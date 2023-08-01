@@ -46,16 +46,16 @@ export default {
                 clearMap()
               }
             },
-            {
-              component:"button",
-              label:"返回",
-              attribute:{
-                type:'primary'
-              },
-              icon:'',
-              func:()=>{
-              }
-            },
+            // {
+            //   component:"button",
+            //   label:"返回",
+            //   attribute:{
+            //     type:'primary'
+            //   },
+            //   icon:'',
+            //   func:()=>{
+            //   }
+            // },
             {
               component:"button",
               label:"预览",

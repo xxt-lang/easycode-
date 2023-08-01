@@ -320,14 +320,6 @@ export const materials = [
 
 export const componentList = [
     {
-        component: "ScSelect",
-        label: 'select选择器',
-        events: {},
-        attributes: {},
-        styles: {},
-    },
-
-    {
         component: "ScRadio",
         label: '单选框',
         events: {},
@@ -464,8 +456,6 @@ export const componentList = [
     }
 ]
 export const componentSetters = [
-
-
     {
         component: "ScTable",
         setter: {

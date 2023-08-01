@@ -1,8 +1,26 @@
 <template>
-<el-select v-model="value"></el-select>
+  <el-select
+      v-bind="propValue.attributes"
+      v-model="modelValue"
+      :filter-method = "filterMethodValue"
+      :remote-method="remoteMethodValue"
+      @change = "changeMethod"
+      @visiblechange = "visiblechangeMethod"
+      @removetag = "removetagMethod"
+      @clear = "clearMethod"
+      @blur = "blurMethod"
+      @focus = "focusMethod"
+  >
+    <el-option
+        v-for="item in optionValue"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+    />
+  </el-Select>
 </template>
-
 <script>
+import {getPageData, setPageData,execMethod} from "@/utils/core";
 export default {
   name: "ScSelect",
   props: {
@@ -10,18 +28,85 @@ export default {
       type: Object, String,
       default: function () {
       }
+    },
+    EcVue:{
+      type:Function,
+      default:()=>{}
     }
   },
-  data(){
-    return {
-      value:''
+  computed:{
+    "modelValue": {
+      get(){
+        // 绑定事件监听
+        return getPageData(this.propValue.attributes['modelValue'],this.EcVue)
+      },
+      set(value){
+        setPageData(this.propValue.attributes['modelValue'],value,this.EcVue)
+      }
+    },
+    "filterMethodValue": {
+      get(){
+        // 绑定事件监听
+        return getPageData(this.propValue.attributes['filter-method-value'],this.EcVue)
+      },
+      set(value){
+        setPageData(this.propValue.attributes['filter-method-value'],value,this.EcVue)
+      }
+    },
+    "remoteMethodValue":{
+      get(){
+        // 绑定事件监听
+        return getPageData(this.propValue.attributes['remote-method-value'],this.EcVue)
+      },
+      set(value){
+        setPageData(this.propValue.attributes['remote-method-value'],value,this.EcVue)
+      }
+    },
+    "optionValue":{
+      get(){
+        // 绑定事件监听
+        return getPageData(this.propValue.attributes['option-value'],this.EcVue)
+      },
+      set(value){
+        setPageData(this.propValue.attributes['option-value'],value,this.EcVue)
+      }
     }
   },
   methods: {
+    changeMethod(){
+      if(execMethod(this.propValue.events["change"],this.EcVue)){
+        this.EcVue[this.propValue.events["change"]]
+      }
+    },
+    visiblechangeMethod(){
+      if(execMethod(this.propValue.events["visiblechange"],this.EcVue)){
+        this.EcVue[this.propValue.events["visiblechange"]]
+      }
+    },
+    removetagMethod(){
+      if(execMethod(this.propValue.events["removetag"],this.EcVue)){
+        this.EcVue[this.propValue.events["removetag"]]
+      }
+    },
+    clearMethod(){
+      if(execMethod(this.propValue.events["clear"],this.EcVue)){
+        this.EcVue[this.propValue.events["clear"]]
+      }
+    },
+    blurMethod(){
+      if(execMethod(this.propValue.events["blur"],this.EcVue)){
+        this.EcVue[this.propValue.events["blur"]]
+      }
+    },
+    focusMethod(){
+      if(execMethod(this.propValue.events["focus"],this.EcVue)){
+        this.EcVue[this.propValue.events["focus"]]
+      }
+    },
+
   }
 }
 </script>
-
 <style scoped>
 
 </style>
