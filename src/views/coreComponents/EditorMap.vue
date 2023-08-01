@@ -22,7 +22,7 @@
              :data-shape="true"
       >
         <component
-            :style="getComponentStyle(false,item.styles,item.type)"
+            :style="item.styles"
             :class="item.bindClass"
             :is="item.component"
             :key="index"

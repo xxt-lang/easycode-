@@ -17,23 +17,24 @@ import JSZip from "jszip";
 import {ecTemplate} from "./ecTemplate";
 import prettier from "prettier/standalone"
 import parserHtml from "prettier/plugins/html"
-
 import parserCss from "prettier/plugins/postcss"
 
 
 export function getStore(name) {
-    if (name === "PagesStore")
-        return PagesStore()
-    if (name === "ComponentListStore")
-        return ComponentListStore()
-    if (name === "SimpleStore")
-        return SimpleStore()
-    if (name === "CommonStatusStore")
-        return CommonStatusStore()
-    if (name === "MouseEventStore")
-        return MouseEventStore()
-    if (name === "UndoRedoStore")
-        return UndoRedoStore()
+    switch(name){
+        case "PagesStore":
+            return PagesStore()
+        case "ComponentListStore":
+            return ComponentListStore()
+        case "SimpleStore":
+            return SimpleStore()
+        case "CommonStatusStore":
+            return CommonStatusStore()
+        case "MouseEventStore":
+            return MouseEventStore()
+        case "UndoRedoStore":
+            return UndoRedoStore()
+    }
 }
 
 const debounce = (function () {
@@ -175,14 +176,12 @@ export function rightClickContextmenu(ref, p, contextmenuData, event) {
     event(p, contextmenuData)
 }
 
-
 /*
 client [x,y] 相对于浏览器左上角计算
 offset [x,y] 相对于当前元素的左上角
 layer  [x,y] 设置定位的元素左上角，否则为body
 page   [x,y] 当前页面
 screen [x,y] 当前屏幕
-
  */
 
 // 改变组件的外边距
@@ -259,14 +258,20 @@ export function moveComponent(e, index, dragObject) {
                 if ((oldDocument !== moveEvent.target || oldDirection !== targetInfo.direction) && moveEvent.target.dataset.shape === 'true') {
                     if (oldDocument) {
                         oldDocument.style['outline'] = ''
+                        oldDocument.style['position'] = ""
+                        oldDocument.style['z-index'] = ""
                     }
                     oldDocument = moveEvent.target
                     oldDirection = targetInfo.direction
                     oldDocument.style['outline'] = `2px solid ${targetInfo.direction === 'left' ? 'green' : 'orange'}`
+                    oldDocument.style['position'] = "relative"
+                    oldDocument.style['z-index'] = "1020"
                 }
                 if (!moveEvent.target.dataset.shape) {
                     if (oldDocument) {
                         oldDocument.style['outline'] = ''
+                        oldDocument.style['position'] = ""
+                        oldDocument.style['z-index'] = ""
                     }
                     oldDocument = null
                 }
@@ -929,8 +934,8 @@ function verifyPagesData(Pages) {
 }
 
 // 执行方法
-export function execMethod(events) {
-    if (events && events.enable) {
+export function execMethod(events,EcVue) {
+    if (EcVue[events.method] && events && events.enable) {
         return true
     }
     return false
@@ -995,6 +1000,7 @@ export function setterComponent() {
     eventBus.emit("setterComponent")
 }
 
+// 输出源码
 export async function generateCode(exportPage) {
     let zip = new JSZip()
     for (const item of exportPage) {
@@ -1009,6 +1015,7 @@ export async function generateCode(exportPage) {
 
 }
 
+// 格式化文本
 export async function formatText(text, type) {
     if (!type || type === "javascript" ) return text
     let result = ""

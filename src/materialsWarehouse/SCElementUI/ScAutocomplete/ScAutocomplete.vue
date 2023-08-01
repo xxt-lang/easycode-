@@ -52,12 +52,12 @@ export default {
   },
   methods: {
     selectMethod() {
-      if(execMethod(this.propValue.events['select'])){
+      if(execMethod(this.propValue.events['select'],this.EcVue)){
         this.EcVue[this.propValue.events['select'].method]()
       }
     },
     changeMethod() {
-      if(execMethod(this.propValue.events['change'])){
+      if(execMethod(this.propValue.events['change'],this.EcVue)){
         this.EcVue[this.propValue.events['change'].method]()
       }
     },

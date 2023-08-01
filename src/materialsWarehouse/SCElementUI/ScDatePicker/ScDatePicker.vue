@@ -53,37 +53,37 @@ export default {
   methods: {
 
     changeMethod() {
-      if(execMethod(this.propValue.events['change'])){
+      if(execMethod(this.propValue.events['change'],this.EcVue)){
         this.EcVue[this.propValue.events['change'].method]()
       }
     },
 
     blurMethod() {
-      if(execMethod(this.propValue.events['blur'])){
+      if(execMethod(this.propValue.events['blur'],this.EcVue)){
         this.EcVue[this.propValue.events['blur'].method]()
       }
     },
 
     focusMethod() {
-      if(execMethod(this.propValue.events['focus'])){
+      if(execMethod(this.propValue.events['focus'],this.EcVue)){
         this.EcVue[this.propValue.events['focus'].method]()
       }
     },
 
     calendarChangeMethod() {
-      if(execMethod(this.propValue.events['calendarChange'])){
+      if(execMethod(this.propValue.events['calendarChange'],this.EcVue)){
         this.EcVue[this.propValue.events['calendarChange'].method]()
       }
     },
 
     panelChangeMethod() {
-      if(execMethod(this.propValue.events['panelChange'])){
+      if(execMethod(this.propValue.events['panelChange'],this.EcVue)){
         this.EcVue[this.propValue.events['panelChange'].method]()
       }
     },
 
     visibleChangeMethod() {
-      if(execMethod(this.propValue.events['visibleChange'])){
+      if(execMethod(this.propValue.events['visibleChange'],this.EcVue)){
         this.EcVue[this.propValue.events['visibleChange'].method]()
       }
     },

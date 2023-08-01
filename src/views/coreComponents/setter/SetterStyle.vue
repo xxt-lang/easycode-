@@ -580,7 +580,6 @@ export default {
           enable: true,
           value: '',
           children: [
-            {value: "inline", label: "内联", detail: "内联布局inline"},
             {value: "flex", label: "弹性", detail: "弹性布局flex"},
             {value: "block", label: "块级", detail: "块级布局block"},
             {value: "inline-block", label: "内联块", detail: "内联块布局inline-block"},
@@ -947,7 +946,6 @@ export default {
           enable: true,
           value: '',
           children: [
-            {value: "inline", label: "内联", detail: "内联布局inline"},
             {value: "flex", label: "弹性", detail: "弹性布局flex"},
             {value: "block", label: "块级", detail: "块级布局block"},
             {value: "inline-block", label: "内联块", detail: "内联块布局inline-block"},

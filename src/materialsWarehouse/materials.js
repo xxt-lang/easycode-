@@ -307,14 +307,14 @@ export const materials = [
             }
         ]
     },
-    {
-        UI: 'echarts',
-        label: 'echarts图表',
-    },
-    {
-        UI: 'dataV',
-        label: 'dataV大屏',
-    }
+    // {
+    //     UI: 'echarts',
+    //     label: 'echarts图表',
+    // },
+    // {
+    //     UI: 'dataV',
+    //     label: 'dataV大屏',
+    // }
 ]
 
 

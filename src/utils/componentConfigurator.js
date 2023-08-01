@@ -40,9 +40,6 @@ export function loadComponentConfiguration() {
             } else {
                 item.status.activeContainer = false
                 item["type"] = "common" //是否为容器组件
-                if (item.styles['display'] === undefined) {
-                    item.styles['display'] = 'inline-flex'
-                }
             }
             item['bindClass'] = ""
         })

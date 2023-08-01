@@ -3,11 +3,8 @@
       :class="{ active: status.active,lock:status.lock }"
       :data-index = "index"
       :data-shape="true"
-      :style="getShapeStyle(element.styles)"
+      :style="element.shapeStyles"
   >
-<!--    <div style="position: absolute;top:-20px;height:20px;display: flex">-->
-<!--      <span style="background-color: #59c7f9;height: 100%;float: right">asds</span>-->
-<!--    </div>-->
     <div :style="{'pointer-events': element.type ==='common' ? 'none':''}">
       <slot></slot>
     </div>

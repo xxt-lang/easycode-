@@ -53,7 +53,7 @@ export default {
   computed: {
     formValue: {
       get() {
-        // °ó¶¨ÊÂ¼þ¼àÌý
+        // ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
         return getPageData(this.propValue.attributes['formValue'], this.EcVue)
       },
       set(value) {
@@ -62,7 +62,7 @@ export default {
     },
     rulesValue: {
       get() {
-        // °ó¶¨ÊÂ¼þ¼àÌý
+        // ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
         return getPageData(this.propValue.attributes['rulesValue'], this.EcVue)
       },
       set(value) {
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     validateMethod() {
-      if (execMethod(this.propValue.events['validate'])) {
+      if (execMethod(this.propValue.events['validate'],this.EcVue)) {
         this.EcVue[this.propValue.events['validate'].method]()
       }
     },

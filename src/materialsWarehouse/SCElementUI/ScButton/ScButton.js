@@ -8,6 +8,9 @@ export const ScButton = {
         events: {}, // 事件列表
         attributes: {},
         styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter: {
         component: "ScButton", //组件名 与组件列表中的组件一致
@@ -210,6 +213,7 @@ export const ScButton = {
     template: (param)=>{
         return `
         <el-button
+        ${param.styles !== {}?`:style='${JSON.stringify(param.styles)}'`:''}
         ${param.bindClass !==""?`class="${param.bindClass}"`:''}
         ${ecTemplateFor(param.attributes, (item,k) => {
             if ((typeof item === "boolean") && item) {
