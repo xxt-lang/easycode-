@@ -946,30 +946,39 @@ export function setMouseEvent(e) {
 }
 
 export function bindRefs(attr, refs, name, EcVue) {
-    if (!EcVue.$refs) {
-        EcVue['$refs'] = null
-    }
-    if (!refs) {
-        refs = null
-    }
-    if (attr[name]) {
-        let i = 0
-        let value = attr[name].replace(/[0-9]+/g, "")
-        while (EcVue.$refs[attr[name]]) {
-            i++
-            attr[name] = value + i
+    try {
+        if (!EcVue.$refs) {
+            EcVue['$refs'] = null
         }
-        EcVue.$refs[attr[name]] = refs
+        if (!refs) {
+            refs = null
+        }
+        if (attr[name]) {
+            let i = 0
+            let value = attr[name].replace(/[0-9]+/g, "")
+            while (EcVue.$refs[attr[name]]) {
+                i++
+                attr[name] = value + i
+            }
+            EcVue.$refs[attr[name]] = refs
+        }
+    }catch (e){
+        console.log(e)
     }
+
 }
 
 export function deleteRefs(component) {
-
-    for (let key in component.attributes) {
-        if (key.indexOf('Ref') > -1) {
-            delete getStore("PagesStore").getNowPage().EcVue.$refs [component.attributes[key]]
+    try {
+        for (let key in component.attributes) {
+            if (key.indexOf('Ref') > -1) {
+                delete getStore("PagesStore").getNowPage().EcVue.$refs [component.attributes[key]]
+            }
         }
+    }catch (e){
+        console.log(e)
     }
+
 }
 
 export function upSelectComponent() {
@@ -1005,9 +1014,11 @@ export async function generateCode(exportPage) {
     let zip = new JSZip()
     for (const item of exportPage) {
         let data = await formatText(ecTemplate(item),"html")
+        console.log(data)
         let blob = new Blob([data], {type: "text/json;charset=utf-8"});
         zip.file(item.pageName + ".vue", blob, {binary: true})
     }
+    return
     zip.generateAsync({type: "blob"}).then(content => {
         // 生成二进制流
         saveAs(content, "easyCode源码"); // 利用file-saver保存文件  自定义文件名

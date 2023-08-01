@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScColorPicker = {
     component: {
         component: "ScColorPicker",
@@ -5,28 +7,31 @@ export const ScColorPicker = {
         events: {},
         attributes: {},
         styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter: {
         component: "ScColorPicker",
         setter: {
             attributes: [
                 {
-                    attributeName: "colorValue",
+                    attributeName: "modelValue",
                     label: "value绑定",
                     detail: "选中项绑定值",
                     bind: 'value',
                     type: "input",
-                    value: "colorValue",
-                    defaultValue: "colorValue",
+                    value: "",
+                    defaultValue: "",
                 },
                 {
-                    attributeName: "predefineValue",
-                    label: "value绑定",
+                    attributeName: "predefine-value",
+                    label: "预定义颜色",
                     detail: "预定义颜色 Array类型",
                     bind: 'value',
                     type: "input",
-                    value: "predefineValue",
-                    defaultValue: "predefineValue",
+                    value: "",
+                    defaultValue: "",
                 },
                 {
                     attributeName: "colorRef",//组件配置中属性字段名
@@ -122,5 +127,13 @@ export const ScColorPicker = {
                 },
             ],
         }
+    },
+    template: (param)=>{
+        return `
+        <el-color-picker 
+        ${generalTemplate(param)}
+        >
+        </el-color-picker >
+        `
     }
 }

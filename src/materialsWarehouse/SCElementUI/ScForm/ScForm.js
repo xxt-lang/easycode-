@@ -1,3 +1,5 @@
+import {ecTemplateFor, generalTemplate, generateAttribute, includeTemplate} from "../../../utils/ecTemplate";
+
 export const ScForm = {
     component: {
         component: "ScForm",
@@ -24,25 +26,33 @@ export const ScForm = {
         component: "ScForm",
         setter: {
             attributes: [
-
                 {
-                    attributeName: "formValue",
+                    attributeName: "modelValue",
                     label: "表单值绑定",
                     type: "input",
                     bind: 'value',
-                    value: "formValue",
-                    defaultValue: "formValue",
+                    value: "",
+                    defaultValue: "",
                     detail: "表单数据对象",
                 },
                 {
-                    attributeName: "rulesValue",
+                    attributeName: "formRef",//组件配置中属性字段名
+                    label: "绑定formRef",
+                    bind:'ref',
+                    type: "input",//编辑自段的类型input select number switch buttonList
+                    value: "",//属性值
+                    defaultValue: "",//默认属性值
+                },
+                {
+                    attributeName: "rules-value",
                     label: "表单验证规则",
                     type: "input",
                     bind: 'value',
-                    value: "rulesValue",
-                    defaultValue: "rulesValue",
+                    value: "",
+                    defaultValue: "",
                     detail: "表单验证规则",
                 },
+
                 {
                     attributeName: "inline",
                     label: "inline",
@@ -288,4 +298,18 @@ export const ScForm = {
             styles: {}
         }
     },
+    template:(param)=>{
+        return `
+        <el-form
+        ${generalTemplate(param)}
+         >
+        ${ecTemplateFor(param.children, (citem,k) => {
+            return `<el-form-item ${generateAttribute(param.attributes['form-item'][k])}>
+                ${ecTemplateFor(param.children[k].children,(item2)=>{
+                return includeTemplate(item2.component,item2)})}
+            </el-form-item>`
+        })}
+         </el-form>
+        `
+    }
 }

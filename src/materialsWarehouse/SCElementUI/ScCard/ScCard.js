@@ -1,10 +1,12 @@
+import {ecTemplateFor, generalTemplate, includeTemplate} from "../../../utils/ecTemplate";
+
 export const ScCard = {
     component:{
         component: "ScCard",
         label: '卡片',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {"min-height":"100px"},
         type: "container"
     },
     setter:{
@@ -35,4 +37,14 @@ export const ScCard = {
             styles: {}
         }
     },
+    template: (param)=>{
+        return `
+        <el-card 
+        ${generalTemplate(param)}
+        >
+          ${ecTemplateFor(param.children,(item2)=>{
+            return includeTemplate(item2.component,item2)})}
+        </el-card >
+        `
+    }
 }

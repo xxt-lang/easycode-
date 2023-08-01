@@ -1,6 +1,5 @@
 <template>
   <el-card
-      style="min-height:100px"
       :header="propValue.attributes['header']"
       :shadow="propValue.attributes['shadow']"
       v-container = "propValue"

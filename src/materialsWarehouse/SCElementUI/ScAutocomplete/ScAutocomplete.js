@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScAutocomplete = {
     component: {
         component: "ScAutocomplete",
@@ -11,11 +13,11 @@ export const ScAutocomplete = {
         setter: {
             attributes: [
                 {
-                    attributeName: "autocompleteValue",
+                    attributeName: "modelValue",
                     label: "value绑定",
                     type: "input",
-                    value: "autocompleteValue",
-                    defaultValue: "autocompleteValue",
+                    value: "",
+                    defaultValue: "",
                     detail: "绑定值",
                     bind: 'value',
                 },
@@ -181,4 +183,12 @@ export const ScAutocomplete = {
             styles: {}
         }
     },
+    template: (param)=>{
+        return `
+        <el-autocomplete 
+        ${generalTemplate(param)}
+        >
+        </el-autocomplete >
+        `
+    }
 }

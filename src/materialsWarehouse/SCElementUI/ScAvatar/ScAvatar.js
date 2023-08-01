@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScAvatar= {
     component:    {
         component: "ScAvatar",
@@ -5,6 +7,9 @@ export const ScAvatar= {
         events: {},
         attributes: {},
         styles: {},
+        shapeStyles: {
+            display: 'inline-flex'
+        },
     },
     setter:    {
         component: "ScAvatar",
@@ -74,5 +79,13 @@ export const ScAvatar= {
                 }
             ],
         }
+    },
+    template: (param)=>{
+        return `
+        <el-avatar 
+        ${generalTemplate(param)}
+        >
+        </el-avatar >
+        `
     }
 }

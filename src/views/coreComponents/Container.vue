@@ -11,12 +11,11 @@
          :data-elementType = "item.type"
          @mousedown="handleMouseDown(item,$event,index)"
          @dblclick="dbClick(item,$event,index)"
-         :style="getShapeStyle(item.styles,lock)"
   >
     <component
         :isPreview = "isPreview"
         :class="item.bindClass"
-        :style="getComponentStyle(isPreview,item.styles,item.type)"
+        :style="item.styles"
         :is="item.component"
         :key="index"
         :propValue="item"

@@ -18,7 +18,6 @@
              :data-elementType="item.type"
              @mousedown="handleMouseDown(item,$event,index)"
              @dblclick="dbClick(item,$event)"
-             :style="getShapeStyle(item.styles,false)"
              :data-shape="true"
       >
         <component

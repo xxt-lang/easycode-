@@ -1,3 +1,5 @@
+import {ecTemplateFor, generalTemplate, includeTemplate} from "../../../utils/ecTemplate";
+
 export const ScBadge = {
     component:{
         component: "ScBadge",
@@ -6,8 +8,12 @@ export const ScBadge = {
         events: {},
         attributes: {},
         styles: {
-            display: 'inline-flex'
+            "min-height": "50px",
+            "min-width": "50px"
         },
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter:    {
         component: "ScBadge",
@@ -74,4 +80,14 @@ export const ScBadge = {
             styles: {}
         }
     },
+    template: (param)=>{
+        return `
+        <el-badge 
+        ${generalTemplate(param)}
+        >
+        ${ecTemplateFor(param.children,(item2)=>{
+            return includeTemplate(item2.component,item2)})}
+        </el-badge >
+        `
+    }
 }

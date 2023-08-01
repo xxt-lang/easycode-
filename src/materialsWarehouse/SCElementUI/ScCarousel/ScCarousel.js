@@ -1,4 +1,6 @@
-export const ScCarousel={
+import {ecTemplateFor, generalTemplate, generateAttribute, includeTemplate} from "../../../utils/ecTemplate";
+
+export const ScCarousel = {
     component: {
         component: "ScCarousel",
         label: '走马灯',
@@ -57,14 +59,14 @@ export const ScCarousel={
         ],
         type: "container"
     },
-    setter:{
+    setter: {
         component: "ScCarousel",
         setter: {
             attributes: [
                 {
                     attributeName: "carouselRef",
                     label: "绑定ref",
-                    bind:'ref',
+                    bind: 'ref',
                     type: "input",
                     value: "carouselRef",
                     defaultValue: "carouselRef",
@@ -73,7 +75,7 @@ export const ScCarousel={
                     attributeName: "height",
                     label: "高度",
                     type: "input",
-                    detail:'走马灯的高度',
+                    detail: '走马灯的高度',
                     value: "",
                     defaultValue: "",
                 },
@@ -81,7 +83,7 @@ export const ScCarousel={
                     attributeName: "trigger",
                     label: "触发方式",
                     type: "select",
-                    detail:"指示器的触发方式",
+                    detail: "指示器的触发方式",
                     value: "hover",
                     defaultValue: "hover",
                     typeArray: [
@@ -98,16 +100,16 @@ export const ScCarousel={
                     attributeName: "initial-index",
                     label: "初始索引",
                     type: "inputNumber",
-                    detail:"初始状态激活的幻灯片的索引，从 0 开始",
+                    detail: "初始状态激活的幻灯片的索引，从 0 开始",
                     value: 0,
                     defaultValue: 0,
-                    max:999
+                    max: 999
                 },
                 {
                     attributeName: "autoplay",
                     label: "自动切换",
                     type: "switch",
-                    detail:"是否自动切换",
+                    detail: "是否自动切换",
                     value: false,
                     defaultValue: false,
                 },
@@ -115,7 +117,7 @@ export const ScCarousel={
                     attributeName: "interval",
                     label: "时间间隔(毫秒)",
                     type: "inputNumber",
-                    detail:"自动切换的时间间隔，单位为毫秒",
+                    detail: "自动切换的时间间隔，单位为毫秒",
                     value: 4000,
                     defaultValue: 4000,
                     max: 99999
@@ -124,7 +126,7 @@ export const ScCarousel={
                     attributeName: "indicator-position",
                     label: "指示器的位置",
                     type: "select",
-                    detail:"指示器的位置",
+                    detail: "指示器的位置",
                     value: "",
                     defaultValue: "",
                     typeArray: [
@@ -141,7 +143,7 @@ export const ScCarousel={
                     attributeName: "arrow",
                     label: "切换箭头的显示时机",
                     type: "select",
-                    detail:"切换箭头的显示时机",
+                    detail: "切换箭头的显示时机",
                     value: "hover",
                     defaultValue: "hover",
                     typeArray: [
@@ -162,7 +164,7 @@ export const ScCarousel={
                     attributeName: "direction",
                     label: "展示方向",
                     type: "select",
-                    detail:"展示的方向",
+                    detail: "展示的方向",
                     value: "horizontal",
                     defaultValue: "horizontal",
                     typeArray: [
@@ -179,7 +181,7 @@ export const ScCarousel={
                     attributeName: "type",
                     label: "类型",
                     type: "select",
-                    detail:"走马灯的类型的类型",
+                    detail: "走马灯的类型的类型",
                     value: "",
                     defaultValue: "",
                     typeArray: [
@@ -192,7 +194,7 @@ export const ScCarousel={
                     attributeName: "loop",
                     label: "循环显示",
                     type: "switch",
-                    detail:"是否循环显示",
+                    detail: "是否循环显示",
                     value: true,
                     defaultValue: true,
                 },
@@ -200,7 +202,7 @@ export const ScCarousel={
                     attributeName: "pause-on-hover",
                     label: "鼠标悬浮时暂停自动切换",
                     type: "switch",
-                    detail:"鼠标悬浮时暂停自动切换",
+                    detail: "鼠标悬浮时暂停自动切换",
                     value: false,
                     defaultValue: false,
                 },
@@ -215,7 +217,7 @@ export const ScCarousel={
                             attributeName: "name",
                             label: "名字",
                             type: "input",
-                            detail:"幻灯片的名字，可用作 setActiveItem 的参数",
+                            detail: "幻灯片的名字，可用作 setActiveItem 的参数",
                             value: '',
                             defaultValue: '',
                         },
@@ -223,7 +225,7 @@ export const ScCarousel={
                             attributeName: "label",
                             label: "指示器文本",
                             type: "input",
-                            detail:"该幻灯片所对应指示器的文本",
+                            detail: "该幻灯片所对应指示器的文本",
                             value: '',
                             defaultValue: '',
                         },
@@ -236,11 +238,28 @@ export const ScCarousel={
             events: [
                 {
                     event: "change", // 事件名称
-                    detail:'幻灯片切换时触发',
+                    detail: '幻灯片切换时触发',
                     enable: false,// 是否启用
                     method: ''// 绑定方法名
                 }
             ]
         },
     },
+    template: (param) => {
+        return `
+        <el-carousel
+        ${generalTemplate(param)}
+         >
+        ${ecTemplateFor(param.children, (citem, k) => {
+            return `<el-carousel-item 
+                    ${generateAttribute(param.attributes['carouselItem'][k])}
+               >
+                ${ecTemplateFor(param.children[k].children, (item2) => {
+                return includeTemplate(item2.component, item2)
+            })}
+            </el-carousel-item>`
+        })}
+         </el-carousel>
+        `
+    }
 }

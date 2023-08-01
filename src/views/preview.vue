@@ -5,7 +5,7 @@
       <component
           :class="item.bindClass"
           v-for="(item,index) in page.page"
-          :style="getComponentStyle(true,item.styles,item.type)"
+          :style="item.styles"
           :is="item.component"
           :key="index"
           :propValue="item"

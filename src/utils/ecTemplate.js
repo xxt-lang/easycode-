@@ -29,3 +29,48 @@ export function includeTemplate(template,param){
     }
     return ""
 }
+
+export function generalTemplate(param,filtrate){
+    let filtrates = {attr:[]}
+    if(filtrate){
+        filtrates = filtrate
+    }
+    return `\n
+        ${param.styles && JSON.stringify(param.styles) !== "{}"?`:style='${JSON.stringify(param.styles)}'`:''}\n
+        ${param.bindClass && param.bindClass !==""?`class="${param.bindClass}"`:''}\n
+        ${generateAttribute(param.attributes,filtrates.attr)}\n
+        ${ecTemplateFor(param.events, (item,k) => {
+        if (item.enable) {
+            return `@${k}="${item.method}"`
+        }
+        return ''
+    })}\n
+    `
+}
+
+export function generateAttribute(attributes,filtrate){
+    return `\n
+        ${ecTemplateFor(attributes, (item,k) => {
+        if(filtrate && filtrate.indexOf(k)!==-1){
+            return ''
+        }
+        if ((typeof item === "boolean") && item) {
+            return `:${k}="${item}"`
+        }
+        if ((typeof item === "number" && item !== 0)) {
+            return `:${k}="${item}"`
+        }
+        if ((typeof item === "string") && item !== '') {
+            if(k.includes("Ref")){
+                return `ref="${item}"`
+            }else if(k === "modelValue"){
+                return `v-model="${item}"`
+            }else if(k !== "modelValue" && k.includes("-value")){
+                return `:${k.replace("-value","")}="${item}"`
+            }else{
+                return `${k}="${item}"`
+            }
+        }
+        return ''
+    })}`
+}

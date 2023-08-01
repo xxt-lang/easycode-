@@ -85,7 +85,7 @@ const keyDowns = {
   },
 }
 const keyDetails = [
-  {key:'ctrl t',detail:'向上选择组件'},
+  {key:'alt t',detail:'向上选择组件'},
   {key:'ctrl m',detail:'调整margin'},
   {key:'ctrl p',detail:'调整position'},
   {key:'ctrl d',detail:'删除'},

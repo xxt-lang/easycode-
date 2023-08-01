@@ -1,4 +1,4 @@
-import {ecTemplateFor} from "../../../utils/ecTemplate";
+import {generalTemplate} from "../../../utils/ecTemplate";
 
 export const ScButton = {
     component: {
@@ -153,28 +153,6 @@ export const ScButton = {
                     defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName: "autofocus",//组件配置中属性字段名
-                    label: "autofocus",
-                    detail: "原生autofocus",
-                    type: "switch",//编辑自段的类型input select number switch buttonList
-                    value: false,//属性值
-                    defaultValue: false,//默认属性值
-                },
-                {
-                    attributeName: "native-type",//组件配置中属性字段名
-                    label: "原生type属性",
-                    detail: "原生type属性",
-                    type: "select",//编辑自段的类型input select number switch buttonList
-                    value: 'button',//属性值
-                    defaultValue: 'button',//默认属性值
-                    typeArray: [
-                        {value: 'button', label: 'button'}, {value: 'submit', label: 'submit'}, {
-                            value: 'reset',
-                            label: 'reset'
-                        }
-                    ] //类型选择数组
-                },
-                {
                     attributeName: "color",//组件配置中属性字段名
                     label: "颜色",
                     detail: "自定义按钮颜色, 并自动计算 hover 和 active 触发后的颜色",
@@ -213,26 +191,7 @@ export const ScButton = {
     template: (param)=>{
         return `
         <el-button
-        ${param.styles !== {}?`:style='${JSON.stringify(param.styles)}'`:''}
-        ${param.bindClass !==""?`class="${param.bindClass}"`:''}
-        ${ecTemplateFor(param.attributes, (item,k) => {
-            if ((typeof item === "boolean") && item) {
-                return `:${k}="${item}"`
-            }
-            if ((typeof item === "number")) {
-                return `:${k}="${item}"`
-            }
-            if ((typeof item === "string") && item !== '' && k !== 'label') {
-                return `${k}="${item}"`
-            }
-            return ''
-        })}
-        ${ecTemplateFor(param.events, (item,k) => {
-            if (item.enable) {
-                return `@${k}="${item.method}"`
-            }
-            return ''
-        })}
+        ${generalTemplate(param,{attr:["label"]})}
         >
         ${param.attributes.label !==""?`${param.attributes.label }`:''} 
         </el-button>

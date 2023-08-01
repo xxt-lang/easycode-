@@ -28,10 +28,10 @@ export default {
     inputValue: {
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['inputValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['modelValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['inputValue'],value,this.EcVue)
+        setPageData(this.propValue.attributes['modelValue'],value,this.EcVue)
       }
     }
   },
