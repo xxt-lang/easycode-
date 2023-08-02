@@ -25,7 +25,7 @@ export const ScSelect= {
                     bind: 'value',
                 },
                 {
-                    attributeName: "filter-method-value",
+                    attributeName: "filter-method-bindValue",
                     label: "自定义筛选方法",
                     type: "input",
                     value: "",
@@ -34,7 +34,7 @@ export const ScSelect= {
                     detail: "自定义筛选方法",
                 },
                 {
-                    attributeName: "remote-method-value",
+                    attributeName: "remote-method-bindValue",
                     label: "自定义远程搜索方法",
                     type: "input",
                     value: "",
@@ -43,7 +43,7 @@ export const ScSelect= {
                     detail: "自定义远程搜索方法",
                 },
                 {
-                    attributeName: "option-value",
+                    attributeName: "option-bindValue",
                     label: "绑定下拉数据",
                     type: "input",
                     value: "",
@@ -310,7 +310,7 @@ export const ScSelect= {
                         }]
                 },
                 {
-                    attributeName: "是否触发表单验证",
+                    attributeName: "validate-event",
                     label: "触发表单验证",
                     type: "switch",
                     value: true,
@@ -418,7 +418,7 @@ export const ScSelect= {
             ${generalTemplate(param)}
         >
          <el-option
-          v-for="item in ${param.attributes['option-value']}"
+          v-for="item in ${param.attributes['option-bindValue']}"
           :key="item.value"
           :label="item.label"
           :value="item.value"

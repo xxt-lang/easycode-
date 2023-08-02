@@ -65,8 +65,8 @@ export function generateAttribute(attributes,filtrate){
                 return `ref="${item}"`
             }else if(k === "modelValue"){
                 return `v-model="${item}"`
-            }else if(k !== "modelValue" && k.includes("-value")){
-                return `:${k.replace("-value","")}="${item}"`
+            }else if(k !== "modelValue" && k.includes("-bindValue")){
+                return `:${k.replace("-bindValue","")}="${item}"`
             }else{
                 return `${k}="${item}"`
             }

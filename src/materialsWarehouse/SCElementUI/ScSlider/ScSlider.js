@@ -27,7 +27,7 @@ export const ScSlider={
                     defaultValue: "",
                 },
                 {
-                    attributeName: "marks-value",
+                    attributeName: "marks-bindValue",
                     label: "标记",
                     detail:"标记， key 的类型必须为 number 且取值在闭区间 [min, max] 内，每个标记可以单独设置样式",
                     bind: 'value',
@@ -35,7 +35,7 @@ export const ScSlider={
                     value: "",
                     defaultValue: "",
                 },
-                {  attributeName: "formatTooltip-value",
+                {  attributeName: "formatTooltip-bindValue",
                     label: "格式化提示信息",
                     detail:"格式化提示信息function(value) 举例(value)={return value+*}",
                     bind: 'value',

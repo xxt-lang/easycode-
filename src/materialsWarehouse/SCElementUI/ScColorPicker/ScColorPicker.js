@@ -25,7 +25,7 @@ export const ScColorPicker = {
                     defaultValue: "",
                 },
                 {
-                    attributeName: "predefine-value",
+                    attributeName: "predefine-bindValue",
                     label: "预定义颜色",
                     detail: "预定义颜色 Array类型",
                     bind: 'value',

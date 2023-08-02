@@ -46,37 +46,37 @@ export default {
     "disabledDateValue": {
       get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['disabled-date-value'], this.EcVue)
+        return getPageData(this.propValue.attributes['disabled-date-value-bindValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['disabled-date-value'], value, this.EcVue)
+        setPageData(this.propValue.attributes['disabled-date-value-bindValue'], value, this.EcVue)
       }
     },
     "cellClassNameValue": {
       get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['cell-class-name-value'], this.EcVue)
+        return getPageData(this.propValue.attributes['cell-class-name-value-bindValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['cell-class-name-value'], value, this.EcVue)
+        setPageData(this.propValue.attributes['cell-class-name-value-bindValue'], value, this.EcVue)
       }
     },
     "defaultValue": {
       get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['default-value'], this.EcVue)
+        return getPageData(this.propValue.attributes['default-value-bindValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['default-value'], value, this.EcVue)
+        setPageData(this.propValue.attributes['default-value-bindValue'], value, this.EcVue)
       }
     },
     "defaultTimeValue": {
       get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['default-time-value'], this.EcVue)
+        return getPageData(this.propValue.attributes['default-time-bindValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['default-time-value'], value, this.EcVue)
+        setPageData(this.propValue.attributes['default-time-bindValue'], value, this.EcVue)
       }
     }
   },

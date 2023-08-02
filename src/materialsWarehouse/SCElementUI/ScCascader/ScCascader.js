@@ -28,7 +28,7 @@ export const ScCascader = {
                     bind: 'value',
                 },
                 {
-                    attributeName: "cascaderOptions-value",
+                    attributeName: "cascaderOptions-bindValue",
                     label: "options绑定",
                     type: "input",
                     bind: 'value',

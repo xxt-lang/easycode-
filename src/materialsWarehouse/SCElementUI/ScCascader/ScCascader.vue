@@ -44,10 +44,10 @@ export default {
     cascaderOptions: {
       get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes["cascaderOptions-value"], this.EcVue)
+        return getPageData(this.propValue.attributes["cascaderOptions-bindValue"], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes["cascaderOptions-value"], value, this.EcVue)
+        setPageData(this.propValue.attributes["cascaderOptions-bindValue"], value, this.EcVue)
       }
     }
   },

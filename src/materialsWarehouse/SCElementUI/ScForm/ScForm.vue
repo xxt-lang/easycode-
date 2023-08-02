@@ -61,10 +61,10 @@ export default {
     },
     rulesValue: {
       get() {
-        return getPageData(this.propValue.attributes['rules-value'], this.EcVue)
+        return getPageData(this.propValue.attributes['rules-bindValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['rules-value'], value, this.EcVue)
+        setPageData(this.propValue.attributes['rules-bindValue'], value, this.EcVue)
       }
     },
   },

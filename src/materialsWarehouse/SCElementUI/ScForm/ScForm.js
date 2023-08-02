@@ -44,7 +44,7 @@ export const ScForm = {
                     defaultValue: "",//默认属性值
                 },
                 {
-                    attributeName: "rules-value",
+                    attributeName: "rules-bindValue",
                     label: "表单验证规则",
                     type: "input",
                     bind: 'value',

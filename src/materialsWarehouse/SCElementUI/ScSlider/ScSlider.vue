@@ -36,28 +36,28 @@ export default {
     marksValue:{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['marks-value'],this.EcVue)
+        return getPageData(this.propValue.attributes['marks-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['marks-value'],value,this.EcVue)
+        setPageData(this.propValue.attributes['marks-bindValue'],value,this.EcVue)
       }
     },
     formatTooltipValue:{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['formatTooltip-value'],this.EcVue)
+        return getPageData(this.propValue.attributes['formatTooltip-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['formatTooltip-value'],value,this.EcVue)
+        setPageData(this.propValue.attributes['formatTooltip-bindValue'],value,this.EcVue)
       }
     },
     formatValueTextValue:{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['formatTooltip-value'],this.EcVue)
+        return getPageData(this.propValue.attributes['formatTooltip-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['formatTooltip-value'],value,this.EcVue)
+        setPageData(this.propValue.attributes['formatTooltip-bindValue'],value,this.EcVue)
       }
     },
   },

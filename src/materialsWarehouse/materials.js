@@ -96,10 +96,10 @@ export const materials = [
                         label: 'Select 选择器',
                         component: 'ScSelect'
                     },
-                    {
-                        label: 'Select V2 虚拟列表选择器',
-                        component: 'ScSelectV2'
-                    },
+                    // {
+                    //     label: 'Select V2 虚拟列表选择器',
+                    //     component: 'ScSelectV2'
+                    // },
                     {
                         label: 'Slider 滑块',
                         component: 'ScSlider'

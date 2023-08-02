@@ -25,7 +25,7 @@ export const ScDateTimePicker = {
                     bind: 'value',
                 },
                 {
-                    attributeName: "disabled-date-value",
+                    attributeName: "disabled-date-value-bindValue",
                     label: "disabled-date",
                     type: "input",
                     value: "",
@@ -34,7 +34,7 @@ export const ScDateTimePicker = {
                     detail: "一个用来判断该日期是否被禁用的函数，接受一个 Date 对象作为参数。 应该返回一个 Boolean 值。Function(Date)",
                 },
                 {
-                    attributeName: "cell-class-name-value",
+                    attributeName: "cell-class-name-value-bindValue",
                     label: "cell-class-name",
                     type: "input",
                     value: "",
@@ -43,7 +43,7 @@ export const ScDateTimePicker = {
                     detail: "设置自定义类名 Function(Date)",
                 },
                 {
-                    attributeName: "default-value",
+                    attributeName: "default-value-bindValue",
                     label: "默认显示的时间",
                     type: "input",
                     value: "",
@@ -52,7 +52,7 @@ export const ScDateTimePicker = {
                     detail: "选择器打开时默认显示的时间  Date / [Date, Date]",
                 },
                 {
-                    attributeName: "default-time-value",
+                    attributeName: "default-time-bindValue",
                     label: "选择日期后的默认时间值",
                     type: "input",
                     value: "",
@@ -291,8 +291,7 @@ export const ScDateTimePicker = {
     template: (param) => {
         return `
         <el-date-picker
-            ${generalTemplate(param,{attr:['default-value']})}
-            ${param.attributes['default-value'] !== ''?`default-value="${param.attributes['default-value']}"`:''}
+            ${generalTemplate(param)}
         >
         </el-date-picker>
         `

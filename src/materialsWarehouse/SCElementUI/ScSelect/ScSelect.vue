@@ -47,28 +47,28 @@ export default {
     "filterMethodValue": {
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['filter-method-value'],this.EcVue)
+        return getPageData(this.propValue.attributes['filter-method-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['filter-method-value'],value,this.EcVue)
+        setPageData(this.propValue.attributes['filter-method-bindValue'],value,this.EcVue)
       }
     },
     "remoteMethodValue":{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['remote-method-value'],this.EcVue)
+        return getPageData(this.propValue.attributes['remote-method-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['remote-method-value'],value,this.EcVue)
+        setPageData(this.propValue.attributes['remote-method-bindValue'],value,this.EcVue)
       }
     },
     "optionValue":{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['option-value'],this.EcVue)
+        return getPageData(this.propValue.attributes['option-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['option-value'],value,this.EcVue)
+        setPageData(this.propValue.attributes['option-bindValue'],value,this.EcVue)
       }
     }
   },

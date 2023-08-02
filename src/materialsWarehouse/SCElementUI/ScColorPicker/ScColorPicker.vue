@@ -38,10 +38,10 @@ export default {
     predefineValue: {
       get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['predefine-value'], this.EcVue)
+        return getPageData(this.propValue.attributes['predefine-bindValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['predefine-value'], value, this.EcVue)
+        setPageData(this.propValue.attributes['predefine-bindValue'], value, this.EcVue)
       }
     },
   },
