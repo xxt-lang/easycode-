@@ -95,7 +95,7 @@ export const ScTransfer = {
                     type: "input",
                     value: "",
                     defaultValue: "",
-                    detail: "列表顶部勾选状态文案 { noChecked, hasChecked } \n{ noChecked: '${checked}/${total}', hasChecked: '${checked}/${total}' }",
+                    detail: "列表顶部勾选状态文案 { noChecked, hasChecked } <br>{ noChecked: '${checked}/${total}', hasChecked: '${checked}/${total}' }",
                     bind:"value"
                 },
                 {
@@ -129,7 +129,7 @@ export const ScTransfer = {
                     type: "select",
                     value: "",
                     defaultValue: "",
-                    detail: "右侧列表元素的排序策略： 若为 original，则保持与数据源相同的顺序； 若为 push，则新加入的元素排在最后； 若为 unshift，则新加入的元素排在最前",
+                    detail: "右侧列表元素的排序策略： 若为 original，则保持与数据源相同的顺序；<br> 若为 push，则新加入的元素排在最后； 若为 unshift，则新加入的元素排在最前",
                     typeArray: [
                         {'label': 'original', 'value': 'original'},
                         {'label': 'push', 'value': 'push'},
@@ -149,17 +149,17 @@ export const ScTransfer = {
                 {
                     event: "change", // 事件名称
                     enable: false,// 是否启用
-                    detail: "右侧列表元素变化时触发 \n 当前值、数据移动的方向（'left' / 'right'）、发生移动的数据 key 数组",
+                    detail: "右侧列表元素变化时触发 <br> 当前值、数据移动的方向（'left' / 'right'）、发生移动的数据 key 数组",
                     method: ''// 绑定方法名
                 }, {
                     event: "left-check-change", // 事件名称
                     enable: false,// 是否启用
-                    detail: "左侧列表元素被用户选中 / 取消选中时触发 \n 当前被选中的元素的 key 数组、选中状态发生变化的元素的 key 数组",
+                    detail: "左侧列表元素被用户选中 / 取消选中时触发 <br> 当前被选中的元素的 key 数组、选中状态发生变化的元素的 key 数组",
                     method: ''// 绑定方法名
                 }, {
                     event: "right-check-change", // 事件名称
                     enable: false,// 是否启用
-                    detail: "右侧列表元素被用户选中 / 取消选中时触发 \n 当前被选中的元素的 key 数组、选中状态发生变化的元素的 key 数组",
+                    detail: "右侧列表元素被用户选中 / 取消选中时触发 <br> 当前被选中的元素的 key 数组、选中状态发生变化的元素的 key 数组",
                     method: ''// 绑定方法名
                 },
             ],

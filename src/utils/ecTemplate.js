@@ -60,7 +60,7 @@ export function generateAttribute(attributes,defaultAttributes,filtrate){
         if ((typeof item === "number" && item !== 0) && defaultAttributes[k] !== item) {
             return `:${k}="${item}"`
         }
-        if ((typeof item === "string") && item !== '' && defaultAttributes[k] !== item) {
+        if ((typeof item === "string") && item !== '' && defaultAttributes[k] !== item && k.includes("-slot")) {
             if(k.includes("Ref")){
                 return `ref="${item}"`
             }else if(k === "modelValue"){

@@ -4,9 +4,13 @@
       <div class="setterAttribute">
           <el-tooltip
             effect="dark"
-            :content="item.detail"
             placement="bottom"
-        ><span class="itemLabel" :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{item.label}} </span></el-tooltip>
+        >
+            <span class="itemLabel" :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{item.label}} </span>
+            <template #content>
+              <span v-html="item.detail"></span>
+            </template>
+          </el-tooltip>
         <div class="itemContent">
           <el-select  v-if="item.type === 'select'"  v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
             <el-option

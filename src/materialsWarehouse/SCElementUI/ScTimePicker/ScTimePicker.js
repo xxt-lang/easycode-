@@ -30,7 +30,7 @@ export const ScTimePicker = {
                     type: "input",
                     value: "",
                     defaultValue: "",
-                    detail: "禁止选择部分小时选项 \n Function (role: string, comparingDate?: Dayjs) => number[]",
+                    detail: "禁止选择部分小时选项 <br> Function (role: string, comparingDate?: Dayjs) => number[]",
                     bind: 'value',
                 },
                 {
@@ -39,7 +39,7 @@ export const ScTimePicker = {
                     type: "input",
                     value: "",
                     defaultValue: "",
-                    detail: "禁止选择部分分钟选项 \n Function (hour: number, role: string, comparingDate?: Dayjs) => number[]",
+                    detail: "禁止选择部分分钟选项 <br> Function (hour: number, role: string, comparingDate?: Dayjs) => number[]",
                     bind: 'value',
                 },
                 {
@@ -48,7 +48,7 @@ export const ScTimePicker = {
                     type: "input",
                     value: "",
                     defaultValue: "",
-                    detail: "禁止选择部分秒选项 \n Function (hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]",
+                    detail: "禁止选择部分秒选项 <br> Function (hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]",
                     bind: 'value',
                 },
                 {
