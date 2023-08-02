@@ -48,10 +48,10 @@ export const materials = [
             {
                 group: 'Form 表单组件',
                 components: [
-                    {
-                        label: '自动补全输入框',
-                        component: "ScAutocomplete"
-                    },
+                    // {
+                    //     label: '自动补全输入框',
+                    //     component: "ScAutocomplete"
+                    // },
                     {
                         label: 'Cascader 级联选择器',
                         component: 'ScCascader'

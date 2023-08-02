@@ -20,10 +20,11 @@ export const ScCard = {
                     value: "",//属性值 必写
                     defaultValue: "",//默认属性值 必写
                     valueType: String,// 属性值类型 必写
+                    detail:'类型'
                 },
                 {
                     attributeName: "shadow",//组件配置中属性字段名 必写
-                    label: "输入提示",// 字段标签
+                    label: "边框阴影",// 字段标签
                     type: "select",//编辑自段的类型input select number switch 必写
                     value: "always",//属性值 必写
                     defaultValue: "always",//默认属性值 必写
@@ -31,7 +32,8 @@ export const ScCard = {
                     typeArray: [
                         {value: 'always', label: 'always'},
                         {value: 'never', label: 'never'},
-                        {value: 'hover', label: 'hover'},] //类型选择数组  非必写
+                        {value: 'hover', label: 'hover'},], //类型选择数组  非必写
+                    detail:"边框阴影"
                 }
             ],
             styles: {}

@@ -73,19 +73,19 @@ export default {
     }
   },
   methods: {
-    changeMethod(){
+    changeMethod(val){
       if(execMethod(this.propValue.events["change"],this.EcVue)){
-        this.EcVue[this.propValue.events["change"]]
+        this.EcVue[this.propValue.events["change"]](val)
       }
     },
-    visiblechangeMethod(){
+    visiblechangeMethod(val){
       if(execMethod(this.propValue.events["visiblechange"],this.EcVue)){
-        this.EcVue[this.propValue.events["visiblechange"]]
+        this.EcVue[this.propValue.events["visiblechange"]](val)
       }
     },
-    removetagMethod(){
+    removetagMethod(val){
       if(execMethod(this.propValue.events["removetag"],this.EcVue)){
-        this.EcVue[this.propValue.events["removetag"]]
+        this.EcVue[this.propValue.events["removetag"]](val)
       }
     },
     clearMethod(){
@@ -93,14 +93,14 @@ export default {
         this.EcVue[this.propValue.events["clear"]]
       }
     },
-    blurMethod(){
+    blurMethod(e){
       if(execMethod(this.propValue.events["blur"],this.EcVue)){
-        this.EcVue[this.propValue.events["blur"]]
+        this.EcVue[this.propValue.events["blur"]](e)
       }
     },
     focusMethod(){
       if(execMethod(this.propValue.events["focus"],this.EcVue)){
-        this.EcVue[this.propValue.events["focus"]]
+        this.EcVue[this.propValue.events["focus"]](e)
       }
     },
 

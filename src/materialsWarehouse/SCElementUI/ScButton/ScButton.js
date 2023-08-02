@@ -23,8 +23,6 @@ export const ScButton = {
                     type: "select",//编辑自段的类型input select number switch buttonList
                     value: "primary",//属性值
                     defaultValue: "primary",//默认属性值
-                    valueType: String,// 属性值类型
-                    verifyRule: "",// 属性值校验规则 可填入正则表达式
                     typeArray: [
                         {
                             value: 'primary',

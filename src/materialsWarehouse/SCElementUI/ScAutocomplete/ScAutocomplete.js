@@ -6,7 +6,12 @@ export const ScAutocomplete = {
         label: '自动补全输入',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {
+            display:"inline-flex"
+        },
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter: {
         component: "ScAutocomplete",

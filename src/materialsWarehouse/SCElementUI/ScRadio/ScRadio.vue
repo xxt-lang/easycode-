@@ -34,8 +34,8 @@ export default {
     }
   },
   methods: {
-    changeMethod(){
-      execMethod(this.propValue.events["change"],this.EcVue)()
+    changeMethod(val){
+      execMethod(this.propValue.events["change"],this.EcVue)(val)
     },
   }
 }
