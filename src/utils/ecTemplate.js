@@ -38,7 +38,7 @@ export function generalTemplate(param,filtrate){
     return `\n
         ${param.styles && JSON.stringify(param.styles) !== "{}"?`:style='${JSON.stringify(param.styles)}'`:''}\n
         ${param.bindClass && param.bindClass !==""?`class="${param.bindClass}"`:''}\n
-        ${generateAttribute(param.attributes,filtrates.attr)}\n
+        ${generateAttribute(param.attributes,param.defaultAttributes,filtrates.attr)}\n
         ${ecTemplateFor(param.events, (item,k) => {
         if (item.enable) {
             return `@${k}="${item.method}"`
@@ -48,19 +48,19 @@ export function generalTemplate(param,filtrate){
     `
 }
 
-export function generateAttribute(attributes,filtrate){
+export function generateAttribute(attributes,defaultAttributes,filtrate){
     return `\n
         ${ecTemplateFor(attributes, (item,k) => {
         if(filtrate && filtrate.indexOf(k)!==-1){
             return ''
         }
-        if ((typeof item === "boolean") && item) {
+        if ((typeof item === "boolean" && defaultAttributes[k] !== item)) {
             return `:${k}="${item}"`
         }
-        if ((typeof item === "number" && item !== 0)) {
+        if ((typeof item === "number" && item !== 0) && defaultAttributes[k] !== item) {
             return `:${k}="${item}"`
         }
-        if ((typeof item === "string") && item !== '') {
+        if ((typeof item === "string") && item !== '' && defaultAttributes[k] !== item) {
             if(k.includes("Ref")){
                 return `ref="${item}"`
             }else if(k === "modelValue"){

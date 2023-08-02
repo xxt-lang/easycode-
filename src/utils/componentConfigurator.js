@@ -75,6 +75,7 @@ function setAttribute() {
     })
     componentList.forEach(item => {
         let index = setterMap.get(item.component)
+        item["defaultAttributes"] = {}
         if (index !== undefined) {
             // 容器模板增加基础状态
             if (componentSetters[index].setter.configuration && componentSetters[index].setter.configuration.childrenTemplate) {
@@ -82,6 +83,7 @@ function setAttribute() {
             }
             componentSetters[index].setter.attributes.forEach(setterItem => {
                 item.attributes[setterItem.attributeName] = setterItem.defaultValue
+                item.defaultAttributes[setterItem.attributeName] = setterItem.defaultValue
                 if (setterItem.type === "table") {
                     let columnObject = {}
                     setterItem.column.forEach(columnItem => {
@@ -91,9 +93,11 @@ function setAttribute() {
                         let childrenLength = item.children.length
                         for (let i = 0; i < childrenLength; i++) {
                             item.attributes[setterItem.attributeName].push(columnObject)
+                            item.defaultAttributes[setterItem.attributeName].push(columnObject)
                         }
                     } else {
                         item.attributes[setterItem.attributeName].push(columnObject)
+                        item.defaultAttributes[setterItem.attributeName].push(columnObject)
                     }
                 }
             })
@@ -103,5 +107,8 @@ function setAttribute() {
                 })
             }
         }
+        Object.defineProperty(item, "defaultAttributes", {
+            writable: false, // 这里我们writable设置为false
+        });
     })
 }

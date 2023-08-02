@@ -1,4 +1,4 @@
-import {ecTemplateFor, generalTemplate, generateAttribute, includeTemplate} from "../../../utils/ecTemplate";
+import {ecTemplateFor, generalTemplate, includeTemplate} from "../../../utils/ecTemplate";
 
 export const ScSpace = {
     component:{
