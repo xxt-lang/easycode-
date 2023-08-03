@@ -139,7 +139,7 @@ export const materials = [
                     },
                     {
                         label: 'Calendar 日历',
-                        component: 'ScCalender'
+                        component: 'ScCalendar'
                     },
                     {
                         label: 'Card 卡片',

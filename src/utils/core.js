@@ -404,6 +404,7 @@ export function handleDrop(e) {
     e.stopPropagation()
     let component = deepClone(getStore("ComponentListStore").componentList.find((data) => data.component === e.dataTransfer.getData('index')))
     // 若添加成功返回true 并在撤销回退中记录
+    console.log(e)
     if (component) {
         if (addComponent(getTarget(e.target.dataset), component, e)) {
             getStore("UndoRedoStore").addOperation('addComponent')

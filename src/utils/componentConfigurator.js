@@ -1,5 +1,6 @@
 import {ComponentListStore} from "../stores/counter"
 import {materials} from "../materialsWarehouse/materials";
+import {deepClone} from "./tool";
 // 组件的基础属性
 const baseAttribute = {
     status: {
@@ -83,7 +84,7 @@ function setAttribute() {
             }
             componentSetters[index].setter.attributes.forEach(setterItem => {
                 item.attributes[setterItem.attributeName] = setterItem.defaultValue
-                item.defaultAttributes[setterItem.attributeName] = setterItem.defaultValue
+                item.defaultAttributes[setterItem.attributeName] = deepClone(setterItem.defaultValue)
                 if (setterItem.type === "table") {
                     let columnObject = {}
                     setterItem.column.forEach(columnItem => {
