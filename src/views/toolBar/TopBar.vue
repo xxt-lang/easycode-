@@ -133,16 +133,16 @@ export default {
                 that.toolClick('showKeyDetail')
               }
             },
-            {
-              component:"button",
-              label:"test",
-              attribute:{
-              },
-              icon:'',
-              func:()=>{
-                exportComponent()
-              }
-            },
+            // {
+            //   component:"button",
+            //   label:"test",
+            //   attribute:{
+            //   },
+            //   icon:'',
+            //   func:()=>{
+            //     exportComponent()
+            //   }
+            // },
           ],
         }
     },

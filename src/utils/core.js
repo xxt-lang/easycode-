@@ -13,20 +13,28 @@ import {
 import {saveAs} from 'file-saver';
 import {ElMessage} from "element-plus";
 import {ECVue} from "./ECVue";
+import JSZip from "jszip";
+import {ecTemplate} from "./ecTemplate";
+import prettier from "prettier/standalone"
+import parserHtml from "prettier/plugins/html"
+import parserCss from "prettier/plugins/postcss"
+
 
 export function getStore(name) {
-    if (name === "PagesStore")
-        return PagesStore()
-    if (name === "ComponentListStore")
-        return ComponentListStore()
-    if (name === "SimpleStore")
-        return SimpleStore()
-    if (name === "CommonStatusStore")
-        return CommonStatusStore()
-    if (name === "MouseEventStore")
-        return MouseEventStore()
-    if (name === "UndoRedoStore")
-        return UndoRedoStore()
+    switch(name){
+        case "PagesStore":
+            return PagesStore()
+        case "ComponentListStore":
+            return ComponentListStore()
+        case "SimpleStore":
+            return SimpleStore()
+        case "CommonStatusStore":
+            return CommonStatusStore()
+        case "MouseEventStore":
+            return MouseEventStore()
+        case "UndoRedoStore":
+            return UndoRedoStore()
+    }
 }
 
 const debounce = (function () {
@@ -71,10 +79,8 @@ export function getPageData(attribute, EcVue) {
     let setData = EcVue
     let result = ''
     if (params.length > 0) {
-
         let length = params.length
         result = (setData !== null && setData[params[0]]) ? setData[params[0]] : ''
-
         if (setData) {
             for (let i = 1; i < length; i++) {
                 result = result[params[i]]
@@ -170,14 +176,12 @@ export function rightClickContextmenu(ref, p, contextmenuData, event) {
     event(p, contextmenuData)
 }
 
-
 /*
 client [x,y] 相对于浏览器左上角计算
 offset [x,y] 相对于当前元素的左上角
 layer  [x,y] 设置定位的元素左上角，否则为body
 page   [x,y] 当前页面
 screen [x,y] 当前屏幕
-
  */
 
 // 改变组件的外边距
@@ -222,7 +226,7 @@ export function moveComponent(e, index, dragObject) {
     // 获取元素的初始内边距
     let locationInfo = null
     if (getStore("CommonStatusStore").editMargin || getStore("CommonStatusStore").editPosition) {
-        locationInfo = initPositionOrMargin(e,dragObject,getStore("CommonStatusStore").editPosition,getStore("CommonStatusStore").editMargin)
+        locationInfo = initPositionOrMargin(e, dragObject, getStore("CommonStatusStore").editPosition, getStore("CommonStatusStore").editMargin)
         message = `调整${dragObject.label + locationInfo.type}`
     }
     eventBus.emit(`move-dragTip`, {style: {top: e.clientY + 'px', left: e.clientX + 'px'}, message: message})
@@ -250,18 +254,24 @@ export function moveComponent(e, index, dragObject) {
             }
         } else {
             targetInfo = mousemoveInfo(moveEvent)
-            if(dragObject.id !==moveEvent.target.dataset.elementid){
-                if((oldDocument !== moveEvent.target || oldDirection !== targetInfo.direction) && moveEvent.target.dataset.shape === 'true'){
-                    if (oldDocument){
+            if (dragObject.id !== moveEvent.target.dataset.elementid) {
+                if ((oldDocument !== moveEvent.target || oldDirection !== targetInfo.direction) && moveEvent.target.dataset.shape === 'true') {
+                    if (oldDocument) {
                         oldDocument.style['outline'] = ''
+                        oldDocument.style['position'] = ""
+                        oldDocument.style['z-index'] = ""
                     }
                     oldDocument = moveEvent.target
                     oldDirection = targetInfo.direction
-                    oldDocument.style['outline'] = `2px solid ${targetInfo.direction === 'left'?'green':'orange'}`
+                    oldDocument.style['outline'] = `2px solid ${targetInfo.direction === 'left' ? 'green' : 'orange'}`
+                    oldDocument.style['position'] = "relative"
+                    oldDocument.style['z-index'] = "1020"
                 }
-                if(!moveEvent.target.dataset.shape){
-                    if (oldDocument){
+                if (!moveEvent.target.dataset.shape) {
+                    if (oldDocument) {
                         oldDocument.style['outline'] = ''
+                        oldDocument.style['position'] = ""
+                        oldDocument.style['z-index'] = ""
                     }
                     oldDocument = null
                 }
@@ -273,7 +283,7 @@ export function moveComponent(e, index, dragObject) {
     upMouse(move, () => {
         // 用于拖拽时的提示定位
         eventBus.emit(`move-dragTip`, {style: {top: 0, left: 0, display: 'none'}, message: null})
-        if(oldDocument){
+        if (oldDocument) {
             oldDocument.style['outline'] = ''
             oldDocument = null
         }
@@ -285,7 +295,7 @@ export function moveComponent(e, index, dragObject) {
 
 }
 
-function initPositionOrMargin(moveEvent,dragObject,position,margin) {
+function initPositionOrMargin(moveEvent, dragObject, position, margin) {
     //当被拖拽元素是锁定状态时不进行初始化
     if (!dragObject.status.lock) {
         let result = {oldX: 0, oldY: 0, type: 'position'}
@@ -293,17 +303,17 @@ function initPositionOrMargin(moveEvent,dragObject,position,margin) {
         if (position && !margin) {
             if (dragObject.styles['left']) {
                 result.oldX = getCssAttributeValue(dragObject.styles['left'])
-            }else{
+            } else {
                 result.oldX = moveEvent.clientX - moveEvent.offsetX
             }
             if (dragObject.styles['top']) {
                 result.oldY = getCssAttributeValue(dragObject.styles['top'])
-            }else{
-                result.oldY = moveEvent.clientY- moveEvent.offsetY
+            } else {
+                result.oldY = moveEvent.clientY - moveEvent.offsetY
             }
-            dragObject.styles['position'] = dragObject.styles['position']?dragObject.styles['position']:'absolute'
+            dragObject.styles['position'] = dragObject.styles['position'] ? dragObject.styles['position'] : 'absolute'
             return result
-        } else if(margin){
+        } else if (margin) {
             if (dragObject.styles['margin-left']) {
                 result.oldX = getCssAttributeValue(dragObject.styles['margin-left'])
             }
@@ -675,7 +685,7 @@ export function objectToCss(style) {
 
 
 // 解析styles 取得shape应该跟着改变的样式
-export function getShapeStyle(styles,lock) {
+export function getShapeStyle(styles, lock) {
     const yesStyle = [
         'margin',
         'margin-left',
@@ -695,9 +705,9 @@ export function getShapeStyle(styles,lock) {
             result[yesStyle[key]] = styles[yesStyle[key]]
         }
     }
-    if (lock){
+    if (lock) {
         result['pointer-events'] = 'none'
-    }else{
+    } else {
         result['pointer-events'] = ''
     }
     return result
@@ -775,10 +785,10 @@ export function deleteComponent(selectPlate) {
 export function getComponentSetter() {
     if (getStore("SimpleStore").selectPlate[0] !== undefined) {
         let component = getStore("SimpleStore").selectPlate[0]['component']
-        if(component){
-            let index = getStore("ComponentListStore").componentSetters.findIndex((item)=>item.component === component)
-            if(getStore("ComponentListStore").componentSetters[index].hasOwnProperty('setter'))
-            return getStore("ComponentListStore").componentSetters[index]['setter']
+        if (component) {
+            let index = getStore("ComponentListStore").componentSetters.findIndex((item) => item.component === component)
+            if (getStore("ComponentListStore").componentSetters[index].hasOwnProperty('setter'))
+                return getStore("ComponentListStore").componentSetters[index]['setter']
         }
     }
     return null
@@ -804,7 +814,7 @@ export function savePage() {
     try {
         localStorage.setItem("page", JSON.stringify(getStore("PagesStore").getPage(), re))
         ElMessage({message: "保存成功", type: 'success', duration: 2000, showClose: true,})
-    }catch (e) {
+    } catch (e) {
         ElMessage({message: "保存失败", type: 'error', duration: 2000, showClose: true,})
     }
 }
@@ -924,8 +934,8 @@ function verifyPagesData(Pages) {
 }
 
 // 执行方法
-export function execMethod(events) {
-    if (events && events.enable) {
+export function execMethod(events,EcVue) {
+    if (EcVue[events.method] && events && events.enable) {
         return true
     }
     return false
@@ -936,29 +946,114 @@ export function setMouseEvent(e) {
 }
 
 export function bindRefs(attr, refs, name, EcVue) {
-    if (!EcVue.$refs) {
-        EcVue['$refs'] = null
-    }
-    if (!refs) {
-        refs = null
-    }
-    if (attr[name]) {
-        let i = 0
-        let value = attr[name].replace(/[0-9]+/g, "")
-        while (EcVue.$refs[attr[name]]) {
-            i++
-            attr[name] = value + i
+    try {
+        if (!EcVue.$refs) {
+            EcVue['$refs'] = null
         }
-        EcVue.$refs[attr[name]] = refs
+        if (!refs) {
+            refs = null
+        }
+        if (attr[name]) {
+            let i = 0
+            let value = attr[name].replace(/[0-9]+/g, "")
+            while (EcVue.$refs[attr[name]]) {
+                i++
+                attr[name] = value + i
+            }
+            EcVue.$refs[attr[name]] = refs
+        }
+    }catch (e){
+        console.log(e)
     }
+
 }
 
 export function deleteRefs(component) {
-
-    for (let key in component.attributes) {
-        if (key.indexOf('Ref') > -1) {
-            delete getStore("PagesStore").getNowPage().EcVue.$refs [component.attributes[key]]
+    try {
+        for (let key in component.attributes) {
+            if (key.indexOf('Ref') > -1) {
+                delete getStore("PagesStore").getNowPage().EcVue.$refs [component.attributes[key]]
+            }
         }
+    }catch (e){
+        console.log(e)
     }
+
+}
+
+export function upSelectComponent() {
+    let selectPate = []
+    if (getStore("SimpleStore").selectPlate) {
+        selectPate = getStore("SimpleStore").selectPlate
+        let firstComponent = selectPate[0]
+        // 向上跳转只作用于选择列表的第一个 当父id为editor时则不进行向上查找
+        if (firstComponent.featherId === 'editor') {
+            return
+        } else {
+            let upComponent = searchComponent(firstComponent.featherId)
+            if (upComponent.component === 'container') {
+                upComponent = searchComponent(upComponent.featherId)
+            }
+            upComponent.status.active = true
+            selectPate[0] = upComponent
+            firstComponent.status.active = false
+            eventBus.emit("setterComponent")
+            upComponent = null
+        }
+        firstComponent = null
+    }
+    selectPate = null
+}
+
+export function setterComponent() {
+    eventBus.emit("setterComponent")
+}
+
+// 输出源码
+export async function generateCode(exportPage) {
+    let zip = new JSZip()
+    for (const item of exportPage) {
+        let data = await formatText(ecTemplate(item),"html")
+        let blob = new Blob([data], {type: "text/json;charset=utf-8"});
+        zip.file(item.pageName + ".vue", blob, {binary: true})
+    }
+    zip.generateAsync({type: "blob"}).then(content => {
+        // 生成二进制流
+        saveAs(content, "easyCode源码"); // 利用file-saver保存文件  自定义文件名
+    });
+
+}
+
+// 格式化文本
+export async function formatText(text, type) {
+    try {
+        if (!type || type === "javascript" ) return text
+        let result = ""
+        let plugin = null
+        let vueIndentScriptAndStyle = false
+        if (type === "css") {
+            plugin = parserCss
+            type = "css"
+        }
+        if (type === "html") {
+            type = "html"
+            plugin = parserHtml
+            vueIndentScriptAndStyle = true
+        }
+        if (plugin !== null) {
+            await prettier.format(text, {
+                parser: type,
+                plugins: [plugin],
+                vueIndentScriptAndStyle: vueIndentScriptAndStyle
+            }).then(data => {
+                result = data
+            })
+        }
+        return result
+    }catch (e){
+        console.log(e)
+        ElMessage({message: "有错误请检查后在进行保存", type: 'warning', duration: 2000, showClose: true,})
+    }
+
 }
 
