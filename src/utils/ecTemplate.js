@@ -60,12 +60,15 @@ export function generateAttribute(attributes,defaultAttributes,filtrate){
         if ((typeof item === "number" && item !== 0) && defaultAttributes[k] !== item) {
             return `:${k}="${item}"`
         }
-        if ((typeof item === "string") && item !== '' && defaultAttributes[k] !== item && k.includes("-slot")) {
+        if ((typeof item === "string") && item !== '' && defaultAttributes[k] !== item) {
+            if(k.includes("-slot")){
+                return ""
+            }
             if(k.includes("Ref")){
                 return `ref="${item}"`
             }else if(k === "modelValue"){
                 return `v-model="${item}"`
-            }else if(k !== "modelValue" && k.includes("-bindValue")){
+            }else if(k.includes("-bindValue")){
                 return `:${k.replace("-bindValue","")}="${item}"`
             }else{
                 return `${k}="${item}"`

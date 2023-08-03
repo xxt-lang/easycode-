@@ -1238,26 +1238,27 @@ export default {
   methods: {
     changStyle(styles){
       for (let key in styles) {
-        if(key === 'background-position'){
-          let position =styles[key].split(" ")
-          this.styles[key].params.left=position[0]
-          this.styles[key].params.top=position[1]
-        }else if(key === 'background-size'){
-          let size = styles[key].split(" ")
-          this.styles[key].params.height = size[1]
-          this.styles[key].params.width = size[0]
-        }else if(key === 'box-shadow'){
-          let boxShadow = styles[key].split(" ")
-          this.styles[key].params.inset.value = boxShadow[0]==='inset'
-          this.styles[key].params.x.value=boxShadow[1]
-          this.styles[key].params.y.value = boxShadow[2]
-          this.styles[key].params.obscure.value=boxShadow[3]
-          this.styles[key].params.extend.value = boxShadow[4]
-          this.styles[key].params.color.value=boxShadow[5]
-        }else{
-          this.styles[key].value = styles[key]
+        if(this.styles[key]){
+          if(key === 'background-position'){
+            let position =styles[key].split(" ")
+            this.styles[key].params.left=position[0]
+            this.styles[key].params.top=position[1]
+          }else if(key === 'background-size'){
+            let size = styles[key].split(" ")
+            this.styles[key].params.height = size[1]
+            this.styles[key].params.width = size[0]
+          }else if(key === 'box-shadow'){
+            let boxShadow = styles[key].split(" ")
+            this.styles[key].params.inset.value = boxShadow[0]==='inset'
+            this.styles[key].params.x.value=boxShadow[1]
+            this.styles[key].params.y.value = boxShadow[2]
+            this.styles[key].params.obscure.value=boxShadow[3]
+            this.styles[key].params.extend.value = boxShadow[4]
+            this.styles[key].params.color.value=boxShadow[5]
+          }else{
+            this.styles[key].value = styles[key]
+          }
         }
-
       }
     },
     choiceStyle(attr, value) {

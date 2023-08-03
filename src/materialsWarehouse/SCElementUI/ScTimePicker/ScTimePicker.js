@@ -220,10 +220,10 @@ export const ScTimePicker = {
     },
     template: (param) => {
         return `
-        <el-timepicker
+        <el-time-picker
             ${generalTemplate(param)}
         >
-        </el-timepicker>
+        </el-time-picker>
         `
     }
 }

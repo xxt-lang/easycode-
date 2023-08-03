@@ -1,4 +1,4 @@
-import {ecTemplateFor, generalTemplate} from "../../../utils/ecTemplate";
+import {generalTemplate} from "../../../utils/ecTemplate";
 export const ScCheckbox = {
     component:{
         component: "ScCheckbox",

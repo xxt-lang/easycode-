@@ -1,4 +1,4 @@
-import {generalTemplate} from "../../../utils/ecTemplate";
+import {ecTemplateFor, generalTemplate, includeTemplate} from "../../../utils/ecTemplate";
 
 export const ScUpload = {
     component: {
@@ -33,30 +33,6 @@ export const ScUpload = {
                 featherId: "",
                 type: "container"
             },
-            {
-                component: "container",
-                attribute: 'slot',
-                label: "trigger",
-                id: "",
-                event: {},
-                attributes: {},
-                styles: {},
-                children: [],
-                featherId: "",
-                type: "container"
-            },
-            {
-                component: "container",
-                attribute: 'slot',
-                label: "file",
-                id: "",
-                event: {},
-                attributes: {},
-                styles: {},
-                children: [],
-                featherId: "",
-                type: "container"
-            },
         ],
     },
     setter: {
@@ -70,12 +46,12 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "默认上传文件 []",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "uploadRef",//组件配置中属性字段名
                     label: "绑定uploadRef",
-                    bind:'ref',
+                    bind: 'ref',
                     type: "input",//编辑自段的类型input select number switch buttonList
                     value: "uploadRef",//属性值
                     defaultValue: "uploadRef",//默认属性值
@@ -87,7 +63,7 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "设置上传的请求头部 <br> Headers | Record<string, any>",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "data-bindValue",
@@ -96,7 +72,7 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "上传时附带的额外参数 <br>Record<string, any>",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "on-preview-bindValue",
@@ -105,7 +81,7 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "点击文件列表中已上传的文件时的钩子 <br> (uploadFile: UploadFile) => void",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "on-remove-bindValue",
@@ -114,7 +90,7 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "文件列表移除文件时的钩子 <br> (uploadFile: UploadFile, uploadFiles: UploadFiles) => void",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "on-success-bindValue",
@@ -123,7 +99,7 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "文件上传成功时的钩子 <br> (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => void",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "on-error-bindValue",
@@ -132,7 +108,7 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "文件上传失败时的钩子 <br>(error: Error, uploadFile: UploadFile, uploadFiles: UploadFiles) => void",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "on-progress-bindValue",
@@ -141,7 +117,7 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "文件上传时的钩子 <br>(evt: UploadProgressEvent, uploadFile: UploadFile, uploadFiles: UploadFiles) => void",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "on-change-bindValue",
@@ -151,7 +127,7 @@ export const ScUpload = {
                     defaultValue: "",
                     detail: "文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用" +
                         "<br> (uploadFile: UploadFile, uploadFiles: UploadFiles) => void",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "on-exceed-bindValue",
@@ -160,7 +136,7 @@ export const ScUpload = {
                     value: "",
                     defaultValue: "",
                     detail: "当超出限制时，执行的钩子函数 <br>(files: File[], uploadFiles: UploadUserFile[]) => void",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "before-upload-bindValue",
@@ -170,7 +146,7 @@ export const ScUpload = {
                     defaultValue: "",
                     detail: "上传文件之前的钩子，参数为上传的文件， 若返回false或者返回 Promise 且被 reject，则停止上传。" +
                         "<br> (rawFile: UploadRawFile) => Awaitable<void | undefined | null | boolean | File | Blob>",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "before-remove-bindValue",
@@ -180,7 +156,7 @@ export const ScUpload = {
                     defaultValue: "",
                     detail: "删除文件之前的钩子，参数为上传的文件和文件列表， 若返回 false 或者返回 Promise 且被 reject，则停止删除。<br> " +
                         "(uploadFile: UploadFile, uploadFiles: UploadFiles) => Awaitable<boolean>",
-                    bind:"value"
+                    bind: "value"
                 },
                 {
                     attributeName: "action",
@@ -292,28 +268,12 @@ export const ScUpload = {
                     detail: "允许上传文件的最大数量",
                 },
                 {
-                    attributeName: "trigger-slot",
-                    label: "trigger slot",
-                    type: "switch",
-                    value: false,
-                    defaultValue: false,
-                    detail: "触发文件选择框的内容",
-                },
-                {
                     attributeName: "tip-slot",
                     label: "tip slot",
                     type: "switch",
                     value: false,
                     defaultValue: false,
                     detail: "提示说明文字",
-                },
-                {
-                    attributeName: "file-slot",
-                    label: "file slot",
-                    type: "switch",
-                    value: false,
-                    defaultValue: false,
-                    detail: "缩略图模板的内容",
                 },
             ],
             events: [],
@@ -325,6 +285,13 @@ export const ScUpload = {
         <el-upload
             ${generalTemplate(param)}
         >
+            ${ecTemplateFor(param.children[0].children, (item2) => {
+            return includeTemplate(item2.component, item2)
+        })}
+             ${param.attributes['tip-slot'] ? `<template v-slot:tip>
+                        ${ecTemplateFor(param.children[1].children, (item2) => {
+            return includeTemplate(item2.component, item2)
+        })}</template>` : ''}
         </el-upload>
         `
     }

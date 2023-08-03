@@ -21,8 +21,8 @@ export const ScInput = {
                     detail:"绑定值",
                     bind: 'value',
                     type: "input",
-                    value: "inputValue",
-                    defaultValue: "inputValue",
+                    value: "",
+                    defaultValue: "",
                 },
                 {
                     attributeName: "type",

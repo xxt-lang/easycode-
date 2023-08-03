@@ -8,7 +8,7 @@ export function coreTemplate(param) {
     <script>
     ${param.ecVueInfo}
     </script>
-    <style>
+    <style scoped>
     ${param.css}
     </style>
     `

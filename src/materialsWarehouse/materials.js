@@ -120,10 +120,10 @@ export const materials = [
                         label: 'Transfer 穿梭框',
                         component: 'ScTransfer'
                     },
-                    {
-                        label: 'Upload 上传',
-                        component: 'ScUpload'
-                    },
+                    // {
+                    //     label: 'Upload 上传',
+                    //     component: 'ScUpload'
+                    // },
                 ]
             },
             {

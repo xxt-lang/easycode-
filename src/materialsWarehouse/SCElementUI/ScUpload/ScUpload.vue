@@ -13,7 +13,6 @@
       :before-remove="beforeUploadBindValue"
       ref="uploadRef"
   >
-    <template v-slot:default>
       <div class="slotBorder"
            v-container="{id:propValue.children[0].id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}">
         <Container
@@ -23,19 +22,6 @@
             :lock="propValue.status.lock"
         ></Container>
       </div>
-    </template>
-    <template v-slot:trigger>
-      <div class="slotBorder"
-           v-show="propValue.attributes['trigger-slot']"
-           v-container="{id:propValue.children[2].id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}">
-        <Container
-            :children="propValue.children[2].children"
-            :isPreview="isPreview"
-            :EcVue="EcVue"
-            :lock="propValue.status.lock"
-        ></Container>
-      </div>
-    </template>
     <template v-slot:tip>
       <div v-show="propValue.attributes['tip-slot']"
            style="min-height: 32px"
@@ -43,18 +29,6 @@
            v-container="{id:propValue.children[1].id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}">
         <Container
             :children="propValue.children[1].children"
-            :isPreview="isPreview"
-            :EcVue="EcVue"
-            :lock="propValue.status.lock"
-        ></Container>
-      </div>
-    </template>
-    <template v-slot:file>
-      <div class="slotBorder"
-           v-show="propValue.attributes['file-slot']"
-           v-container="{id:propValue.children[3].id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}">
-        <Container
-            :children="propValue.children[3].children"
             :isPreview="isPreview"
             :EcVue="EcVue"
             :lock="propValue.status.lock"

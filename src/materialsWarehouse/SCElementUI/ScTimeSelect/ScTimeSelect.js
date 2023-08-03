@@ -161,10 +161,10 @@ export const ScTimeSelect = {
     },
     template: (param)=>{
         return `
-        <el-timeselect
+        <el-time-select
             ${generalTemplate(param)}
         >
-        </el-timeselect>
+        </el-time-select>
         `
     }
 }
