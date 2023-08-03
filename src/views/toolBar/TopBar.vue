@@ -46,16 +46,16 @@ export default {
                 clearMap()
               }
             },
-            {
-              component:"button",
-              label:"返回",
-              attribute:{
-                type:'primary'
-              },
-              icon:'',
-              func:()=>{
-              }
-            },
+            // {
+            //   component:"button",
+            //   label:"返回",
+            //   attribute:{
+            //     type:'primary'
+            //   },
+            //   icon:'',
+            //   func:()=>{
+            //   }
+            // },
             {
               component:"button",
               label:"预览",
@@ -143,6 +143,15 @@ export default {
             //     exportComponent()
             //   }
             // },
+            {
+              component:"button",
+              label:"下载源码",
+              attribute:{
+              },
+              func:()=>{
+                that.toolClick('generateCode')
+              }
+            },
           ],
         }
     },

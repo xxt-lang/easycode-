@@ -11,12 +11,13 @@
          :data-elementType = "item.type"
          @mousedown="handleMouseDown(item,$event,index)"
          @dblclick="dbClick(item,$event,index)"
-         :style="getShapeStyle(item.styles,lock)"
+         :data-shape="true"
+         :style="{'pointer-events':lock?'none':''}"
   >
     <component
         :isPreview = "isPreview"
         :class="item.bindClass"
-        :style="getComponentStyle(isPreview,item.styles,item.type)"
+        :style="item.styles"
         :is="item.component"
         :key="index"
         :propValue="item"
@@ -92,7 +93,7 @@ export default {
       event.stopPropagation()
       // 当所选元素为容器组件时才进行isContainer的复制
       clickSelectComponent(event, item)
-      eventBus.emit("dbComponent")
+      eventBus.emit("setterComponent")
     }
   }
 }

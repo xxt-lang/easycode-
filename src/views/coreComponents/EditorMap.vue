@@ -18,11 +18,10 @@
              :data-elementType="item.type"
              @mousedown="handleMouseDown(item,$event,index)"
              @dblclick="dbClick(item,$event)"
-             :style="getShapeStyle(item.styles,false)"
              :data-shape="true"
       >
         <component
-            :style="getComponentStyle(false,item.styles,item.type)"
+            :style="item.styles"
             :class="item.bindClass"
             :is="item.component"
             :key="index"
@@ -46,8 +45,7 @@ import {
   clickSelectComponent,
   moveComponent,
   handleDrop,
-  getComponentStyle,
-  getShapeStyle
+  getComponentStyle
 } from '@/utils/core'
 import Shape from "./Shape.vue";
 import Contextmenu from "./Contextmenu.vue";
@@ -99,7 +97,6 @@ export default {
 
   },
   methods: {
-    getShapeStyle,
     getComponentStyle,
     handleDragOver,
     handleDrop,
@@ -122,7 +119,7 @@ export default {
       event.preventDefault()
       event.stopPropagation()
       clickSelectComponent(event, item)
-      eventBus.emit("dbComponent")
+      eventBus.emit("setterComponent")
     }
   }
 }

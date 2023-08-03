@@ -36,7 +36,8 @@ export const ComponentListStore = defineStore('ComponentListMain', {
   state: () =>({
     materials:[],// 拖拽时的导航栏
     componentList:[], // 携带数据结构的组件
-    componentSetters:[] // 组件设置器的配置
+    componentSetters:[], // 组件设置器的配置
+    componentTemplates:{}
   })
 })
 

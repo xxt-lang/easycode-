@@ -1,13 +1,14 @@
 <template>
-    <el-space v-bind = "propValue.attributes">
+    <el-space v-bind = "propValue.attributes" :class="{scSpace:!isPreview}">
       <div v-for = "item in propValue.children"
-           :key="item.id" 
+           :key="item.id"
            v-container="item"
-           style="min-height: 50px;min-width: 50px;background-color: #c6e2ff;">
+           :class="{scSpaceContent:!isPreview}">
         <Container
             :children="item.children"
             :isPreview = "isPreview"
             :EcVue = "EcVue"
+            :lock = "propValue.status.lock"
         ></Container>
       </div>
     </el-space>
@@ -39,5 +40,15 @@ export default {
 </script>
 
 <style scoped>
+.scSpaceContent{
+  min-height: 50px;
+  min-width: 50px;
+  border-color: #f2f2f2;
+  border-style: solid;
+}
+.scSpace{
+  border-color: #f2f2f2;
+  border-style: solid;
+}
 
 </style>

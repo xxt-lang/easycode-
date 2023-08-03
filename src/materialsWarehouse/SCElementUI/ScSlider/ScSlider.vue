@@ -27,48 +27,48 @@ export default {
     sliderValue: {
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['sliderValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['modelValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['sliderValue'],value,this.EcVue)
+        setPageData(this.propValue.attributes['modelValue'],value,this.EcVue)
       }
     },
     marksValue:{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['marksValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['marks-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['marksValue'],value,this.EcVue)
+        setPageData(this.propValue.attributes['marks-bindValue'],value,this.EcVue)
       }
     },
     formatTooltipValue:{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['formatTooltipValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['formatTooltip-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['formatTooltipValue'],value,this.EcVue)
+        setPageData(this.propValue.attributes['formatTooltip-bindValue'],value,this.EcVue)
       }
     },
     formatValueTextValue:{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['formatValueTextValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['formatTooltip-bindValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['formatValueTextValue'],value,this.EcVue)
+        setPageData(this.propValue.attributes['formatTooltip-bindValue'],value,this.EcVue)
       }
     },
   },
   methods: {
     changeMethod(val){
-      if(execMethod(this.propValue.events['change'])){
+      if(execMethod(this.propValue.events['change'],this.EcVue)){
         this.EcVue[this.propValue.events['change'].method](val)
       }
     },
     inputMethod(val){
-      if(execMethod(this.propValue.events['input'])){
+      if(execMethod(this.propValue.events['input'],this.EcVue)){
         this.EcVue[this.propValue.events['input'].method](val)
       }
     }

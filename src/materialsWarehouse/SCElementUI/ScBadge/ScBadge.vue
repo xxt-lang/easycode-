@@ -1,6 +1,5 @@
 <template>
   <el-badge
-      style="min-height: 50px;min-width: 50px"
       v-bind="propValue.attributes"
       v-container = "propValue"
   >

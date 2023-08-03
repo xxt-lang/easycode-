@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScInput = {
     component: {
         component: "ScInput",
@@ -5,19 +7,22 @@ export const ScInput = {
         events: {},
         attributes: {},
         styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter:{
         component: "ScInput",
         setter: {
             attributes: [
                 {
-                    attributeName: "inputValue",
+                    attributeName: "modelValue",
                     label: "value绑定",
                     detail:"绑定值",
                     bind: 'value',
                     type: "input",
-                    value: "inputValue",
-                    defaultValue: "inputValue",
+                    value: "",
+                    defaultValue: "",
                 },
                 {
                     attributeName: "type",
@@ -284,4 +289,12 @@ export const ScInput = {
             ],
         }
     },
+    template: (param)=>{
+        return `
+        <el-input
+        ${generalTemplate(param)}
+        >
+        </el-input>
+        `
+    }
 }

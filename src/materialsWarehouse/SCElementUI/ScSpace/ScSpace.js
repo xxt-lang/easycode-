@@ -1,3 +1,5 @@
+import {ecTemplateFor, generalTemplate, includeTemplate} from "../../../utils/ecTemplate";
+
 export const ScSpace = {
     component:{
         component: "ScSpace",
@@ -32,8 +34,10 @@ export const ScSpace = {
         animations: [], // 动画列表
         events: {}, // 事件列表
         attributes: {},
-        styles: {
-        },
+        styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter:{
         component: "ScSpace",
@@ -141,4 +145,18 @@ export const ScSpace = {
             }
         }
     },
+    template:(param)=>{
+        return `
+        <el-space
+        ${generalTemplate(param)}
+         >
+        ${ecTemplateFor(param.children, (citem,k) => {
+            return `<div>
+                ${ecTemplateFor(param.children[k].children,(item2)=>{
+                return includeTemplate(item2.component,item2)})}
+            </div>`
+        })}
+         </el-space>
+        `
+    }
 }

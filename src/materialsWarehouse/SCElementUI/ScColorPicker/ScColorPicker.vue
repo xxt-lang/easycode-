@@ -29,19 +29,19 @@ export default {
     colorValue: {
       get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['colorValue'], this.EcVue)
+        return getPageData(this.propValue.attributes['modelValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['colorValue'], value, this.EcVue)
+        setPageData(this.propValue.attributes['modelValue'], value, this.EcVue)
       }
     },
     predefineValue: {
       get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['predefineValue'], this.EcVue)
+        return getPageData(this.propValue.attributes['predefine-bindValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['predefineValue'], value, this.EcVue)
+        setPageData(this.propValue.attributes['predefine-bindValue'], value, this.EcVue)
       }
     },
   },
@@ -50,12 +50,12 @@ export default {
   },
   methods: {
     changeMethod(val) {
-      if(execMethod(this.propValue.events['change'])){
+      if(execMethod(this.propValue.events['change'],this.EcVue)){
         this.EcVue[this.propValue.events['change'].method](val)
       }
     },
     activeChangeMethod(val) {
-      if(execMethod(this.propValue.events['active-change'])){
+      if(execMethod(this.propValue.events['active-change'],this.EcVue)){
         this.EcVue[this.propValue.events['active-change'].method](val)
       }
     }

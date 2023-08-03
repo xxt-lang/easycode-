@@ -26,10 +26,10 @@ export default {
     rateValue:{
       get(){
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['rateValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['modelValue'],this.EcVue)
       },
       set(value){
-        setPageData(this.propValue.attributes['rateValue'],value,this.EcVue)
+        setPageData(this.propValue.attributes['modelValue'],value,this.EcVue)
       }
     }
   },
@@ -38,9 +38,9 @@ export default {
     }
   },
   methods: {
-    change(){
-      if(execMethod(this.propValue.events['change'])){
-        this.EcVue[this.propValue.events['change'].method]()
+    change(val){
+      if(execMethod(this.propValue.events['change'],this.EcVue)){
+        this.EcVue[this.propValue.events['change'].method](val)
       }
     }
   }

@@ -26,7 +26,7 @@
   </el-form>
 </template>
 <script>
-import {getPageData, setPageData, execMethod} from "@/utils/core";
+import {getPageData, setPageData, execMethod,bindRefs} from "@/utils/core";
 import Container from "@/views/coreComponents/Container.vue";
 
 export default {
@@ -53,26 +53,27 @@ export default {
   computed: {
     formValue: {
       get() {
-        // 绑定事件监听
-        return getPageData(this.propValue.attributes['formValue'], this.EcVue)
+        return getPageData(this.propValue.attributes['modelValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['formValue'], value, this.EcVue)
+        setPageData(this.propValue.attributes['modelValue'], value, this.EcVue)
       }
     },
     rulesValue: {
       get() {
-        // 绑定事件监听
-        return getPageData(this.propValue.attributes['rulesValue'], this.EcVue)
+        return getPageData(this.propValue.attributes['rules-bindValue'], this.EcVue)
       },
       set(value) {
-        setPageData(this.propValue.attributes['rulesValue'], value, this.EcVue)
+        setPageData(this.propValue.attributes['rules-bindValue'], value, this.EcVue)
       }
     },
   },
+  mounted() {
+    bindRefs(this.propValue.attributes, this.$refs['formRef'], 'formRef', this.EcVue)
+  },
   methods: {
     validateMethod() {
-      if (execMethod(this.propValue.events['validate'])) {
+      if (execMethod(this.propValue.events['validate'],this.EcVue)) {
         this.EcVue[this.propValue.events['validate'].method]()
       }
     },

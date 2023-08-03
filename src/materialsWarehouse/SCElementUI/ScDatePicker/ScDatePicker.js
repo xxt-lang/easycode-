@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScDatePicker = {
     component: {
         component: "ScDatePicker",
@@ -5,18 +7,20 @@ export const ScDatePicker = {
         events: {},
         attributes: {},
         styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter: {
         component: "ScDatePicker",
         setter: {
             attributes: [
-
                 {
-                    attributeName: "datepickerValue",
+                    attributeName: "modelValue",
                     label: "value绑定",
                     type: "input",
-                    value: "datepickerValue",
-                    defaultValue: "datepickerValue",
+                    value: "",
+                    defaultValue: "",
                     detail: "绑定值",
                     bind: 'value',
                 },
@@ -281,4 +285,12 @@ export const ScDatePicker = {
             styles: {}
         }
     },
+    template: (param)=>{
+        return `
+        <el-date-picker
+        ${generalTemplate(param)}
+        >
+        </el-date-picker >
+        `
+    }
 }

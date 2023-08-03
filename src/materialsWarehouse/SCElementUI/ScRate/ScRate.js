@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScRate = {
     component:  {
         component: "ScRate",
@@ -5,18 +7,21 @@ export const ScRate = {
         events: {},
         attributes: {},
         styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter:  {
         component: "ScRate",
         setter: {
             attributes: [
                 {
-                    attributeName: "rateValue",//组件配置中属性字段名 必写
+                    attributeName: "modelValue",//组件配置中属性字段名 必写
                     label: "value绑定",// 字段标签
                     bind: true,
                     type: "input",//编辑自段的类型input select number switch 必写
-                    value: "rateValue",//属性值 必写
-                    defaultValue: "rateValue",//默认属性值 必写
+                    value: "",//属性值 必写
+                    defaultValue: "",//默认属性值 必写
                 },
                 {
                     attributeName: "max",
@@ -158,4 +163,12 @@ export const ScRate = {
             styles:[]
         }
     },
+    template: (param)=>{
+        return `
+        <el-rate
+        ${generalTemplate(param)}
+        >
+        </el-rate>
+        `
+    }
 }

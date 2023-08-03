@@ -44,7 +44,7 @@ export default {
   },
   methods:{
     scroll(scrollLeft,scrollTop){
-      if(execMethod(this.propValue.events['scroll'])){
+      if(execMethod(this.propValue.events['scroll'],this.EcVue)){
         this.EcVue[this.propValue.events['scroll'].method](scrollLeft,scrollTop)
       }
     }

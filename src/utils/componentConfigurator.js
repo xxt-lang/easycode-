@@ -1,5 +1,6 @@
 import {ComponentListStore} from "../stores/counter"
 import {materials} from "../materialsWarehouse/materials";
+import {deepClone} from "./tool";
 // 组件的基础属性
 const baseAttribute = {
     status: {
@@ -11,6 +12,7 @@ const baseAttribute = {
 }
 const componentList = []
 const componentSetters = []
+const componentTemplates = {}
 
 // 加载组件配置
 export function loadComponentConfiguration() {
@@ -39,9 +41,6 @@ export function loadComponentConfiguration() {
             } else {
                 item.status.activeContainer = false
                 item["type"] = "common" //是否为容器组件
-                if (item.styles['display'] === undefined) {
-                    item.styles['display'] = 'inline-flex'
-                }
             }
             item['bindClass'] = ""
         })
@@ -50,6 +49,7 @@ export function loadComponentConfiguration() {
     componentListStore.componentList = componentList
     componentListStore.componentSetters = componentSetters
     componentListStore.materials = materials
+    componentListStore.componentTemplates = componentTemplates
 }
 
 export function assembleComponent(component,name){
@@ -62,6 +62,9 @@ export function assembleComponent(component,name){
     if(component.hasOwnProperty('setter')){
         componentSetters.push(component.setter)
     }
+    if(component.hasOwnProperty('template')){
+        componentTemplates[name] = component.template
+    }
 }
 
 // 根据组件配置属性设置组件属性
@@ -73,6 +76,7 @@ function setAttribute() {
     })
     componentList.forEach(item => {
         let index = setterMap.get(item.component)
+        item["defaultAttributes"] = {}
         if (index !== undefined) {
             // 容器模板增加基础状态
             if (componentSetters[index].setter.configuration && componentSetters[index].setter.configuration.childrenTemplate) {
@@ -80,6 +84,7 @@ function setAttribute() {
             }
             componentSetters[index].setter.attributes.forEach(setterItem => {
                 item.attributes[setterItem.attributeName] = setterItem.defaultValue
+                item.defaultAttributes[setterItem.attributeName] = deepClone(setterItem.defaultValue)
                 if (setterItem.type === "table") {
                     let columnObject = {}
                     setterItem.column.forEach(columnItem => {
@@ -89,9 +94,11 @@ function setAttribute() {
                         let childrenLength = item.children.length
                         for (let i = 0; i < childrenLength; i++) {
                             item.attributes[setterItem.attributeName].push(columnObject)
+                            item.defaultAttributes[setterItem.attributeName].push(columnObject)
                         }
                     } else {
                         item.attributes[setterItem.attributeName].push(columnObject)
+                        item.defaultAttributes[setterItem.attributeName].push(columnObject)
                     }
                 }
             })
@@ -101,5 +108,8 @@ function setAttribute() {
                 })
             }
         }
+        Object.defineProperty(item, "defaultAttributes", {
+            writable: false, // 这里我们writable设置为false
+        });
     })
 }

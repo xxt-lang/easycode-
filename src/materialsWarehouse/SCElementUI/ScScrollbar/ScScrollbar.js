@@ -1,3 +1,5 @@
+import {ecTemplateFor, generalTemplate, includeTemplate} from "../../../utils/ecTemplate";
+
 export const ScScrollbar = {
     component: {
         component: "ScScrollbar",
@@ -6,16 +8,18 @@ export const ScScrollbar = {
         animations: [], // 动画列表
         events: {}, // 事件列表
         attributes: {},
-        styles: {},
+        styles: {
+            'background-color': '#c6e2ff', height: "500px", padding: '5px'
+        },
     },
-    setter:{
+    setter: {
         component: "ScScrollbar", //组件名 与组件列表中的组件一致
         setter: {
             attributes: [
                 {
                     attributeName: "scrollbarRef",//组件配置中属性字段名
                     label: "绑定scrollbarRef",
-                    bind:'ref',
+                    bind: 'ref',
                     type: "input",//编辑自段的类型input select number switch buttonList
                     value: "scrollbarRef",//属性值
                     defaultValue: "scrollbarRef",//默认属性值
@@ -23,7 +27,7 @@ export const ScScrollbar = {
                 {
                     attributeName: "innerRef",//组件配置中属性字段名
                     label: "绑定innerRef",
-                    bind:'ref',
+                    bind: 'ref',
                     type: "input",//编辑自段的类型input select number switch buttonList
                     value: "innerRef",//属性值
                     defaultValue: "innerRef",//默认属性值
@@ -55,7 +59,7 @@ export const ScScrollbar = {
                     type: "inputNumber",//编辑自段的类型input select number switch buttonList
                     value: 20,//属性值
                     defaultValue: 20,//默认属性值
-                    max:999
+                    max: 999
                 },
                 {
                     attributeName: "noresize",//组件配置中属性字段名
@@ -77,10 +81,23 @@ export const ScScrollbar = {
                 {
                     event: "scroll", // 事件名称
                     enable: false,// 是否启用
-                    detail:"当触发滚动事件时，返回滚动的距离",
+                    detail: "当触发滚动事件时，返回滚动的距离",
                     method: ''// 绑定方法名
                 }
             ],
         },
     },
+    template:(param)=>{
+        return `
+        <el-scrollbar
+        ${generalTemplate(param,{attr:"innerRef"})}
+         >
+         <div ref="${param.attributes["innerRef"]}">
+         ${ecTemplateFor(param.children,(item2)=>{
+            return includeTemplate(item2.component,item2)})}
+         </div>
+         </el-scrollbar>
+
+        `
+    }
 }

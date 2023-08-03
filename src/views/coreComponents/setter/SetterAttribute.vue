@@ -2,13 +2,15 @@
   <div >
     <div v-for = "(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px" >
       <div class="setterAttribute">
-
           <el-tooltip
             effect="dark"
-            :content="item.detail"
             placement="bottom"
-        ><span class="itemLabel" :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{item.label}} </span></el-tooltip>
-
+        >
+            <span class="itemLabel" :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{item.label}} </span>
+            <template #content>
+              <span v-html="item.detail"></span>
+            </template>
+          </el-tooltip>
         <div class="itemContent">
           <el-select  v-if="item.type === 'select'"  v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
             <el-option
@@ -21,15 +23,15 @@
           <el-input v-if="item.type === 'input' || item.type === 'inputArea'"
                     :disabled="item.bind === 'ref'"
                     v-model="setterData.attributes[item.attributeName]"
-                    placeholder="Please input"
+                    :placeholder="'请输入'+item.label"
                     :type="item.type === 'inputArea'?'textarea':'text'"
           />
           <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
           <el-input-number
               v-if="item.type === 'inputNumber'"
               v-model="setterData.attributes[item.attributeName]"
-              :max="item.max?item.max:100"
-              :min="item.min?item.min:0"/>
+              :max="item.max?item.max:Infinity"
+              :min="item.min?item.min:-Infinity"/>
           <el-color-picker  v-if="item.type === 'color'" v-model="setterData.attributes[item.attributeName]"></el-color-picker>
         </div>
       </div>

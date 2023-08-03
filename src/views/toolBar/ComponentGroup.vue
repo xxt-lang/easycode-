@@ -75,6 +75,9 @@ export default {
   font-size: 13px;
   font-weight: 500;
   transition: color .5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
  .group{
   font-size: 1rem;

@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScSlider={
     component: {
         component: "ScSlider",
@@ -7,44 +9,47 @@ export const ScSlider={
         styles: {
             width: '200px'
         },
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter:{
         component: "ScSlider",
         setter: {
             attributes: [
                 {
-                    attributeName: "sliderValue",
+                    attributeName: "modelValue",
                     label: "value绑定",
                     detail:"绑定值",
                     bind: 'value',
                     type: "input",
-                    value: "sliderValue",
-                    defaultValue: "sliderValue",
+                    value: "",
+                    defaultValue: "",
                 },
                 {
-                    attributeName: "marksValue",
+                    attributeName: "marks-bindValue",
                     label: "标记",
                     detail:"标记， key 的类型必须为 number 且取值在闭区间 [min, max] 内，每个标记可以单独设置样式",
                     bind: 'value',
                     type: "input",
-                    value: "marksValue",
-                    defaultValue: "marksValue",
+                    value: "",
+                    defaultValue: "",
                 },
-                {  attributeName: "formatTooltipValue",
+                {  attributeName: "formatTooltip-bindValue",
                     label: "格式化提示信息",
                     detail:"格式化提示信息function(value) 举例(value)={return value+*}",
                     bind: 'value',
                     type: "input",
-                    value: "formatTooltipValue",
-                    defaultValue: "formatTooltipValue",
+                    value: "",
+                    defaultValue: "",
                 },
-                {  attributeName: "formatTooltipValue",
+                {  attributeName: "formatTooltip-value",
                     label: "aria-valuenow 属性的格式",
                     detail:"显示屏幕阅读器的 aria-valuenow 属性的格式,function(value) 举例(value)={return value+*}",
                     bind: 'value',
                     type: "input",
-                    value: "formatTooltipValue",
-                    defaultValue: "formatTooltipValue",
+                    value: "",
+                    defaultValue: "",
                 },
 
                 {
@@ -290,4 +295,12 @@ export const ScSlider={
             styles: {},
         }
     },
+    template: (param)=>{
+        return `
+        <el-slider
+        ${generalTemplate(param)}
+        >
+        </el-slider>
+        `
+    }
 }

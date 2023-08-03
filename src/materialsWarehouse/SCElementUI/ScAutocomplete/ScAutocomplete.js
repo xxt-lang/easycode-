@@ -1,21 +1,28 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScAutocomplete = {
     component: {
         component: "ScAutocomplete",
         label: '自动补全输入',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {
+            display:"inline-flex"
+        },
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter: {
         component: "ScAutocomplete",
         setter: {
             attributes: [
                 {
-                    attributeName: "autocompleteValue",
+                    attributeName: "modelValue",
                     label: "value绑定",
                     type: "input",
-                    value: "autocompleteValue",
-                    defaultValue: "autocompleteValue",
+                    value: "",
+                    defaultValue: "",
                     detail: "绑定值",
                     bind: 'value',
                 },
@@ -181,4 +188,12 @@ export const ScAutocomplete = {
             styles: {}
         }
     },
+    template: (param)=>{
+        return `
+        <el-autocomplete 
+        ${generalTemplate(param)}
+        >
+        </el-autocomplete >
+        `
+    }
 }

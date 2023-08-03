@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScButton = {
     component: {
         component: "ScButton",
@@ -6,6 +8,9 @@ export const ScButton = {
         events: {}, // 事件列表
         attributes: {},
         styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter: {
         component: "ScButton", //组件名 与组件列表中的组件一致
@@ -18,8 +23,6 @@ export const ScButton = {
                     type: "select",//编辑自段的类型input select number switch buttonList
                     value: "primary",//属性值
                     defaultValue: "primary",//默认属性值
-                    valueType: String,// 属性值类型
-                    verifyRule: "",// 属性值校验规则 可填入正则表达式
                     typeArray: [
                         {
                             value: 'primary',
@@ -148,28 +151,6 @@ export const ScButton = {
                     defaultValue: false,//默认属性值
                 },
                 {
-                    attributeName: "autofocus",//组件配置中属性字段名
-                    label: "autofocus",
-                    detail: "原生autofocus",
-                    type: "switch",//编辑自段的类型input select number switch buttonList
-                    value: false,//属性值
-                    defaultValue: false,//默认属性值
-                },
-                {
-                    attributeName: "native-type",//组件配置中属性字段名
-                    label: "原生type属性",
-                    detail: "原生type属性",
-                    type: "select",//编辑自段的类型input select number switch buttonList
-                    value: 'button',//属性值
-                    defaultValue: 'button',//默认属性值
-                    typeArray: [
-                        {value: 'button', label: 'button'}, {value: 'submit', label: 'submit'}, {
-                            value: 'reset',
-                            label: 'reset'
-                        }
-                    ] //类型选择数组
-                },
-                {
                     attributeName: "color",//组件配置中属性字段名
                     label: "颜色",
                     detail: "自定义按钮颜色, 并自动计算 hover 和 active 触发后的颜色",
@@ -204,5 +185,14 @@ export const ScButton = {
                 ]
             }
         },
+    },
+    template: (param)=>{
+        return `
+        <el-button
+        ${generalTemplate(param,{attr:["label"]})}
+        >
+        ${param.attributes.label !==""?`${param.attributes.label }`:''} 
+        </el-button>
+        `
     }
 }

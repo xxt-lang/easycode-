@@ -59,14 +59,15 @@ function clone(data) {
     allDesc["$treeNodeId"].enumerable = true
   }
   const result = Object.create(Object.getPrototypeOf(data), allDesc)
-
   map.set(data, result)
   keys.forEach(key => {
     const val = data[key]
-    if (isObject(val)) {
-      result[key] = clone(val)
-    } else {
+    if(key!="defaultAttributes"){
+      if (isObject(val)) {
+        result[key] = clone(val)
+      } else {
         result[key] = val
+      }
     }
     if(key === "$treeNodeId"){
       delete result["$treeNodeId"]

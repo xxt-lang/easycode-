@@ -176,12 +176,14 @@ export function rightClickContextmenu(ref, p, contextmenuData, event) {
     event(p, contextmenuData)
 }
 
+
 /*
 client [x,y] 相对于浏览器左上角计算
 offset [x,y] 相对于当前元素的左上角
 layer  [x,y] 设置定位的元素左上角，否则为body
 page   [x,y] 当前页面
 screen [x,y] 当前屏幕
+
  */
 
 // 改变组件的外边距

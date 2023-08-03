@@ -55,7 +55,7 @@ export default {
   mounted() {
     let that = this
     // 监听双击事件
-    eventBus.on("dbComponent",()=>{
+    eventBus.on("setterComponent",()=>{
       // that.componentData = param
       that.setter = getComponentSetter()
       that.setterData = getStore("SimpleStore").selectPlate[0]

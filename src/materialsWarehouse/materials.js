@@ -48,10 +48,10 @@ export const materials = [
             {
                 group: 'Form 表单组件',
                 components: [
-                    {
-                        label: '自动补全输入框',
-                        component: "ScAutocomplete"
-                    },
+                    // {
+                    //     label: '自动补全输入框',
+                    //     component: "ScAutocomplete"
+                    // },
                     {
                         label: 'Cascader 级联选择器',
                         component: 'ScCascader'
@@ -96,10 +96,10 @@ export const materials = [
                         label: 'Select 选择器',
                         component: 'ScSelect'
                     },
-                    {
-                        label: 'Select V2 虚拟列表选择器',
-                        component: 'ScSelectV2'
-                    },
+                    // {
+                    //     label: 'Select V2 虚拟列表选择器',
+                    //     component: 'ScSelectV2'
+                    // },
                     {
                         label: 'Slider 滑块',
                         component: 'ScSlider'
@@ -120,10 +120,10 @@ export const materials = [
                         label: 'Transfer 穿梭框',
                         component: 'ScTransfer'
                     },
-                    {
-                        label: 'Upload 上传',
-                        component: 'ScUpload'
-                    },
+                    // {
+                    //     label: 'Upload 上传',
+                    //     component: 'ScUpload'
+                    // },
                 ]
             },
             {
@@ -139,7 +139,7 @@ export const materials = [
                     },
                     {
                         label: 'Calendar 日历',
-                        component: 'ScCalender'
+                        component: 'ScCalendar'
                     },
                     {
                         label: 'Card 卡片',
@@ -307,26 +307,18 @@ export const materials = [
             }
         ]
     },
-    {
-        UI: 'echarts',
-        label: 'echarts图表',
-    },
-    {
-        UI: 'dataV',
-        label: 'dataV大屏',
-    }
+    // {
+    //     UI: 'echarts',
+    //     label: 'echarts图表',
+    // },
+    // {
+    //     UI: 'dataV',
+    //     label: 'dataV大屏',
+    // }
 ]
 
 
 export const componentList = [
-    {
-        component: "ScSelect",
-        label: 'select选择器',
-        events: {},
-        attributes: {},
-        styles: {},
-    },
-
     {
         component: "ScRadio",
         label: '单选框',
@@ -464,8 +456,6 @@ export const componentList = [
     }
 ]
 export const componentSetters = [
-
-
     {
         component: "ScTable",
         setter: {

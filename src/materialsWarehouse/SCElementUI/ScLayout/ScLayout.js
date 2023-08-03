@@ -1,3 +1,5 @@
+import {ecTemplateFor, includeTemplate, generalTemplate, generateAttribute} from "../../../utils/ecTemplate";
+
 export const ScLayout = {
     component:{
         component: "ScLayout",
@@ -212,4 +214,19 @@ export const ScLayout = {
 
             },
         },
+    template:(param)=>{
+        return `
+        <el-row
+        ${generalTemplate(param)}
+         >
+        ${ecTemplateFor(param.children, (citem,k) => {
+            return `<el-col ${generateAttribute(param.attributes['col'][k],param.defaultAttributes['col'][k],['span'])}
+                    :span="${param.attributes['col'][k]["span"]}">
+                ${ecTemplateFor(param.children[k].children,(item2)=>{
+                return includeTemplate(item2.component,item2)})}
+            </el-col>`
+        })}
+         </el-row>
+        `
+    }
 }

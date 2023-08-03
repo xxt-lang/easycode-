@@ -1,6 +1,6 @@
 <template>
   <div>
-    自定义设置器123213123round<el-switch v-model="params.setterData.attributes['round']"></el-switch>
+    自定义设置器round<el-switch v-model="params.setterData.attributes['round']"></el-switch>
   </div>
 </template>
 

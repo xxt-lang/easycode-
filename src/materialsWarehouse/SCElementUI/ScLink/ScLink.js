@@ -1,3 +1,5 @@
+import {generalTemplate} from "../../../utils/ecTemplate";
+
 export const ScLink={
     component: {
         component: "ScLink",
@@ -6,6 +8,9 @@ export const ScLink={
         events: {}, // 事件列表
         attributes: {},
         styles: {},
+        shapeStyles:{
+            display:"inline-flex"
+        }
     },
     setter:{
         component: "ScLink", //组件名 与组件列表中的组件一致
@@ -105,4 +110,13 @@ export const ScLink={
             ],
         },
     },
+    template: (param)=>{
+        return `
+        <el-link
+        ${generalTemplate(param,{attr:["label"]})}
+        >
+        ${param.attributes.label !==""?`${param.attributes.label }`:''} 
+        </el-link>
+        `
+    }
 }

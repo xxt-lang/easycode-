@@ -2,7 +2,7 @@
 <div class = "leftBarMain">
   <el-button round @click="openTool('page')" type="primary" class = "tool-item" size="small">页面</el-button>
   <el-button  round @click="openTool('componentList')"  type="primary" class = "tool-item" size="small">组件</el-button >
-  <el-button  round @click="openTool('dataSource')"  type="primary" class = "tool-item" size="small">数据源</el-button >
+<!--  <el-button  round @click="openTool('dataSource')"  type="primary" class = "tool-item" size="small">数据源</el-button >-->
   <el-drawer v-model="leftToolBarActive"  direction="ltr"  size="30%">
     <ComponentGroup @changeLeftToolBarActive = "leftToolBarActive = $event" v-show="toolName==='componentList'" @update:leftToolBarActive = "leftToolBarActive = $event"/>
     <PageTree v-show="toolName==='page'" @update:leftToolBarActive = "leftToolBarActive = $event"></PageTree>
