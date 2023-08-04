@@ -43,5 +43,6 @@ export default {
 }
 :deep(.el-overlay ){
   background-color:transparent;
+  transition-duration: 100ms;
 }
 </style>

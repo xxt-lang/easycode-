@@ -91,29 +91,12 @@
 **事件绑定：**click为组件的事件名，enable为是否启用事件
 
 ```
-click(){
-  if(this.propValue.events['click'].enable){
-    this.EcVue[this.propValue.events['click'].method]()
-  }
+click(val){
+      if(execMethod(this.propValue.events['click'])){
+        this.EcVue[this.propValue.events['click'].method](val)
+      }
 }
 ```
-
-调整组件样式需要引入在组件上增加:style="getComponentStyle(isPreview,propValue.styles)",getComponentStyle方法为了更好的展示编辑效果会自动屏蔽掉如下属性，这些属性则会渲染到shap组件中去
-
-```
-'margin',
-'margin-left',
-'margin-top',
-'margin-right',
-'margin-bottom',
-'position',
-'left',
-'right',
-'bottom',
-'top'
-```
-
-
 
 
 

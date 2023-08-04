@@ -16,5 +16,10 @@ export const ScRouter = {
             styles:[],
             events:[]
         }
+    },
+    template: (param) => {
+        return `
+         <router-view></router-view>
+        `
     }
 }

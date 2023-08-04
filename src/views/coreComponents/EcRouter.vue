@@ -44,12 +44,15 @@ export default {
       if (this.isPreview) {
         const pages = getLocalStorage()
         page = pages[pages.findIndex((data) => data.pageName === param.path)]
+        if(page === undefined){
+          this.$message({type:"warning",message:param.path+"页面不存在"})
+          return
+        }
         page.EcVue = createEcVue(page.ecVueInfo)
       } else {
         page = this.getRouterPage(param.path)
       }
       if (page) {
-        debugger
         this.isPage = true
         this.page = page
       } else {

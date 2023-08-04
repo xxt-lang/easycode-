@@ -1,5 +1,5 @@
 import {registryMethods} from "./registered/registeredMethods";
-
+import {registryConstant} from "./registered/registryConstant"
 var noop = function () {}
 var sharedPropertyDefinition = {
     get() {
@@ -34,14 +34,22 @@ function initState(sc) {
     if(registryMethods){
         initRegistryMethods(sc,registryMethods)
     }
+    if(registryConstant){
+        initRegistryConstant(sc,registryConstant);
+    }
     // 对应vue 中mounted函数的调用
     sc['mounted'] = typeof opts.mounted === 'function' ? opts.mounted : noop
-    // 用于存放vue中的ref 可通过this.$refs['ref']来进行调用
-    sc['$refs'] = {}
 }
+
 function initRegistryMethods(sc,registryMethods){
     for (var key in registryMethods) {
         sc[key] = typeof registryMethods[key] !== 'function' ? noop : bind(registryMethods[key], sc);
+    }
+}
+
+function initRegistryConstant(sc,registryConstant){
+    for(let k in registryConstant){
+        sc[k] = registryConstant[k]
     }
 }
 

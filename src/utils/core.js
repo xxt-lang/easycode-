@@ -68,11 +68,6 @@ const debounce = (function () {
     }
 })()
 
-// 模拟路由跳转
-export function ecRouter(path) {
-    eventBus.emit("router", {path: path})
-}
-
 // 返回当前页面绑定的数据
 export function getPageData(attribute, EcVue) {
     const params = analysisData(attribute)
