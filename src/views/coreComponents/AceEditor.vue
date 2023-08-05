@@ -1,19 +1,21 @@
 <template>
   <div>
-    <div ref="aceContainer" class="code-editor" :style="{height:height}">
-    </div>
+    <div ref="aceContainer" class="code-editor" :style="{height:height}"></div>
   </div>
 
 </template>
 
 <script>
 import { getCurrentInstance, onMounted, onUnmounted,watch} from 'vue';
-import {formatText} from "../../utils/core";
+import {formatText} from "@/utils/core";
 
 import ace from 'brace'
 import 'brace/mode/javascript'
 import 'brace/mode/css'
-import 'brace/ext/language_tools'
+
+import {setAceCompleteData} from "@/utils/core";
+import {registryConstantOptions} from "@/utils/registered/registryConstant";
+import {registryMethodsOptions} from "@/utils/registered/registeredMethods";
 export default {
   name: "AceEditor",
   props:{
@@ -46,6 +48,8 @@ export default {
           }
         },
     );
+    setAceCompleteData(registryConstantOptions)
+    setAceCompleteData(registryMethodsOptions)
     onMounted(() => {
       editor = ace.edit(proxy.$refs.aceContainer)
       editor.getSession().setMode(props.language === 'javascript'?'ace/mode/javascript':'ace/mode/css')
@@ -66,8 +70,8 @@ export default {
         emit('update:modelValue', editor.getValue())
       })
     });
-    onUnmounted(()=>{
-    })
+    // onUnmounted(()=>{
+    // })
   },
 }
 </script>

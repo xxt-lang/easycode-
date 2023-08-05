@@ -19,6 +19,9 @@ import prettier from "prettier/standalone"
 import parserHtml from "prettier/plugins/html"
 import parserCss from "prettier/plugins/postcss"
 
+import ace from "brace";
+import 'brace/ext/language_tools'
+
 
 export function getStore(name) {
     switch(name){
@@ -1051,6 +1054,17 @@ export async function formatText(text, type) {
         console.log(e)
         ElMessage({message: "有错误请检查后在进行保存", type: 'warning', duration: 2000, showClose: true,})
     }
-
 }
 
+// 给编辑器增加
+export function setAceCompleteData(data){
+    ace.acequire("ace/ext/language_tools").addCompleter({
+        getCompletions: function(editor, session, pos, prefix, callback) {
+            if (prefix.length === 0) {
+                return callback(null, []);
+            } else {
+                return callback(null, data);
+            }
+        }
+    });
+}

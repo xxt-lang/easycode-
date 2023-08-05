@@ -1,5 +1,7 @@
 import eventBus from '@/utils/eventBus.js'
 export const registryMethods = {
     eventBus:eventBus,
-    // axiosRequest:axiosRequest
 }
+export const registryMethodsOptions = [
+    {meta: "eventBus", caption: "eventBus", value: "eventBus", score:1}
+]
