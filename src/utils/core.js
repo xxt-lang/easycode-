@@ -75,8 +75,8 @@ const debounce = (function () {
 export function getPageData(attribute, EcVue) {
     const params = analysisData(attribute)
     let setData = EcVue
-    let result = ''
-    if (params.length > 0) {
+    let result = attribute
+    if (Array.isArray(params)&&params.length > 0) {
         let length = params.length
         result = setData[params[0]]
         if (setData && result) {
@@ -84,15 +84,15 @@ export function getPageData(attribute, EcVue) {
                 result = result[params[i]]
             }
         }
-        return result
     }
+    return result
 }
 
 // 设置当前页面绑定的数据
 export function setPageData(attribute, value, EcVue) {
     const params = analysisData(attribute)
     let setData = EcVue
-    if (params.length > 0) {
+    if (Array.isArray(params)&&params.length > 0) {
         let length = params.length
         for (let i = 0; i < length - 1; i++) {
             setData = setData[params[i]]
@@ -101,12 +101,21 @@ export function setPageData(attribute, value, EcVue) {
     }
 }
 
+// 批量绑定动态属性
+export function getBindAttributes(attributes,defaultAttributes,EcVue){
+    let result = {}
+    for (let key in attributes){
+        result[key] = getPageData(attributes[key],EcVue,defaultAttributes[key])
+    }
+    return result
+}
+
 // 解析数据绑定的数值
 function analysisData(param) {
-    if (!param) {
-        return []
+    if((typeof param === "string")){
+        return param.split(".")
     }
-    return param.split(".")
+    return param
 }
 
 export function initProject() {

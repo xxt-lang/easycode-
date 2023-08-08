@@ -65,15 +65,15 @@ export function generateAttribute(attributes,defaultAttributes,filtrate){
             return ''
         }
         if ((typeof item === "boolean" && defaultAttributes[k] !== item)) {
+            if(k.includes("-slot")){
+                return ""
+            }
             return `:${k}="${item}"`
         }
         if ((typeof item === "number" && item !== 0) && defaultAttributes[k] !== item) {
             return `:${k}="${item}"`
         }
         if ((typeof item === "string") && item !== '' && defaultAttributes[k] !== item) {
-            if(k.includes("-slot")){
-                return ""
-            }
             if(k.includes("Ref")){
                 return `ref="${item}"`
             }else if(k === "modelValue"){
