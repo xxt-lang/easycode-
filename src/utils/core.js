@@ -174,12 +174,14 @@ export function rightClickContextmenu(ref, p, contextmenuData, event) {
     event(p, contextmenuData)
 }
 
+
 /*
 client [x,y] 相对于浏览器左上角计算
 offset [x,y] 相对于当前元素的左上角
 layer  [x,y] 设置定位的元素左上角，否则为body
 page   [x,y] 当前页面
 screen [x,y] 当前屏幕
+
  */
 
 // 改变组件的外边距
@@ -1012,11 +1014,9 @@ export async function generateCode(exportPage) {
     let zip = new JSZip()
     for (const item of exportPage) {
         let data = await formatText(ecTemplate(item),"html")
-        console.log(data)
         let blob = new Blob([data], {type: "text/json;charset=utf-8"});
         zip.file(item.pageName + ".vue", blob, {binary: true})
     }
-    return
     zip.generateAsync({type: "blob"}).then(content => {
         // 生成二进制流
         saveAs(content, "easyCode源码"); // 利用file-saver保存文件  自定义文件名

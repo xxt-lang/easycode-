@@ -152,152 +152,152 @@ export const materials = [
                         label: 'Collapse 折叠面板',
                         component: 'ScCollapse'
                     },
-                    {
-                        label: 'Descriptions 描述列表',
-                        component: 'ScDescriptions'
-                    },
-                    {
-                        label: 'Empty 空状态',
-                        component: 'ScEmpty'
-                    }, {
-                        label: 'Image 图片',
-                        component: 'ScImage'
-                    },
-                    {
-                        label: 'Infinite Scroll 无限滚动',
-                        component: 'ScInfiniteScroll'
-                    },
-                    {
-                        label: 'Pagination 分页',
-                        component: 'ScPagination'
-                    },
-                    {
-                        label: 'Progress 进度条',
-                        component: 'ScProgress'
-                    }, {
-                        label: 'Result 结果',
-                        component: 'ScResult'
-                    },
-                    {
-                        label: 'Skeleton 骨架屏',
-                        component: 'ScSkeleton'
-                    },
-                    {
-                        label: 'Table 表格',
-                        component: 'ScTable'
-                    },
-                    {
-                        label: 'Virtualized Table 虚拟化表格',
-                        component: 'ScVirtualizedTable'
-                    },
-                    {
-                        label: 'Tag 标签',
-                        component: 'ScTag'
-                    },
-                    {
-                        label: 'Timeline 时间线',
-                        component: 'ScTimeline'
-                    },
-                    {
-                        label: 'Tree 树形控件',
-                        component: 'ScTree'
-                    },
-                    {
-                        label: 'TreeSelect 树形选择',
-                        component: 'ScTreeSelect'
-                    },
-                    {
-                        label: 'Tree V2 虚拟化树形控件',
-                        component: 'ScTreeV2'
-                    },
-                    {
-                        label: 'Statistic 统计组件',
-                        component: 'ScStatistic'
-                    },
+                    // {
+                    //     label: 'Descriptions 描述列表',
+                    //     component: 'ScDescriptions'
+                    // },
+                    // {
+                    //     label: 'Empty 空状态',
+                    //     component: 'ScEmpty'
+                    // }, {
+                    //     label: 'Image 图片',
+                    //     component: 'ScImage'
+                    // },
+                    // {
+                    //     label: 'Infinite Scroll 无限滚动',
+                    //     component: 'ScInfiniteScroll'
+                    // },
+                    // {
+                    //     label: 'Pagination 分页',
+                    //     component: 'ScPagination'
+                    // },
+                    // {
+                    //     label: 'Progress 进度条',
+                    //     component: 'ScProgress'
+                    // }, {
+                    //     label: 'Result 结果',
+                    //     component: 'ScResult'
+                    // },
+                    // {
+                    //     label: 'Skeleton 骨架屏',
+                    //     component: 'ScSkeleton'
+                    // },
+                    // {
+                    //     label: 'Table 表格',
+                    //     component: 'ScTable'
+                    // },
+                    // {
+                    //     label: 'Virtualized Table 虚拟化表格',
+                    //     component: 'ScVirtualizedTable'
+                    // },
+                    // {
+                    //     label: 'Tag 标签',
+                    //     component: 'ScTag'
+                    // },
+                    // {
+                    //     label: 'Timeline 时间线',
+                    //     component: 'ScTimeline'
+                    // },
+                    // {
+                    //     label: 'Tree 树形控件',
+                    //     component: 'ScTree'
+                    // },
+                    // {
+                    //     label: 'TreeSelect 树形选择',
+                    //     component: 'ScTreeSelect'
+                    // },
+                    // {
+                    //     label: 'Tree V2 虚拟化树形控件',
+                    //     component: 'ScTreeV2'
+                    // },
+                    // {
+                    //     label: 'Statistic 统计组件',
+                    //     component: 'ScStatistic'
+                    // },
                 ]
             },
-            {
-                group: 'Navigation 导航',
-                components: [
-                    {
-                        label: 'Affix 固钉',
-                        component: 'ScAffix'
-                    },
-                    {
-                        label: 'Backtop 回到顶部',
-                        component: 'ScBacktop'
-                    },
-                    {
-                        label: 'Breadcrumb 面包屑',
-                        component: 'ScBreadcrumb'
-                    },
-                    {
-                        label: 'Dropdown 下拉菜单',
-                        component: 'ScDropdown'
-                    },
-                    {
-                        label: 'Menu 菜单',
-                        component: 'ScMenu'
-                    },
-                    {
-                        label: 'Page Header 页头',
-                        component: 'ScPageHeader'
-                    },
-                    {
-                        label: 'Steps 步骤条',
-                        component: 'ScSteps'
-                    },
-                    {
-                        label: 'Tabs 标签页',
-                        component: 'ScTabs'
-                    },
-                ]
-            },
-            {
-                group: 'Feedback 反馈组件',
-                components: [
-                    {
-                        label: 'Alert 提示',
-                        component: 'ScAlert'
-                    },
-                    {
-                        label: 'Dialog 对话框',
-                        component: 'ScDialog'
-                    },
-                    {
-                        label: 'Drawer 抽屉',
-                        component: 'ScDrawer'
-                    },
-                    {
-                        label: 'Loading 加载',
-                        component: 'ScLoading'
-                    },
-                    {
-                        label: 'Message 消息提示',
-                        component: 'ScMessage'
-                    },
-                    {
-                        label: 'MessageBox 消息弹框',
-                        component: 'ScMessageBox'
-                    },
-                    {
-                        label: 'Notification 通知',
-                        component: 'ScNotification'
-                    },
-                    {
-                        label: 'Popconfirm 气泡确认框',
-                        component: 'ScPopconfirm'
-                    },
-                    {
-                        label: 'Popover 气泡卡片',
-                        component: 'ScPopover'
-                    },
-                    {
-                        label: 'Tooltip 文字提示',
-                        component: 'ScTooltip'
-                    },
-                ]
-            },
+            // {
+            //     group: 'Navigation 导航',
+            //     components: [
+            //         {
+            //             label: 'Affix 固钉',
+            //             component: 'ScAffix'
+            //         },
+            //         {
+            //             label: 'Backtop 回到顶部',
+            //             component: 'ScBacktop'
+            //         },
+            //         {
+            //             label: 'Breadcrumb 面包屑',
+            //             component: 'ScBreadcrumb'
+            //         },
+            //         {
+            //             label: 'Dropdown 下拉菜单',
+            //             component: 'ScDropdown'
+            //         },
+            //         {
+            //             label: 'Menu 菜单',
+            //             component: 'ScMenu'
+            //         },
+            //         {
+            //             label: 'Page Header 页头',
+            //             component: 'ScPageHeader'
+            //         },
+            //         {
+            //             label: 'Steps 步骤条',
+            //             component: 'ScSteps'
+            //         },
+            //         {
+            //             label: 'Tabs 标签页',
+            //             component: 'ScTabs'
+            //         },
+            //     ]
+            // },
+            // {
+            //     group: 'Feedback 反馈组件',
+            //     components: [
+            //         {
+            //             label: 'Alert 提示',
+            //             component: 'ScAlert'
+            //         },
+            //         {
+            //             label: 'Dialog 对话框',
+            //             component: 'ScDialog'
+            //         },
+            //         {
+            //             label: 'Drawer 抽屉',
+            //             component: 'ScDrawer'
+            //         },
+            //         {
+            //             label: 'Loading 加载',
+            //             component: 'ScLoading'
+            //         },
+            //         {
+            //             label: 'Message 消息提示',
+            //             component: 'ScMessage'
+            //         },
+            //         {
+            //             label: 'MessageBox 消息弹框',
+            //             component: 'ScMessageBox'
+            //         },
+            //         {
+            //             label: 'Notification 通知',
+            //             component: 'ScNotification'
+            //         },
+            //         {
+            //             label: 'Popconfirm 气泡确认框',
+            //             component: 'ScPopconfirm'
+            //         },
+            //         {
+            //             label: 'Popover 气泡卡片',
+            //             component: 'ScPopover'
+            //         },
+            //         {
+            //             label: 'Tooltip 文字提示',
+            //             component: 'ScTooltip'
+            //         },
+            //     ]
+            // },
             {
                 group: 'Others 其他',
                 components: [{
