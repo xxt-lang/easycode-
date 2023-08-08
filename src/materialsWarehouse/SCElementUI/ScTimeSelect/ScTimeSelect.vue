@@ -37,29 +37,23 @@ export default {
       }
     }
   },
-
-
-
   methods: {
-
-       changeMethod(){
+       changeMethod(v){
             if(execMethod(this.propValue.events["change"],this.EcVue)){
-                this.EcVue[this.propValue.events["change"]]()
+                this.EcVue[this.propValue.events["change"].method](v)
             }
         },
-
-       blurMethod(){
+       blurMethod(e){
             if(execMethod(this.propValue.events["blur"],this.EcVue)){
-                this.EcVue[this.propValue.events["blur"]]()
+                this.EcVue[this.propValue.events["blur"].method](e)
             }
         },
 
-       focusMethod(){
+       focusMethod(e){
             if(execMethod(this.propValue.events["focus"],this.EcVue)){
-                this.EcVue[this.propValue.events["focus"]]()
+                this.EcVue[this.propValue.events["focus"].method](e)
             }
         },
-
   }
 }
 </script>

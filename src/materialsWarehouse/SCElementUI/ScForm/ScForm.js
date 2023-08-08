@@ -304,8 +304,8 @@ export const ScForm = {
         ${generalTemplate(param)}
          >
         ${ecTemplateFor(param.children, (citem,k) => {
-            return `<el-form-item ${generateAttribute(param.attributes['form-item'][k],param.defaultAttributes['form-item'][k])}>
-                ${ecTemplateFor(param.children[k].children,(item2)=>{
+            return `<el-form-item ${generateAttribute(citem.attributes,param.defaultAttributes['form-item'])}>
+                ${ecTemplateFor(citem.children,(item2)=>{
                 return includeTemplate(item2.component,item2)})}
             </el-form-item>`
         })}

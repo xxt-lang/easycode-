@@ -1,18 +1,20 @@
 <template>
-  <div >
-    <div v-for = "(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px" >
+  <div>
+    <div v-for="(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px">
       <div class="setterAttribute">
-          <el-tooltip
+        <el-tooltip
             effect="dark"
             placement="bottom"
         >
-            <span class="itemLabel" :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{item.label}} </span>
-            <template #content>
-              <span v-html="item.detail"></span>
-            </template>
-          </el-tooltip>
+          <span class="itemLabel"
+                :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{ item.label }} </span>
+          <template #content>
+            <span v-html="item.detail"></span>
+          </template>
+        </el-tooltip>
         <div class="itemContent">
-          <el-select  v-if="item.type === 'select'"  v-model="setterData.attributes[item.attributeName]" class="m-2" :placeholder="'选择'+item.label" size="large">
+          <el-select v-if="item.type === 'select'" v-model="setterData.attributes[item.attributeName]" class="m-2"
+                     :placeholder="'选择'+item.label" size="large">
             <el-option
                 v-for="tItem in item.typeArray"
                 :key="tItem.value"
@@ -26,35 +28,38 @@
                     :placeholder="'请输入'+item.label"
                     :type="item.type === 'inputArea'?'textarea':'text'"
           />
-          <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]" />
+          <el-switch v-if="item.type === 'switch'" v-model="setterData.attributes[item.attributeName]"/>
           <el-input-number
               v-if="item.type === 'inputNumber'"
               v-model="setterData.attributes[item.attributeName]"
               :max="item.max?item.max:Infinity"
-              :min="item.min?item.min:-Infinity"/>
-          <el-color-picker  v-if="item.type === 'color'" v-model="setterData.attributes[item.attributeName]"></el-color-picker>
+              :min="item.min?item.min:-Infinity"
+              :precision="item.precision?item.precision:1"/>
+          <el-color-picker v-if="item.type === 'color'"
+                           v-model="setterData.attributes[item.attributeName]"></el-color-picker>
         </div>
       </div>
-      <el-table v-if="item.type === 'table'" :data="setterData.attributes[item.attributeName]" height="300" style="width: 100%">
+      <el-table v-if="item.type === 'table'" :data="setterData.children" height="300" style="width: 100%">
         <el-table-column type="index" :index="indexMethod" label="项"/>
         <el-table-column align="right">
           <template #header>
-            <el-button circle icon="Plus" type="primary" @click="addItem(item)"></el-button>
+            <el-button circle icon="Plus" type="primary" @click="addItem"></el-button>
           </template>
           <template #default="scope">
-            <el-button size="small" icon="Edit" circle  @click="editItem(item,scope.$index)"></el-button>
-            <el-button size="small" type="danger" icon="Delete" circle @click="deleteItem(item,scope.$index)"></el-button>
+            <el-button size="small" icon="Edit" circle @click="editItem(item,scope.$index)"></el-button>
+            <el-button size="small" type="danger" icon="Delete" circle
+                       @click="deleteItem(item,scope.$index)"></el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-<!--    加载自定义属性设置组件-->
+    <!--    加载自定义属性设置组件-->
     <component v-for="(item,index) in configuration.setterAttributes"
                :is="item.component"
                :params="{setterData:setterData,param:item.param}"
-               :key = "index"
+               :key="index"
     ></component>
-    <el-dialog v-model="tableEditStatus" >
+    <el-dialog v-model="tableEditStatus">
       <setter-attribute :setterAttributes="tableEditAttributes" :setterData="tableEditData"></setter-attribute>
     </el-dialog>
   </div>
@@ -63,100 +68,96 @@
 
 <script>
 import {deepClone, uuid} from "../../../utils/tool";
-import {Delete,Edit,Plus} from "@element-plus/icons-vue";
+import {Delete, Edit, Plus} from "@element-plus/icons-vue";
 
 const indexMethod = (index) => {
   return index++
 }
 export default {
   name: "SetterAttribute",
-  components:{
+  components: {
     Delete,
     Edit,
     Plus
   },
-  props:{
-    setterAttributes:{
-      type:Array,
-      default:()=>{
+  props: {
+    setterAttributes: {
+      type: Array,
+      default: () => {
         return null
       }
     },
-    setterData:{
-      type:Object,
-      default:()=>{
+    setterData: {
+      type: Object,
+      default: () => {
         return {}
       }
     },
-    configuration:{
-      type:Object,
-      default:()=>{
+    configuration: {
+      type: Object,
+      default: () => {
         return {}
       }
     }
   },
-  data(){
+  data() {
     return {
-      tableEditName:'',
-      tableEditAttributes:{},
-      tableEditData:{},
-      tableEditStatus:false
+      tableEditName: '',
+      tableEditAttributes: {},
+      tableEditData: {},
+      tableEditStatus: false
     }
   },
-  methods:{
-    addItem(param){
-      if(param.isChildren){
-        this.setterData.attributes[param.attributeName].push(deepClone(param.defaultValue[0]))
-        // 如果配置了则按照配置的children来 否则就采用默认的
-        if(this.configuration.childrenTemplate){
-          let childrenTemplate = deepClone(this.configuration.childrenTemplate)
-          childrenTemplate.id = uuid()
-          childrenTemplate.featherId = this.setterData.id,
-          this.setterData.children.push(childrenTemplate)
-        }else{
-          this.setterData.children.push( {
-            component:"container",
-            status:{
-              active:false,
-              activeContainer:false,
-              isHidden:false,
-              lock:false,// false 不锁 true 锁
-            },
-            label:'容器',
-            id:uuid(),
-            event: {},
-            attributes: {},
-            styles: {},
-            children:[],
-            featherId:this.setterData.id,
-            type:"container"})
-        }
-
+  methods: {
+    addItem() {
+      // 如果配置了则按照配置的children来 否则就采用默认的
+      if (this.configuration.childrenTemplate) {
+        let childrenTemplate = deepClone(this.configuration.childrenTemplate)
+        childrenTemplate.id = uuid()
+        childrenTemplate.featherId = this.setterData.id,
+        this.setterData.children.push(childrenTemplate)
+      } else {
+        this.setterData.children.push({
+          component: "container",
+          status: {
+            active: false,
+            activeContainer: false,
+            isHidden: false,
+            lock: false,// false 不锁 true 锁
+          },
+          label: '容器',
+          id: uuid(),
+          event: {},
+          attributes: {},
+          styles: {},
+          children: [],
+          featherId: this.setterData.id,
+          type: "container"
+        })
       }
     },
-    deleteItem(param,index){
-      if(this.setterData.attributes[param.attributeName].length === 1) return
-      this.setterData.attributes[param.attributeName].splice(index,1)
-      if(param.isChildren){
-        this.setterData.children.splice(index,1)
+    deleteItem(param, index) {
+      if(this.setterData.children.length > 1){
+        this.setterData.children.splice(index, 1)
       }
     },
-    editItem(param,index){
+    editItem(param, index) {
       this.tableEditAttributes = []
       this.tableEditData = []
       this.tableEditStatus = true
       this.tableEditAttributes = param.column
-      this.tableEditData = {attributes:this.setterData.attributes[param.attributeName][index]}
+      this.tableEditData = {attributes: this.setterData.children[index].attributes}
     },
   }
 }
 </script>
 
 <style scoped>
-.setterAttribute{
+.setterAttribute {
   display: flex;
 }
-.itemLabel{
+
+.itemLabel {
   display: inline-flex;
   width: 70px;
   font-size: 13px;
@@ -165,7 +166,8 @@ export default {
   text-align: center;
   transition: color .5s;
 }
-.itemContent{
+
+.itemContent {
   display: inline-flex;
   width: 170px
 }

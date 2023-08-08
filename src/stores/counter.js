@@ -14,6 +14,9 @@ export const SimpleStore = defineStore('SimpleStoreMain', {
     },
     setSelectPlate(component){
       this.selectPlate.push(component)
+    },
+    getSelectPlate(){
+      return this.selectPlate;
     }
   },
 })

@@ -71,19 +71,19 @@ export default {
   methods: {
     changeMethod(val) {
       if (execMethod(this.propValue.events["change"], this.EcVue)) {
-        this.EcVue[this.propValue.events["change"]](val)
+        this.EcVue[this.propValue.events["change"].method](val)
       }
     },
 
     blurMethod(e) {
       if (execMethod(this.propValue.events["blur"], this.EcVue)) {
-        this.EcVue[this.propValue.events["blur"]](e)
+        this.EcVue[this.propValue.events["blur"].method](e)
       }
     },
 
     focusMethod(e) {
       if (execMethod(this.propValue.events["focus"], this.EcVue)) {
-        this.EcVue[this.propValue.events["focus"]](e)
+        this.EcVue[this.propValue.events["focus"].method](e)
       }
     },
 

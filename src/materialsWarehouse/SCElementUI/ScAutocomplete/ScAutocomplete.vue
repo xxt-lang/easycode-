@@ -39,14 +39,14 @@ export default {
     bindRefs(this.propValue.attributes,this.$refs['autocompleteRef'],'autocompleteRef',this.EcVue)
   },
   methods: {
-    selectMethod() {
+    selectMethod(v) {
       if(execMethod(this.propValue.events['select'],this.EcVue)){
-        this.EcVue[this.propValue.events['select'].method]()
+        this.EcVue[this.propValue.events['select'].method](v)
       }
     },
-    changeMethod() {
+    changeMethod(v) {
       if(execMethod(this.propValue.events['change'],this.EcVue)){
-        this.EcVue[this.propValue.events['change'].method]()
+        this.EcVue[this.propValue.events['change'].method](v)
       }
     },
   }

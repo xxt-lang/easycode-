@@ -211,7 +211,6 @@ export const ScLayout = {
                         type: "container"
                     },
                 }
-
             },
         },
     template:(param)=>{
@@ -220,9 +219,9 @@ export const ScLayout = {
         ${generalTemplate(param)}
          >
         ${ecTemplateFor(param.children, (citem,k) => {
-            return `<el-col ${generateAttribute(param.attributes['col'][k],param.defaultAttributes['col'][k],['span'])}
-                    :span="${param.attributes['col'][k]["span"]}">
-                ${ecTemplateFor(param.children[k].children,(item2)=>{
+            return `<el-col ${generateAttribute(citem.attributes,param.defaultAttributes['col'],['span'])}
+                    :span="${citem.attributes["span"]}">
+                ${ecTemplateFor(citem.children,(item2)=>{
                 return includeTemplate(item2.component,item2)})}
             </el-col>`
         })}

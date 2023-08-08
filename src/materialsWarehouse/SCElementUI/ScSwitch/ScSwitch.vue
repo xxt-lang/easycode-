@@ -70,7 +70,7 @@ export default {
   methods: {
     changeMethod(val) {
       if (execMethod(this.propValue.events["change"], this.EcVue)) {
-        this.EcVue[this.propValue.events["change"]](val)
+        this.EcVue[this.propValue.events["change"].method](val)
       }
     },
 

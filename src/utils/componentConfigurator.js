@@ -52,17 +52,17 @@ export function loadComponentConfiguration() {
     componentListStore.componentTemplates = componentTemplates
 }
 
-export function assembleComponent(component,name){
-    if(!component){
+export function assembleComponent(component, name) {
+    if (!component) {
         return
     }
-    if(component.hasOwnProperty('component')){
+    if (component.hasOwnProperty('component')) {
         componentList.push(component.component)
     }
-    if(component.hasOwnProperty('setter')){
+    if (component.hasOwnProperty('setter')) {
         componentSetters.push(component.setter)
     }
-    if(component.hasOwnProperty('template')){
+    if (component.hasOwnProperty('template')) {
         componentTemplates[name] = component.template
     }
 }
@@ -83,28 +83,35 @@ function setAttribute() {
                 componentSetters[index].setter.configuration.childrenTemplate["status"] = baseAttribute["status"]
             }
             componentSetters[index].setter.attributes.forEach(setterItem => {
-                item.attributes[setterItem.attributeName] = setterItem.defaultValue
-                item.defaultAttributes[setterItem.attributeName] = deepClone(setterItem.defaultValue)
                 if (setterItem.type === "table") {
                     let columnObject = {}
                     setterItem.column.forEach(columnItem => {
                         columnObject[columnItem.attributeName] = columnItem.defaultValue
                     })
-                    if (setterItem.isChildren) {
-                        let childrenLength = item.children.length
-                        for (let i = 0; i < childrenLength; i++) {
-                            item.attributes[setterItem.attributeName].push(columnObject)
-                            item.defaultAttributes[setterItem.attributeName].push(columnObject)
+                    let childrenLength = item.children.length
+                    for (let i = 0; i < childrenLength; i++) {
+                        if (JSON.stringify(item.children[i].attributes) == "{}") {
+                            item.children[i].attributes = columnObject
+                        } else {
+                            for (let key in columnObject) {
+                                if (item.children[i].attributes[key] === undefined) {
+                                    item.children[i].attributes[key] = columnObject[key]
+                                }
+                            }
                         }
-                    } else {
-                        item.attributes[setterItem.attributeName].push(columnObject)
-                        item.defaultAttributes[setterItem.attributeName].push(columnObject)
                     }
+                    if(componentSetters[index].setter.configuration){
+                       componentSetters[index].setter.configuration.childrenTemplate.attributes = columnObject
+                    }
+                    item.defaultAttributes[setterItem.attributeName] = deepClone(columnObject)
+                } else {
+                    item.attributes[setterItem.attributeName] = setterItem.defaultValue
+                    item.defaultAttributes[setterItem.attributeName] = deepClone(setterItem.defaultValue)
                 }
             })
-            if(componentSetters[index].setter.events){
-                componentSetters[index].setter.events.forEach(setterItem=>{
-                    item.events[setterItem.event] = {enable:setterItem.enable,method:setterItem.method}
+            if (componentSetters[index].setter.events) {
+                componentSetters[index].setter.events.forEach(setterItem => {
+                    item.events[setterItem.event] = {enable: setterItem.enable, method: setterItem.method}
                 })
             }
         }

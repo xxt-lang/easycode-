@@ -3,9 +3,9 @@
       v-bind="propValue.attributes">
     <el-col
         :class="{elCol:!isPreview}"
-        v-for="(item,index) in propValue.children"
+        v-for="item in propValue.children"
         :key="item.id"
-        v-bind="propValue.attributes['col'][index]"
+        v-bind="item.attributes"
         v-container="{id:item.id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}"
     >
       <Container

@@ -112,8 +112,8 @@ export const ScCollapse = {
             ${generalTemplate(param)}
         >
          ${ecTemplateFor(param.children, (citem, k) => {
-            return `<el-collapse-item ${generateAttribute(param.attributes['collapse-item'][k], param.defaultAttributes['collapse-item'][k])}>
-                ${ecTemplateFor(param.children[k].children, (item2) => {
+            return `<el-collapse-item ${generateAttribute(citem.attributes, param.defaultAttributes['collapse-item'])}>
+                ${ecTemplateFor(citem.children, (item2) => {
                 return includeTemplate(item2.component, item2)
             })}
             </el-collapse-item>`

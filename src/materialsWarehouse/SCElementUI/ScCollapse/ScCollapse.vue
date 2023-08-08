@@ -5,9 +5,9 @@
       @change="changeMethod"
   >
     <el-collapse-item
-        v-for="(item,index) in propValue.children"
+        v-for="item in propValue.children"
         :key="item.id"
-        v-bind="propValue.attributes['collapse-item'][index]"
+        v-bind="item.attributes"
     >
       <div :class="{collapseItemContent:!isPreview}"
            v-container="{id:item.id, featherId:propValue.featherId,componentId:propValue.id,status:propValue.status,multiple:true}">

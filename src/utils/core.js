@@ -78,8 +78,8 @@ export function getPageData(attribute, EcVue) {
     let result = ''
     if (params.length > 0) {
         let length = params.length
-        result = (setData !== null && setData[params[0]]) ? setData[params[0]] : ''
-        if (setData) {
+        result = setData[params[0]]
+        if (setData && result) {
             for (let i = 1; i < length; i++) {
                 result = result[params[i]]
             }

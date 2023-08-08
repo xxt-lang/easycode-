@@ -27,7 +27,6 @@ export default {
   computed:{
     inputValue: {
       get(){
-        // 绑定事件监听
         return getPageData(this.propValue.attributes['modelValue'],this.EcVue)
       },
       set(value){

@@ -7,9 +7,9 @@
       @validate="validateMethod"
   >
     <el-form-item
-        v-for="(item,index) in propValue.children"
+        v-for="item in propValue.children"
         :key="item.id"
-        v-bind="propValue.attributes['form-item'][index]"
+        v-bind="item.attributes"
     >
       <template v-slot:default>
         <div :class="{formItemContent:!isPreview}"

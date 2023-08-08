@@ -252,9 +252,9 @@ export const ScCarousel = {
          >
         ${ecTemplateFor(param.children, (citem, k) => {
             return `<el-carousel-item 
-                    ${generateAttribute(param.attributes['carouselItem'][k],param.defaultAttributes['carouselItem'][k])}
+                    ${generateAttribute(citem.attributes,param.defaultAttributes['carouselItem'])}
                >
-                ${ecTemplateFor(param.children[k].children, (item2) => {
+                ${ecTemplateFor(citem.children, (item2) => {
                 return includeTemplate(item2.component, item2)
             })}
             </el-carousel-item>`
