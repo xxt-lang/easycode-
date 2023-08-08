@@ -7,10 +7,11 @@ export const ScProgress = {
         events: {},
         attributes: {},
         styles: {
-            "width":"250px"
+            "width":"250px",
+            display: "inline-flex"
         },
         shapeStyles: {
-            display: "inline-flex"
+
         }
     },
     setter: {

@@ -6,9 +6,9 @@ export const ScTransfer = {
         label: 'ScTransfer',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display: "inline-flex"},
         shapeStyles: {
-            display: "inline-flex"
+
         }
     },
     setter: {

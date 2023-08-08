@@ -5,9 +5,9 @@ export const ScInputNumber = {
         label: 'ScInputNumber',
         events: {},
         attributes: {},
-        styles: {},
+        styles: { display:"inline-flex"},
         shapeStyles:{
-            display:"inline-flex"
+
         }
     },
     setter:{

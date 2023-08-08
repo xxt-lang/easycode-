@@ -1,5 +1,5 @@
 <template>
-  <el-date-picker
+  <span>    <el-date-picker
       v-bind="propValue.attributes"
       v-model="datepickerValue"
       @change="changeMethod"
@@ -9,7 +9,9 @@
       @panelchange="panelChangeMethod"
       @visiblechange="visibleChangeMethod"
   >
-  </el-date-picker>
+    </el-date-picker></span>
+
+
 </template>
 <script>
 import {getPageData, setPageData, execMethod} from "@/utils/core";

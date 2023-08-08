@@ -6,9 +6,8 @@ export const ScTimePicker = {
         label: 'ScTimePicker',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display: "inline-flex"},
         shapeStyles: {
-            display: "inline-flex"
         }
     },
     setter: {

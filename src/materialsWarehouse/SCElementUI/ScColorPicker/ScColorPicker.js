@@ -6,9 +6,9 @@ export const ScColorPicker = {
         label: '颜色选择器',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display:"inline-flex"},
         shapeStyles:{
-            display:"inline-flex"
+
         }
     },
     setter: {

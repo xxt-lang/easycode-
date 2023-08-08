@@ -1,16 +1,18 @@
 <template>
-  <el-time-picker
-      v-bind="propValue.attributes"
-      v-model="modelValue"
-      :disabled-seconds="disabledSecondsBindValue"
-      :disabled-minutes="disabledMinutesBindValue"
-      :disabled-hours="disabledHoursBindValue"
-      @change="changeMethod"
-      @blur="blurMethod"
-      @focus="focusMethod"
-      @visiblechange="visiblechangeMethod"
-  >
+  <span>
+      <el-time-picker
+          v-bind="propValue.attributes"
+          v-model="modelValue"
+          :disabled-seconds="disabledSecondsBindValue"
+          :disabled-minutes="disabledMinutesBindValue"
+          :disabled-hours="disabledHoursBindValue"
+          @change="changeMethod"
+          @blur="blurMethod"
+          @focus="focusMethod"
+          @visiblechange="visiblechangeMethod"
+      >
   </el-time-picker>
+  </span>
 </template>
 <script>
 import {getPageData, setPageData, execMethod} from "@/utils/core";

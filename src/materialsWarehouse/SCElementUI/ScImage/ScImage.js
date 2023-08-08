@@ -6,9 +6,9 @@ export const ScImage = {
         label: 'ScImage',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display: "inline-flex"},
         shapeStyles: {
-            display: "inline-flex"
+
         }
     },
     setter: {

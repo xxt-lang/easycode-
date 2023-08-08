@@ -5,9 +5,9 @@ export const ScCheckbox = {
         label: 'ScCheckbox',
         events: {},
         attributes: {},
-        styles: {"margin-right": "30px"},
+        styles: {"margin-right": "30px", display:"inline-flex"},
         shapeStyles:{
-            display:"inline-flex"
+
         }
     },
     setter:{

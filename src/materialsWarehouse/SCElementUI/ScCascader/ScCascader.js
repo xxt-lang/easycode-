@@ -10,7 +10,6 @@ export const ScCascader = {
             display:"inline-flex"
         },
         shapeStyles:{
-            display:"inline-flex"
         }
     },
     setter: {

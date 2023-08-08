@@ -7,10 +7,10 @@ export const ScSlider={
         events: {},
         attributes: {},
         styles: {
-            width: '200px'
+            width: '200px',
+            display:"inline-flex"
         },
         shapeStyles:{
-            display:"inline-flex"
         }
     },
     setter:{

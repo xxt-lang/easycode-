@@ -10,7 +10,6 @@ export const ScAutocomplete = {
             display:"inline-flex"
         },
         shapeStyles:{
-            display:"inline-flex"
         }
     },
     setter: {

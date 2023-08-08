@@ -9,6 +9,7 @@
     <EcCss v-show="false" :CSS = "page.css" :selecor = "{attr:'scope',value:page.pageName}" ></EcCss>
     <div data-elementType="editor" :scope = "page.pageName" >
       <Shape v-for="(item, index) in page.children "
+             :style="getShapeStyle(item.styles)"
              :key="index"
              :status="item.status"
              :element="item"
@@ -21,7 +22,7 @@
              :data-shape="true"
       >
         <component
-            :style="item.styles"
+            :style="getComponentStyle(item.styles)"
             :class="item.bindClass"
             :is="item.component"
             :key="index"
@@ -45,7 +46,8 @@ import {
   clickSelectComponent,
   moveComponent,
   handleDrop,
-  getComponentStyle
+  getComponentStyle,
+  getShapeStyle
 } from '@/utils/core'
 import Shape from "./Shape.vue";
 import Contextmenu from "./Contextmenu.vue";
@@ -100,6 +102,7 @@ export default {
     getComponentStyle,
     handleDragOver,
     handleDrop,
+    getShapeStyle,
     ...mapActions(PagesStore, ['getNowPage']),
     ...mapActions(MouseEventStore,['setMouseEvent']),
     // 选择画布中的组件

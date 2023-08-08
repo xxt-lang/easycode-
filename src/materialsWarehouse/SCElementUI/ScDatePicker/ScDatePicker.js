@@ -8,7 +8,6 @@ export const ScDatePicker = {
         attributes: {},
         styles: {},
         shapeStyles:{
-            display:"inline-flex"
         }
     },
     setter: {

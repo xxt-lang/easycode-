@@ -34,9 +34,9 @@ export const ScSpace = {
         animations: [], // 动画列表
         events: {}, // 事件列表
         attributes: {},
-        styles: {},
+        styles: {display:"inline-flex"},
         shapeStyles:{
-            display:"inline-flex"
+
         }
     },
     setter:{

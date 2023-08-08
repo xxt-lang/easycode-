@@ -75,7 +75,7 @@ const debounce = (function () {
 export function getPageData(attribute, EcVue) {
     const params = analysisData(attribute)
     let setData = EcVue
-    let result = attribute
+    let result = ''
     if (Array.isArray(params)&&params.length > 0) {
         let length = params.length
         result = setData[params[0]]
@@ -710,15 +710,11 @@ export function getShapeStyle(styles, lock) {
     ]
     let result = {}
     for (let key in yesStyle) {
-        if (styles[yesStyle[key]]) {
-            result[yesStyle[key]] = styles[yesStyle[key]]
+        if (styles[key]) {
+            result[key] = styles[key]
         }
     }
-    if (lock) {
-        result['pointer-events'] = 'none'
-    } else {
-        result['pointer-events'] = ''
-    }
+    console.log(result)
     return result
 }
 

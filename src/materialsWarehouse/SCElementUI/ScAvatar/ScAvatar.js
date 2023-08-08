@@ -6,9 +6,9 @@ export const ScAvatar= {
         label: '头像',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display: 'inline-flex'},
         shapeStyles: {
-            display: 'inline-flex'
+
         },
     },
     setter:    {

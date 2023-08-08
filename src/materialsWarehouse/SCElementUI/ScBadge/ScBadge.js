@@ -9,10 +9,11 @@ export const ScBadge = {
         attributes: {},
         styles: {
             "min-height": "50px",
-            "min-width": "50px"
+            "min-width": "50px",
+            display:"inline-flex"
         },
         shapeStyles:{
-            display:"inline-flex"
+
         }
     },
     setter:    {

@@ -6,9 +6,9 @@ export const ScInput = {
         label: '输入框',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display:"inline-flex"},
         shapeStyles:{
-            display:"inline-flex"
+
         }
     },
     setter:{

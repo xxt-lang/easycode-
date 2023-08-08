@@ -6,9 +6,9 @@ export const ScRate = {
         label: '评分',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display:"inline-flex"},
         shapeStyles:{
-            display:"inline-flex"
+
         }
     },
     setter:  {

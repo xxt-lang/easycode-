@@ -5,9 +5,9 @@ export const ScCalendar = {
         label: 'ScCalendar',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display:"inline-flex"},
         shapeStyles:{
-            display:"inline-flex"
+
         }
     },
     setter:{
