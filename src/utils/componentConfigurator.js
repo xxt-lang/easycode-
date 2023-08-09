@@ -42,6 +42,9 @@ export function loadComponentConfiguration() {
                 item.status.activeContainer = false
                 item["type"] = "common" //是否为容器组件
             }
+            if(!item["shapeStyles"]){
+                item["shapeStyles"] = {}
+            }
             item['bindClass'] = ""
         })
     })
