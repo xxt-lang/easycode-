@@ -1,15 +1,16 @@
 <template>
-    <el-slider v-model="sliderValue"
-               v-bind="propValue.attributes"
-               :marks="marksValue"
-                :format-tooltip="formatTooltipValue"
-    :format-value-text="formatValueTextValue"
-    @change="changeMethod"
-    @input="inputMethod"/>
+  <el-slider v-model="sliderValue"
+             v-bind="propValue.attributes"
+             :marks="marksValue"
+             :format-tooltip="formatTooltipValue"
+             :format-value-text="formatValueTextValue"
+             @change="changeMethod"
+             @input="inputMethod"/>
 </template>
 
 <script>
-import { getPageData, setPageData,execMethod} from "@/utils/core";
+import {getPageData, setPageData, execMethod} from "@/utils/core";
+
 export default {
   name: "ScSlider",
   props: {
@@ -18,57 +19,58 @@ export default {
       default: function () {
       }
     },
-    EcVue:{
-      type:Function,
-      default:()=>{}
+    EcVue: {
+      type: Function,
+      default: () => {
+      }
     }
   },
-  computed:{
+  computed: {
     sliderValue: {
-      get(){
+      get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['modelValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['modelValue'], this.EcVue)
       },
-      set(value){
-        setPageData(this.propValue.attributes['modelValue'],value,this.EcVue)
+      set(value) {
+        setPageData(this.propValue.attributes['modelValue'], value, this.EcVue)
       }
     },
-    marksValue:{
-      get(){
+    marksValue: {
+      get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['marks-bindValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['marks-bindValue'], this.EcVue)
       },
-      set(value){
-        setPageData(this.propValue.attributes['marks-bindValue'],value,this.EcVue)
+      set(value) {
+        setPageData(this.propValue.attributes['marks-bindValue'], value, this.EcVue)
       }
     },
-    formatTooltipValue:{
-      get(){
+    formatTooltipValue: {
+      get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['formatTooltip-bindValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['formatTooltip-bindValue'], this.EcVue)
       },
-      set(value){
-        setPageData(this.propValue.attributes['formatTooltip-bindValue'],value,this.EcVue)
+      set(value) {
+        setPageData(this.propValue.attributes['formatTooltip-bindValue'], value, this.EcVue)
       }
     },
-    formatValueTextValue:{
-      get(){
+    formatValueTextValue: {
+      get() {
         // 绑定事件监听
-        return getPageData(this.propValue.attributes['formatTooltip-bindValue'],this.EcVue)
+        return getPageData(this.propValue.attributes['formatValueText-bindValue'], this.EcVue)
       },
-      set(value){
-        setPageData(this.propValue.attributes['formatTooltip-bindValue'],value,this.EcVue)
+      set(value) {
+        setPageData(this.propValue.attributes['formatValueText-bindValue'], value, this.EcVue)
       }
     },
   },
   methods: {
-    changeMethod(val){
-      if(execMethod(this.propValue.events['change'],this.EcVue)){
+    changeMethod(val) {
+      if (execMethod(this.propValue.events['change'], this.EcVue)) {
         this.EcVue[this.propValue.events['change'].method](val)
       }
     },
-    inputMethod(val){
-      if(execMethod(this.propValue.events['input'],this.EcVue)){
+    inputMethod(val) {
+      if (execMethod(this.propValue.events['input'], this.EcVue)) {
         this.EcVue[this.propValue.events['input'].method](val)
       }
     }

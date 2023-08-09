@@ -9,7 +9,6 @@
     <EcCss v-show="false" :CSS = "page.css" :selecor = "{attr:'scope',value:page.pageName}" ></EcCss>
     <div data-elementType="editor" :scope = "page.pageName" >
       <Shape v-for="(item, index) in page.children "
-             :style="getShapeStyle(item.styles)"
              :key="index"
              :status="item.status"
              :element="item"
@@ -22,7 +21,7 @@
              :data-shape="true"
       >
         <component
-            :style="getComponentStyle(item.styles)"
+            :style="getComponentStyle(false,item.styles)"
             :class="item.bindClass"
             :is="item.component"
             :key="index"

@@ -17,7 +17,7 @@
     <component
         :isPreview = "isPreview"
         :class="item.bindClass"
-        :style="item.styles"
+        :style="getComponentStyle(isPreview,item.styles)"
         :is="item.component"
         :key="index"
         :propValue="item"

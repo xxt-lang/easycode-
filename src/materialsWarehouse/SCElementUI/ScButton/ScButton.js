@@ -7,9 +7,9 @@ export const ScButton = {
         animations: [], // 动画列表
         events: {}, // 事件列表
         attributes: {},
-        styles: {display:"inline-flex"},
+        styles: {},
         shapeStyles:{
-
+            display:"inline-flex"
         }
     },
     setter: {

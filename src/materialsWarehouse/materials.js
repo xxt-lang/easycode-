@@ -159,10 +159,11 @@ export const materials = [
                     // {
                     //     label: 'Empty 空状态',
                     //     component: 'ScEmpty'
-                    // }, {
-                    //     label: 'Image 图片',
-                    //     component: 'ScImage'
                     // },
+                    {
+                        label: 'Image 图片',
+                        component: 'ScImage'
+                    },
                     // {
                     //     label: 'Infinite Scroll 无限滚动',
                     //     component: 'ScInfiniteScroll'
@@ -171,10 +172,11 @@ export const materials = [
                     //     label: 'Pagination 分页',
                     //     component: 'ScPagination'
                     // },
+                    {
+                        label: 'Progress 进度条',
+                        component: 'ScProgress'
+                    },
                     // {
-                    //     label: 'Progress 进度条',
-                    //     component: 'ScProgress'
-                    // }, {
                     //     label: 'Result 结果',
                     //     component: 'ScResult'
                     // },
@@ -194,10 +196,10 @@ export const materials = [
                     //     label: 'Tag 标签',
                     //     component: 'ScTag'
                     // },
-                    // {
-                    //     label: 'Timeline 时间线',
-                    //     component: 'ScTimeline'
-                    // },
+                    {
+                        label: 'Timeline 时间线',
+                        component: 'ScTimeline'
+                    },
                     // {
                     //     label: 'Tree 树形控件',
                     //     component: 'ScTree'

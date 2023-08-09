@@ -6,7 +6,7 @@ export const ScDatePicker = {
         label: '日期选择器',
         events: {},
         attributes: {},
-        styles: {},
+        styles: {display:"inline-flex"},
         shapeStyles:{
         }
     },

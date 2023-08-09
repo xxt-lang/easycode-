@@ -3,7 +3,7 @@
       :class="{ active: status.active,lock:status.lock }"
       :data-index = "index"
       :data-shape="true"
-      :style="element.shapeStyles"
+      :style="getShapeStyle(element.styles,element.shapeStyles)"
   >
     <div :style="{'pointer-events': element.type ==='common' ? 'none':''}">
       <slot></slot>

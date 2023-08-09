@@ -43,7 +43,7 @@ export const ScSlider={
                     value: "",
                     defaultValue: "",
                 },
-                {  attributeName: "formatTooltip-value",
+                {  attributeName: "formatValueText-value",
                     label: "aria-valuenow 属性的格式",
                     detail:"显示屏幕阅读器的 aria-valuenow 属性的格式,function(value) 举例(value)={return value+*}",
                     bind: 'value',

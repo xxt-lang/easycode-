@@ -83,6 +83,8 @@ export function getPageData(attribute, EcVue) {
             for (let i = 1; i < length; i++) {
                 result = result[params[i]]
             }
+        }else{
+            result = undefined
         }
     }
     return result
@@ -694,7 +696,7 @@ export function objectToCss(style) {
 
 
 // 解析styles 取得shape应该跟着改变的样式
-export function getShapeStyle(styles, lock) {
+export function getShapeStyle(styles, shapeStyles) {
     const yesStyle = [
         'margin',
         'margin-left',
@@ -710,11 +712,12 @@ export function getShapeStyle(styles, lock) {
     ]
     let result = {}
     for (let key in yesStyle) {
-        if (styles[key]) {
-            result[key] = styles[key]
+        if (styles[yesStyle[key]]) {
+            result[yesStyle[key]] = styles[yesStyle[key]]
+        }else if(shapeStyles[yesStyle[key]]){
+            result[yesStyle[key]] = shapeStyles[yesStyle[key]]
         }
     }
-    console.log(result)
     return result
 }
 
@@ -722,7 +725,6 @@ export function getShapeStyle(styles, lock) {
 export function getComponentStyle(isPreview, styles, type) {
     if (isPreview)
         return styles
-    //component 不接受的样式
     const noStyle = [
         'margin',
         'margin-left',
