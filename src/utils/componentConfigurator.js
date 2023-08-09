@@ -30,7 +30,9 @@ export function loadComponentConfiguration() {
     // 组件相关属性值初始化
     componentList.forEach(item => {
         Object.keys(baseAttribute).forEach(aItem => {
-            item[aItem] = baseAttribute[aItem]
+            if(!item[aItem]){
+                item[aItem] = baseAttribute[aItem]
+            }
             if (item.type && item.type === "container") {
                 item["children"] = item["children"] ? item["children"] : []
                 if (item["children"].length > 0) {

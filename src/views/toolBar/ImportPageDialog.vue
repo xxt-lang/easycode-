@@ -74,7 +74,7 @@ export default {
     },
     commit() {
       if(this.data === null){
-        ElMessage({message: "请先上传文件", type: 'warning',duration:2000,showClose: true,})
+        ElMessage({message: "请先上传文件",offset:80, type: 'warning',duration:2000,showClose: true,})
         return
       }
       importPage(this.data,this.writable)

@@ -255,17 +255,17 @@ export const materials = [
             //         },
             //     ]
             // },
-            // {
-            //     group: 'Feedback 反馈组件',
-            //     components: [
+            {
+                group: 'Feedback 反馈组件',
+                components: [
             //         {
             //             label: 'Alert 提示',
             //             component: 'ScAlert'
             //         },
-            //         {
-            //             label: 'Dialog 对话框',
-            //             component: 'ScDialog'
-            //         },
+                    {
+                        label: 'Dialog 对话框',
+                        component: 'ScDialog'
+                    },
             //         {
             //             label: 'Drawer 抽屉',
             //             component: 'ScDrawer'
@@ -298,8 +298,8 @@ export const materials = [
             //             label: 'Tooltip 文字提示',
             //             component: 'ScTooltip'
             //         },
-            //     ]
-            // },
+                ]
+            },
             {
                 group: 'Others 其他',
                 components: [{

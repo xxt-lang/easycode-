@@ -76,6 +76,9 @@ export function getPageData(attribute, EcVue) {
     const params = analysisData(attribute)
     let setData = EcVue
     let result = ''
+    if(typeof attribute === 'boolean'){
+        return attribute
+    }
     if (Array.isArray(params)&&params.length > 0) {
         let length = params.length
         result = setData[params[0]]
@@ -352,7 +355,7 @@ export function upMouseMoveInfo(target, dragObject, direction, index) {
         // 父组件不能拖动到子组件上
         if (!dragAllowed(target, dragObject)) return
         const pageComponents = getStore("PagesStore").getNowPage().children
-        const insertIndex = direction === 'right' ? target.index + 1 : target.index
+        let insertIndex = direction === 'right' ? target.index + 1 : target.index
         // 统一个容器下目标下表要是大于当前下标则当前下表+1
         let deleteIndex = index > target.index && target.featherId === dragObject.featherId ? index + 1 : index
         const rootId = "editor"
@@ -385,7 +388,9 @@ export function upMouseMoveInfo(target, dragObject, direction, index) {
             dragObject.featherId = rootId
             targetComponents = pageComponents
         }
-
+        // if(targetComponents[targetComponents.length-1].status.dialog){
+        //     insertIndex = insertIndex === 0 ?0:insertIndex-1
+        // }
         targetComponents.splice(isNaN(insertIndex) ? targetComponents.length : insertIndex, 0, dragObject)
         dragComponents.splice(deleteIndex, 1)
         targetComponents = null
@@ -415,13 +420,12 @@ export function handleDrop(e) {
     e.stopPropagation()
     let component = deepClone(getStore("ComponentListStore").componentList.find((data) => data.component === e.dataTransfer.getData('index')))
     // 若添加成功返回true 并在撤销回退中记录
-    console.log(e)
     if (component) {
         if (addComponent(getTarget(e.target.dataset), component, e)) {
             getStore("UndoRedoStore").addOperation('addComponent')
         }
     } else {
-        ElMessage({message: "未找到相关组件", type: 'warning', duration: 2000, showClose: true,})
+        ElMessage({message: "未找到相关组件",offset:80, type: 'warning', duration: 2000, showClose: true,})
     }
 }
 
@@ -461,6 +465,13 @@ export function addComponent(target, component, e) {
                 })
             }
             if (temporary) {
+                // if(temporary.children.length-1>=0&&temporary.children[temporary.children.length-1].status.dialog){
+                //     if(isNaN(index)){
+                //         index = temporary.children.length - 1
+                //     }else{
+                //         index = index === 0 ?0:index-1
+                //     }
+                // }
                 temporary.children.splice(isNaN(index) ? temporary.children.length : index, 0, component)
             }
         }
@@ -710,7 +721,7 @@ export function getShapeStyle(styles, shapeStyles) {
         'bottom',
         'top',
     ]
-    let result = {}
+    let result = shapeStyles === undefined?{}:shapeStyles
     for (let key in yesStyle) {
         if (styles[yesStyle[key]]) {
             result[yesStyle[key]] = styles[yesStyle[key]]
@@ -820,9 +831,9 @@ export function clearSelectPlate() {
 export function savePage() {
     try {
         localStorage.setItem("page", JSON.stringify(getStore("PagesStore").getPage(), re))
-        ElMessage({message: "保存成功", type: 'success', duration: 2000, showClose: true,})
+        ElMessage({message: "保存成功", offset:80,type: 'success', duration: 2000, showClose: true,})
     } catch (e) {
-        ElMessage({message: "保存失败", type: 'error', duration: 2000, showClose: true,})
+        ElMessage({message: "保存失败", offset:80,type: 'error', duration: 2000, showClose: true,})
     }
 }
 
@@ -1059,7 +1070,7 @@ export async function formatText(text, type) {
         return result
     }catch (e){
         console.log(e)
-        ElMessage({message: "有错误请检查后在进行保存", type: 'warning', duration: 2000, showClose: true,})
+        ElMessage({message: "有错误请检查后在进行保存", offset:80,type: 'warning', duration: 2000, showClose: true,})
     }
 }
 

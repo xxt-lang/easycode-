@@ -128,21 +128,29 @@ export default {
   grid-template-columns: 1fr 20fr 5fr;
 }
 .leftBar{
+  z-index: 100000;
+  position: relative;
   border-style: solid;
   background-color: white;
   border-color: #c6e2ff;
 }
 .setter{
+  z-index: 100000;
+  position: relative;
   border-style: solid;
   border-color: #c6e2ff;
 }
 .editomap{
+  position: relative;
   margin: 0 2px 2px 2px;
   border-style: solid;
   border-color: #c6e2ff;
 }
 
 .head {
+  position: relative;
+  z-index: 100000;
+  background-color: white;
   width: 100%;
 }
 
