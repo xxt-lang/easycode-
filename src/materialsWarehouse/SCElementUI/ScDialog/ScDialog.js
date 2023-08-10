@@ -16,6 +16,7 @@ export const ScDialog = {
         type:"container",
         status: {
             dialog:true,
+            activeDialog:true,
             active: true,
             activeContainer: false,
             isHidden: false,

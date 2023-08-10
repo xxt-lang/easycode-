@@ -1,4 +1,6 @@
+
 export const updateStorage = (strategy, store) => {
+    console.log("==========")
     // 默认使用 sessionStorage
     const storage = strategy.storage || sessionStorage
 
@@ -19,8 +21,16 @@ export const updateStorage = (strategy, store) => {
         storage.setItem(storeKey, JSON.stringify(store.$state,re))
     }
 }
-
+var aStore = null
+var aStrategies = null
+window.addEventListener("storage", function(e) {
+    aStrategies.forEach(strategy => {
+        aStore.$patch(JSON.parse(e.newValue,re))
+        updateStorage(strategy, aStore)
+    })
+});
 export default ({ options, store }) => {
+
     // 判断插件功能是否开启
     if (options.persist?.enabled) {
         // 默认策略实例
@@ -34,21 +44,20 @@ export default ({ options, store }) => {
         const strategies = options.persist?.strategies?.length
             ? options.persist?.strategies
             : defaultStrat
-
+        aStore = store
+        aStrategies = strategies
         strategies.forEach(strategy => {
             const storage = strategy.storage || sessionStorage
             const storeKey = strategy.key || store.$id
             const storageResult = storage.getItem(storeKey)
 
             if (storageResult) {
-                // 如果 storage 中存在同步数据
                 store.$patch(JSON.parse(storageResult,re))
                 updateStorage(strategy, store)
             }
         })
 
         store.$subscribe(() => {
-            // 监听 state 变化，同步更新 storage
             strategies.forEach(strategy => {
                 updateStorage(strategy, store)
             })

@@ -133,14 +133,14 @@ export default {
   grid-template-columns: 1fr 20fr 5fr;
 }
 .leftBar{
-  z-index: 100000;
+  z-index: 5000;
   position: relative;
   border-style: solid;
   background-color: white;
   border-color: #c6e2ff;
 }
 .setter{
-  z-index: 100000;
+  z-index: 5000;
   position: relative;
   border-style: solid;
   border-color: #c6e2ff;
@@ -154,7 +154,7 @@ export default {
 
 .head {
   position: relative;
-  z-index: 100000;
+  z-index: 5000;
   background-color: white;
   width: 100%;
 }

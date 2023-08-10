@@ -4,7 +4,7 @@
         v-bind="propValue.attributes"
         v-model="modelValue"
     >
-      <div v-container="propValue" style="mine-height: 200px">
+      <div v-container="propValue" style="min-height: 200px">
         <Container
             :children="propValue.children"
             :isPreview = "isPreview"
@@ -45,9 +45,14 @@ export default {
   computed: {
     "modelValue": {
       get() {
-        return this.propValue.status.active || getPageData(this.propValue.attributes['modelValue'], this.EcVue)
+        if(this.propValue.status.active){
+          this.propValue.status.activeDialog = true
+        }
+        return (this.propValue.status.activeDialog && !this.isPreview) || getPageData(this.propValue.attributes['modelValue'], this.EcVue)
       },
       set(value) {
+        this.propValue.status.activeDialog = value
+        this.propValue.status.active = value
         setPageData(this.propValue.attributes['modelValue'], value, this.EcVue)
       }
     }
