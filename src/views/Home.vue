@@ -7,6 +7,7 @@
     <main>
       <div class="main">
         <left-bar @clickBar="clickBar" class="leftBar"></left-bar>
+<!--        <iframe id="mapIframe" ref="mapIframe" src="http://127.0.0.1:5173/easy-code/EditorMap" style="height:100%;width:100%"></iframe>-->
         <EditorMap key="editorMain" class="editomap"></EditorMap>
         <Setter class="setter"></Setter>
       </div>
@@ -28,7 +29,6 @@
 <script>
 import {EditorStore, EditorStatusStore} from '@/stores/counter'
 import ToolBar from "./toolBar/TopBar.vue";
-import PageTag from "./coreComponents/PageTag.vue";
 import EditorMap from "./coreComponents/EditorMap.vue";
 import LeftBar from "./toolBar/LeftBar.vue";
 import Setter from "./coreComponents/setter/Setter.vue";
@@ -41,11 +41,12 @@ import ExportPageDialog from "./toolBar/ExportPageDialog.vue";
 import ImportPageDialog from "./toolBar/ImportPageDialog.vue";
 import {loadComponent} from "../utils/registered/registeredComponent";
 import GenerateCodeDialog from "./toolBar/GenerateCodeDialog.vue";
+import eventBus from "../utils/eventBus";
 
 export default {
   components: {
     ImportPageDialog,
-    ExportPageDialog, PageConfiguration, ShowKeyDetails, ToolBar, PageTag, EditorMap, LeftBar,Setter,GenerateCodeDialog},
+    ExportPageDialog, PageConfiguration, ShowKeyDetails, ToolBar, EditorMap, LeftBar,Setter,GenerateCodeDialog},
   name: "Home",
   props: [],
   data() {
@@ -76,6 +77,10 @@ export default {
     initProject()
   },
   mounted() {
+    // window.addEventListener('message',(e)=>{
+    //   eventBus.emit(e.data.event)
+    // })
+
     // 关闭浏览器的右键事件
     this.editorStore.editor = document.querySelector('#editor').getBoundingClientRect()
     document.oncontextmenu = function (e) {

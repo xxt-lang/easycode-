@@ -51,13 +51,12 @@ import {
 import Shape from "./Shape.vue";
 import Contextmenu from "./Contextmenu.vue";
 import ToolBar from "../toolBar/TopBar.vue";
-import PageTag from "./PageTag.vue";
-import {mapActions,} from 'pinia'
+import {mapActions,} from 'pinia';
 import {PagesStore,MouseEventStore} from "../../stores/counter";
 import EcCss from "./EcCss.vue";
 export default {
   name: 'EditorMap',
-  components: { Shape, Contextmenu, ToolBar, PageTag,EcCss},
+  components: { Shape, Contextmenu, ToolBar,EcCss},
   data() {
     return {
       dragTip: {
