@@ -839,6 +839,7 @@ export function clearSelectPlate() {
 // 缓存页面数据
 export function savePage() {
     try {
+        clearSelectPlate()
         localStorage.setItem("page", JSON.stringify(getStore("PagesStore").getPage(), re))
         ElMessage({message: "保存成功", offset: 80, type: 'success', duration: 2000, showClose: true,})
     } catch (e) {
@@ -1078,7 +1079,6 @@ export async function formatText(text, type) {
         }
         return result
     } catch (e) {
-        console.log(e)
         ElMessage({message: "有错误请检查后在进行保存", offset: 80, type: 'warning', duration: 2000, showClose: true,})
     }
 }
