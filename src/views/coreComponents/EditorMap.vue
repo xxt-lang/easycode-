@@ -7,7 +7,7 @@
        @mousedown="handleMouseDownMap($event)"
   >
     <EcCss v-show="false" :CSS = "page.css" :selecor = "{attr:'scope',value:page.pageName}" ></EcCss>
-    <div data-elementType="editor" :scope = "page.pageName" >
+    <div data-elementType="editor" :scope = "page.pageName" class="map" ref="map">
       <Shape v-for="(item, index) in page.children "
              :key="index"
              :status="item.status"
@@ -19,6 +19,8 @@
              @mousedown="handleMouseDown(item,$event,index)"
              @dblclick="dbClick(item,$event)"
              :data-shape="true"
+             v-show="!item.status.dialog || item.status.active"
+             :map-height-width = "mapStyle"
       >
         <component
             :style="getComponentStyle(false,item.styles)"
@@ -69,6 +71,10 @@ export default {
       curComponent: null,
       copyComponent: null,
       model:true,
+      mapStyle:{
+        height:'0px',
+        width: '0px'
+      }
     }
   },
   computed:{
@@ -94,7 +100,7 @@ export default {
       if(param.message !== null)
         that.dragTipMessage = param.message
     })
-
+    this.mapStyle = {height:this.$refs['map'].offsetHeight+"px", width: this.$refs['map'].offsetWidth+'px'}
   },
   methods: {
     getComponentStyle,
@@ -126,6 +132,10 @@ export default {
 }
 </script>
 <style scoped>
+.map{
+  height:100%;
+  width: 100%;
+}
 .dragTip {
   position: fixed;
   pointer-events: none;
@@ -135,7 +145,6 @@ export default {
   font-size: 16px;
   background-color: #f2f2f2;
 }
-
 .editor {
   height: calc(100vh - 71px);
   padding:2px;

@@ -24,7 +24,7 @@ import 'brace/ext/language_tools'
 
 
 export function getStore(name) {
-    switch(name){
+    switch (name) {
         case "PagesStore":
             return PagesStore()
         case "ComponentListStore":
@@ -76,17 +76,17 @@ export function getPageData(attribute, EcVue) {
     const params = analysisData(attribute)
     let setData = EcVue
     let result = ''
-    if(typeof attribute === 'boolean'){
+    if (typeof attribute === 'boolean') {
         return attribute
     }
-    if (Array.isArray(params)&&params.length > 0) {
+    if (Array.isArray(params) && params.length > 0) {
         let length = params.length
         result = setData[params[0]]
         if (setData && result) {
             for (let i = 1; i < length; i++) {
                 result = result[params[i]]
             }
-        }else{
+        } else {
             result = undefined
         }
     }
@@ -97,7 +97,7 @@ export function getPageData(attribute, EcVue) {
 export function setPageData(attribute, value, EcVue) {
     const params = analysisData(attribute)
     let setData = EcVue
-    if (Array.isArray(params)&&params.length > 0) {
+    if (Array.isArray(params) && params.length > 0) {
         let length = params.length
         for (let i = 0; i < length - 1; i++) {
             setData = setData[params[i]]
@@ -107,17 +107,17 @@ export function setPageData(attribute, value, EcVue) {
 }
 
 // 批量绑定动态属性
-export function getBindAttributes(attributes,defaultAttributes,EcVue){
+export function getBindAttributes(attributes, defaultAttributes, EcVue) {
     let result = {}
-    for (let key in attributes){
-        result[key] = getPageData(attributes[key],EcVue,defaultAttributes[key])
+    for (let key in attributes) {
+        result[key] = getPageData(attributes[key], EcVue, defaultAttributes[key])
     }
     return result
 }
 
 // 解析数据绑定的数值
 function analysisData(param) {
-    if((typeof param === "string")){
+    if ((typeof param === "string")) {
         return param.split(".")
     }
     return param
@@ -388,9 +388,6 @@ export function upMouseMoveInfo(target, dragObject, direction, index) {
             dragObject.featherId = rootId
             targetComponents = pageComponents
         }
-        // if(targetComponents[targetComponents.length-1].status.dialog){
-        //     insertIndex = insertIndex === 0 ?0:insertIndex-1
-        // }
         targetComponents.splice(isNaN(insertIndex) ? targetComponents.length : insertIndex, 0, dragObject)
         dragComponents.splice(deleteIndex, 1)
         targetComponents = null
@@ -425,7 +422,7 @@ export function handleDrop(e) {
             getStore("UndoRedoStore").addOperation('addComponent')
         }
     } else {
-        ElMessage({message: "未找到相关组件",offset:80, type: 'warning', duration: 2000, showClose: true,})
+        ElMessage({message: "未找到相关组件", offset: 80, type: 'warning', duration: 2000, showClose: true,})
     }
 }
 
@@ -465,13 +462,6 @@ export function addComponent(target, component, e) {
                 })
             }
             if (temporary) {
-                // if(temporary.children.length-1>=0&&temporary.children[temporary.children.length-1].status.dialog){
-                //     if(isNaN(index)){
-                //         index = temporary.children.length - 1
-                //     }else{
-                //         index = index === 0 ?0:index-1
-                //     }
-                // }
                 temporary.children.splice(isNaN(index) ? temporary.children.length : index, 0, component)
             }
         }
@@ -707,7 +697,7 @@ export function objectToCss(style) {
 
 
 // 解析styles 取得shape应该跟着改变的样式
-export function getShapeStyle(styles, shapeStyles) {
+export function getShapeStyle(styles, shapeStyles,mapHeightWidth) {
     const yesStyle = [
         'margin',
         'margin-left',
@@ -721,11 +711,25 @@ export function getShapeStyle(styles, shapeStyles) {
         'bottom',
         'top',
     ]
-    let result = shapeStyles === undefined?{}:shapeStyles
+    let result = shapeStyles === undefined ? {} : shapeStyles
+
+    if(shapeStyles['height'] && shapeStyles['height'] === '100%'){
+        result['height'] = mapHeightWidth.height
+    }
+    if(shapeStyles['width'] && shapeStyles['width'] === '100%'){
+        result['width'] = mapHeightWidth.width
+    }
+    if(styles['width'] && styles['width'].indexOf('%') !== -1){
+        result['width'] = styles['width']
+    }
+    if(styles['height'] && styles['height'].indexOf('%')!== -1){
+        result['height'] = styles['height']
+    }
+
     for (let key in yesStyle) {
         if (styles[yesStyle[key]]) {
             result[yesStyle[key]] = styles[yesStyle[key]]
-        }else if(shapeStyles[yesStyle[key]]){
+        } else if (shapeStyles[yesStyle[key]]) {
             result[yesStyle[key]] = shapeStyles[yesStyle[key]]
         }
     }
@@ -750,11 +754,16 @@ export function getComponentStyle(isPreview, styles, type) {
     const result = {}
     for (let key in styles) {
         if (noStyle.indexOf(key) === -1) {
-            result[key] = styles[key]
+            if(styles['height'] && styles['height'].indexOf('%')!== -1){
+                result['height'] = '100%'
+            }else if(styles['width'] && styles['width'].indexOf('%')!== -1){
+                result['width'] = '100%'
+            }else{
+                result[key] = styles[key]
+            }
         }
     }
     return result
-
 }
 
 export function deleteSelectComponent() {
@@ -831,9 +840,9 @@ export function clearSelectPlate() {
 export function savePage() {
     try {
         localStorage.setItem("page", JSON.stringify(getStore("PagesStore").getPage(), re))
-        ElMessage({message: "保存成功", offset:80,type: 'success', duration: 2000, showClose: true,})
+        ElMessage({message: "保存成功", offset: 80, type: 'success', duration: 2000, showClose: true,})
     } catch (e) {
-        ElMessage({message: "保存失败", offset:80,type: 'error', duration: 2000, showClose: true,})
+        ElMessage({message: "保存失败", offset: 80, type: 'error', duration: 2000, showClose: true,})
     }
 }
 
@@ -952,7 +961,7 @@ function verifyPagesData(Pages) {
 }
 
 // 执行方法
-export function execMethod(events,EcVue) {
+export function execMethod(events, EcVue) {
     if (EcVue[events.method] && events && events.enable) {
         return true
     }
@@ -980,7 +989,7 @@ export function bindRefs(attr, refs, name, EcVue) {
             }
             EcVue.$refs[attr[name]] = refs
         }
-    }catch (e){
+    } catch (e) {
         console.log(e)
     }
 
@@ -993,7 +1002,7 @@ export function deleteRefs(component) {
                 delete getStore("PagesStore").getNowPage().EcVue.$refs [component.attributes[key]]
             }
         }
-    }catch (e){
+    } catch (e) {
         console.log(e)
     }
 
@@ -1031,7 +1040,7 @@ export function setterComponent() {
 export async function generateCode(exportPage) {
     let zip = new JSZip()
     for (const item of exportPage) {
-        let data = await formatText(ecTemplate(item),"html")
+        let data = await formatText(ecTemplate(item), "html")
         let blob = new Blob([data], {type: "text/json;charset=utf-8"});
         zip.file(item.pageName + ".vue", blob, {binary: true})
     }
@@ -1045,7 +1054,7 @@ export async function generateCode(exportPage) {
 // 格式化文本
 export async function formatText(text, type) {
     try {
-        if (!type || type === "javascript" ) return text
+        if (!type || type === "javascript") return text
         let result = ""
         let plugin = null
         let vueIndentScriptAndStyle = false
@@ -1068,16 +1077,16 @@ export async function formatText(text, type) {
             })
         }
         return result
-    }catch (e){
+    } catch (e) {
         console.log(e)
-        ElMessage({message: "有错误请检查后在进行保存", offset:80,type: 'warning', duration: 2000, showClose: true,})
+        ElMessage({message: "有错误请检查后在进行保存", offset: 80, type: 'warning', duration: 2000, showClose: true,})
     }
 }
 
 // 给编辑器增加
-export function setAceCompleteData(data){
+export function setAceCompleteData(data) {
     ace.acequire("ace/ext/language_tools").addCompleter({
-        getCompletions: function(editor, session, pos, prefix, callback) {
+        getCompletions: function (editor, session, pos, prefix, callback) {
             if (prefix.length === 0) {
                 return callback(null, []);
             } else {

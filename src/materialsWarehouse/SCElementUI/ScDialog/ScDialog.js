@@ -1,17 +1,14 @@
-import {generalTemplate} from "../../../utils/ecTemplate";
+import {ecTemplateFor, generalTemplate, includeTemplate} from "../../../utils/ecTemplate";
 
 export const ScDialog = {
     component: {
         component: "ScDialog",
-        label: 'ScDialog',
+        label: '弹窗',
         events: {},
         attributes: {},
         styles: {},
         shapeStyles: {
-            height:"100%",
-            width:"100%",
-            left:"0px",
-            top:"0px"
+            position: "fixed",height: "100%",width:"100%"
         },
         type:"container",
         status: {
@@ -202,42 +199,42 @@ export const ScDialog = {
                 // },
             ],
             events: [
-                {
-                    event: "open", // 事件名称
-                    enable: false,// 是否启用
-                    detail: "Dialog 打开的回调",
-                    method: ''// 绑定方法名
-                },
-                {
-                    event: "opened", // 事件名称
-                    enable: false,// 是否启用
-                    detail: "Dialog 打开动画结束时的回调",
-                    method: ''// 绑定方法名
-                },
-                {
-                    event: "close", // 事件名称
-                    enable: false,// 是否启用
-                    detail: "Dialog 关闭的回调",
-                    method: ''// 绑定方法名
-                },
-                {
-                    event: "closed", // 事件名称
-                    enable: false,// 是否启用
-                    detail: "Dialog 关闭动画结束时的回调",
-                    method: ''// 绑定方法名
-                },
-                {
-                    event: "open-auto-focus", // 事件名称
-                    enable: false,// 是否启用
-                    detail: "输入焦点聚焦在 Dialog 内容时的回调",
-                    method: ''// 绑定方法名
-                },
-                {
-                    event: "close-auto-focus", // 事件名称
-                    enable: false,// 是否启用
-                    detail: "输入焦点从 Dialog 内容失焦时的回调",
-                    method: ''// 绑定方法名
-                },
+                // {
+                //     event: "open", // 事件名称
+                //     enable: false,// 是否启用
+                //     detail: "Dialog 打开的回调",
+                //     method: ''// 绑定方法名
+                // },
+                // {
+                //     event: "opened", // 事件名称
+                //     enable: false,// 是否启用
+                //     detail: "Dialog 打开动画结束时的回调",
+                //     method: ''// 绑定方法名
+                // },
+                // {
+                //     event: "close", // 事件名称
+                //     enable: false,// 是否启用
+                //     detail: "Dialog 关闭的回调",
+                //     method: ''// 绑定方法名
+                // },
+                // {
+                //     event: "closed", // 事件名称
+                //     enable: false,// 是否启用
+                //     detail: "Dialog 关闭动画结束时的回调",
+                //     method: ''// 绑定方法名
+                // },
+                // {
+                //     event: "open-auto-focus", // 事件名称
+                //     enable: false,// 是否启用
+                //     detail: "输入焦点聚焦在 Dialog 内容时的回调",
+                //     method: ''// 绑定方法名
+                // },
+                // {
+                //     event: "close-auto-focus", // 事件名称
+                //     enable: false,// 是否启用
+                //     detail: "输入焦点从 Dialog 内容失焦时的回调",
+                //     method: ''// 绑定方法名
+                // },
             ],
             styles: {}
         }
@@ -247,6 +244,8 @@ export const ScDialog = {
         <el-dialog
             ${generalTemplate(param)}
         >
+         ${ecTemplateFor(param.children,(item2)=>{
+            return includeTemplate(item2.component,item2)})}
         </el-dialog>
         `
     }

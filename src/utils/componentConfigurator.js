@@ -17,44 +17,46 @@ const componentTemplates = {}
 // 加载组件配置
 export function loadComponentConfiguration() {
     const componentListStore = ComponentListStore()
-    // 先判断本地有没有对应数据，有则直接读取不在进行处理
-    // if(localStorage.getItem('componentList') && localStorage.getItem('componentSetters'))
-    // {
-    //     componentListStore.componentList = JSON.parse(localStorage.getItem('componentList'))
-    //     componentListStore.componentSetters =  JSON.parse(localStorage.getItem('componentSetters'))
-    // }else{
-    //
-    //     localStorage.setItem('componentList',JSON.stringify(componentList))
-    //     localStorage.setItem('componentSetters',JSON.stringify(componentSetters))
-    // }
-    // 组件相关属性值初始化
-    componentList.forEach(item => {
-        Object.keys(baseAttribute).forEach(aItem => {
-            if(!item[aItem]){
-                item[aItem] = baseAttribute[aItem]
-            }
-            if (item.type && item.type === "container") {
-                item["children"] = item["children"] ? item["children"] : []
-                if (item["children"].length > 0) {
-                    item["children"].forEach((citem) => {
-                        citem[aItem] = baseAttribute[aItem]
-                    })
-                }
-            } else {
-                item.status.activeContainer = false
-                item["type"] = "common" //是否为容器组件
-            }
-            if(!item["shapeStyles"]){
-                item["shapeStyles"] = {}
-            }
-            item['bindClass'] = ""
-        })
-    })
-    setAttribute()
-    componentListStore.componentList = componentList
-    componentListStore.componentSetters = componentSetters
     componentListStore.materials = materials
-    componentListStore.componentTemplates = componentTemplates
+    // 先判断本地有没有对应数据，有则直接读取不在进行处理
+    if(localStorage.getItem('componentList') && localStorage.getItem('componentSetters'))
+    {
+        componentListStore.componentList = JSON.parse(localStorage.getItem('componentList'))
+        componentListStore.componentSetters =  JSON.parse(localStorage.getItem('componentSetters'))
+        componentListStore.componentTemplates =  JSON.parse(localStorage.getItem('componentTemplates'))
+    }else{
+        // 组件相关属性值初始化
+        componentList.forEach(item => {
+            Object.keys(baseAttribute).forEach(aItem => {
+                if(!item[aItem]){
+                    item[aItem] = baseAttribute[aItem]
+                }
+                if (item.type && item.type === "container") {
+                    item["children"] = item["children"] ? item["children"] : []
+                    if (item["children"].length > 0) {
+                        item["children"].forEach((citem) => {
+                            citem[aItem] = baseAttribute[aItem]
+                        })
+                    }
+                } else {
+                    item.status.activeContainer = false
+                    item["type"] = "common" //是否为容器组件
+                }
+                if(!item["shapeStyles"]){
+                    item["shapeStyles"] = {}
+                }
+                item['bindClass'] = ""
+            })
+        })
+        setAttribute()
+        componentListStore.componentList = componentList
+        componentListStore.componentSetters = componentSetters
+        componentListStore.componentTemplates = componentTemplates
+        localStorage.setItem('componentList',JSON.stringify(componentList))
+        localStorage.setItem('componentSetters',JSON.stringify(componentSetters))
+        localStorage.setItem('componentTemplates',JSON.stringify(componentTemplates))
+    }
+
 }
 
 export function assembleComponent(component, name) {
@@ -81,7 +83,9 @@ function setAttribute() {
     })
     componentList.forEach(item => {
         let index = setterMap.get(item.component)
-        item["defaultAttributes"] = {}
+        if(!item["defaultAttributes"]){
+            item["defaultAttributes"] = {}
+        }
         if (index !== undefined) {
             // 容器模板增加基础状态
             if (componentSetters[index].setter.configuration && componentSetters[index].setter.configuration.childrenTemplate) {

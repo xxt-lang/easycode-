@@ -3,8 +3,9 @@
       :class="{ active: status.active,lock:status.lock }"
       :data-index = "index"
       :data-shape="true"
-      :style="getShapeStyle(element.styles,element.shapeStyles)"
+      :style="getShapeStyle(element.styles,element.shapeStyles,mapHeightWidth)"
   >
+    <!--      :style="getShapeStyle(element.styles,element.shapeStyles)"-->
     <div :style="{'pointer-events': element.type ==='common' ? 'none':''}">
       <slot></slot>
     </div>
@@ -35,6 +36,12 @@ export default {
         type: Number,
         default: 0,
       },
+      mapHeightWidth:{
+        type:Object,
+        default:()=>{
+          return {height:'0px',width:'0px'}
+        }
+      }
     },
     data() {
       return {

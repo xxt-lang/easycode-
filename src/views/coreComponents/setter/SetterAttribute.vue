@@ -2,9 +2,11 @@
   <div>
     <div v-for="(item,index) in setterAttributes" :key="item.attributeName" style="margin-top: 5px">
       <div class="setterAttribute">
-        <div class="itemLabel"
-              @click="openDetail(index)"
-              :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{ item.label }} </div>
+        <el-tooltip
+            effect="dark"
+            :content="item.detail"
+            placement="bottom"
+        ><span class="itemLabel" :style="{color:item.bind === 'value'?'green':item.bind === 'ref'?'orange':''}">{{item.label}} </span></el-tooltip>
 
         <div class="itemContent">
           <el-select v-if="item.type === 'select'" v-model="setterData.attributes[item.attributeName]" class="m-2"
@@ -172,7 +174,7 @@ export default {
 .itemDetail{
   width: 70px;
   font-size: 10px;
-  color: #c6e2ff;
+  color: #dcdfe6;
   font-weight: 500;
   transition: color .5s;
   text-align: center;

@@ -1,5 +1,5 @@
 <template>
-  <div @mousedown="mouseDown">
+  <div>
     <!--    头部工具栏-->
     <div class="head">
       <ToolBar @toolClick="toolClick"></ToolBar>
@@ -8,7 +8,7 @@
       <div class="main">
         <left-bar @clickBar="clickBar" class="leftBar"></left-bar>
 <!--        <iframe id="mapIframe" ref="mapIframe" src="http://127.0.0.1:5173/easy-code/EditorMap" style="height:100%;width:100%"></iframe>-->
-        <EditorMap key="editorMain" class="editomap"></EditorMap>
+        <EditorMap key="editorMain" class="editomap"  @mousedown="mouseDown"></EditorMap>
         <Setter class="setter"></Setter>
       </div>
     </main>
@@ -133,14 +133,12 @@ export default {
   grid-template-columns: 1fr 20fr 5fr;
 }
 .leftBar{
-  z-index: 5000;
   position: relative;
   border-style: solid;
   background-color: white;
   border-color: #c6e2ff;
 }
 .setter{
-  z-index: 5000;
   position: relative;
   border-style: solid;
   border-color: #c6e2ff;
@@ -154,7 +152,6 @@ export default {
 
 .head {
   position: relative;
-  z-index: 5000;
   background-color: white;
   width: 100%;
 }

@@ -108,7 +108,7 @@ export function initShortKeyDown() {
         const nowKey = analysisKey(e)
         if(keyDowns.hasOwnProperty(nowKey)){
           if(!keyDowns[nowKey].global){
-            if(e.target.localName !== "body") return
+            if(e.target.localName === "textarea" || e.target.localName === "input") return
           }
           e.preventDefault()
           keyDowns[nowKey].func()

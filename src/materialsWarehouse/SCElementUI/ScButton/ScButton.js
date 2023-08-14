@@ -21,8 +21,8 @@ export const ScButton = {
                     label: "类型",
                     detail: '类型',
                     type: "select",//编辑自段的类型input select number switch buttonList
-                    value: "primary",//属性值
-                    defaultValue: "primary",//默认属性值
+                    value: "",//属性值
+                    defaultValue: "",//默认属性值
                     typeArray: [
                         {
                             value: 'primary',
