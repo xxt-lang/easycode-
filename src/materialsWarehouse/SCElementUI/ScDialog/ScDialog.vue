@@ -92,9 +92,9 @@ export default {
 </script>
 <style scoped>
 :deep(.el-overlay-dialog){
-  position: absolute !important;
+  position: absolute;
 }
 :deep(.el-overlay){
-  position: absolute !important;
+  position: absolute;
 }
 </style>

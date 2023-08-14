@@ -5,7 +5,6 @@
       :data-shape="true"
       :style="getShapeStyle(element.styles,element.shapeStyles,mapHeightWidth)"
   >
-    <!--      :style="getShapeStyle(element.styles,element.shapeStyles)"-->
     <div :style="{'pointer-events': element.type ==='common' ? 'none':''}">
       <slot></slot>
     </div>
@@ -39,7 +38,7 @@ export default {
       mapHeightWidth:{
         type:Object,
         default:()=>{
-          return {height:'0px',width:'0px'}
+          return {height:'100%',width:'100%'}
         }
       }
     },

@@ -19,7 +19,7 @@
              @mousedown="handleMouseDown(item,$event,index)"
              @dblclick="dbClick(item,$event)"
              :data-shape="true"
-             v-show="!item.status.dialog || item.status.active"
+             v-show="!item.status.dialog || (item.status.activeDialog || item.status.active)"
              :map-height-width = "mapStyle"
       >
         <component
