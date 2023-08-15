@@ -20,7 +20,6 @@
              @dblclick="dbClick(item,$event)"
              :data-shape="true"
              v-show="!item.status.dialog || (item.status.activeDialog || item.status.active)"
-             :map-height-width = "mapStyle"
       >
         <component
             :style="getComponentStyle(false,item.styles)"
@@ -91,7 +90,10 @@ export default {
       }
     }
   },
-
+  setup() {
+    return {
+    }
+  },
   mounted() {
     let that = this
     // 动态修改拖拽标签
@@ -100,7 +102,6 @@ export default {
       if(param.message !== null)
         that.dragTipMessage = param.message
     })
-    this.mapStyle = {height:this.$refs['map'].offsetHeight+"px", width: this.$refs['map'].offsetWidth+'px'}
   },
   methods: {
     getComponentStyle,

@@ -29,8 +29,8 @@ export const ScDialog = {
                     attributeName: "modelValue",
                     label: "value绑定",
                     type: "input",
-                    value: "modelValue",
-                    defaultValue: "modelValue",
+                    value: "",
+                    defaultValue: "",
                     detail: "绑定值",
                     bind: 'value',
                 },
@@ -82,22 +82,6 @@ export const ScDialog = {
                     value: true,
                     defaultValue: true,
                     detail: "是否需要遮罩层",
-                },
-                {
-                    attributeName: "modal-class",
-                    label: "遮罩的自定义类名",
-                    type: "input",
-                    value: "",
-                    defaultValue: "",
-                    detail: "遮罩的自定义类名",
-                },
-                {
-                    attributeName: "append-to-body",
-                    label: "插入至 body 元素",
-                    type: "switch",
-                    value: false,
-                    defaultValue: false,
-                    detail: "Dialog 自身是否插入至 body 元素上。 嵌套的 Dialog 必须指定该属性并赋值为 true",
                 },
                 {
                     attributeName: "lock-scroll",
@@ -189,53 +173,8 @@ export const ScDialog = {
                     defaultValue: "",
                     detail: "自定义关闭图标，默认 Close",
                 },
-                // {
-                //     attributeName: " z-index",
-                //     label: " z-index",
-                //     type: "inputNumber",
-                //     value: 1000,
-                //     defaultValue: 1000,
-                //     detail: "和原生的 CSS 的 z-index 相同，改变 z 轴的顺序",
-                // },
             ],
-            events: [
-                // {
-                //     event: "open", // 事件名称
-                //     enable: false,// 是否启用
-                //     detail: "Dialog 打开的回调",
-                //     method: ''// 绑定方法名
-                // },
-                // {
-                //     event: "opened", // 事件名称
-                //     enable: false,// 是否启用
-                //     detail: "Dialog 打开动画结束时的回调",
-                //     method: ''// 绑定方法名
-                // },
-                // {
-                //     event: "close", // 事件名称
-                //     enable: false,// 是否启用
-                //     detail: "Dialog 关闭的回调",
-                //     method: ''// 绑定方法名
-                // },
-                // {
-                //     event: "closed", // 事件名称
-                //     enable: false,// 是否启用
-                //     detail: "Dialog 关闭动画结束时的回调",
-                //     method: ''// 绑定方法名
-                // },
-                // {
-                //     event: "open-auto-focus", // 事件名称
-                //     enable: false,// 是否启用
-                //     detail: "输入焦点聚焦在 Dialog 内容时的回调",
-                //     method: ''// 绑定方法名
-                // },
-                // {
-                //     event: "close-auto-focus", // 事件名称
-                //     enable: false,// 是否启用
-                //     detail: "输入焦点从 Dialog 内容失焦时的回调",
-                //     method: ''// 绑定方法名
-                // },
-            ],
+            events: [ ],
             styles: {}
         }
     },
