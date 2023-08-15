@@ -247,6 +247,9 @@ export function moveComponent(e, index, dragObject) {
     let oldDocument = null
     let oldDirection = 'left'
     const move = (moveEvent) => {
+        if(dragObject.status.dialog){
+            return
+        }
         eventBus.emit(`move-dragTip`, {
             style: {top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},
             message: null

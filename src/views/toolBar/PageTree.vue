@@ -44,7 +44,7 @@ import VMonacoEditor from "../coreComponents/AceEditor.vue";
 import {deepClone} from "../../utils/tool";
 import {ECVue} from "../../utils/ECVue";
 import eventBus from "../../utils/eventBus";
-import {clearSelectPlate} from "../../utils/core";
+import {clearSelectPlate,clickSelectComponent} from "../../utils/core";
 
 
 export default {
@@ -133,6 +133,7 @@ export default {
             // 选中状态时将当前组件放入选择板中
             if(node.status.active){
               clearSelectPlate()
+              node.status.active = true
               this.setSelectPlate(node)
             }
           }
