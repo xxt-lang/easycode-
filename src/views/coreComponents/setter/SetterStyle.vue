@@ -516,14 +516,16 @@
         <div class="row">
           <span class="itemLabel">{{ styles['box-shadow']['params']['obscure'].label }}</span>
           <div class="itemContent">
-            <ec-input-number v-model="styles['box-shadow']['params']['obscure'].value" size="small" unit="px" :units="units"
+            <ec-input-number v-model="styles['box-shadow']['params']['obscure'].value" size="small" unit="px"
+                             :units="units"
                              @changeValue="changeBoxShadow"></ec-input-number>
           </div>
         </div>
         <div class="row">
           <span class="itemLabel">{{ styles['box-shadow']['params']['extend'].label }}</span>
           <div class="itemContent">
-            <ec-input-number v-model="styles['box-shadow']['params']['extend'].value" size="small" unit="px" :units="units"
+            <ec-input-number v-model="styles['box-shadow']['params']['extend'].value" size="small" unit="px"
+                             :units="units"
                              @changeValue="changeBoxShadow"></ec-input-number>
           </div>
         </div>
@@ -692,7 +694,299 @@ export default {
           label: "定位",
           attr: "background-position",
           value: '',
-          params: {left:'',top: ''},
+          params: {left: '', top: ''},
+          choice: '',
+          children: [
+            {value: {left: '0px', top: '0px'}, label: "左上", detail: "左上"},
+            {value: {left: '50%', top: '0px'}, label: "上", detail: "上"},
+            {value: {left: '100%', top: '0px',}, label: "右上", detail: "右上"},
+            {value: {left: '0px', top: '50%'}, label: "左", detail: "左"},
+            {value: {left: '50%', top: '50%'}, label: "中", detail: "中"},
+            {value: {left: '100%', top: '50%'}, label: "右", detail: "右"},
+            {value: {left: '0px', top: '100%'}, label: "左下", detail: "左下"},
+            {value: {left: '50%', top: '100%'}, label: "下", detail: "下"},
+            {value: {left: '100%', top: '100%'}, label: "右下", detail: "右下"},
+          ]
+        },
+
+        "position": {
+          label: "位置",
+          attr: "position",
+          value: '',
+        },
+        "left": {
+          label: "left",
+          attr: "left",
+          value: "auto",
+        },
+        "right": {
+          label: "right",
+          attr: "right",
+          value: "auto",
+        },
+        "top": {
+          label: "top",
+          attr: "top",
+          value: "auto"
+        },
+        "bottom": {
+          label: "bottom",
+          attr: "bottom",
+          value: "auto"
+        },
+        "z-index": {
+          label: "z-index",
+          attr: "z-index",
+          value: 0
+        },
+        "float": {
+          label: '浮动',
+          attr: "float",
+          value: ""
+        },
+        "clear": {
+          label: '清除',
+          attr: 'clear',
+          value: ''
+        },
+
+
+        "border-radius": {
+          label: "固定圆角(px)",
+          attr: "border-radius",
+          value: 0,
+        },
+        "border-top-left-radius": {
+          label: "左上(px)",
+          attr: "border-top-left-radius",
+          value: 0,
+        },
+        "border-top-right-radius": {
+          label: "右上(px)",
+          attr: "border-top-right-radius",
+          value: 0,
+        },
+        "border-bottom-left-radius": {
+          label: "左下(px)",
+          attr: "border-bottom-left-radius",
+          value: 0,
+        },
+        "border-bottom-right-radius": {
+          label: "右下(px)",
+          attr: "border-bottom-right-radius",
+          value: 0,
+        },
+
+        "border-width": {
+          label: "宽度",
+          attr: "border-width",
+          value: "auto",
+        },
+        "border-color": {
+          label: "颜色",
+          attr: "border-color",
+          value: '',
+        },
+        "border-style": {
+          label: "样式",
+          attr: "border-style",
+          value: '',
+        },
+
+        "border-top-width": {
+          label: "宽度",
+          attr: "border-top-width",
+          value: "auto",
+        },
+        "border-top-color": {
+          label: "边框颜色",
+          attr: "border-top-color",
+          value: '',
+        },
+        "border-top-style": {
+          label: "样式",
+          attr: "border-style",
+          value: '',
+        },
+        "border-left-width": {
+          label: "宽度",
+          attr: "border-left-width",
+          value: "auto",
+        },
+        "border-left-color": {
+          label: "边框颜色",
+          attr: "border-left-color",
+          value: '',
+        },
+        "border-left-style": {
+          label: "样式",
+          attr: "border-left-style",
+          value: '',
+        },
+        "border-right-width": {
+          label: "宽度",
+          attr: "border-right-width",
+          value: "auto",
+        },
+        "border-right-color": {
+          label: "颜色",
+          attr: "border-right-color",
+          value: '',
+        },
+        "border-right-style": {
+          label: "样式",
+          attr: "border-right-style",
+          value: '',
+        },
+        "border-bottom-style": {
+          label: "样式",
+          attr: "border-bottom-style",
+          value: '',
+        },
+        "border-bottom-width": {
+          label: "宽度",
+          attr: "border-bottom-style",
+          value: "auto",
+        },
+        "border-bottom-color": {
+          label: "颜色",
+          attr: "border-bottom-style",
+          value: '',
+        },
+        "box-shadow": {
+          label: "阴影",
+          value: '',
+          attr: 'box-shadow',
+          params: {
+            inset: {label: '内外阴影', value: false},
+            color: {label: "颜色", value: ''},
+            x: {label: "x", value: '0px'},
+            y: {label: "y", value: '0px'},
+            obscure: {label: "模糊", value: '0px'},
+            extend: {label: "扩展", value: '0px'}
+          },
+        }
+      },
+      initStyles: {
+        "display": {
+          attr: "display",
+          label: "布局模式",
+          enable: true,
+          value: '',
+          children: [
+            {value: "flex", label: "弹性", detail: "弹性布局flex"},
+            {value: "block", label: "块级", detail: "块级布局block"},
+            {value: "inline-block", label: "内联块", detail: "内联块布局inline-block"},
+            {value: "none", label: "隐藏", detail: "隐藏none"}
+          ]
+        },
+        "flex-direction": {
+          attr: "flex-direction",
+          label: "主轴方向",
+          enable: false,
+          value: '',
+          children: [
+            {value: "row", label: "左", detail: "水平方向,起点在左侧row"},
+            {value: "row-reverse", label: "右", detail: "水平方向，起点在右侧row-reverse"},
+            {value: "column", label: "下", detail: "垂直方向,起点在上沿column"},
+            {value: "column-reverse", label: "上", detail: "垂直方向,起点在下沿column-reverse"}
+          ]
+        },
+        "justify-content": {
+          attr: "justify-content",
+          label: "主轴对齐",
+          enable: false,
+          value: '',
+          children: [
+            {value: "flex-start", label: "左对齐", detail: "左对齐flex-start"},
+            {value: "flex-end", label: "右对齐", detail: "右对齐flex-end"},
+            {value: "center", label: "水平居中", detail: "水平居中center"},
+            {value: "space-between", label: "两端对齐", detail: "两端对齐space-between"},
+            {value: "space-around", label: "横向平分", detail: "横向平分space-around"}
+          ]
+        },
+        "align-items": {
+          attr: "align-items",
+          label: "辅轴对齐",
+          enable: false,
+          value: '',
+          children: [
+            {value: "flex-start", label: "起点对齐", detail: "起点对齐flex-start"},
+            {value: "flex-end", label: "终点对齐", detail: "终点对齐flex-end"},
+            {value: "center", label: "水平居中", detail: "水平居中"},
+            {value: "baseline", label: "baseline", detail: "项目第一行文字的基线对齐"},
+            {value: "stretch", label: "stretch", detail: "沾满整个容器的高度stretch"}
+          ]
+        },
+        "flex-wrap": {
+          attr: "flex-wrap",
+          label: "换行",
+          enable: false,
+          value: '',
+          children: [
+            {value: "nowrap", label: "不换行", detail: "不换行nowrap"},
+            {value: "wrap", label: "正换行", detail: "正换行wrap"},
+            {value: "wrap-reverse", label: "逆换行", detail: "逆换行wrap-reverse"},
+          ]
+        },
+        "height": {label: "高度", attr: "height", value: "auto"},
+        "width": {label: "宽度", attr: "width", value: "auto"},
+        "margin": {label: "外边距", attr: "margin", value: '0px'},
+        "margin-top": {label: "上", attr: "margin-top", value: '0px'},
+        "margin-left": {label: "左", attr: "margin-left", value: '0px'},
+        "margin-bottom": {label: "下", attr: "margin-bottom", value: '0px'},
+        "margin-right": {label: "右", attr: "margin-right", value: '0px'},
+        "padding": {label: "内边距", attr: "padding", value: '0px'},
+        "padding-top": {label: "上", attr: "padding-top", value: '0px'},
+        "padding-left": {label: "左", attr: "padding-left", value: '0px'},
+        "padding-bottom": {label: "下", attr: "padding-bottom", value: '0px'},
+        "padding-right": {label: "右", attr: "padding-right", value: '0px'},
+        "font-size": {label: "字号(px)", attr: "font-size", value: ''},
+        "line-height": {label: "行高(px)", attr: "line-height", value: ''},
+        "font-weight": {label: "字重", attr: "font-weight", value: ''},
+        "font-family": {label: "字体", attr: "font-family", value: ''},
+        "color": {label: "颜色", attr: "color", value: ''},
+        "text-align": {
+          label: "对齐",
+          attr: "text-align",
+          value: '',
+          children: [
+            {value: "left", label: "左对齐", detail: "左对齐left"},
+            {value: "right", label: "右对齐", detail: "右对齐right"},
+            {value: "center", label: "居中对齐", detail: "居中对齐center"},
+            {value: "justify", label: "两端对齐", detail: "两端对齐justify"},
+          ]
+        },
+        "opacity": {label: "透明度", attr: "opacity", value: 100},
+        "background-color": {label: "背景色", attr: "background-color", value: ''},
+        "background-image": {label: "图片地址", attr: "background-image", value: ''},
+        "background-size": {
+          label: "尺寸",
+          attr: "background-size",
+          value: '',
+          params: {height: "auto", width: "auto"},
+          children: [
+            {value: 'default', label: "默认", detail: "默认"},
+            {value: "contain", label: "等比填充", detail: "等比填充contain"},
+            {value: "cover", label: "等比覆盖", detail: "等比覆盖cover"},
+          ]
+        },
+        "background-repeat": {
+          label: "重复显示",
+          attr: "background-repeat",
+          value: '',
+          children: [
+            {value: "repeat", label: "垂直水平方向", detail: "垂直方向水平方向重复repeat"},
+            {value: "repeat-x", label: "水平", detail: "水平方向重复repeat-x"},
+            {value: "repeat-y", label: "垂直", detail: "垂直方向重复repeat-y"},
+            {value: "no-repeat", label: "不重复", detail: "不重复no-repeat"},
+          ]
+        },
+        "background-position": {
+          label: "定位",
+          attr: "background-position",
+          value: '',
+          params: {left: '', top: ''},
           choice: '',
           children: [
             {value: {left: '0px', top: '0px'}, label: "左上", detail: "左上"},
@@ -931,7 +1225,6 @@ export default {
         {label: 'right', value: 'right'},
         {label: 'both', value: 'both'}
       ]
-
     }
   },
   mounted() {
@@ -939,323 +1232,32 @@ export default {
     eventBus.on("setterComponent", () => {
       let styles = getStore("SimpleStore").selectPlate[0].styles
       that.css = `.main{\n${objectToCss(styles)}\n}`
-      that.styles = {
-        "display": {
-          attr: "display",
-          label: "布局模式",
-          enable: true,
-          value: '',
-          children: [
-            {value: "flex", label: "弹性", detail: "弹性布局flex"},
-            {value: "block", label: "块级", detail: "块级布局block"},
-            {value: "inline-block", label: "内联块", detail: "内联块布局inline-block"},
-            {value: "none", label: "隐藏", detail: "隐藏none"}
-          ]
-        },
-        "flex-direction": {
-          attr: "flex-direction",
-          label: "主轴方向",
-          enable: false,
-          value: '',
-          children: [
-            {value: "row", label: "左", detail: "水平方向,起点在左侧row"},
-            {value: "row-reverse", label: "右", detail: "水平方向，起点在右侧row-reverse"},
-            {value: "column", label: "下", detail: "垂直方向,起点在上沿column"},
-            {value: "column-reverse", label: "上", detail: "垂直方向,起点在下沿column-reverse"}
-          ]
-        },
-        "justify-content": {
-          attr: "justify-content",
-          label: "主轴对齐",
-          enable: false,
-          value: '',
-          children: [
-            {value: "flex-start", label: "左对齐", detail: "左对齐flex-start"},
-            {value: "flex-end", label: "右对齐", detail: "右对齐flex-end"},
-            {value: "center", label: "水平居中", detail: "水平居中center"},
-            {value: "space-between", label: "两端对齐", detail: "两端对齐space-between"},
-            {value: "space-around", label: "横向平分", detail: "横向平分space-around"}
-          ]
-        },
-        "align-items": {
-          attr: "align-items",
-          label: "辅轴对齐",
-          enable: false,
-          value: '',
-          children: [
-            {value: "flex-start", label: "起点对齐", detail: "起点对齐flex-start"},
-            {value: "flex-end", label: "终点对齐", detail: "终点对齐flex-end"},
-            {value: "center", label: "水平居中", detail: "水平居中"},
-            {value: "baseline", label: "baseline", detail: "项目第一行文字的基线对齐"},
-            {value: "stretch", label: "stretch", detail: "沾满整个容器的高度stretch"}
-          ]
-        },
-        "flex-wrap": {
-          attr: "flex-wrap",
-          label: "换行",
-          enable: false,
-          value: '',
-          children: [
-            {value: "nowrap", label: "不换行", detail: "不换行nowrap"},
-            {value: "wrap", label: "正换行", detail: "正换行wrap"},
-            {value: "wrap-reverse", label: "逆换行", detail: "逆换行wrap-reverse"},
-          ]
-        },
-        "height": {label: "高度", attr: "height", value: "auto"},
-        "width": {label: "宽度", attr: "width", value: "auto"},
-        "margin": {label: "外边距", attr: "margin", value: '0px'},
-        "margin-top": {label: "上", attr: "margin-top", value: '0px'},
-        "margin-left": {label: "左", attr: "margin-left", value: '0px'},
-        "margin-bottom": {label: "下", attr: "margin-bottom", value: '0px'},
-        "margin-right": {label: "右", attr: "margin-right", value: '0px'},
-        "padding": {label: "内边距", attr: "padding", value: '0px'},
-        "padding-top": {label: "上", attr: "padding-top", value: '0px'},
-        "padding-left": {label: "左", attr: "padding-left", value: '0px'},
-        "padding-bottom": {label: "下", attr: "padding-bottom", value: '0px'},
-        "padding-right": {label: "右", attr: "padding-right", value: '0px'},
-        "font-size": {label: "字号(px)", attr: "font-size", value: ''},
-        "line-height": {label: "行高(px)", attr: "line-height", value: ''},
-        "font-weight": {label: "字重", attr: "font-weight", value: ''},
-        "font-family": {label: "字体", attr: "font-family", value: ''},
-        "color": {label: "颜色", attr: "color", value: ''},
-        "text-align": {
-          label: "对齐",
-          attr: "text-align",
-          value: '',
-          children: [
-            {value: "left", label: "左对齐", detail: "左对齐left"},
-            {value: "right", label: "右对齐", detail: "右对齐right"},
-            {value: "center", label: "居中对齐", detail: "居中对齐center"},
-            {value: "justify", label: "两端对齐", detail: "两端对齐justify"},
-          ]
-        },
-        "opacity": {label: "透明度", attr: "opacity", value: 100},
-        "background-color": {label: "背景色", attr: "background-color", value: ''},
-        "background-image": {label: "图片地址", attr: "background-image", value: ''},
-        "background-size": {
-          label: "尺寸",
-          attr: "background-size",
-          value: '',
-          params: {height: "auto", width: "auto"},
-          children: [
-            {value: 'default', label: "默认", detail: "默认"},
-            {value: "contain", label: "等比填充", detail: "等比填充contain"},
-            {value: "cover", label: "等比覆盖", detail: "等比覆盖cover"},
-          ]
-        },
-        "background-repeat": {
-          label: "重复显示",
-          attr: "background-repeat",
-          value: '',
-          children: [
-            {value: "repeat", label: "垂直水平方向", detail: "垂直方向水平方向重复repeat"},
-            {value: "repeat-x", label: "水平", detail: "水平方向重复repeat-x"},
-            {value: "repeat-y", label: "垂直", detail: "垂直方向重复repeat-y"},
-            {value: "no-repeat", label: "不重复", detail: "不重复no-repeat"},
-          ]
-        },
-        "background-position": {
-          label: "定位",
-          attr: "background-position",
-          value: '',
-          params: {left: 'auto', top:'auto'},
-          choice: '',
-          children: [
-            {value: {left: '0px', top: '0px'}, label: "左上", detail: "左上"},
-            {value: {left: '50%', top: '0px'}, label: "上", detail: "上"},
-            {value: {left: '100%', top: '0px',}, label: "右上", detail: "右上"},
-            {value: {left: '0px', top: '50%'}, label: "左", detail: "左"},
-            {value: {left: '50%', top: '50%'}, label: "中", detail: "中"},
-            {value: {left: '100%', top: '50%'}, label: "右", detail: "右"},
-            {value: {left: '0px', top: '100%'}, label: "左下", detail: "左下"},
-            {value: {left: '50%', top: '100%'}, label: "下", detail: "下"},
-            {value: {left: '100%', top: '100%'}, label: "右下", detail: "右下"},
-          ]
-        },
-
-        "position": {
-          label: "位置",
-          attr: "position",
-          value: '',
-        },
-        "left": {
-          label: "left",
-          attr: "left",
-          value: "auto",
-        },
-        "right": {
-          label: "right",
-          attr: "right",
-          value: "auto",
-        },
-        "top": {
-          label: "top",
-          attr: "top",
-          value: "auto"
-        },
-        "bottom": {
-          label: "bottom",
-          attr: "bottom",
-          value: "auto"
-        },
-        "z-index": {
-          label: "z-index",
-          attr: "z-index",
-          value: 0
-        },
-        "float": {
-          label: '浮动',
-          attr: "float",
-          value: ""
-        },
-        "clear": {
-          label: '清除',
-          attr: 'clear',
-          value: ''
-        },
-
-
-        "border-radius": {
-          label: "固定圆角(px)",
-          attr: "border-radius",
-          value: 0,
-        },
-        "border-top-left-radius": {
-          label: "左上(px)",
-          attr: "border-top-left-radius",
-          value: 0,
-        },
-        "border-top-right-radius": {
-          label: "右上(px)",
-          attr: "border-top-right-radius",
-          value: 0,
-        },
-        "border-bottom-left-radius": {
-          label: "左下(px)",
-          attr: "border-bottom-left-radius",
-          value: 0,
-        },
-        "border-bottom-right-radius": {
-          label: "右下(px)",
-          attr: "border-bottom-right-radius",
-          value: 0,
-        },
-
-        "border-width": {
-          label: "宽度",
-          attr: "border-width",
-          value: "auto",
-        },
-        "border-color": {
-          label: "颜色",
-          attr: "border-color",
-          value: '',
-        },
-        "border-style": {
-          label: "样式",
-          attr: "border-style",
-          value: '',
-        },
-
-        "border-top-width": {
-          label: "宽度",
-          attr: "border-top-width",
-          value: "auto",
-        },
-        "border-top-color": {
-          label: "边框颜色",
-          attr: "border-top-color",
-          value: '',
-        },
-        "border-top-style": {
-          label: "样式",
-          attr: "border-style",
-          value: '',
-        },
-        "border-left-width": {
-          label: "宽度",
-          attr: "border-left-width",
-          value: "auto",
-        },
-        "border-left-color": {
-          label: "边框颜色",
-          attr: "border-left-color",
-          value: '',
-        },
-        "border-left-style": {
-          label: "样式",
-          attr: "border-left-style",
-          value: '',
-        },
-        "border-right-width": {
-          label: "宽度",
-          attr: "border-right-width",
-          value: "auto",
-        },
-        "border-right-color": {
-          label: "颜色",
-          attr: "border-right-color",
-          value: '',
-        },
-        "border-right-style": {
-          label: "样式",
-          attr: "border-right-style",
-          value: '',
-        },
-        "border-bottom-style": {
-          label: "样式",
-          attr: "border-bottom-style",
-          value: '',
-        },
-        "border-bottom-width": {
-          label: "宽度",
-          attr: "border-bottom-style",
-          value: "auto",
-        },
-        "border-bottom-color": {
-          label: "颜色",
-          attr: "border-bottom-style",
-          value: '',
-        },
-        "box-shadow": {
-          label: "阴影",
-          value: '',
-          attr: 'box-shadow',
-          params: {
-            inset: {label: '内外阴影', value: false},
-            color: {label: "颜色", value: ''},
-            x: {label: "x", value: '0px'},
-            y: {label: "y", value: '0px'},
-            obscure: {label: "模糊", value: '0px'},
-            extend: {label: "扩展", value: '0px'}
-          },
-        }
-      }
+      that.styles = that.initStyles
       this.changStyle(styles)
     })
 
   },
   methods: {
-    changStyle(styles){
+    changStyle(styles) {
       for (let key in styles) {
-        if(this.styles[key]){
-          if(key === 'background-position'){
-            let position =styles[key].split(" ")
-            this.styles[key].params.left=position[0]
-            this.styles[key].params.top=position[1]
-          }else if(key === 'background-size'){
+        if (this.styles[key]) {
+          if (key === 'background-position') {
+            let position = styles[key].split(" ")
+            this.styles[key].params.left = position[0]
+            this.styles[key].params.top = position[1]
+          } else if (key === 'background-size') {
             let size = styles[key].split(" ")
             this.styles[key].params.height = size[1]
             this.styles[key].params.width = size[0]
-          }else if(key === 'box-shadow'){
+          } else if (key === 'box-shadow') {
             let boxShadow = styles[key].split(" ")
-            this.styles[key].params.inset.value = boxShadow[0]==='inset'
-            this.styles[key].params.x.value=boxShadow[1]
+            this.styles[key].params.inset.value = boxShadow[0] === 'inset'
+            this.styles[key].params.x.value = boxShadow[1]
             this.styles[key].params.y.value = boxShadow[2]
-            this.styles[key].params.obscure.value=boxShadow[3]
+            this.styles[key].params.obscure.value = boxShadow[3]
             this.styles[key].params.extend.value = boxShadow[4]
-            this.styles[key].params.color.value=boxShadow[5]
-          }else{
+            this.styles[key].params.color.value = boxShadow[5]
+          } else {
             this.styles[key].value = styles[key]
           }
         }
@@ -1274,7 +1276,7 @@ export default {
       this.changStyle(this.setterData.styles)
     },
     changeValue(attr, param) {
-      if (!param|| param === "") {
+      if (!param || param === "") {
         this.deleteStyle(attr)
       } else {
         this.choiceStyle(attr, param)
@@ -1357,7 +1359,7 @@ export default {
         this.deleteStyle('border-radius')
         this.styles['border-radius'].value = 0
       }
-      this.choiceStyle(attr, value+'px')
+      this.choiceStyle(attr, value + 'px')
     }
   }
 }

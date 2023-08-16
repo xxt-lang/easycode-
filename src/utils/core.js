@@ -229,8 +229,8 @@ export function moveComponent(e, index, dragObject) {
     if (e.buttons != 1) return
     handleDragOver(e)
     // 是否可以进行推拽
-    let startClientY = e.clientY
-    let startClientX = e.clientX
+    let startClientY = e.clientY + e.layerY - e.offsetY
+    let startClientX = e.clientX+ e.layerX - e.offsetX
     let message = `选中${dragObject.label}组件`
     // node当前鼠标悬浮的元素
     let targetInfo = {
@@ -259,13 +259,13 @@ export function moveComponent(e, index, dragObject) {
             if (locationInfo.type === 'position') {
                 changePosition(dragObject.styles, (moveEvent.clientX - startClientX), (moveEvent.clientY - startClientY), locationInfo.oldX, locationInfo.oldY)
                 eventBus.emit(`move-dragTip`, {
-                    style: {top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},
+                    style: {top: `${moveEvent.clientY}px`, left: `${moveEvent.clientX}px`, display: ''},
                     message: `left:${(moveEvent.clientX - startClientX) + locationInfo.oldX}<br>  top:${(moveEvent.clientY - startClientY + locationInfo.oldY)}`
                 })
             } else {
                 changeMargin(dragObject.styles, (moveEvent.clientX - startClientX), (moveEvent.clientY - startClientY), locationInfo.oldX, locationInfo.oldY)
                 eventBus.emit(`move-dragTip`, {
-                    style: {top: moveEvent.clientY + 'px', left: moveEvent.clientX + 'px', display: ''},
+                    style: {top: `${moveEvent.clientY}px`, left: `${moveEvent.clientX}px`, display: ''},
                     message: `margin-left:${(moveEvent.clientX - startClientX) + locationInfo.oldX}<br>  margin-top:${(moveEvent.clientY - startClientY + locationInfo.oldY)}`
                 })
             }
@@ -321,12 +321,12 @@ function initPositionOrMargin(moveEvent, dragObject, position, margin) {
             if (dragObject.styles['left']) {
                 result.oldX = getCssAttributeValue(dragObject.styles['left'])
             } else {
-                result.oldX = moveEvent.clientX - moveEvent.offsetX
+                result.oldX = moveEvent.layerX - moveEvent.offsetX
             }
             if (dragObject.styles['top']) {
                 result.oldY = getCssAttributeValue(dragObject.styles['top'])
             } else {
-                result.oldY = moveEvent.clientY - moveEvent.offsetY
+                result.oldY = moveEvent.layerY - moveEvent.offsetY
             }
             dragObject.styles['position'] = dragObject.styles['position'] ? dragObject.styles['position'] : 'absolute'
             return result
@@ -432,6 +432,15 @@ export function handleDrop(e) {
 // 添加组件
 export function addComponent(target, component, e) {
     try {
+        // 开启position时 放置元素是放置的其绝对位置
+        if(getStore("CommonStatusStore").editPosition && !component.status.dialog){
+            console.log(e)
+            component.styles = {
+                "position": "absolute",
+                "left": `${e.layerX}px`,
+                "top": `${e.layerY}px`,
+            }
+        }
         if (target.lock && component) {
             return false
         }
@@ -714,7 +723,7 @@ export function getShapeStyle(styles, shapeStyles,mapHeightWidth) {
         'bottom',
         'top',
     ]
-    let result = shapeStyles === undefined ? {} : shapeStyles
+    let result = deepClone(shapeStyles === undefined ? {} : shapeStyles)
 
     if(shapeStyles['height'] && shapeStyles['height'] === '100%'){
         result['height'] = mapHeightWidth.height
