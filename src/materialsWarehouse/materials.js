@@ -303,8 +303,11 @@ export const materials = [
             {
                 group: 'Others 其他',
                 components: [{
-                    label: 'Divider 分割线',
-                    component: 'ScDivider'
+                    label: 'Divider 水平分割线',
+                    component: 'ScHorizontalDivider'
+                },{
+                    label: 'Divider 垂直分割线',
+                    component: 'ScVerticallDivider'
                 },]
             }
         ]
